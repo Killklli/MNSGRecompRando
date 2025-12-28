@@ -1,0 +1,32 @@
+[[section]]
+name = "APSymbols"
+vram = 0x800D69C0
+size = 0x1F7E0
+
+symbols = [
+    { name = "gLoadedLevel", vram = 0x800BE500 },
+    { name = "gLoadedStage", vram = 0x800BE504 },
+    { name = "gLoadedRoom", vram = 0x800BE508 },
+    { name = "gCurrentSaveFile", vram = 0x800D6B88 },
+    { name = "gUnlockedLevel", vram = 0x800D6B90 },
+    { name = "gUnlockedStage", vram = 0x800D6B94 },
+    { name = "gSelectedLevel", vram = 0x800D6B98 },
+    { name = "gSelectedStage", vram = 0x800D6B9C },
+    { name = "gBossCrystals", vram = 0x800D6BC0 },
+    { name = "gCrystalArray", vram = 0x800D6BC8 },
+    { name = "gStageCompletion", vram = 0x800D6BE0 },
+    { "name" = "gCopyAbilityUnlocked", "vram" = 0x800D6C68},
+    { "name" = "gCrystalShards", "vram" = 0x800D6C70},
+    { "name" = "gReceivedIndex", "vram" = 0x800D6C74},
+    { "name" = "gDeathLinkSwitch", "vram" = 0x800D6C78},
+    { "name" = "gDarkStarUnlock", "vram" = 0x800D6C7C},
+    { "name" = "gFriendUnlocked", "vram" = 0x800D6C80},
+    { name = "gKirbyLivesVisual", vram = 0x800D6E88 },
+    { name = "gKirbyHpVisual", vram = 0x800D6E8C },
+    { name = "gArchipelago", vram = 0x80127490 },
+    { name = "gLevelStart", vram = 0x801274A0 },
+    { name = "gCrystalRequirement", vram = 0x801274A8 },
+    { name = "gSlotData", vram = 0x801274B0 },
+    { name = "gLevelIndex", vram = 0x801274C0 },
+    { name = "gStageIndex", vram = 0x80127580 },
+]

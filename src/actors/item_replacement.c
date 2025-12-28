@@ -1,0 +1,383 @@
+#include "actor_common.h"
+#include "entities.h"
+#include "libc/stdbool.h"
+#include "libc/stdio.h"
+#include "libc/string.h"
+#include "Archipelago.h"
+#include "types.h"
+#include "modding.h"
+#include "file_state.h"
+
+// Archipelago slotdata imports
+RECOMP_IMPORT(".", void rando_get_slotdata_raw_o32(const char *key, u32 *out_handle_ptr));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_dict_o32(u32 *in_handle_ptr, const char *key, u32 *out_handle_ptr));
+RECOMP_IMPORT(".", void rando_iter_slotdata_raw_dict_o32(u32 *dict, u32 *iter_out));
+RECOMP_IMPORT(".", bool rando_iter_slotdata_raw_dict_next_o32(u32 *dict, u32 *iter, u32 *key_out, u32 *value_out));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_string_o32(u32 *slotdata_str, char *out_str));
+RECOMP_IMPORT(".", bool rando_access_slotdata_raw_dict_has_member_o32(u32 *dict, char *key));
+
+extern unsigned short D_800C7AB2; // Part of the huge "SYS_W" structure, ID of the current stage
+
+// Simple atoi implementation since it's not available in the limited libc
+static int simple_atoi(const char *str)
+{
+    int result = 0;
+    int sign = 1;
+
+    // Skip whitespace
+    while (*str == ' ' || *str == '\t')
+    {
+        str++;
+    }
+
+    // Handle sign
+    if (*str == '-')
+    {
+        sign = -1;
+        str++;
+    }
+    else if (*str == '+')
+    {
+        str++;
+    }
+
+    // Convert digits
+    while (*str >= '0' && *str <= '9')
+    {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+
+    return result * sign;
+}
+struct KeyActor
+{
+    unsigned short actor_id;  // 0x193
+    unsigned short padding1;  // 0x0000
+    unsigned short enemies;   // 0x0000 = No enemies required
+    unsigned short padding2;  // 0x0000
+    unsigned short key_index; // 0x0110
+    unsigned short padding3;  // 0x0000
+    unsigned int padding4;    // 0x00000000
+}; // Size: 16
+struct FlagActor
+{
+    unsigned short actor_id; // 0x086, 0x087, 0x088, 0x089, 0x091, 0x226, 0x326, 0x345
+    unsigned short padding1; // 0x0000
+    unsigned short flag;     // Flag identifier (e.g., 0x00DA, 0x00F7)
+    unsigned short padding2; // 0x0000
+    unsigned int padding3;   // 0x00000000
+    unsigned int padding4;   // 0x00000000
+}; // Size: 16
+struct RyoActor
+{
+    unsigned short actor_id; // 0x082
+    unsigned short padding1; // 0x0000
+    unsigned char size;      // Size type (e.g., 0x01 = Normal)
+    unsigned char padding2;  // 0x00
+    unsigned short padding3; // 0x0000
+    unsigned int padding4;   // 0x00000000
+    unsigned int padding5;   // 0x00000000
+}; // Size: 16
+// Function to map Archipelago item IDs to actor IDs using item_metadata
+// This pulls the entity_id from item_metadata for the given AP item ID
+static unsigned short map_ap_id_to_actor_id(u32 ap_id, u32 *item_metadata_handle)
+{
+    // Convert AP ID to string for lookup
+    char ap_id_str[16];
+    sprintf(ap_id_str, "%lu", (unsigned long)ap_id);
+
+    // Check if the AP ID exists in item_metadata before accessing
+    bool has_ap_id = rando_access_slotdata_raw_dict_has_member_o32(item_metadata_handle, ap_id_str);
+
+    if (has_ap_id)
+    {
+        // Try to access the specific item data
+        u32 item_data_handle[2];
+        rando_access_slotdata_raw_dict_o32(item_metadata_handle, ap_id_str, item_data_handle);
+
+        // Check if entity_id exists before accessing
+        bool has_entity_id = rando_access_slotdata_raw_dict_has_member_o32(item_data_handle, "entity_id");
+
+        if (has_entity_id)
+        {
+            // Try to get the entity_id from the item data
+            u32 entity_id_handle[2];
+            rando_access_slotdata_raw_dict_o32(item_data_handle, "entity_id", entity_id_handle);
+
+            // Get the entity_id as a string and convert to int
+            char entity_id_str[256];
+            rando_access_slotdata_raw_string_o32(entity_id_handle, entity_id_str);
+
+            int entity_id_val = simple_atoi(entity_id_str);
+
+            if (entity_id_val != 0)
+            {
+                return (unsigned short)entity_id_val;
+            }
+        }
+    }
+
+    // No valid mapping found - don't replace the item
+    return 0;
+}
+
+// Structure to hold item replacement pair (index and new value)
+struct ItemReplacementPair
+{
+    int instance_id;
+    u32 new_item_ap_id;
+    unsigned short new_item_id;
+};
+
+// Structure to hold list of item replacement pairs
+struct ItemReplacementList
+{
+    struct ItemReplacementPair *pairs;
+    int count;
+};
+
+
+struct ItemReplacementList get_item_replacements_for_room()
+{
+    struct ItemReplacementList result = {NULL, 0};
+
+    if (should_run_ap_logic())
+    {
+        // Get item replacement data from Archipelago slot data
+        char room_id_str[16];
+        sprintf(room_id_str, "%d", D_800C7AB2);
+
+        // Get both location metadata and item metadata from Archipelago slot data
+        u32 location_metadata_handle[2];
+        rando_get_slotdata_raw_o32("location_metadata", location_metadata_handle);
+
+        u32 item_metadata_handle[2];
+        rando_get_slotdata_raw_o32("item_metadata", item_metadata_handle);
+
+        // Check if the room exists in location_metadata before accessing
+        bool room_exists = rando_access_slotdata_raw_dict_has_member_o32(location_metadata_handle, room_id_str);
+
+        if (!room_exists)
+        {
+            return result;
+        }
+
+        u32 current_room_dict[2];
+        rando_access_slotdata_raw_dict_o32(location_metadata_handle, room_id_str, current_room_dict);
+
+        // Check if the dict handle looks valid (non-zero)
+        if (current_room_dict[0] == 0 && current_room_dict[1] == 0)
+        {
+            return result;
+        }
+
+        // Use dictionary iteration approach like actor_enemies.c
+        u32 items_iter[2];
+        rando_iter_slotdata_raw_dict_o32(current_room_dict, items_iter);
+
+        // Test if there's any data in the iterator
+        u32 test_key[2];
+        u32 test_value[2];
+        bool has_data = rando_iter_slotdata_raw_dict_next_o32(current_room_dict, items_iter, test_key, test_value);
+        rando_iter_slotdata_raw_dict_close_o32(current_room_dict, items_iter);
+        if (has_data)
+        {
+            // Count the number of items first (similar to actor_enemies.c)
+            int count = 0;
+            u32 count_iter[2];
+            rando_iter_slotdata_raw_dict_o32(current_room_dict, count_iter);
+            u32 temp_key[2], temp_value[2];
+            while (rando_iter_slotdata_raw_dict_next_o32(current_room_dict, count_iter, temp_key, temp_value))
+            {
+                count++;
+            }
+            rando_iter_slotdata_raw_dict_close_o32(current_room_dict, count_iter);
+
+            // Allocate memory for the replacement pairs
+            result.pairs = (struct ItemReplacementPair *)recomp_alloc(count * sizeof(struct ItemReplacementPair));
+            result.count = count;
+
+            if (result.pairs != NULL)
+            {
+                DEBUG_PRINTF("Room 0x%03X: Found %d item replacements\n", D_800C7AB2, count);
+
+                // Re-create the iterator for filling the pairs array
+                u32 fill_iter[2];
+                rando_iter_slotdata_raw_dict_o32(current_room_dict, fill_iter);
+
+                // Fill the pairs array
+                int pair_index = 0;
+                u32 item_key[2];
+                u32 item_value[2];
+                while (rando_iter_slotdata_raw_dict_next_o32(current_room_dict, fill_iter, item_key, item_value))
+                {
+                    // item_value should be the object containing instance_id and new_item_ap_id
+                    // Check if this item has instance_id and new_item_ap_id fields
+                    if (rando_access_slotdata_raw_dict_has_member_o32(item_value, "instance_id") &&
+                        rando_access_slotdata_raw_dict_has_member_o32(item_value, "new_item_ap_id"))
+                    {
+
+                        // Get instance_id
+                        u32 instance_id_handle[2];
+                        rando_access_slotdata_raw_dict_o32(item_value, "instance_id", instance_id_handle);
+                        char instance_id_str[256];
+                        rando_access_slotdata_raw_string_o32(instance_id_handle, instance_id_str);
+
+                        // Get new_item_ap_id
+                        u32 new_item_ap_id_handle[2];
+                        rando_access_slotdata_raw_dict_o32(item_value, "new_item_ap_id", new_item_ap_id_handle);
+                        char new_item_ap_id_str[256];
+                        rando_access_slotdata_raw_string_o32(new_item_ap_id_handle, new_item_ap_id_str);
+
+                        // Convert strings to integers
+                        int instance_id_val = simple_atoi(instance_id_str);
+                        int new_item_ap_id_val = simple_atoi(new_item_ap_id_str);
+
+                        // Store the replacement data
+                        result.pairs[pair_index].instance_id = instance_id_val;
+                        result.pairs[pair_index].new_item_ap_id = new_item_ap_id_val;
+
+                        // Check if location_id exists and if the location has a local item
+                        // unsigned short item_id_to_use;
+                        // if (rando_access_slotdata_raw_dict_has_member_o32(item_value, "location_id")) {
+                        //     // Get location_id
+                        //     u32 location_id_handle[2];
+                        //     rando_access_slotdata_raw_dict_o32(item_value, "location_id", location_id_handle);
+                        //     char location_id_str[256];
+                        //     rando_access_slotdata_raw_string_o32(location_id_handle, location_id_str);
+                        //     u32 location_id_val = simple_atoi(location_id_str);
+
+                        //     // If we have the local item, use the mapped item ID, otherwise use 0x091
+                        //     if (rando_get_location_has_local_item(location_id_val)) {
+                        //         item_id_to_use = map_ap_id_to_actor_id(new_item_ap_id_val, item_metadata_handle);
+                        //     } else {
+                        //         item_id_to_use = 0x091;
+                        //     }
+                        // } else {
+                        //     // Fallback: if no location_id, use the mapped item ID (old behavior)
+                        //     item_id_to_use = map_ap_id_to_actor_id(new_item_ap_id_val, item_metadata_handle);
+                        // }
+                        // TODO: Update item spawn types, we're pinned to surprise packs right now for safety
+                        unsigned short item_id_to_use;
+                        unsigned short mapped_item_id = map_ap_id_to_actor_id(new_item_ap_id_val, item_metadata_handle);
+
+                        // Only use 0x091 if the mapped item is not 0x085 or 0x08f (We're overriding Dangos)
+                        if (mapped_item_id == 0x085 || mapped_item_id == 0x08f)
+                        {
+                            item_id_to_use = mapped_item_id;
+                        }
+                        else
+                        {
+                            item_id_to_use = 0x091;
+                        }
+
+                        result.pairs[pair_index].new_item_id = item_id_to_use;
+
+                        DEBUG_PRINTF("  Item instance %d: AP ID %d -> Actor 0x%03X\n",
+                                     instance_id_val, new_item_ap_id_val, result.pairs[pair_index].new_item_id);
+
+                        pair_index++;
+                    }
+                }
+                rando_iter_slotdata_raw_dict_close_o32(current_room_dict, fill_iter);
+            }
+        }
+    }
+
+    return result;
+}
+
+// Convert AP ID to actor ID using item_metadata
+void process_items(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index)
+{
+    // Get the replacement data for the current room
+    struct ItemReplacementList replacements = get_item_replacements_for_room();
+
+    // Print all replacements for this room
+    if (replacements.count > 0)
+    {
+        DEBUG_PRINTF("[DEBUG] Room 0x%03X has %d replacements:\n", D_800C7AB2, replacements.count);
+        for (int j = 0; j < replacements.count; j++)
+        {
+            DEBUG_PRINTF("  [%d] Instance %d: AP ID %lu -> Actor 0x%03X\n",
+                         j, replacements.pairs[j].instance_id,
+                         (unsigned long)replacements.pairs[j].new_item_ap_id,
+                         replacements.pairs[j].new_item_id);
+        }
+    }
+
+    // Look for a replacement in the returned list
+    unsigned short new_item_id = 0;
+    bool found_replacement = false;
+
+    // Check the dynamic replacements from Archipelago
+    for (int i = 0; i < replacements.count; i++)
+    {
+        DEBUG_PRINTF("[DEBUG] process_items: Checking replacement %d: instance_id=%d, looking for %d\n",
+                     i, replacements.pairs[i].instance_id, overall_index);
+
+        if (replacements.pairs[i].instance_id == overall_index)
+        {
+            DEBUG_PRINTF("[DEBUG] process_items: Found matching instance ID %d\n", overall_index);
+
+            // Skip if the AP ID is 0 (no replacement needed)
+            if (replacements.pairs[i].new_item_ap_id == 0)
+            {
+                DEBUG_PRINTF("Skipping item replacement for index %d: AP ID is 0 (no replacement)\n", overall_index);
+                break;
+            }
+
+            // Skip if the new item ID is 0 (likely invalid)
+            if (replacements.pairs[i].new_item_id == 0)
+            {
+                DEBUG_PRINTF("Skipping item replacement for index %d: new item ID is 0 (AP ID: %lu)\n", overall_index, (unsigned long)replacements.pairs[i].new_item_ap_id);
+                break;
+            }
+
+            new_item_id = replacements.pairs[i].new_item_id;
+            found_replacement = true;
+            DEBUG_PRINTF("Found item replacement: instance %d, AP ID %lu -> actor 0x%03X (was 0x%03X)\n", overall_index, (unsigned long)replacements.pairs[i].new_item_ap_id, new_item_id, actor_id);
+            break;
+        }
+    }
+
+    DEBUG_PRINTF("[DEBUG] process_items: Found replacement: %s\n", found_replacement ? "YES" : "NO");
+
+    if (found_replacement)
+    {
+        DEBUG_PRINTF("[DEBUG] process_items: Replacing original item ID 0x%03X in room 0x%03X at instance %d\n",
+                     actor_id, D_800C7AB2, overall_index);
+    }
+
+    if (found_replacement)
+    {
+        // Create a new actor definition for this specific instance
+        struct ActorDefinition *new_actor_def = (struct ActorDefinition *)recomp_alloc(sizeof(struct ActorDefinition));
+        if (new_actor_def != NULL)
+        {
+            // Copy the original definition data
+            new_actor_def->data[0] = resolved_actor_def->data[0];
+            new_actor_def->data[1] = resolved_actor_def->data[1];
+            new_actor_def->data[2] = resolved_actor_def->data[2];
+            new_actor_def->data[3] = resolved_actor_def->data[3];
+            // zero out the new data
+            // new_actor_def->data[0] = 0;
+            // new_actor_def->data[1] = 0;
+            // new_actor_def->data[2] = 0;
+            // new_actor_def->data[3] = 0;
+
+            // Change the actor ID in the new definition
+            new_actor_def->data[0] = (new_actor_def->data[0] & 0x0000FFFF) | (new_item_id << 16);
+
+            // Update this instance to point to the new definition
+            actor_instance->actor_definition = new_actor_def;
+        }
+    }
+
+    // Clean up allocated memory
+    if (replacements.pairs != NULL)
+    {
+        recomp_free(replacements.pairs);
+    }
+}
