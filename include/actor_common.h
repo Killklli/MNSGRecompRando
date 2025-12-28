@@ -59,17 +59,12 @@ extern void *func_800141C4_14DC4(unsigned int file_id);                // overla
 extern void *func_80014840_15440(void *pointer, unsigned int file_id); // overlay_resolve_pointer
 
 // Function prototypes for actor processing
-void process_enemy_actors(struct ActorInstance *actor_instances, int regular_instance_count, int total_instances, 
-                         unsigned char *grouped_data_start, int max_grouped_data_size, unsigned short actor_data_file_id);
-void process_door_actors(struct ActorInstance *actor_instances, int regular_instance_count, int total_instances, 
-                        unsigned char *grouped_data_start, int max_grouped_data_size, unsigned short actor_data_file_id);
-void process_key_actors(struct ActorInstance *actor_instances, int regular_instance_count, int total_instances, 
-                       unsigned char *grouped_data_start, int max_grouped_data_size, unsigned short actor_data_file_id);
-void process_flag_actors(struct ActorInstance *actor_instances, int regular_instance_count, int total_instances, 
-                        unsigned char *grouped_data_start, int max_grouped_data_size, unsigned short actor_data_file_id);
-void process_exit_actors(struct ActorInstance *actor_instances, int regular_instance_count, int total_instances, 
-                        unsigned char *grouped_data_start, int max_grouped_data_size, unsigned short actor_data_file_id);
-void process_misc_actors(struct ActorInstance *actor_instances, int regular_instance_count, int total_instances, 
-                        unsigned char *grouped_data_start, int max_grouped_data_size, unsigned short actor_data_file_id);
+void process_enemy_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+void process_door_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+void process_key_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+void process_flag_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+void process_exit_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+void process_misc_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+void flag_locked_doors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
 
 #endif // ACTOR_COMMON_H
