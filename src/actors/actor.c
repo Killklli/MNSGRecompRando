@@ -46,8 +46,8 @@ void func_80013AC4_146C4_hook(short *file_list)
     }
 
     // Files to add: 026, 025, 024, 021, 023, 027
-    //short files_to_add[] = {0x026, 0x025, 0x024, 0x021, 0x023, 0x027, 0x01a};
-    short files_to_add[] = {};
+    short files_to_add[] = {0x026, 0x025, 0x024, 0x021, 0x023, 0x027};
+    //short files_to_add[] = {};
     int num_files_to_add = sizeof(files_to_add) / sizeof(files_to_add[0]);
 
     // Room-specific file additions
