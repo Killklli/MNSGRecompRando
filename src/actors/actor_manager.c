@@ -306,7 +306,7 @@ void func_8020D724_5C8BF4_hook()
               process_flag_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_exit_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_misc_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-            //flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
         }
     }
 

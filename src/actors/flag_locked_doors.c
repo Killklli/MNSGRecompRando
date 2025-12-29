@@ -156,7 +156,7 @@ void flag_locked_doors(struct ActorInstance *actor_instance, struct ActorDefinit
             if (new_door != NULL)
             {
                 // Set up the locked door parameters as specified
-                new_door->actor_id = 0x023F;   // Locked door actor ID
+                new_door->actor_id = 0x023E;   // Locked door actor ID
                 new_door->padding1 = 0x0000;   // Padding
                 new_door->door_design = 0x05;  // Door design 05
                 new_door->key_type = 0x03;     // Key type 03
@@ -182,7 +182,7 @@ void flag_locked_doors(struct ActorInstance *actor_instance, struct ActorDefinit
             if (new_door != NULL)
             {
                 // Set up the locked door parameters as specified
-                new_door->actor_id = 0x023F;   // Locked door actor ID
+                new_door->actor_id = 0x023E;   // Locked door actor ID
                 new_door->padding1 = 0x0000;   // Padding
                 new_door->door_design = 0x05;  // Door design 05
                 new_door->key_type = 0x03;     // Key type 03
