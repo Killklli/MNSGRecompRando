@@ -2,7 +2,6 @@
 #include "scenario.h"
 #include "modding.h"
 #include "recomputils.h"
-#include "scenario_replacer.h"
 
 #include "common.h"
 
@@ -1378,3 +1377,16 @@ s32 scenario_code_message_1eb_67dc[] = {
 
 
 
+// Portable replacement function
+void replace_mokubei_dialog_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id)
+{
+    D_800779A0_785A0[scenario_id] = scenario_code;
+    D_80078608_79208[scenario_id] = scenario_file_id;
+}
+
+// Hook to automatically replace the scenario
+RECOMP_HOOK("func_80000450_1050") void mokubei_dialog_hook()
+{
+    // Try different possible scenario ID mappings
+    replace_mokubei_dialog_scenario(0x1ea, scenario_code_message_1ea_63fc, 0);
+}
