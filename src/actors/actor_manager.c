@@ -49,7 +49,7 @@ void func_80013AC4_146C4_hook(short *file_list)
 //func_8003D310_3DF10(0x0c9);
     // Files to add: 026, 025, 024, 021, 023, 027
     //short files_to_add[] = {0x026, 0x025, 0x024, 0x021, 0x023, 0x027};
-    short files_to_add[] = {};
+    short files_to_add[] = {0x018};
     int num_files_to_add = sizeof(files_to_add) / sizeof(files_to_add[0]);
 
     // Room-specific file additions
@@ -303,7 +303,7 @@ void func_8020D724_5C8BF4_hook()
             // process_enemy_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_door_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_key_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-            // process_flag_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+              process_flag_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_exit_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_misc_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             //flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);

@@ -2,19 +2,37 @@
 - test ushiwaka text - Scenario
 - test zazen priest - Scenario
 - Fix Kihachi quest if you already have a cucumber - Scenario
+
 - Fix buffer crash for actor replacement
 - Get file list from slot data
 - Automatically do item replacements
 - Shift key data into slot data for validation so we don't report back collected items that are not keys
 - Stash the starting locations in code
 - Stash starting items in code so you can select starting items
-- Replace who you get in the yae cutscene - Scenario
-- Replace who you get in the sauske cutscene - Scenario
-- Dynamically load surprise pack text - Scenario (But just needs the AP data)
 - Add room IDs and instance ids to each room in the python code
 
 
 
-- Replace Object in Oedo Lord cutscene - Scenario
-- Replace Object in Mokubei pipe upgrade cutscene - Scenario
-- Replace Object in Wise Man upgrade cutscene - Scenario
+
+
+
+Wise Man Weapon Upgrade
+Mokubei Weapon Upgrade
+Mokubei Chain Pipe
+Getting Yae Cutscene
+Getting Sasuke Cutscene
+Zazen Priest Key
+Zazen Son Cucumber
+Jump Gym
+Strength Gym
+Mini Ebismaru Training
+Mermaid Training
+Oedo Lord gives Superpass
+Triton Shell wise mans house
+Kai Coffee Shop world map (Technically, but not editing this)
+Benkei gives you sauske dead
+Got flute cutscene
+Fire Ryo event (Technically)
+Achilles Heel from Ushiwaka fishing
+
+Do we randomize battery 2 just so we don't break the cutscene connection?

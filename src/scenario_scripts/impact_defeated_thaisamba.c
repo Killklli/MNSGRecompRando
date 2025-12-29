@@ -4,6 +4,7 @@
 #include "common.h"
 #include "modding.h"
 #include "recomputils.h"
+#include "scenario_replacer.h"
 
 // Forward declarations for scenario functions
 extern s32 scenario_code_save_sequence[];
@@ -1201,18 +1202,3 @@ s32 scenario_code_save_success[] = {
 
     END,
 };
-
-// Portable replacement function
-void replace_impact_dialog_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id)
-{
-    D_800779A0_785A0[scenario_id] = scenario_code;
-    D_80078608_79208[scenario_id] = scenario_file_id;
-}
-
-// Hook to automatically replace the scenario
-RECOMP_HOOK("func_80000450_1050")
-void impact_dialog_hook()
-{
-    // Register the Impact departure dialog
-    replace_impact_dialog_scenario(0x1f4, scenario_code_impact_departure, 0);
-}
