@@ -3,6 +3,7 @@
 #include "common.h"
 #include "modding.h"
 #include "recomputils.h"
+#include "text_utils.h"
 
 // External room ID variable from actor.c
 extern unsigned short D_800C7AB2;
@@ -99,81 +100,7 @@ static s16 end_text[] = {
 };
 
 // Forward declarations for conditional path
-// s32 surprise_pack_increase_players[];
-
-// Function to convert character to CHR_ constant
-s16 char_to_chr(char c)
-{
-    if (c >= 'A' && c <= 'Z')
-        return CHR_A + (c - 'A');
-    if (c >= 'a' && c <= 'z')
-        return CHR_a + (c - 'a');
-    if (c >= '0' && c <= '9')
-        return NUM_0 + (c - '0');
-    if (c == ' ')
-        return PCT_SPACE;
-    if (c == '!')
-        return PCT_EXCLAMATION;
-    if (c == '?')
-        return PCT_QUESTION;
-    if (c == '.')
-        return PCT_PERIOD;
-    if (c == ',')
-        return PCT_COMMA;
-    if (c == ':')
-        return PCT_COLON;
-    if (c == '(')
-        return PCT_LPAREN;
-    if (c == ')')
-        return PCT_RPAREN;
-    if (c == '[')
-        return PCT_LBRACKET;
-    if (c == ']')
-        return PCT_RBRACKET;
-    if (c == '\'')
-        return PCT_APOSTROPHE;
-    if (c == '-')
-        return PCT_DASH;
-    if (c == '/')
-        return PCT_SLASH;
-    if (c == '"')
-        return PCT_QUOTE;
-    return PCT_SPACE; // Default to space for unknown characters
-}
-
-// Function to dynamically create "Received [item]!" text
-s16 *create_received_text(const char *item_name)
-{
-    static s16 dynamic_text[128];
-    int idx = 0;
-
-    // " Received "
-    dynamic_text[idx++] = PCT_SPACE;
-    const char *received = "Received ";
-    for (int i = 0; received[i] != '\0'; i++)
-    {
-        dynamic_text[idx++] = char_to_chr(received[i]);
-    }
-
-    // "["
-    dynamic_text[idx++] = PCT_LBRACKET;
-    dynamic_text[idx++] = CTR_EM_YELLOW;
-
-    // Item name
-    for (int i = 0; item_name[i] != '\0'; i++)
-    {
-        dynamic_text[idx++] = char_to_chr(item_name[i]);
-    }
-
-    // "]!\n"
-    dynamic_text[idx++] = CTR_CLOSE_EM;
-    dynamic_text[idx++] = PCT_RBRACKET;
-    dynamic_text[idx++] = PCT_EXCLAMATION;
-    dynamic_text[idx++] = CTR_NEWLINE;
-    dynamic_text[idx++] = CTR_ENDLINE;
-
-    return dynamic_text;
-}
+s32 surprise_pack_increase_players[];
 
 s32 scenario_code_surprise_pack[] = {
 
@@ -231,12 +158,12 @@ s32 scenario_code_surprise_pack[] = {
     ESR,
     (s32)&func_8003F460_40060,
 
-    // Check if we should increase players (reading from RAM 8015c5ec)
-    // Using available memory address as placeholder for condition check
+    // // Check if we should increase players (reading from RAM 8015c5ec)
+    // // Using available memory address as placeholder for condition check
     // LDW, (s32)&D_801C7900_1C8500,  // Placeholder for 8015c5ec check
     // SNE, 10,  // Skip next if not equal to 10 (condition check)
 
-    // Jump to increase players section
+    // // Jump to increase players section
     // JMP, (s32)surprise_pack_increase_players,
 
     // Wait for additional time before ending
@@ -257,7 +184,7 @@ s32 scenario_code_surprise_pack[] = {
 };
 
 // Section for increasing remaining players
-/*
+
 s32 surprise_pack_increase_players[] = {
 
     // Reset text speed
@@ -291,24 +218,14 @@ s32 surprise_pack_increase_players[] = {
 
     END,
 };
-*/
+
 
 // Portable replacement function - handles its own scenario replacement
-void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id)
+void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id, const char *item_name)
 {
     // Use the original scenario as base, but modify the text reference dynamically
     static s32 dynamic_scenario[64];
-    recomp_printf("Replacing Surprise Pack scenario (ID: %d) based on room 0x%03X\n", scenario_id, D_800C7AB2);
-    // Determine item name based on current room
-    const char *item_name;
-    if (D_800C7AB2 == 0x164)
-    {
-        item_name = "Killklli's Shotgun";
-    }
-    else
-    {
-        item_name = "a Surprise Pack";
-    }
+    recomp_printf("Replacing Surprise Pack scenario (ID: %d) with item: %s\n", scenario_id, item_name);
 
     // Create the dynamic text
     s16 *received_text = create_received_text(item_name);

@@ -13,7 +13,7 @@ extern void func_8021A22C_5D56FC(void *entity);
 extern void func_80024038_24C38(u16 param);
 extern void func_8003521C_35E1C(void *callback);
 extern void func_080004AC_6AEC8C(void);
-extern void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id);
+extern void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id, const char *item_name);
 extern s32 scenario_code_surprise_pack[];
 
 typedef struct
@@ -50,7 +50,7 @@ RECOMP_PATCH void func_080009F4_6AF1D4(Entity *entity, ParameterStruct *param)
     {
         // Call various functions to handle the entity state
         func_80221F70_5DD440();
-        replace_surprise_pack_scenario(0x064, scenario_code_surprise_pack, 0x05d);
+        replace_surprise_pack_scenario(0x064, scenario_code_surprise_pack, 0x05d, "a Surprise Pack");
         func_8003D310_3DF10(0x64);
         func_80218DA8_5D4278(entity, 0, 0, 0);
         func_8021A22C_5D56FC(entity);

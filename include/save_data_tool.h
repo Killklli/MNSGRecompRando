@@ -12,29 +12,25 @@ extern u8 D_8015C608_15D208[0x304];
 
 // Write 32-bit values to save data at specified offset
 #define WRITE_SAVE_DATA(offset, value) \
- -  (*(s32 *)(D_8015C608_15D208 + (offset)) = (value))
+    (*(s32 *)(D_8015C608_15D208 + (offset)) = (value))
 
 // Write 16-bit values to save data at specified offset
 #define WRITE_SAVE_DATA_H(offset, value) \
- -  (*(s16 *)(D_8015C608_15D208 + (offset)) = (value))
+    (*(s16 *)(D_8015C608_15D208 + (offset)) = (value))
 
 // Write 8-bit values to save data at specified offset
 #define WRITE_SAVE_DATA_B(offset, value) \
- -  (*(u8 *)(D_8015C608_15D208 + (offset)) = (value))
+    (*(u8 *)(D_8015C608_15D208 + (offset)) = (value))
 
 // Set or clear individual flag bits
-#define SET_FLAG_BIT(byte_offset, bit, value) -  \
- -  do - \
- -  { -  \
- -  if (value) - \
- -  { -  \
- -  (*(u8 *)(D_8015C608_15D208 + (byte_offset)) |= (1 << (bit)));  \
- -  } -  \
- -  else - \
- -  { -  \
- -  (*(u8 *)(D_8015C608_15D208 + (byte_offset)) &= ~(1 << (bit))); \
- -  } -  \
- -  } while (0)
+#define SET_FLAG_BIT(byte_offset, bit, value) \
+    do { \
+        if (value) { \
+            (*(u8 *)(D_8015C608_15D208 + (byte_offset)) |= (1 << (bit))); \
+        } else { \
+            (*(u8 *)(D_8015C608_15D208 + (byte_offset)) &= ~(1 << (bit))); \
+        } \
+    } while (0)
 
 // ================================================================================
 // FLAG MANAGEMENT SYSTEM
@@ -47,17 +43,16 @@ extern u8 D_8015C608_15D208[0x304];
 #define DISABLE_FLAG(flag_id) SET_FLAG_BIT((flag_id) / 8, (flag_id) % 8, 0)
 
 // Toggle a flag by its hexadecimal ID
-#define TOGGLE_FLAG(flag_id) -  \
- -  do -  \
- -  { - \
- -  u8 byte_offset = (flag_id) / 8; - \
- -  u8 bit = (flag_id) % 8; - \
- -  (*(u8 *)(D_8015C608_15D208 + byte_offset) ^= (1 << bit)); \
- -  } while (0)
+#define TOGGLE_FLAG(flag_id) \
+    do { \
+        u8 byte_offset = (flag_id) / 8; \
+        u8 bit = (flag_id) % 8; \
+        (*(u8 *)(D_8015C608_15D208 + byte_offset) ^= (1 << bit)); \
+    } while (0)
 
 // Check if a flag is set
 #define IS_FLAG_SET(flag_id) \
- -  ((*(u8 *)(D_8015C608_15D208 + ((flag_id) / 8)) & (1 << ((flag_id) % 8))) != 0)
+    ((*(u8 *)(D_8015C608_15D208 + ((flag_id) / 8)) & (1 << ((flag_id) % 8))) != 0)
 
 // ================================================================================
 // SPAWN COORDINATE SYSTEM

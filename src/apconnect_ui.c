@@ -17,7 +17,7 @@ static void connectPressed(RecompuiResource resource, const RecompuiEventData *d
         char *server_text = recompui_get_input_text(connect_menu.server_textinput);
         char *slot_text = recompui_get_input_text(connect_menu.slot_textinput);
         char *password_text = recompui_get_input_text(connect_menu.password_textinput);
-        rando_init("Kirby 64 - The Crystal Shards", server_text, slot_text, password_text);
+        rando_init("Mystical Ninja Starring Goemon", server_text, slot_text, password_text);
         recomp_free(server_text);
         recomp_free(slot_text);
         recomp_free(password_text);

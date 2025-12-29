@@ -9,15 +9,15 @@ void process_enemy_actors(struct ActorInstance *actor_instance, struct ActorDefi
     unsigned short restricted_enemies[] = {ENTITY_SPINNING_KITE, ENTITY_SWORD_ROBOT, ENTITY_PAPER_GHOST, ENTITY_TANK, ENTITY_GIANT_ENEMY_CRAB, ENTITY_SAMURAI, ENTITY_ROSE_ROBOT, ENTITY_BURROWING_ROBOT};
     // Robot IDs that can be replaced or used as replacements
     unsigned short robot_ids[] = {
-        ENTITY_ROBOT_BEE, ENTITY_PINK_ROBOT_FB, ENTITY_PINK_ROBOT_FC, ENTITY_GREEN_ROBOT_FD, 
-        ENTITY_GREEN_ROBOT_FE, ENTITY_BLUE_ROBOT, ENTITY_SCARECROW_BOT, ENTITY_PINK_ROBOT_110_FESTIVAL_TEMPLE_AND_HAGI,
+        ENTITY_PINK_ROBOT_FB, ENTITY_PINK_ROBOT_FC, ENTITY_GREEN_ROBOT_FD, 
+        ENTITY_GREEN_ROBOT_FE, ENTITY_BLUE_ROBOT, ENTITY_SCARECROW_BOT,
         ENTITY_SMALL_CANNON, ENTITY_FLYING_DRAGON_HEAD, ENTITY_DRUM_ROBOT, ENTITY_BIG_SWATTING_ROBOT,
         ENTITY_CAN_CAN_LEGS, ENTITY_SPINNING_KITE, ENTITY_BOUNCING_DARUMANYO, ENTITY_PAPER_GHOST,
-        ENTITY_KITE, ENTITY_WATER_SNAKE, ENTITY_FLOATING_INGREDIENTS_GOURMET_SUB, ENTITY_FLATFISH_TOSA_BRIDGE,
-        ENTITY_SWORD_ROBOT, ENTITY_TRIANGLE_ROBOT, ENTITY_GIANT_ENEMY_CRAB, ENTITY_SAMURAI,
-        ENTITY_HAMMER_THROWER, ENTITY_BOMBER_BIRD, ENTITY_BAMBOO_SHOOTER, ENTITY_RED_EYE_FISH,
+        ENTITY_KITE, ENTITY_WATER_SNAKE, ENTITY_FLATFISH_TOSA_BRIDGE,
+        ENTITY_SWORD_ROBOT, ENTITY_GIANT_ENEMY_CRAB, ENTITY_SAMURAI,
+        ENTITY_HAMMER_THROWER, ENTITY_BOMBER_BIRD,
         ENTITY_ROSE_ROBOT, ENTITY_FIRE_STALKER, ENTITY_NINJA, ENTITY_FLYING_TILE,
-        ENTITY_FOX_MASK, ENTITY_JET_ROBOT, ENTITY_YELLOW_ROBOT, ENTITY_BIG_SWATTING_ROBOT_RED,
+        ENTITY_JET_ROBOT, ENTITY_YELLOW_ROBOT, ENTITY_BIG_SWATTING_ROBOT_RED,
         ENTITY_SHRINKING_ROBOT, ENTITY_SEAHORSE, ENTITY_SPINY_SEA_URCHIN, ENTITY_BURROWING_ROBOT,
         ENTITY_FLOOR_FLAMETHROWER
     };
@@ -101,9 +101,9 @@ void process_enemy_actors(struct ActorInstance *actor_instance, struct ActorDefi
             // Update this instance to point to the new definition
             actor_instance->actor_definition = new_actor_def;
 
-            // recomp_printf("Enemy placed in room 0x%03X: 0x%03X -> 0x%03X (instance %d)%s\n", 
-            //               D_800C7AB2, actor_id, new_robot_id, robot_replacements_made,
-            //               is_restricted_room ? " [RESTRICTED ROOM]" : "");
+            recomp_printf("Enemy placed in room 0x%03X: 0x%03X -> 0x%03X (instance %d)%s\n", 
+                          D_800C7AB2, actor_id, new_robot_id, robot_replacements_made,
+                          is_restricted_room ? " [RESTRICTED ROOM]" : "");
             robot_replacements_made++;
         }
     }

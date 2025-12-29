@@ -7,11 +7,22 @@
 // Forward declaration for configuration application
 
 RECOMP_HOOK_RETURN("func_8000B640_C240") void on_save_start_hook() {
-    WRITE_SPAWN_ROOM(0x1B0);          // Set spawn room to Oedo Town
-    WRITE_SPAWN_X(0);              // X coordinate
-    WRITE_SPAWN_Y(20);              // Y coordinate
-    WRITE_SPAWN_Z(-25);              // Z coordinate
-    WRITE_SAVE_DATA(SAVE_GOEMON_WEAPON_LEVEL, 2);
+    //WRITE_SPAWN_ROOM(0x1B0);          // Set spawn room to Oedo Town
+    // WRITE_SPAWN_ROOM(0x1B0);
+    // WRITE_SPAWN_X(0);              // X coordinate
+    // WRITE_SPAWN_Y(20);              // Y coordinate
+    // WRITE_SPAWN_Z(-25);              // Z coordinate
+    //WRITE_SAVE_DATA(SAVE_GOEMON_WEAPON_LEVEL, 2);
+    WRITE_SAVE_DATA(SAVE_MIRACLE_FLOWER, 1);
+    WRITE_SAVE_DATA(SAVE_MIRACLE_MOON, 1);
+    WRITE_SAVE_DATA(SAVE_MIRACLE_STAR, 1);
+    WRITE_SAVE_DATA(SAVE_MIRACLE_SNOW, 1);
+
+    ENABLE_FLAG(FLAG_UNKNOWN_012D);
+    ENABLE_FLAG(FLAG_EVERY_4_TICKS);
+    ENABLE_FLAG(FLAG_CONGO_BOSS_INTRO);
+    ENABLE_FLAG(FLAG_UNKNOWN_0154);
+    ENABLE_FLAG(FLAG_UNKNOWN_0155);
     // Apply all configured save data settings using the new tooling system
     
     // Example of custom manual overrides (uncomment as needed):
