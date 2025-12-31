@@ -235,19 +235,19 @@ extern u8 D_8015C608_15D208[0x304];
 #define SAVE_KYUSHU_TIME_BOMB_224 0x224 - // Reactivated time bomb on Kyushu
 
 // Dead Sasuke system
-#define SAVE_DEAD_SASUKE_PROFILE 0x260 // Dead Sasuke profile picture
+#define SAVE_DEAD_SASUKE_PROFILE 0x260 // Sauske Status - 0 = body, 1 = battery 1, 2 = battery 2
 
 // Mr. Elephant and Mr. Arrow item systems
-#define SAVE_MR_ELLY_RELATED 0x26C
-#define SAVE_MR_ELLY_OEDO_CASTLE 0x270
-#define SAVE_MR_ELLY_GHOST_TOYS 0x274
-#define SAVE_MR_ELLY_FESTIVAL_TEMPLE 0x278
-#define SAVE_MR_ELLY_SUBMARINE 0x27C
-#define SAVE_MR_ARROW_RELATED 0x280
-#define SAVE_MR_ARROW_GIVE_1 0x284
-#define SAVE_MR_ARROW_GIVE_2 0x288
-#define SAVE_MR_ARROW_GIVE_3 0x28C
-#define SAVE_MR_ARROW_GIVE_4 0x290
+#define SAVE_MR_ELLY_OEDO_CASTLE 0x26C
+#define SAVE_MR_ELLY_GHOST_TOYS 0x270
+#define SAVE_MR_ELLY_FESTIVAL_TEMPLE 0x274
+#define SAVE_MR_ELLY_SUBMARINE 0x278
+#define SAVE_MR_ELLY_MUSICAL 0x27C
+#define SAVE_MR_ARROW_OEDO_CASTLE 0x280
+#define SAVE_MR_ARROW_GHOST_TOYS 0x284
+#define SAVE_MR_ARROW_FESTIVAL_TEMPLE 0x288
+#define SAVE_MR_ARROW_SUBMARINE 0x28C
+#define SAVE_MR_ARROW_MUSICAL 0x290
 #define SAVE_LORDS_SUPERPASS 0x294
 
 // Submarine castle map
@@ -354,10 +354,9 @@ extern u8 D_8015C608_15D208[0x304];
 #define FLAG_TURTLE_SHRINE_YAMATO 0x0C7 // Byte 0X18, Bit 7 - Invisible Wall That Blocks Doors
 #define FLAG_TURTLE_SHRINE_RED_GATE 0x0C8 // Byte 0X19, Bit 0
 #define FLAG_UNLOCK_YAMATO_SHRINE 0x0C9 // Byte 0X19, Bit 1
-#define FLAG_RECEIVED_SILVER_DOLL_SCENE 0x0E0 // Byte 0X1C, Bit 0
 
 // Game mechanics flags
-#define FLAG_UNKNOWN_012D 0x012D // Byte 0X25, Bit 5
+#define FLAG_BEAT_CONGO 0x012D // Byte 0X25, Bit 5
 #define FLAG_EVERY_4_TICKS 0x012E // Byte 0X25, Bit 6
 #define FLAG_CONGO_BOSS_INTRO 0x0133 // Byte 0X26, Bit 3
 #define FLAG_UNKNOWN_0154 0x0154 // Byte 0X2A, Bit 4
@@ -378,8 +377,8 @@ extern u8 D_8015C608_15D208[0x304];
 #define FLAG_UNKNOWN_019E 0x019E // Byte 0X33, Bit 6
 #define FLAG_COLLECTED_CAMERA_MINIGAME 0x01A3 // Byte 0X34, Bit 3
 #define FLAG_UNKNOWN_01A4 0x01A4 // Byte 0X34, Bit 4
-#define FLAG_UNKNOWN_01A5 0x01A5 // Byte 0X34, Bit 5
-#define FLAG_UNKNOWN_01A6 0x01A6 // Byte 0X34, Bit 6
+#define FLAG_GOT_YAE_BAZOOKA 0x01A5 // Byte 0X34, Bit 5
+#define FLAG_COLLECTED_MEAT_HAMMER 0x01A6 // Byte 0X34, Bit 6
 #define FLAG_SHUHUDO_TUNNEL_BLOWN 0x01C3 // Byte 0X38, Bit 3
 #define FLAG_CRANE_GAME_HELP_TEXT 0x01C4 // Byte 0X38, Bit 4
 #define FLAG_BOUGHT_DHARMA_CAT_EYES 0x1C5 // Byte 0X38, Bit 5
@@ -467,6 +466,7 @@ extern u8 D_8015C608_15D208[0x304];
 #define ITEM_WALL_YAMATO 0x00C7 // Byte 0X18, Bit 7 - Invisible Wall That Blocks Doors Un Yamato
 
 // Silver Dolls (0x00CA - 0x00F1)
+#define SILVER_DOLL_TURTLE_ROCK 0x00E0 // Byte 0X1C, Bit 0
 #define SILVER_DOLL_OEDO_TURTLE 0x00CA // Byte 0X19, Bit 2 - Silver Doll - Oedo Castle 1F Turtle Pad Room
 #define SILVER_DOLL_OEDO_SILVER_CAT 0x00CB // Byte 0X19, Bit 3 - Silver Doll - Oedo Castle 2F Silver Cat Room
 #define SILVER_DOLL_OEDO_BLOCKED 0x00CC // Byte 0X19, Bit 4 - Silver Doll - Oedo Castle 2F Blocked Silver
@@ -505,6 +505,7 @@ extern u8 D_8015C608_15D208[0x304];
 #define SILVER_DOLL_ZAZEN_WATERWAY 0x00EF // Byte 0X1D, Bit 7 - Silver Doll - Zazen Waterway
 #define SILVER_DOLL_FOLKYPOKE_EAST 0x00F0 // Byte 0X1E, Bit 0 - Silver Doll - Folkypoke Village (East)
 #define SILVER_DOLL_FESTIVAL_HIDDEN 0x00F1 // Byte 0X1E, Bit 1 - Silver Doll - Festival Village - Hidden Lake
+#define SILVER_DOLL_WATERING_HOLE 0x00EE // Byte 0X1D, Bit 6 - Silver Doll - Zazen Watering Hole
 
 // Gold Dolls
 #define GOLD_DOLL_GHOST_SHOGI_CANNON 0x00F2 // Byte 0X1E, Bit 2 - Gold Doll - Ghost Toys 1F Shogi Cannon Gol
@@ -521,7 +522,7 @@ extern u8 D_8015C608_15D208[0x304];
 #define SURPRISE_PACK_MUSICAL_AQUARIUM 0x00FB // Byte 0X1F, Bit 3 - Surprise Pack (Extra Life) -  Musical Castle 1 Big Aquarium
 #define SURPRISE_PACK_YAMATO_SHRINE 0x00FC // Byte 0X1F, Bit 4 - Surprise Pack (Extra Life) -  Yamato Shrine
 #define SURPRISE_PACK_KII_AWAJI 0x00FD // Byte 0X1F, Bit 5 - Surprise Pack (Extra Life) -  Kii-Awaji Island
-#define SURPRISE_PACK_UNDERWATER 0x00FE // Byte 0X1F, Bit 6 - Surprise Pack (Extra Life) -  Underwater
+#define SURPRISE_PACK_UNDERWATER 0x00FE // Byte 0X1F, Bit 6 - Surprise Pack (Extra Life) - Japan Sea Underwater
 
 // Mr. Elly Fant items
 #define MR_ELLY_FANT_OEDO_TURTLE 0x00FF // Byte 0X1F, Bit 7 - Mr. Elly Fant - Oedo Castle 1F Turtle Pad Room

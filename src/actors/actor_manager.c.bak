@@ -104,16 +104,16 @@ void func_8020D724_5C8BF4_hook()
         buffer[i] = ((unsigned char *)actor_data_file_buffer)[i];
     }
 
-    // Update the overlay entry to point to the new buffer
-    for (int i = 0; i < 40; i++)
-    {
-        if (D_80167FC0_168BC0[i].file_id == actor_data_file_id)
-        {
-            recomp_printf("Updating overlay entry for file %d from %p to %p\n", actor_data_file_id, D_80167FC0_168BC0[i].data, buffer);
-            D_80167FC0_168BC0[i].data = buffer;
-            break;
-        }
-    }
+    // // Update the overlay entry to point to the new buffer
+    // for (int i = 0; i < 40; i++)
+    // {
+    //     if (D_80167FC0_168BC0[i].file_id == actor_data_file_id)
+    //     {
+    //         recomp_printf("Updating overlay entry for file %d from %p to %p\n", actor_data_file_id, D_80167FC0_168BC0[i].data, buffer);
+    //         D_80167FC0_168BC0[i].data = buffer;
+    //         break;
+    //     }
+    // }
 
     // Edit the actor data in the new buffer as needed
     struct ActorInstance *actor_instances = func_80014840_15440(D_80231300_5EC7D0[D_800C7AB2]->actor_instances, actor_data_file_id);

@@ -116,6 +116,7 @@ void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code, s16 scenari
 RECOMP_HOOK("func_80000450_1050")
 void consolidated_scenario_hook()
 {
+    recomp_printf("Consolidated scenario replacement hook called\n");
     // Replace all scenario dialogs
     replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0, NULL, NULL, NULL);      // Oedo Castle Superpass
     replace_scenario_with_flag(0x1ea, scenario_code_message_1ea_63fc, 0, NULL, NULL, NULL);      // Mokubei Upgrades

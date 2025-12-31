@@ -91,8 +91,28 @@ void threadx_archipelago(void *arg)
         break;
     }
 }
+RECOMP_DECLARE_EVENT(rando_on_connect());
+static bool connect_menu_shown = false;
 
-// RECOMP_HOOK_RETURN("func_800148C0_154C0") void on_boot(){
-//     randoCreateAPConnectMenu();
-//     ShowArchipelagoConnect();
+void randoStart(bool multiworld) {
+    rando_started = true;
+    is_multiworld = multiworld;
+    rando_on_connect();
+}
+RECOMP_HOOK_RETURN("func_800148C0_154C0") void on_boot(){
+    if (!connect_menu_shown) {
+        randoCreateAPConnectMenu();
+        ShowArchipelagoConnect();
+        connect_menu_shown = true;
+            recomp_printf("Context Shown\n");
+    rando_started = false;
+
+    // this->state.main = RandoMenu_Main;
+    // this->state.destroy = Setup_Destroy;
+        
+    }
+}
+// bool rando_init_common() {
+//     rando_queue_scouts_all();
+//     rando_send_queued_scouts(0);
 // }
