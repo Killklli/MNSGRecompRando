@@ -108,10 +108,10 @@ void randoCreateAPConnectMenu()
     recompui_close_context(connect_menu.context);
 }
 
-// void ShowArchipelagoConnect()
-// {
-//     recompui_show_context(connect_menu.context);
-// }
+void ShowArchipelagoConnect()
+{
+    //recompui_show_context(connect_menu.context);
+}
 RECOMP_HOOK("func_80002040_2C40")
 void ap_watcher()
 {

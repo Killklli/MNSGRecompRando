@@ -1,12 +1,7 @@
-- Fix benkei collector text - Scenario
-- Fix Kihachi quest if you already have a cucumber - Scenario
-
 - Fix buffer crash for actor replacement
 - Get file list from slot data
 - Automatically do item replacements
 - Shift key data into slot data for validation so we don't report back collected items that are not keys
-
-
 
 Probably need to attach save ids to the item instead of the location
 Likely need to adjust scenario flags to not check against flags and check against items
@@ -14,7 +9,9 @@ Likely need to adjust scenario flags to not check against flags and check agains
 
 
 
+----------------------
 Disabled Item gives
+----------------------
 Achilles Heel from Ushiwaka fishing
 Fire Ryo event (Technically)
 Got flute cutscene

@@ -3443,7 +3443,7 @@ s32 scenario_code_message_288_3a7c[] = {
 
     // 3a7c: If Flag 032 (Defeated Thaisamba), Jump To @3acc
     // Jump if flag 0x32 is SET to @3acc
-    JFS, 0x32, (s32)&scenario_code_message_288_3acc,
+    JFS, 0x88, (s32)&scenario_code_message_288_3acc,
 
     // 3a88: Print Text
     TXT, (s32)&scenario_text_2934,
