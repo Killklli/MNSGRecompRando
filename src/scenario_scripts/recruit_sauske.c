@@ -986,17 +986,18 @@ s32 scenario_code_message_1f1_7a70[] = {
     // 7e08: Print Text
     TXT, (s32)&scenario_text_0C3D,
 
-    // 7e10: Write to RAM 8015c6c4 (Obtained Firecracker Bomb)
-    STW, 0x8015c6c4,
+    // DISABLED ITEM
+    // // 7e10: Write to RAM 8015c6c4 (Obtained Firecracker Bomb)
+    // STW, 0x8015c6c4,
 
-    // 7e18: Store Value: 1
-    WTS, 0x1,
+    // // 7e18: Store Value: 1
+    // WTS, 0x1,
 
-    // 7e20: Write to RAM 8015c6a4 (Recruited Sasuke)
-    STW, 0x8015c6a4,
+    // // 7e20: Write to RAM 8015c6a4 (Recruited Sasuke)
+    // STW, 0x8015c6a4,
 
-    // 7e28: Store Value: 1
-    WTS, 0x1,
+    // // 7e28: Store Value: 1
+    // WTS, 0x1,
 
     // 7e30: Set Flag 00e (Recruited Sasuke)
     SFG, 0x0E,

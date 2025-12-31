@@ -317,11 +317,12 @@ s32 scenario_code_message_174_28bc[] = {
     // 2a4c: Print Text
     TXT, (s32)&scenario_text_039A,
 
-    // 2a54: Write to RAM 8015c6ec (Obtained Sudden Impact Magic)
-    STW, 0x8015c6ec,
+    // DISABLED ITEM
+    // // 2a54: Write to RAM 8015c6ec (Obtained Sudden Impact Magic)
+    // STW, 0x8015c6ec,
 
-    // 2a5c: Store Value: 1
-    WTS, 0x1,
+    // // 2a5c: Store Value: 1
+    // WTS, 0x1,
 
     // 2a64: Set Flag 01c (Obtained Sudden Impact Magic)
     SFG, 0x1C,

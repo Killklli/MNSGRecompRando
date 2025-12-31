@@ -1352,11 +1352,12 @@ s32 scenario_code_message_157_acc0[] = {
     // ade8: Print Text
     TXT, (s32)&scenario_text_0E49,
 
-    // adf0: Write to RAM 8015c710 (Obtained Key to Training)
-    STW, 0x8015c710,
+    // DISABLED ITEM
+    // // adf0: Write to RAM 8015c710 (Obtained Key to Training)
+    // STW, 0x8015c710,
 
-    // adf8: Store Value: 1
-    WTS, 0x1,
+    // // adf8: Store Value: 1
+    // WTS, 0x1,
 
     // ae00: Set Flag 027 (Obtained Key to Training from Priest)
     SFG, 0x27,

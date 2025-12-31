@@ -244,11 +244,12 @@ s32 scenario_code_message_17a_3650[] = {
     // 37b8: Print Text
     TXT, (s32)&scenario_text_021B,
 
-    // 37c0: Write to RAM 8015c6f4 (Obtained Super Jump Magic)
-    STW, 0x8015c6f4,
+    // DISABLED ITEM
+    // // 37c0: Write to RAM 8015c6f4 (Obtained Super Jump Magic)
+    // STW, 0x8015c6f4,
 
-    // 37c8: Store Value: 1
-    WTS, 0x1,
+    // // 37c8: Store Value: 1
+    // WTS, 0x1,
 
     // 37d0: Set Flag 020 (Obtained Super Jump Magic)
     SFG, 0x20,

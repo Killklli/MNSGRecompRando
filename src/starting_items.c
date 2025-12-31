@@ -12,12 +12,13 @@ RECOMP_HOOK_RETURN("func_8000B640_C240") void on_save_start_hook() {
     // WRITE_SPAWN_X(0);              // X coordinate
     // WRITE_SPAWN_Y(20);              // Y coordinate
     // WRITE_SPAWN_Z(-25);              // Z coordinate
-    WRITE_SAVE_DATA(SAVE_GOEMON_WEAPON_LEVEL, 2);
+
     WRITE_SAVE_DATA(SAVE_MIRACLE_FLOWER, 1);
     WRITE_SAVE_DATA(SAVE_MIRACLE_MOON, 1);
     WRITE_SAVE_DATA(SAVE_MIRACLE_STAR, 1);
     WRITE_SAVE_DATA(SAVE_MIRACLE_SNOW, 1);
     WRITE_SAVE_DATA(SAVE_CHAIN_PIPE, 1);
+
 
 // #define SAVE_MR_ELLY_RELATED 0x26C - actually oedo castle
 // #define SAVE_MR_ELLY_OEDO_CASTLE 0x270 - Actually Ghost Toys

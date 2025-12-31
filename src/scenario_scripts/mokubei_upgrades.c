@@ -811,11 +811,12 @@ s32 scenario_code_message_1ea_64d0[] = {
     // 6668: Print Text
     TXT, (s32)&scenario_text_062A,
 
-    // 6670: Write to RAM 8015c6bc (Obtained Chain Pipe)
-    STW, 0x8015c6bc,
+    // DISABLED ITEM
+    // // 6670: Write to RAM 8015c6bc (Obtained Chain Pipe)
+    // STW, 0x8015c6bc,
 
-    // 6678: Store Value: 1
-    WTS, 0x1,
+    // // 6678: Store Value: 1
+    // WTS, 0x1,
 
     // 6680: Print Text
     TXT, (s32)&scenario_text_02A1,
@@ -1334,29 +1335,30 @@ s32 scenario_code_message_1eb_67dc[] = {
     // 69b4: Print Text
     TXT, (s32)&scenario_text_1eb_029C,
 
-    // 69bc: Write to RAM 8015c6ac (Goemon Weapon Level)
-    STW, 0x8015c6ac,
+    // DISABLED ITEM
+    // // 69bc: Write to RAM 8015c6ac (Goemon Weapon Level)
+    // STW, 0x8015c6ac,
 
-    // 69c4: Store Value: 1
-    WTS, 0x1,
+    // // 69c4: Store Value: 1
+    // WTS, 0x1,
 
-    // 69cc: Write to RAM 8015c6b0 (Ebisumaru Weapon Level)
-    STW, 0x8015c6b0,
+    // // 69cc: Write to RAM 8015c6b0 (Ebisumaru Weapon Level)
+    // STW, 0x8015c6b0,
 
-    // 69d4: Store Value: 1
-    WTS, 0x1,
+    // // 69d4: Store Value: 1
+    // WTS, 0x1,
 
-    // 69dc: Write to RAM 8015c6b4 (Sasuke Weapon Level)
-    STW, 0x8015c6b4,
+    // // 69dc: Write to RAM 8015c6b4 (Sasuke Weapon Level)
+    // STW, 0x8015c6b4,
 
-    // 69e4: Store Value: 1
-    WTS, 0x1,
+    // // 69e4: Store Value: 1
+    // WTS, 0x1,
 
-    // 69ec: Write to RAM 8015c6b8 (Yae Weapon Level)
-    STW, 0x8015c6b8,
+    // // 69ec: Write to RAM 8015c6b8 (Yae Weapon Level)
+    // STW, 0x8015c6b8,
 
-    // 69f4: Store Value: 1
-    WTS, 0x1,
+    // // 69f4: Store Value: 1
+    // WTS, 0x1,
 
     // 69fc: Print Text
     TXT, (s32)&scenario_text_1eb_02BC,

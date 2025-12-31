@@ -2161,11 +2161,12 @@ s32 scenario_code_message_160_c4cc[] = {
     // c64c: Print Text
     TXT, (s32)&scenario_text_1061,
 
-    // c654: Write to RAM 8015c70c (Obtained Achilles Heel)
-    STW, 0x8015c70c,
+    // DISABLED ITEM
+    // // c654: Write to RAM 8015c70c (Obtained Achilles Heel)
+    // STW, 0x8015c70c,
 
-    // c65c: Store Value: 1
-    WTS, 0x1,
+    // // c65c: Store Value: 1
+    // WTS, 0x1,
 
     // c664: Set Flag 029 (Obtained Achilles' Heel)
     SFG, 0x29,
@@ -2730,11 +2731,12 @@ s32 scenario_code_message_160_ca5c[] = {
     // cbc0: Print Text
     TXT, (s32)&scenario_text_1D8E,
 
-    // cbc8: Write to RAM 8015c6f0 (Obtained Mini-Ebisu Magic)
-    STW, 0x8015c6f0,
+    // DISABLED ITEM
+    // // cbc8: Write to RAM 8015c6f0 (Obtained Mini-Ebisu Magic)
+    // STW, 0x8015c6f0,
 
-    // cbd0: Store Value: 1
-    WTS, 0x1,
+    // // cbd0: Store Value: 1
+    // WTS, 0x1,
 
     // cbd8: Set Flag 031 (Obtained Mini-Ebisu Magic)
     SFG, 0x31,

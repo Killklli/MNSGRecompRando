@@ -1,43 +1,33 @@
 - Fix benkei collector text - Scenario
-- test ushiwaka text - Scenario
-- test zazen priest - Scenario
 - Fix Kihachi quest if you already have a cucumber - Scenario
 
 - Fix buffer crash for actor replacement
 - Get file list from slot data
 - Automatically do item replacements
 - Shift key data into slot data for validation so we don't report back collected items that are not keys
-- Stash the starting locations in code
-- Stash starting items in code so you can select starting items
 
 
-Wise Man Weapon Upgrade
-Mokubei Weapon Upgrade
-Mokubei Chain Pipe
-Getting Yae Cutscene
-Getting Sasuke Cutscene
-Zazen Priest Key
-Zazen Son Cucumber
-Jump Gym
-Strength Gym
-Mini Ebismaru Training
-Mermaid Training
-Oedo Lord gives Superpass
-Triton Shell wise mans house
-Benkei gives you sauske dead
-Got flute cutscene
-Fire Ryo event (Technically)
-Achilles Heel from Ushiwaka fishing
-
-
-
-Silver and Gold Fortune dolls we need to edit the function so when we grant we're granting via the up function instead of via a flag.
 
 Probably need to attach save ids to the item instead of the location
-TODO Logic for upgrading all 4 players weapons
+Likely need to adjust scenario flags to not check against flags and check against items
 
 
 
-Boss killed is room 0x0240
-OR function func_8021F9CC_6893AC
-OR message 0x213
+
+Disabled Item gives
+Achilles Heel from Ushiwaka fishing
+Fire Ryo event (Technically)
+Got flute cutscene
+Oedo Lord gives Superpass
+Mermaid Training
+Strength Gym
+Jump Gym
+Getting Yae Cutscene
+Getting Sasuke Cutscene
+Mokubei Weapon Upgrade
+Mokubei Chain Pipe
+Wise Man Weapon Upgrade
+Mini Ebismaru Training
+Benkei gives you sauske dead
+Zazen Son Cucumber
+Zazen Priest Key

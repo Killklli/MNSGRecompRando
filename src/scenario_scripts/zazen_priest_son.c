@@ -798,11 +798,12 @@ s32 scenario_code_message_15e_b9b4[] = {
     // bab4: Print Text
     TXT, (s32)&scenario_text_072E,
 
-    // babc: Write to RAM 8015c714 (Obtained Quality Cucumber)
-    STW, 0x8015c714,
+    // DISABLED ITEM
+    // // babc: Write to RAM 8015c714 (Obtained Quality Cucumber)
+    // STW, 0x8015c714,
 
-    // bac4: Store Value: 1
-    WTS, 0x1,
+    // // bac4: Store Value: 1
+    // WTS, 0x1,
 
     // bacc: Set Flag 00f (Received Cucumber)
     SFG, 0x0F,

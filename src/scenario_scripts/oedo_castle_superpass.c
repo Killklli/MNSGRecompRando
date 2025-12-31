@@ -180,11 +180,12 @@ s32 scenario_code_message_0ca_4b70[] = {
     // 4ca0: Set Flag 000 (Received Super Pass)
     SFG, 0x00,
 
-    // 4ca8: Write to RAM 8015c700 (Obtained Super Pass)
-    STW, 0x8015c700,
+    // DISABLED ITEM
+    // // 4ca8: Write to RAM 8015c700 (Obtained Super Pass)
+    // STW, 0x8015c700,
 
-    // 4cb0: Store Value: 1
-    WTS, 0x1,
+    // // 4cb0: Store Value: 1
+    // WTS, 0x1,
 
     // 4cb8: Write to RAM 8015c89c (Unknown)
     STW, 0x8015c89c,

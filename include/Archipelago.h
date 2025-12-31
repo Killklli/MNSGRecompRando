@@ -33,3 +33,4 @@ RECOMP_IMPORT(".", void rando_send_queued_scouts(int hint));
 RECOMP_IMPORT(".", void rando_get_saved_apconnect(u8* save_dir, char* address, char* player_name, char* password));
 RECOMP_IMPORT(".", void rando_set_saved_apconnect(u8* save_dir, char* address, char* player_name, char* password));
 RECOMP_IMPORT(".", bool rando_complete_goal());
+

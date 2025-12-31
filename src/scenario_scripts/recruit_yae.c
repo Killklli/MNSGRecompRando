@@ -582,11 +582,12 @@ s32 scenario_code_message_14c_9904[] = {
     // 9c1c: Print Text
     TXT, (s32)&scenario_text_0632,
 
-    // 9c24: Write to RAM 8015c6a8 (Recruited Yae)
-    STW, 0x8015c6a8,
+    // DISABLED ITEM
+    // // 9c24: Write to RAM 8015c6a8 (Recruited Yae)
+    // STW, 0x8015c6a8,
 
-    // 9c2c: Store Value: 1
-    WTS, 0x1,
+    // // 9c2c: Store Value: 1
+    // WTS, 0x1,
 
     // 9c34: Set Flag 03a (Recruited Yae)
     SFG, 0x3A,

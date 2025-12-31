@@ -930,11 +930,12 @@ s32 scenario_code_message_176_301c[] = {
     // 31c0: Print Text
     TXT, (s32)&scenario_text_0888,
 
-    // 31c8: Write to RAM 8015c6f8 (Obtained Mermaid Magic)
-    STW, 0x8015c6f8,
+    // DISABLED ITEM
+    // // 31c8: Write to RAM 8015c6f8 (Obtained Mermaid Magic)
+    // STW, 0x8015c6f8,
 
-    // 31d0: Store Value: 1
-    WTS, 0x1,
+    // // 31d0: Store Value: 1
+    // WTS, 0x1,
 
     // 31d8: Set Flag 01f (Obtained Mermaid Magic)
     SFG, 0x1F,

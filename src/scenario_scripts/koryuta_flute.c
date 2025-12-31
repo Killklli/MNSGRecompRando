@@ -786,11 +786,12 @@ s32 scenario_code_message_1ef_72b4[] = {
     // 75e4: Print Text
     TXT, (s32)&scenario_text_0745,
 
-    // 75ec: Write to RAM 8015c6c8 (Obtained Flute)
-    STW, 0x8015c6c8,
+    // DISABLED ITEM
+    // // 75ec: Write to RAM 8015c6c8 (Obtained Flute)
+    // STW, 0x8015c6c8,
 
-    // 75f4: Store Value: 1
-    WTS, 0x1,
+    // // 75f4: Store Value: 1
+    // WTS, 0x1,
 
     // 75fc: Write to RAM 801c7758 (Unknown)
     STW, (s32)&D_801C7758_1C8358,

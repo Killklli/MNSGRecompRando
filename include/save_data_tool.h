@@ -22,6 +22,18 @@ extern u8 D_8015C608_15D208[0x304];
 #define WRITE_SAVE_DATA_B(offset, value) \
     (*(u8 *)(D_8015C608_15D208 + (offset)) = (value))
 
+// Read 32-bit values from save data at specified offset
+#define READ_SAVE_DATA(offset) \
+    (*(s32 *)(D_8015C608_15D208 + (offset)))
+
+// Read 16-bit values from save data at specified offset
+#define READ_SAVE_DATA_H(offset) \
+    (*(s16 *)(D_8015C608_15D208 + (offset)))
+
+// Read 8-bit values from save data at specified offset
+#define READ_SAVE_DATA_B(offset) \
+    (*(u8 *)(D_8015C608_15D208 + (offset)))
+
 // Set or clear individual flag bits
 #define SET_FLAG_BIT(byte_offset, bit, value) \
     do { \
@@ -208,6 +220,16 @@ extern u8 D_8015C608_15D208[0x304];
 #define SAVE_CURRENT_RICE_BALL -0x18  // Values: 1,2,3
 #define SAVE_RICE_BALL_AMOUNT_3 -0x14 // Values: 1,2,3
 #define SAVE_RICE_BALL_AMOUNT_8 -0x10 // Values: 3,5,8
+
+// Life system
+#define SAVE_CURRENT_LIFE_TOTAL -0x1C // Current total lives (8015c5ec)
+
+// Currency system
+#define SAVE_RYO -0x20 // Current ryo/money (8015c5e8)
+
+// Health system
+#define SAVE_CURRENT_HEALTH -0x24 // Current HP (8015c5e4)
+#define SAVE_TOTAL_HEALTH -0x28   // Maximum HP (8015c5e0)
 
 // Character weapon systems (already defined above, but adding comments)
 // 0x9C = Sasuke recruited, 0xA0 = Yae recruited

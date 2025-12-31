@@ -6,6 +6,11 @@
 #include "types.h"
 
 RECOMP_IMPORT(".", void rando_init(char *game, char *address, char *player_name, char *password));
+RECOMP_IMPORT(".", void rando_get_location_item_name(u32 location_id, char* item_name));
+
+// Function declarations
+void setup_defaults();
+void progressive_weapon_handler();
 
 ApconnectMenu connect_menu;
 
@@ -103,17 +108,50 @@ void randoCreateAPConnectMenu()
     recompui_close_context(connect_menu.context);
 }
 
-void ShowArchipelagoConnect()
+// void ShowArchipelagoConnect()
+// {
+//     recompui_show_context(connect_menu.context);
+// }
+RECOMP_HOOK("func_80002040_2C40")
+void ap_watcher()
 {
-    recompui_show_context(connect_menu.context);
-}
-RECOMP_HOOK("func_80002040_2C40") void ap_watcher() {
-    if(rando_is_connected()) {
-        rando_queue_scouts_all();
-        rando_send_queued_scouts(0);
+    static bool scouts_sent = false;
+    
+    if (rando_is_connected())
+    {
+        if (!rando_is_scouted() && !scouts_sent)
+        {
+            recomp_printf("Rando connected, sending queued scouts\n");
+            rando_queue_scouts_all();
+            //rando_send_queued_scouts(0);
+            scouts_sent = true;
+            setup_defaults();
+            // u32 data = rando_get_item_id(0); // Dummy call to ensure imports are linked
+            // // print the data
+            // recomp_printf("Default item ID at location 0: %d\n", data);
+            // rando_location_is_checked
+            // Test: Print own slot name after scouting is complete
+            static bool slot_name_printed = false;
+            if (!slot_name_printed) {
+                char slot_name[256];
+                rando_get_own_slot_name(slot_name);
+                recomp_printf("Own slot name: %s\n", slot_name);
+                slot_name_printed = true;
+            }
+            // rando_send_location(81);
+            u32 item_at_81 = rando_get_item(10);
+            recomp_printf("Item at location 82: %d\n", item_at_81);
+        }
+        if (rando_is_scouted()){
+            
+        }
+
     }
 }
 
+void setup_defaults(){
+    progressive_weapon_handler();
+}
 
 
 // #include "modding.h"
