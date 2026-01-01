@@ -1463,6 +1463,7 @@ s32 scenario_code_message_160_c028[] = {
     // cd04: Print Text
     TXT, (s32)&scenario_text_0000,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // c048: If Flag 029 (Obtained Achilles' Heel), Jump To @cd041
     // Jump if flag 0x29 is SET to @cd041
     JFS, 0x29, (s32)&scenario_code_message_160_cd04,
@@ -2595,6 +2596,7 @@ s32 scenario_code_message_160_ca5c[] = {
 
     // Address: @ca5c
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // ca5c: If Flag 031 (Obtained Mini-Ebisu Magic), Jump To @cd04
     // Jump if flag 0x31 is SET to @cd04
     JFS, 0x31, (s32)&scenario_code_message_160_cd04,

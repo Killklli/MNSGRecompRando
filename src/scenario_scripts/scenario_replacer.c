@@ -4,6 +4,7 @@
 #include "modding.h"
 #include "recomputils.h"
 #include "text_utils.h"
+#include "save_data_tool.h"
 
 // External reference to space_newline_text from surprise_pack.c
 static s16 space_newline_text[] = {
@@ -35,6 +36,8 @@ extern s32 scenario_code_message_1cd_185c[];
 extern s32 scenario_code_message_227_3a14[];
 extern s32 scenario_code_message_157_a930[];
 extern s32 scenario_code_message_15e_b798[];
+extern s32 scenario_code_message_110_8420[];
+extern s32 scenario_code_message_110_8420[];
 
 // Generic scenario replacement function - handles its own scenario replacement
 void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id, const char *item_name, s32 *flag_id, s32 *sfg_index)
@@ -72,4 +75,17 @@ void consolidated_scenario_hook()
     replace_scenario_with_flag(0x227, scenario_code_message_227_3a14, 0, NULL, NULL, NULL);     // Wise Man Sogen
     replace_scenario_with_flag(0x157, scenario_code_message_157_a930, 0, NULL, NULL, NULL);     // Zazen Priest
     replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0, NULL, NULL, NULL);     // Zazen Priest Son
+    recomp_printf("Replaced first set of scenarios\n");
+    replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0, NULL, NULL, NULL);     // Bridge Guard 1 (Super Pass Check)
+
+}
+
+// Hardcoded function to check super pass and set flag 0x501
+RECOMP_EXPORT void check_super_pass_and_set_flag(void) {
+    s32 save_value = READ_SAVE_DATA(SAVE_SUPER_PASS);
+    if (save_value != 0) {
+        ENABLE_FLAG(0x501);  // Set flag 0x501 if super pass is obtained
+    } else {
+        DISABLE_FLAG(0x501); // Clear flag 0x501 if super pass is not obtained
+    }
 }

@@ -1118,6 +1118,7 @@ s32 scenario_code_message_30c_1cd81[] = {
     // Jump if flag 0x33 is SET to @1cd83
     JFS, 0x33, (s32)&scenario_code_message_30c_1cd83,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // 1d34: If Flag 029 (Obtained Achilles' Heel), Jump To @1cd82
     // Jump if flag 0x29 is SET to @1cd82
     JFS, 0x29, (s32)&scenario_code_message_30c_1cd82,
@@ -1145,6 +1146,7 @@ s32 scenario_code_message_30c_1cd82[] = {
     // Jump if flag 0x6A is SET to @21d4
     JFS, 0x6A, (s32)&scenario_code_message_30c_21d4,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // 1d34: If Flag 029 (Obtained Achilles' Heel), Jump To @1ebc
     // Jump if flag 0x29 is SET to @1ebc
     JFS, 0x29, (s32)&scenario_code_message_30c_1ebc,

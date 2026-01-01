@@ -539,6 +539,7 @@ s32 scenario_code_message_15e_b874[] = {
     // b874: Print Text
     TXT, (s32)&scenario_text_006A,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // b87c: If Flag 00f (Received Cucumber), Jump To @bb5c
     // Jump if flag 0x0F is SET to @bb5c
     JFS, 0x0F, (s32)&scenario_code_message_15e_bb5c,

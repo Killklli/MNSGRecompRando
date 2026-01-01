@@ -868,6 +868,7 @@ s32 scenario_code_message_1ef_72b4[] = {
     // 76bc: Print Text
     TXT, (s32)&scenario_text_00FF,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // 76c4: If Flag 009 (Received Map of Japan), Jump To @781c
     // Jump if flag 0x09 is SET to @781c
     JFS, 0x09, (s32)&scenario_code_message_1ef_781c,

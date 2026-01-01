@@ -707,10 +707,12 @@ s32 scenario_code_message_162_cd8c[] = {
     // cd9c: Print Text
     TXT, (s32)&scenario_text_0000,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // cda4: If Flag 035 (Obtained Miracle Snow), Jump To @d63c
     // Jump if flag 0x35 is SET to @d63c
     JFS, 0x35, (s32)&scenario_code_message_162_d63c,
 
+    // TODO: NEED TO HOOK TO THE ITEM
     // cdb0: If Flag 00f (Received Cucumber), Jump To @d490
     // Jump if flag 0x0F is SET to @d490
     JFS, 0x0F, (s32)&scenario_code_message_162_d490,

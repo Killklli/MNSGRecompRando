@@ -122,7 +122,7 @@ void ap_watcher()
         if (!rando_is_scouted() && !scouts_sent)
         {
             recomp_printf("Rando connected, sending queued scouts\n");
-            rando_queue_scouts_all();
+           // rando_queue_scouts_all();
             //rando_send_queued_scouts(0);
             scouts_sent = true;
             setup_defaults();
@@ -139,13 +139,14 @@ void ap_watcher()
                 slot_name_printed = true;
             }
             // rando_send_location(81);
-            u32 item_at_81 = rando_get_item(10);
-            recomp_printf("Item at location 82: %d\n", item_at_81);
+
         }
         if (rando_is_scouted()){
-            
+            u32 item_at_81 = rando_get_item_at_location(6474000 + 10);
+            recomp_printf("Item at location 82: %d\n", item_at_81);
         }
-
+      u32 item_at_81 = rando_get_item_at_location(6474000 + 10);
+            recomp_printf("Item at location 82: %d\n", item_at_81);
     }
 }
 
