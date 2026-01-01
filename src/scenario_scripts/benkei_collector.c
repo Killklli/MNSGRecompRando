@@ -1088,7 +1088,7 @@ extern s32 scenario_code_message_30c_2b00[];
 extern s32 scenario_code_message_30c_2b64[];
 extern s32 scenario_code_message_30c_2bc8[];
 extern s32 scenario_code_message_30c_2e34[];
-
+extern void check_achilles_heel_and_set_flag();
 s32 scenario_code_message_30c_1cd8[] = {
 
     // Address: @1cd8
@@ -1118,10 +1118,15 @@ s32 scenario_code_message_30c_1cd81[] = {
     // Jump if flag 0x33 is SET to @1cd83
     JFS, 0x33, (s32)&scenario_code_message_30c_1cd83,
 
-    // TODO: NEED TO HOOK TO THE ITEM
-    // 1d34: If Flag 029 (Obtained Achilles' Heel), Jump To @1cd82
-    // Jump if flag 0x29 is SET to @1cd82
-    JFS, 0x29, (s32)&scenario_code_message_30c_1cd82,
+    // Execute subroutine to check Achilles' Heel and set flag 0x501
+    ESR, (s32)check_achilles_heel_and_set_flag,
+
+    // 1d34: If Flag 0x501 (Obtained Achilles' Heel), Jump To @1cd82
+    // Jump if flag 0x501 is SET to @1cd82
+    JFS, 0x501, (s32)&scenario_code_message_30c_1cd82,
+
+    // Clear temporary flag 0x501
+    CFG, 0x501,
 
     // 10000: Jump To @1cd83 (Default case after meeting Benkei)
     JMP, (s32)&scenario_code_message_30c_1cd83,
@@ -1133,6 +1138,9 @@ s32 scenario_code_message_30c_1cd81[] = {
 s32 scenario_code_message_30c_1cd82[] = {
 
     // Address: @1cd82
+
+    // Clear temporary flag 0x501
+    CFG, 0x501,
 
     // 1d10: If Flag 069 (Won against Benkei Cutscene Flag), Jump To @22ec
     // Jump if flag 0x69 is SET to @22ec
@@ -1146,10 +1154,15 @@ s32 scenario_code_message_30c_1cd82[] = {
     // Jump if flag 0x6A is SET to @21d4
     JFS, 0x6A, (s32)&scenario_code_message_30c_21d4,
 
-    // TODO: NEED TO HOOK TO THE ITEM
-    // 1d34: If Flag 029 (Obtained Achilles' Heel), Jump To @1ebc
-    // Jump if flag 0x29 is SET to @1ebc
-    JFS, 0x29, (s32)&scenario_code_message_30c_1ebc,
+    // Execute subroutine to check Achilles' Heel and set flag 0x501
+    ESR, (s32)check_achilles_heel_and_set_flag,
+
+    // 1d34: If Flag 0x501 (Obtained Achilles' Heel), Jump To @1ebc
+    // Jump if flag 0x501 is SET to @1ebc
+    JFS, 0x501, (s32)&scenario_code_message_30c_1ebc,
+
+    // Clear temporary flag 0x501
+    CFG, 0x501,
 
     // End scenario script
     END,
@@ -1366,6 +1379,9 @@ s32 scenario_code_message_30c_1e68[] = {
 s32 scenario_code_message_30c_1ebc[] = {
 
     // Address: @1ebc
+
+    // Clear temporary flag 0x501
+    CFG, 0x501,
 
     // 1ebc: Write to RAM 801c7758 (Unknown)
     STW, (s32)&D_801C7758_1C8358,

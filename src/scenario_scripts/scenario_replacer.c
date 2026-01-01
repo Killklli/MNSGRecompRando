@@ -81,11 +81,31 @@ void consolidated_scenario_hook()
 }
 
 // Hardcoded function to check super pass and set flag 0x501
-RECOMP_EXPORT void check_super_pass_and_set_flag(void) {
+void check_super_pass_and_set_flag(void) {
     s32 save_value = READ_SAVE_DATA(SAVE_SUPER_PASS);
     if (save_value != 0) {
         ENABLE_FLAG(0x501);  // Set flag 0x501 if super pass is obtained
     } else {
         DISABLE_FLAG(0x501); // Clear flag 0x501 if super pass is not obtained
+    }
+}
+
+// Hardcoded function to check Achilles' Heel and set flag 0x501
+void check_achilles_heel_and_set_flag(void) {
+    s32 save_value = READ_SAVE_DATA(SAVE_ACHILLES_HEEL);
+    if (save_value != 0) {
+        ENABLE_FLAG(0x501);  // Set flag 0x501 if Achilles' Heel is obtained
+    } else {
+        DISABLE_FLAG(0x501); // Clear flag 0x501 if Achilles' Heel is not obtained
+    }
+}
+
+// Hardcoded function to check Cucumber and set flag 0x501
+void check_cucumber_and_set_flag(void) {
+    s32 save_value = READ_SAVE_DATA(SAVE_QUALITY_CUCUMBER);
+    if (save_value != 0) {
+        ENABLE_FLAG(0x501);  // Set flag 0x501 if Cucumber is obtained
+    } else {
+        DISABLE_FLAG(0x501); // Clear flag 0x501 if Cucumber is not obtained
     }
 }

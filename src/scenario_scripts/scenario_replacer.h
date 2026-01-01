@@ -15,4 +15,22 @@ void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code, s16 scenari
 // Hardcoded function to check super pass and set flag 0x501
 void check_super_pass_and_set_flag(void);
 
+// Hardcoded function to check Achilles' Heel and set flag 0x501
+void check_achilles_heel_and_set_flag(void);
+
+// Hardcoded function to check Fire Ryo and set flag 0x501
+void check_fire_ryo_and_set_flag(void);
+
+// Hardcoded function to check Mermaid Magic and set flag 0x501
+void check_mermaid_magic_and_set_flag(void);
+
+// Hardcoded function to check Chain Pipe and set flag 0x501
+void check_chain_pipe_and_set_flag(void);
+
+// Hardcoded function to check Silver Weapons (Goemon weapon level >= 1) and set flag 0x501
+void check_silver_weapons_and_set_flag(void);
+
+// Hardcoded function to check Cucumber and set flag 0x501
+void check_cucumber_and_set_flag(void);
+
 #endif // SCENARIO_REPLACER_H

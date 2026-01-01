@@ -779,7 +779,6 @@ s32 scenario_code_message_176_301c[] = {
     // 302c: Print Text
     TXT, (s32)&scenario_text_0000,
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // 3034: If Flag 01f (Obtained Mermaid Magic), Jump To @31ec
     // Jump if flag 0x1F is SET to @31ec
     JFS, 0x1F, (s32)&scenario_code_message_176_31ec,

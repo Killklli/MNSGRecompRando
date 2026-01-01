@@ -536,7 +536,6 @@ s32 scenario_code_message_1ea_63fc[] = {
     // 63fc: Print Text
     TXT, (s32)&scenario_text_0000,
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // 6404: If Flag 010 (Received Chain Pipe) is set, check other flags
     // Jump if flag 0x10 is SET to flag check section
     JFS, 0x10, (s32)&scenario_code_message_1ea_63fc1,
@@ -552,7 +551,6 @@ s32 scenario_code_message_1ea_63fc1[] = {
 
     // Address: @63fc1 - Flag check section (when Chain Pipe received)
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // 6404: If Flag 012 (Upgraded to Silver Weapons), Jump To @6a08
     // Jump if flag 0x12 is SET to @6a08
     JFS, 0x12, (s32)&scenario_code_message_1ea_6a08,

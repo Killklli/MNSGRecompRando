@@ -84,7 +84,6 @@ s32 scenario_code_message_1ed_6b44[] = {
     // 6b64: Store Value: 1
     WTS, 0x1,
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // 6b6c: If Flag 013 (Received Fire Ryo), Jump To @6bd4
     // Jump if flag 0x13 is SET to @6bd4
     JFS, 0x13, (s32)&scenario_code_message_1ed_6bd4,

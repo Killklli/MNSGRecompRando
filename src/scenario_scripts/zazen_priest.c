@@ -810,12 +810,10 @@ s32 scenario_code_message_157_a930[] = {
     // a930: Print Text
     TXT, (s32)&scenario_text_0000,
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // // a938: If Flag 020 (Obtained Super Jump Magic), Jump To @aef0
     // // Jump if flag 0x20 is SET to @aef0
     // JFS, 0x20, (s32)&scenario_code_message_157_aef0,
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // a944: If Flag 027 (Obtained Key to Training from Priest), Jump To @aeac
     // Jump if flag 0x27 is SET to @aeac
     JFS, 0x27, (s32)&scenario_code_message_157_aeac,
@@ -828,7 +826,6 @@ s32 scenario_code_message_157_a930[] = {
     // Jump if flag 0x24 is SET to @a9fc
     JFS, 0x24, (s32)&scenario_code_message_157_a9fc,
 
-    // TODO: NEED TO HOOK TO THE ITEM
     // // a968: If Flag 031 (Obtained Mini-Ebisu Magic), Jump To @a9c8
     // // Jump if flag 0x31 is SET to @a9c8
     // JFS, 0x31, (s32)&scenario_code_message_157_a9c8,

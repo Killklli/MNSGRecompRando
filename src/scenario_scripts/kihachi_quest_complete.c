@@ -693,7 +693,7 @@ extern s32 scenario_code_message_162_d41c[];
 extern s32 scenario_code_message_162_d45c[];
 extern s32 scenario_code_message_162_d490[];
 extern s32 scenario_code_message_162_d63c[];
-
+extern void check_cucumber_and_set_flag(void);
 s32 scenario_code_message_162_cd8c[] = {
 
     // Address: @cd8c
@@ -712,10 +712,15 @@ s32 scenario_code_message_162_cd8c[] = {
     // Jump if flag 0x35 is SET to @d63c
     JFS, 0x35, (s32)&scenario_code_message_162_d63c,
 
-    // TODO: NEED TO HOOK TO THE ITEM
-    // cdb0: If Flag 00f (Received Cucumber), Jump To @d490
-    // Jump if flag 0x0F is SET to @d490
-    JFS, 0x0F, (s32)&scenario_code_message_162_d490,
+    // Execute subroutine to check Cucumber and set flag 0x501
+    ESR, (s32)check_cucumber_and_set_flag,
+
+    // cdb0: If Flag 0x501 (Received Cucumber), Jump To @d490
+    // Jump if flag 0x501 is SET to @d490
+    JFS, 0x501, (s32)&scenario_code_message_162_d490,
+
+    // Clear temporary flag 0x501
+    CFG, 0x501,
 
     // cdbc: If Flag 037 (Kihachi Will Give Favorite Food Hint), Jump To @d41c
     // Jump if flag 0x37 is SET to @d41c
@@ -1352,6 +1357,9 @@ s32 scenario_code_message_162_d45c[] = {
 s32 scenario_code_message_162_d490[] = {
 
     // Address: @d490
+
+    // Clear temporary flag 0x501
+    CFG, 0x501,
 
     // d490: Write to RAM 801c7770 (Unknown)
     STW, (s32)&D_801C7770_1C8370,
