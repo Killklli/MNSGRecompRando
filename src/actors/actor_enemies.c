@@ -1,5 +1,6 @@
 #include "actor_common.h"
 #include "entities.h"
+#include "libc/stdbool.h"
 
 void process_enemy_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index)
 {

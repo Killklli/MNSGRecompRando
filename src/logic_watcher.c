@@ -91,3 +91,28 @@ void progressive_weapon_handler(void){
     if (sasuke_level == 0) WRITE_SAVE_DATA(SAVE_SASUKE_WEAPON_LEVEL, 1);
     else if (sasuke_level == 1) WRITE_SAVE_DATA(SAVE_SASUKE_WEAPON_LEVEL, 2);
 }
+
+void deathlink(){
+    // Grant an extra life so the player can survive the deathlink
+    s32 current_lives = READ_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL);
+    current_lives += 1;
+    // If the current lives is greater than 9 set it to 9 (max 10 lives 0 is included as a life)
+    if (current_lives > 10){
+        current_lives = 10;
+    }
+    WRITE_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL, current_lives);
+    // Set their current health to 0
+    WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, 0);
+}
+
+void ringlink(){
+    // Get the current value of SAVE_RYO and print it
+    s32 current_ryo = READ_SAVE_DATA(SAVE_RYO);
+    recomp_printf("Current Ryo before Ringlink: %d\n", current_ryo);
+    // We can increase or decrease ryo here as needed
+}
+
+
+RECOMP_HOOK("func_801DD50C_59941C") void taglink(){
+    recomp_printf("Taglink event received\n");
+}

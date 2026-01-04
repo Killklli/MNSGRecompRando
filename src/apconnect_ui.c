@@ -5,6 +5,7 @@
 #include "recomputils.h"
 #include "types.h"
 
+
 RECOMP_IMPORT(".", void rando_init(char *game, char *address, char *player_name, char *password));
 RECOMP_IMPORT(".", void rando_get_location_item_name(u32 location_id, char* item_name));
 
@@ -153,6 +154,7 @@ void ap_watcher()
 void setup_defaults(){
     progressive_weapon_handler();
 }
+
 
 
 // #include "modding.h"

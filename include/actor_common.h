@@ -5,8 +5,6 @@
 #include "common.h"
 #include "recomputils.h"
 #include "recompconfig.h"
-#include "libc/stdbool.h"
-#include "save_data_tool.h"
 
 // Common structures used by all actor files
 
@@ -55,8 +53,8 @@ struct StageActorMetadata
 // External declarations
 extern struct StageActorMetadata *D_80231300_5EC7D0[];
 extern unsigned short D_800C7AB2; // Part of the huge "SYS_W" structure, ID of the current stage
-extern void *func_800141C4_14DC4(unsigned int file_id);                // overlay_get_data_pointer
-extern void *func_80014840_15440(void *pointer, unsigned int file_id); // overlay_resolve_pointer
+extern s32 func_800141C4_14DC4(unsigned int file_id);              // overlay_get_data_pointer
+extern s32 func_80014840_15440(s32 pointer, unsigned int file_id); // overlay_resolve_pointer
 
 // Function prototypes for actor processing
 void process_enemy_actors(struct ActorInstance *actor_instance, struct ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);

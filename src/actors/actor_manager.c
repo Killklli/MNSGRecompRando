@@ -18,18 +18,16 @@ extern void func_80038B98_39798(unsigned short stage_id);
 extern void func_80023DF0_249F0(int param);
 extern void func_8003D310_3DF10(int param);
 
-struct OverlayEntry
-{
+#define WAVE_MAX 48
+
+// a.k.a WAVE_W
+typedef struct OverlayEntry {
     unsigned short file_id;
-    unsigned short unk_2;
-    void *data;
-};
+    // short pad;
+    s32            data; // A pointer to the data, stored as an integer.
+} OverlayEntry;
 
-extern struct OverlayEntry D_80167FC0_168BC0[40];
-
-static unsigned char *buffer;
-static void *original_overlay_data = NULL;  // Store original overlay data pointer
-static unsigned short cached_actor_data_file_id = 0;  // Store which file we cached
+extern OverlayEntry D_80167FC0_168BC0[WAVE_MAX];
 
 // Hook to modify file list before calling original function
 RECOMP_HOOK("func_80013AC4_146C4")
@@ -42,282 +40,418 @@ void func_80013AC4_146C4_hook(short *file_list)
     }
     // Count existing files
     int file_count = 0;
-    for (int i = 0; i < 50 && file_list[i] != 0; i++)
+    for (int i = 0; i < 64 && file_list[i] != 0; i++)
     {
         file_count++;
     }
 
-    short files_to_add[] = {0x1a};
-    // print the original file list
-    recomp_printf("Original file list:\n");
-    for (int i = 0; i < file_count; i++)
-    {
-        recomp_printf("File %d: 0x%04X\n", i, file_list[i]);
-    }
+    // Files to add: 026, 025, 024, 021, 023, 027
+    //short files_to_add[] = {0x026, 0x025, 0x024, 0x021, 0x023, 0x027};
+    short files_to_add[] = {0x027};
     int num_files_to_add = sizeof(files_to_add) / sizeof(files_to_add[0]);
 
-    // Add files if there's space, but only if they're not already in the list
-    for (int i = 0; i < num_files_to_add && file_count < 31; i++)
+    // Room-specific file additions
+    if (D_800C7AB2 == 0x009)
     {
-        // Check if file is already in the list
-        bool file_exists = false;
-        for (int j = 0; j < file_count; j++)
+        // Add file 01a for room 009
+        if (file_count < 64)
         {
-            if (file_list[j] == files_to_add[i])
-            {
-                file_exists = true;
-                recomp_printf("File 0x%04X already exists in list, skipping\n", files_to_add[i]);
-                break;
-            }
-        }
-        
-        // Only add if file doesn't already exist
-        if (!file_exists)
-        {
-            file_list[file_count] = files_to_add[i];
-            recomp_printf("Added file 0x%04X to list\n", files_to_add[i]);
+            file_list[file_count] = 0x01a;
             file_count++;
+            recomp_printf("Added file 0x01a for room 009\n");
         }
     }
 
-    // Removing the null terminator fixes crashes
-    // Null terminate
+    // Add files if there's space
+    for (int i = 0; i < num_files_to_add && file_count < 31; i++)
+    {
+        file_list[file_count] = files_to_add[i];
+        file_count++;
+    }
+
+    // // Null terminate
     // if (file_count < 32)
     // {
     //     file_list[file_count] = 0;
     // }
 }
 
+#define FILE_NONE 0
 
+// TODO: Maybe this can be a linked list?
+typedef struct OverlayRedirection {
+    unsigned short  file_id;
+    void           *redirected_data; // OverlayRedirection owns this pointer
+} OverlayRedirection;
 
+static OverlayRedirection overlay_redirections[WAVE_MAX];
 
-// RECOMP_HOOK("func_8020D724_5C8BF4")
-// void func_8020D724_5C8BF4_hook()
-// {
-//     recomp_printf("func_8020D724_5C8BF4 called\n");
-//     // Get the actor data file ID for the current stage
-//     unsigned short actor_data_file_id = D_80231300_5EC7D0[D_800C7AB2]->actor_data_file_id;
+static void overlay_redirections_clear(void) {
+    int i;
+
+    for (i = 0; i < WAVE_MAX; i++) {
+        if (overlay_redirections[i].file_id != FILE_NONE) {
+            overlay_redirections[i].file_id = 0;
+        }
+
+        if (overlay_redirections[i].redirected_data != NULL) {
+            recomp_free(overlay_redirections[i].redirected_data);
+            overlay_redirections[i].redirected_data = NULL;
+        }
+    } 
+}
+
+static void *overlay_redirections_add(unsigned short file_id, size_t data_size) {
+    int i;
+
+    if (file_id == FILE_NONE) {
+        recomp_printf("Error: Cannot add overlay redirection for FILE_NONE");
+        return NULL;
+    }
+
+    if (data_size == 0) {
+        recomp_printf("Error: Cannot add overlay redirection with zero size");
+        return NULL;
+    }
+
+    // Look for the next open spot
+    for (i = 0; i < WAVE_MAX; i++) {
+        if (overlay_redirections[i].file_id == FILE_NONE) {
+            overlay_redirections[i].file_id = file_id;
+            overlay_redirections[i].redirected_data = recomp_alloc(data_size);
+            return overlay_redirections[i].redirected_data;
+        }
+    }
+
+    recomp_printf("Error: No available slots to add overlay redirection for file_id=%u", file_id);
+    return NULL;
+}
+
+static void overlay_redirections_remove(unsigned short file_id) {
+    int i;
+
+    if (file_id == FILE_NONE) {
+        recomp_printf("Error: Cannot remove overlay redirection for FILE_NONE");
+        return;
+    }
+
+    // Look an entry with the file id we are trying to remove
+    for (i = 0; i < WAVE_MAX; i++) {
+        if (overlay_redirections[i].file_id == file_id) {
+            overlay_redirections[i].file_id = FILE_NONE;
+
+            recomp_free(overlay_redirections[i].redirected_data);
+            overlay_redirections[i].redirected_data = NULL;
+        }
+    }
+}
+
+static void *overlay_redirections_get(unsigned short file_id) {
+    int i;
+
+    if (file_id == FILE_NONE) {
+        recomp_printf("Error: Cannot get overlay redirection for FILE_NONE");
+        return NULL;
+    }
+
+    // Look an entry with the file id we are trying to get
+    for (i = 0; i < WAVE_MAX; i++) {
+        if (overlay_redirections[i].file_id == file_id) {
+            return overlay_redirections[i].redirected_data;
+        }
+    }
+
+    return NULL;
+}
+
+// overlay_get_data_pointer
+RECOMP_PATCH s32 func_800141C4_14DC4(unsigned int file_id) {
+    OverlayEntry* entry = (OverlayEntry*)&D_80167FC0_168BC0;
+    int i; // @patch
+
+    if (file_id == FILE_NONE) {
+        return 0;
+    }
+
+    // @patch: Redirect any file ids that have an entry in overlay_redirections
+    for (i = 0; i < WAVE_MAX; i++) {
+        if (overlay_redirections[i].file_id == file_id) {
+            return (s32)overlay_redirections[i].redirected_data;
+        }
+    }
+
+    // The loop iterates until it hits an entry with file_id == 0 (Terminator)
+    while (entry->file_id != 0) {
+        if (entry->file_id == file_id) {
+            return entry->data;
+        }
+        
+        entry++;
+    }
+
+    return -1;
+}
+
+/*
+RECOMP_HOOK("func_800141C4_14DC4") int overlay_get_data_pointer_hook(unsigned int file_id) {
+    int i;
+
+    if (file_id != FILE_NONE) {
+        // Look an entry with the file id we are trying to redirect
+        for (i = 0; i < WAVE_MAX; i++) {
+            if (overlay_redirections[i].file_id == file_id) {
+                recomp_printf("Redirecting pointer for file_id=%u to %p\n", file_id, overlay_redirections[i].redirected_data);
+                return (s32)overlay_redirections[i].redirected_data;
+            }
+        }
+    }
+
+    // Do not return anything
+}
+*/
+
+RECOMP_HOOK("func_8020D724_5C8BF4")
+void func_8020D724_5C8BF4_hook()
+{
+    unsigned char *buffer;
+
+    recomp_printf("func_8020D724_5C8BF4 called\n");
+
+    // This guarantees that buffer will be freed
+    overlay_redirections_clear();
+
+    // Get the actor data file ID for the current stage
+    unsigned short actor_data_file_id = D_80231300_5EC7D0[D_800C7AB2]->actor_data_file_id;
+
+    // Get the memory address of the actor data file in memory
+    void *actor_data_file_buffer = (void *)func_800141C4_14DC4(actor_data_file_id);
+
+    // Copy actor data file into a new buffer and udate the overlay entry to point to the new buffer
+    buffer = overlay_redirections_add(actor_data_file_id, 0x10000);
+    recomp_printf("Updating overlay entry for file %d to %p\n", actor_data_file_id, buffer);
+
+    for (int i = 0; i < 0x10000; i++)
+    {
+        buffer[i] = ((unsigned char *)actor_data_file_buffer)[i];
+    }
     
-//     // Get the memory address of the actor data file in memory
-//     void *actor_data_file_buffer = func_800141C4_14DC4(actor_data_file_id);
+    // Edit the actor data in the new buffer as needed
+    struct ActorInstance *actor_instances = (struct ActorInstance *)func_80014840_15440((s32)D_80231300_5EC7D0[D_800C7AB2]->actor_instances, actor_data_file_id);
 
-//     // Copy actor data file into a new buffer
-//     if (buffer != NULL)
-//     {
-//         recomp_free(buffer);
-//     }
+    // List all actor instances until terminator
+    for (int i = 0; ; i++) {
+        struct ActorInstance *actor_instance = &actor_instances[i];
+        if (actor_instance->actor_definition == NULL) {
+            break; // Terminator reached
+        }
 
-//     buffer = recomp_alloc(0x20000);
+        recomp_printf("Actor Instance %d: Position (%d, %d, %d), Rotation (%d, %d, %d)\n",
+            i,
+            actor_instance->position.x,
+            actor_instance->position.y,
+            actor_instance->position.z,
+            actor_instance->rotation.pitch,
+            actor_instance->rotation.yaw,
+            actor_instance->rotation.roll
+        );
 
-//     for (int i = 0; i < 0x20000; i++)
-//     {
-//         buffer[i] = ((unsigned char *)actor_data_file_buffer)[i];
-//     }
-
-//     // Update the overlay entry to point to the new buffer
-//     for (int i = 0; i < 40; i++)
-//     {
-//         if (D_80167FC0_168BC0[i].file_id == actor_data_file_id)
-//         {
-//             recomp_printf("Updating overlay entry for file %d from %p to %p\n", actor_data_file_id, D_80167FC0_168BC0[i].data, buffer);
-//             D_80167FC0_168BC0[i].data = buffer;
-//             break;
-//         }
-//     }
-
-//     // Edit the actor data in the new buffer as needed
-//     struct ActorInstance *actor_instances = func_80014840_15440(D_80231300_5EC7D0[D_800C7AB2]->actor_instances, actor_data_file_id);
-
-//     // Configuration for room-specific instance creation
-//     struct RoomInstanceConfig {
-//         unsigned short room_id;
-//         int instance_count;
-//         unsigned int marker_value; // Marker to identify instances for this room
-//     };
+        // Example modification: Move all actors up by 10 units in the Y direction
+        actor_instance->position.y += 10;
+    }
     
-//     struct RoomInstanceConfig room_configs[] = {
-//         {0x0A8, 2, 0xFFFFFFFF}, // Room 0x0A8: 2 instances with marker 0xFFFFFFFF
-//         // Add more room configurations here as needed
-//         // {0x130, 2, 0xFFFFFFFE}, // Example: Room 0x130: 2 instances with marker 0xFFFFFFFE
-//         // {0x143, 3, 0xFFFFFFFD}, // Example: Room 0x143: 3 instances with marker 0xFFFFFFFD
-//     };
-//     int num_room_configs = sizeof(room_configs) / sizeof(room_configs[0]);
+    // Edit the actor data in the new buffer as needed
+    struct ActorInstance *actor_instances = func_80014840_15440(D_80231300_5EC7D0[D_800C7AB2]->actor_instances, actor_data_file_id);
 
-//     // // Check if current room needs extra instances
-//     // for (int config_idx = 0; config_idx < num_room_configs; config_idx++)
-//     // {
-//     //     if (D_800C7AB2 == room_configs[config_idx].room_id)
-//     //     {
-//     //         // First, count regular instances to find where to insert
-//     //         int regular_instance_count = 0;
-//     //         for (int i = 0;; i++)
-//     //         {
-//     //             struct ActorInstance *actor_instance = &actor_instances[i];
-//     //             if (actor_instance->actor_definition == NULL)
-//     //             {
-//     //                 regular_instance_count = i;
-//     //                 break;
-//     //             }
-//     //         }
+    // Configuration for room-specific instance creation
+    struct RoomInstanceConfig {
+        unsigned short room_id;
+        int instance_count;
+        unsigned int marker_value; // Marker to identify instances for this room
+    };
+    
+    struct RoomInstanceConfig room_configs[] = {
+        {0x0A8, 2, 0xFFFFFFFF}, // Room 0x0A8: 2 instances with marker 0xFFFFFFFF
+        // Add more room configurations here as needed
+        // {0x130, 2, 0xFFFFFFFE}, // Example: Room 0x130: 2 instances with marker 0xFFFFFFFE
+        // {0x143, 3, 0xFFFFFFFD}, // Example: Room 0x143: 3 instances with marker 0xFFFFFFFD
+    };
+    int num_room_configs = sizeof(room_configs) / sizeof(room_configs[0]);
 
-//     //         // Create the specified number of extra instances
-//     //         int instances_to_create = room_configs[config_idx].instance_count;
-//     //         for (int instance_idx = 0; instance_idx < instances_to_create; instance_idx++)
-//     //         {
-//     //             struct ActorInstance *extra_instance = &actor_instances[regular_instance_count + instance_idx];
+    // // Check if current room needs extra instances
+    // for (int config_idx = 0; config_idx < num_room_configs; config_idx++)
+    // {
+    //     if (D_800C7AB2 == room_configs[config_idx].room_id)
+    //     {
+    //         // First, count regular instances to find where to insert
+    //         int regular_instance_count = 0;
+    //         for (int i = 0;; i++)
+    //         {
+    //             struct ActorInstance *actor_instance = &actor_instances[i];
+    //             if (actor_instance->actor_definition == NULL)
+    //             {
+    //                 regular_instance_count = i;
+    //                 break;
+    //             }
+    //         }
+
+    //         // Create the specified number of extra instances
+    //         int instances_to_create = room_configs[config_idx].instance_count;
+    //         for (int instance_idx = 0; instance_idx < instances_to_create; instance_idx++)
+    //         {
+    //             struct ActorInstance *extra_instance = &actor_instances[regular_instance_count + instance_idx];
                 
-//     //             // Set all values to marker value (with slight variation for multiple instances)
-//     //             unsigned int marker = room_configs[config_idx].marker_value - instance_idx;
-//     //             extra_instance->position.x = 0xFFFF;
-//     //             extra_instance->position.y = 0xFFFF; 
-//     //             extra_instance->position.z = 0xFFFF;
-//     //             extra_instance->rotation.pitch = 0xFFFF;
-//     //             extra_instance->rotation.yaw = 0xFFFF;
-//     //             extra_instance->rotation.roll = 0xFFFF;
-//     //             extra_instance->actor_definition = (struct ActorDefinition *)marker;
-//     //             extra_instance->is_spawned = 0xFF;
-//     //             extra_instance->unk_11 = 0xFF;
-//     //             extra_instance->unk_12 = 0xFF;
-//     //             extra_instance->unk_13 = 0xFF;
-//     //         }
+    //             // Set all values to marker value (with slight variation for multiple instances)
+    //             unsigned int marker = room_configs[config_idx].marker_value - instance_idx;
+    //             extra_instance->position.x = 0xFFFF;
+    //             extra_instance->position.y = 0xFFFF; 
+    //             extra_instance->position.z = 0xFFFF;
+    //             extra_instance->rotation.pitch = 0xFFFF;
+    //             extra_instance->rotation.yaw = 0xFFFF;
+    //             extra_instance->rotation.roll = 0xFFFF;
+    //             extra_instance->actor_definition = (struct ActorDefinition *)marker;
+    //             extra_instance->is_spawned = 0xFF;
+    //             extra_instance->unk_11 = 0xFF;
+    //             extra_instance->unk_12 = 0xFF;
+    //             extra_instance->unk_13 = 0xFF;
+    //         }
             
-//     //         // Re-insert the null terminator after all new instances
-//     //         struct ActorInstance *null_terminator = &actor_instances[regular_instance_count + instances_to_create];
-//     //         null_terminator->position.x = 0;
-//     //         null_terminator->position.y = 0;
-//     //         null_terminator->position.z = 0;
-//     //         null_terminator->rotation.pitch = 0;
-//     //         null_terminator->rotation.yaw = 0;
-//     //         null_terminator->rotation.roll = 0;
-//     //         null_terminator->actor_definition = NULL;
-//     //         null_terminator->is_spawned = 0;
-//     //         null_terminator->unk_11 = 0;
-//     //         null_terminator->unk_12 = 0;
-//     //         null_terminator->unk_13 = 0;
+    //         // Re-insert the null terminator after all new instances
+    //         struct ActorInstance *null_terminator = &actor_instances[regular_instance_count + instances_to_create];
+    //         null_terminator->position.x = 0;
+    //         null_terminator->position.y = 0;
+    //         null_terminator->position.z = 0;
+    //         null_terminator->rotation.pitch = 0;
+    //         null_terminator->rotation.yaw = 0;
+    //         null_terminator->rotation.roll = 0;
+    //         null_terminator->actor_definition = NULL;
+    //         null_terminator->is_spawned = 0;
+    //         null_terminator->unk_11 = 0;
+    //         null_terminator->unk_12 = 0;
+    //         null_terminator->unk_13 = 0;
             
-//     //         recomp_printf("Added %d extra instances for room 0x%03X\n", instances_to_create, room_configs[config_idx].room_id);
-//     //         break; // Only process one room config per call
-//     //     }
-//     // }
+    //         recomp_printf("Added %d extra instances for room 0x%03X\n", instances_to_create, room_configs[config_idx].room_id);
+    //         break; // Only process one room config per call
+    //     }
+    // }
 
-//     // First, count regular instances to find where grouped instances start
-//     int regular_instance_count = 0;
-//     for (int i = 0;; i++)
-//     {
-//         struct ActorInstance *actor_instance = &actor_instances[i];
-//         if (actor_instance->actor_definition == NULL)
-//         {
-//             regular_instance_count = i;
-//             break;
-//         }
-//     }
+    // First, count regular instances to find where grouped instances start
+    int regular_instance_count = 0;
+    for (int i = 0;; i++)
+    {
+        struct ActorInstance *actor_instance = &actor_instances[i];
+        if (actor_instance->actor_definition == NULL)
+        {
+            regular_instance_count = i;
+            break;
+        }
+    }
 
-//     // Calculate grouped data location
-//     size_t grouped_data_offset = regular_instance_count * sizeof(struct ActorInstance) + sizeof(struct ActorInstance);
-//     unsigned char *raw_buffer = (unsigned char *)actor_instances;
-//     unsigned char *grouped_data_start = raw_buffer + grouped_data_offset;
+    // Calculate grouped data location
+    size_t grouped_data_offset = regular_instance_count * sizeof(struct ActorInstance) + sizeof(struct ActorInstance);
+    unsigned char *raw_buffer = (unsigned char *)actor_instances;
+    unsigned char *grouped_data_start = raw_buffer + grouped_data_offset;
 
-//     // Count total instances (regular + grouped)
-//     int total_instances = regular_instance_count;
-//     int max_grouped_data_size = 2048;
+    // Count total instances (regular + grouped)
+    int total_instances = regular_instance_count;
+    int max_grouped_data_size = 2048;
 
-//     for (int offset = 0; offset < max_grouped_data_size; offset += sizeof(struct ActorInstance))
-//     {
-//         struct ActorInstance *potential_instance = (struct ActorInstance *)(grouped_data_start + offset);
-//         unsigned char *raw_bytes = (unsigned char *)potential_instance;
+    for (int offset = 0; offset < max_grouped_data_size; offset += sizeof(struct ActorInstance))
+    {
+        struct ActorInstance *potential_instance = (struct ActorInstance *)(grouped_data_start + offset);
+        unsigned char *raw_bytes = (unsigned char *)potential_instance;
 
-//         // Check for valid grouped instance
-//         bool has_0800_pattern = (offset + 12 < max_grouped_data_size &&
-//                                  raw_bytes[12] == 0x08 && raw_bytes[13] == 0x00);
-//         bool reasonable_position = (potential_instance->position.x > -10000 && potential_instance->position.x < 10000 &&
-//                                     potential_instance->position.y > -10000 && potential_instance->position.y < 10000 &&
-//                                     potential_instance->position.z > -10000 && potential_instance->position.z < 10000);
+        // Check for valid grouped instance
+        bool has_0800_pattern = (offset + 12 < max_grouped_data_size &&
+                                 raw_bytes[12] == 0x08 && raw_bytes[13] == 0x00);
+        bool reasonable_position = (potential_instance->position.x > -10000 && potential_instance->position.x < 10000 &&
+                                    potential_instance->position.y > -10000 && potential_instance->position.y < 10000 &&
+                                    potential_instance->position.z > -10000 && potential_instance->position.z < 10000);
 
-//         if (has_0800_pattern && reasonable_position)
-//         {
-//             total_instances++;
-//         }
-//         else if (offset > 100)
-//         {
-//             // Check for end of data
-//             bool all_zero = true;
-//             for (int check = 0; check < 60; check++)
-//             {
-//                 if (offset + check < max_grouped_data_size && grouped_data_start[offset + check] != 0)
-//                 {
-//                     all_zero = false;
-//                     break;
-//                 }
-//             }
-//             if (all_zero)
-//                 break;
-//         }
-//     }
+        if (has_0800_pattern && reasonable_position)
+        {
+            total_instances++;
+        }
+        else if (offset > 100)
+        {
+            // Check for end of data
+            bool all_zero = true;
+            for (int check = 0; check < 60; check++)
+            {
+                if (offset + check < max_grouped_data_size && grouped_data_start[offset + check] != 0)
+                {
+                    all_zero = false;
+                    break;
+                }
+            }
+            if (all_zero)
+                break;
+        }
+    }
 
-//     // Process all instances in a unified manner
-//     int grouped_index = 0;
-//     for (int overall_index = 0; overall_index < total_instances; overall_index++)
-//     {
-//         struct ActorInstance *actor_instance = NULL;
+    // Process all instances in a unified manner
+    int grouped_index = 0;
+    for (int overall_index = 0; overall_index < total_instances; overall_index++)
+    {
+        struct ActorInstance *actor_instance = NULL;
 
-//         if (overall_index < regular_instance_count)
-//         {
-//             // Regular instance
-//             actor_instance = &actor_instances[overall_index];
-//         }
-//         else
-//         {
-//             // Grouped instance - find the next valid grouped instance
-//             while ((int)(grouped_index * sizeof(struct ActorInstance)) < max_grouped_data_size)
-//             {
-//                 struct ActorInstance *potential_instance = (struct ActorInstance *)(grouped_data_start + grouped_index * sizeof(struct ActorInstance));
-//                 unsigned char *raw_bytes = (unsigned char *)potential_instance;
+        if (overall_index < regular_instance_count)
+        {
+            // Regular instance
+            actor_instance = &actor_instances[overall_index];
+        }
+        else
+        {
+            // Grouped instance - find the next valid grouped instance
+            while ((int)(grouped_index * sizeof(struct ActorInstance)) < max_grouped_data_size)
+            {
+                struct ActorInstance *potential_instance = (struct ActorInstance *)(grouped_data_start + grouped_index * sizeof(struct ActorInstance));
+                unsigned char *raw_bytes = (unsigned char *)potential_instance;
 
-//                 bool has_0800_pattern = ((int)(grouped_index * sizeof(struct ActorInstance)) + 12 < max_grouped_data_size &&
-//                                          raw_bytes[12] == 0x08 && raw_bytes[13] == 0x00);
-//                 bool reasonable_position = (potential_instance->position.x > -10000 && potential_instance->position.x < 10000 &&
-//                                             potential_instance->position.y > -10000 && potential_instance->position.y < 10000 &&
-//                                             potential_instance->position.z > -10000 && potential_instance->position.z < 10000);
+                bool has_0800_pattern = ((int)(grouped_index * sizeof(struct ActorInstance)) + 12 < max_grouped_data_size &&
+                                         raw_bytes[12] == 0x08 && raw_bytes[13] == 0x00);
+                bool reasonable_position = (potential_instance->position.x > -10000 && potential_instance->position.x < 10000 &&
+                                            potential_instance->position.y > -10000 && potential_instance->position.y < 10000 &&
+                                            potential_instance->position.z > -10000 && potential_instance->position.z < 10000);
 
-//                 if (has_0800_pattern && reasonable_position)
-//                 {
-//                     actor_instance = potential_instance;
-//                     grouped_index++;
-//                     break;
-//                 }
-//                 grouped_index++;
-//             }
-//         }
+                if (has_0800_pattern && reasonable_position)
+                {
+                    actor_instance = potential_instance;
+                    grouped_index++;
+                    break;
+                }
+                grouped_index++;
+            }
+        }
 
-//         if (actor_instance == NULL)
-//             break;
+        if (actor_instance == NULL)
+            break;
 
-//         // Special handling for marker instances before trying to resolve the pointer
-//         if ((unsigned int)actor_instance->actor_definition >= 0xFFFFFFF0)
-//         {
-//             // Call flag_locked_doors directly to convert this instance
-//             //flag_locked_doors(actor_instance, NULL, 0, actor_data_file_id, overall_index);
-//             // Skip normal processing for this instance since it had an invalid pointer
-//             continue;
-//         }
+        // Special handling for marker instances before trying to resolve the pointer
+        if ((unsigned int)actor_instance->actor_definition >= 0xFFFFFFF0)
+        {
+            // Call flag_locked_doors directly to convert this instance
+            //flag_locked_doors(actor_instance, NULL, 0, actor_data_file_id, overall_index);
+            // Skip normal processing for this instance since it had an invalid pointer
+            continue;
+        }
 
-//         // Resolve the actor definition pointer to the new buffer
-//         struct ActorDefinition *resolved_actor_def = func_80014840_15440(actor_instance->actor_definition, actor_data_file_id);
+        // Resolve the actor definition pointer to the new buffer
+        struct ActorDefinition *resolved_actor_def = func_80014840_15440(actor_instance->actor_definition, actor_data_file_id);
 
-//         if (resolved_actor_def != NULL)
-//         {
-//             // Extract actor ID from the first data field (shift right by 16 to get the upper 16 bits)
-//             unsigned short actor_id = (resolved_actor_def->data[0] >> 16) & 0xFFFF;
+        if (resolved_actor_def != NULL)
+        {
+            // Extract actor ID from the first data field (shift right by 16 to get the upper 16 bits)
+            unsigned short actor_id = (resolved_actor_def->data[0] >> 16) & 0xFFFF;
 
-//             // Process different actor types using separate modules
-//             // process_enemy_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//             // process_door_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//             // process_key_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//              // process_flag_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//             // process_exit_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//             // process_misc_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//            // flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-//         }
-//     }
+            // Process different actor types using separate modules
+            // process_enemy_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            // process_door_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            // process_key_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            // process_flag_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            // process_exit_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            // process_misc_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            //flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+        }
+    }
 
-// }
+}
