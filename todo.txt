@@ -1,4 +1,3 @@
-- Fix buffer crash for actor replacement
 - Automatically do item replacements
 - Shift key data into slot data for validation so we don't report back collected items that are not keys
 

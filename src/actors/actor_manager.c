@@ -1,4 +1,5 @@
 #include "actor_common.h"
+#include "libc/stdbool.h"
 
 extern unsigned int func_80013B14_14714(unsigned short file_id);       // individual file loader
 extern short *get_stage_file_list(unsigned short stage_id);            // lookup function from room_files.c
@@ -40,7 +41,7 @@ void func_80013AC4_146C4_hook(short *file_list)
     }
     // Count existing files
     int file_count = 0;
-    for (int i = 0; i < 64 && file_list[i] != 0; i++)
+    for (int i = 0; i < WAVE_MAX && file_list[i] != 0; i++)
     {
         file_count++;
     }
@@ -54,7 +55,7 @@ void func_80013AC4_146C4_hook(short *file_list)
     if (D_800C7AB2 == 0x009)
     {
         // Add file 01a for room 009
-        if (file_count < 64)
+        if (file_count < WAVE_MAX)
         {
             file_list[file_count] = 0x01a;
             file_count++;
@@ -63,7 +64,7 @@ void func_80013AC4_146C4_hook(short *file_list)
     }
 
     // Add files if there's space
-    for (int i = 0; i < num_files_to_add && file_count < 31; i++)
+    for (int i = 0; i < num_files_to_add && file_count < WAVE_MAX; i++)
     {
         file_list[file_count] = files_to_add[i];
         file_count++;
@@ -256,12 +257,9 @@ void func_8020D724_5C8BF4_hook()
         );
 
         // Example modification: Move all actors up by 10 units in the Y direction
-        actor_instance->position.y += 10;
+        // actor_instance->position.y += 10;
     }
     
-    // Edit the actor data in the new buffer as needed
-    struct ActorInstance *actor_instances = func_80014840_15440(D_80231300_5EC7D0[D_800C7AB2]->actor_instances, actor_data_file_id);
-
     // Configuration for room-specific instance creation
     struct RoomInstanceConfig {
         unsigned short room_id;
@@ -277,62 +275,62 @@ void func_8020D724_5C8BF4_hook()
     };
     int num_room_configs = sizeof(room_configs) / sizeof(room_configs[0]);
 
-    // // Check if current room needs extra instances
-    // for (int config_idx = 0; config_idx < num_room_configs; config_idx++)
-    // {
-    //     if (D_800C7AB2 == room_configs[config_idx].room_id)
-    //     {
-    //         // First, count regular instances to find where to insert
-    //         int regular_instance_count = 0;
-    //         for (int i = 0;; i++)
-    //         {
-    //             struct ActorInstance *actor_instance = &actor_instances[i];
-    //             if (actor_instance->actor_definition == NULL)
-    //             {
-    //                 regular_instance_count = i;
-    //                 break;
-    //             }
-    //         }
+    // Check if current room needs extra instances
+    for (int config_idx = 0; config_idx < num_room_configs; config_idx++)
+    {
+        if (D_800C7AB2 == room_configs[config_idx].room_id)
+        {
+            // First, count regular instances to find where to insert
+            int regular_instance_count = 0;
+            for (int i = 0;; i++)
+            {
+                struct ActorInstance *actor_instance = &actor_instances[i];
+                if (actor_instance->actor_definition == NULL)
+                {
+                    regular_instance_count = i;
+                    break;
+                }
+            }
 
-    //         // Create the specified number of extra instances
-    //         int instances_to_create = room_configs[config_idx].instance_count;
-    //         for (int instance_idx = 0; instance_idx < instances_to_create; instance_idx++)
-    //         {
-    //             struct ActorInstance *extra_instance = &actor_instances[regular_instance_count + instance_idx];
+            // Create the specified number of extra instances
+            int instances_to_create = room_configs[config_idx].instance_count;
+            for (int instance_idx = 0; instance_idx < instances_to_create; instance_idx++)
+            {
+                struct ActorInstance *extra_instance = &actor_instances[regular_instance_count + instance_idx];
                 
-    //             // Set all values to marker value (with slight variation for multiple instances)
-    //             unsigned int marker = room_configs[config_idx].marker_value - instance_idx;
-    //             extra_instance->position.x = 0xFFFF;
-    //             extra_instance->position.y = 0xFFFF; 
-    //             extra_instance->position.z = 0xFFFF;
-    //             extra_instance->rotation.pitch = 0xFFFF;
-    //             extra_instance->rotation.yaw = 0xFFFF;
-    //             extra_instance->rotation.roll = 0xFFFF;
-    //             extra_instance->actor_definition = (struct ActorDefinition *)marker;
-    //             extra_instance->is_spawned = 0xFF;
-    //             extra_instance->unk_11 = 0xFF;
-    //             extra_instance->unk_12 = 0xFF;
-    //             extra_instance->unk_13 = 0xFF;
-    //         }
+                // Set all values to marker value (with slight variation for multiple instances)
+                unsigned int marker = room_configs[config_idx].marker_value - instance_idx;
+                extra_instance->position.x = 0xFFFF;
+                extra_instance->position.y = 0xFFFF; 
+                extra_instance->position.z = 0xFFFF;
+                extra_instance->rotation.pitch = 0xFFFF;
+                extra_instance->rotation.yaw = 0xFFFF;
+                extra_instance->rotation.roll = 0xFFFF;
+                extra_instance->actor_definition = (struct ActorDefinition *)marker;
+                extra_instance->is_spawned = 0xFF;
+                extra_instance->unk_11 = 0xFF;
+                extra_instance->unk_12 = 0xFF;
+                extra_instance->unk_13 = 0xFF;
+            }
             
-    //         // Re-insert the null terminator after all new instances
-    //         struct ActorInstance *null_terminator = &actor_instances[regular_instance_count + instances_to_create];
-    //         null_terminator->position.x = 0;
-    //         null_terminator->position.y = 0;
-    //         null_terminator->position.z = 0;
-    //         null_terminator->rotation.pitch = 0;
-    //         null_terminator->rotation.yaw = 0;
-    //         null_terminator->rotation.roll = 0;
-    //         null_terminator->actor_definition = NULL;
-    //         null_terminator->is_spawned = 0;
-    //         null_terminator->unk_11 = 0;
-    //         null_terminator->unk_12 = 0;
-    //         null_terminator->unk_13 = 0;
+            // Re-insert the null terminator after all new instances
+            struct ActorInstance *null_terminator = &actor_instances[regular_instance_count + instances_to_create];
+            null_terminator->position.x = 0;
+            null_terminator->position.y = 0;
+            null_terminator->position.z = 0;
+            null_terminator->rotation.pitch = 0;
+            null_terminator->rotation.yaw = 0;
+            null_terminator->rotation.roll = 0;
+            null_terminator->actor_definition = NULL;
+            null_terminator->is_spawned = 0;
+            null_terminator->unk_11 = 0;
+            null_terminator->unk_12 = 0;
+            null_terminator->unk_13 = 0;
             
-    //         recomp_printf("Added %d extra instances for room 0x%03X\n", instances_to_create, room_configs[config_idx].room_id);
-    //         break; // Only process one room config per call
-    //     }
-    // }
+            recomp_printf("Added %d extra instances for room 0x%03X\n", instances_to_create, room_configs[config_idx].room_id);
+            break; // Only process one room config per call
+        }
+    }
 
     // First, count regular instances to find where grouped instances start
     int regular_instance_count = 0;
@@ -426,17 +424,31 @@ void func_8020D724_5C8BF4_hook()
         if (actor_instance == NULL)
             break;
 
+        // Log all actor instances (both regular and grouped)
+        if (overall_index >= regular_instance_count)
+        {
+            recomp_printf("Grouped Actor Instance %d: Position (%d, %d, %d), Rotation (%d, %d, %d)\n",
+                overall_index,
+                actor_instance->position.x,
+                actor_instance->position.y,
+                actor_instance->position.z,
+                actor_instance->rotation.pitch,
+                actor_instance->rotation.yaw,
+                actor_instance->rotation.roll
+            );
+        }
+
         // Special handling for marker instances before trying to resolve the pointer
         if ((unsigned int)actor_instance->actor_definition >= 0xFFFFFFF0)
         {
             // Call flag_locked_doors directly to convert this instance
-            //flag_locked_doors(actor_instance, NULL, 0, actor_data_file_id, overall_index);
+            flag_locked_doors(actor_instance, NULL, 0, actor_data_file_id, overall_index);
             // Skip normal processing for this instance since it had an invalid pointer
             continue;
         }
 
         // Resolve the actor definition pointer to the new buffer
-        struct ActorDefinition *resolved_actor_def = func_80014840_15440(actor_instance->actor_definition, actor_data_file_id);
+        struct ActorDefinition *resolved_actor_def = (struct ActorDefinition *)func_80014840_15440((s32)actor_instance->actor_definition, actor_data_file_id);
 
         if (resolved_actor_def != NULL)
         {
@@ -450,7 +462,7 @@ void func_8020D724_5C8BF4_hook()
             // process_flag_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_exit_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
             // process_misc_actors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
-            //flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            flag_locked_doors(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
         }
     }
 
