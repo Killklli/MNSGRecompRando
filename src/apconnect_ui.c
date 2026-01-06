@@ -4,10 +4,19 @@
 #include "Archipelago.h"
 #include "recomputils.h"
 #include "types.h"
+#include "libc/string.h"
+#include "libc/stdio.h"
 
 
 RECOMP_IMPORT(".", void rando_init(char *game, char *address, char *player_name, char *password));
 RECOMP_IMPORT(".", void rando_get_location_item_name(u32 location_id, char* item_name));
+RECOMP_IMPORT(".", void rando_get_slotdata_raw_o32(const char* key, u32* out_handle_ptr));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_dict_o32(u32* in_handle_ptr, const char* key, u32* out_handle_ptr));
+RECOMP_IMPORT(".", u32 rando_access_slotdata_raw_u32_o32(u32* in_handle_ptr));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_array_o32(u32* in_handle_ptr, u32 index, u32* out_handle_ptr));
+
+
+static bool metadata_parsed = false;
 
 // Function declarations
 void setup_defaults();
@@ -111,7 +120,7 @@ void randoCreateAPConnectMenu()
 
 void ShowArchipelagoConnect()
 {
-    //recompui_show_context(connect_menu.context);
+    recompui_show_context(connect_menu.context);
 }
 RECOMP_HOOK("func_80002040_2C40")
 void ap_watcher()
@@ -123,8 +132,9 @@ void ap_watcher()
         if (!rando_is_scouted() && !scouts_sent)
         {
             recomp_printf("Rando connected, sending queued scouts\n");
-           // rando_queue_scouts_all();
-            //rando_send_queued_scouts(0);
+           rando_queue_scouts_all();
+            rando_send_queued_scouts(0);
+            recomp_printf("Scouts sent\n");
             scouts_sent = true;
             setup_defaults();
             // u32 data = rando_get_item_id(0); // Dummy call to ensure imports are linked
@@ -143,19 +153,49 @@ void ap_watcher()
 
         }
         if (rando_is_scouted()){
-            u32 item_at_81 = rando_get_item_at_location(6474000 + 10);
-            recomp_printf("Item at location 82: %d\n", item_at_81);
+            // recomp_printf("Scout complete!\n");
+            // u32 item_at_81 = rando_get_item_at_location(6474000 + 82);
+            // recomp_printf("Item at location 82: %d\n", item_at_81);
+        
+            // Parse item metadata from slot data once
+            if (!metadata_parsed) {
+                // Get the raw enemy_data handle
+                u32 enemy_data_handle[2];
+                rando_get_slotdata_raw_o32("enemy_data", enemy_data_handle);
+                
+                // Access the specific data using the filter 301
+                u32 filtered_enemy_data[2];
+                char filter_str[16];
+                sprintf(filter_str, "%d", 301);
+                rando_access_slotdata_raw_dict_o32(enemy_data_handle, filter_str, filtered_enemy_data);
+                recomp_printf("Got filtered enemy_data handle: [0x%08X, 0x%08X]\n", filtered_enemy_data[0], filtered_enemy_data[1]);
+                
+                metadata_parsed = true;
+                
+          
+            }
+        
         }
-      u32 item_at_81 = rando_get_item_at_location(6474000 + 10);
-            recomp_printf("Item at location 82: %d\n", item_at_81);
     }
 }
-
+// RECOMP_IMPORT(".", void rando_get_slotdata_raw_o32(const char* key, u32* out_handle_ptr));
+// RECOMP_IMPORT(".", u32 rando_access_slotdata_raw_u32_o32(u32* in_handle_ptr));
+// RECOMP_IMPORT(".", void rando_access_slotdata_raw_array_o32(u32* in_handle_ptr, u32 index, u32* out_handle_ptr));
+// RECOMP_IMPORT(".", void rando_access_slotdata_raw_dict_o32(u32* in_handle_ptr, const char* key, u32* out_handle_ptr));
+// ...
+// u32 player_levels[2];
+// rando_get_slotdata_raw_o32("player_levels", player_levels);
+// ...
+// u32 current_level[2];
+// rando_access_slotdata_raw_dict_o32(player_levels, level_ind, current_level);
+// ...
+// u32 lvl_ptr[2];
+// rando_access_slotdata_raw_array_o32(current_level, j, lvl_ptr);
+// u32 lvl = rando_access_slotdata_raw_u32_o32(lvl_ptr) & 0xFFF;
+// ...
 void setup_defaults(){
     progressive_weapon_handler();
 }
-
-
 
 // #include "modding.h"
 
