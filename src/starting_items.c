@@ -1,22 +1,10 @@
-#include "types.h"
-#include "modding.h"
+#include "Archipelago.h"
 #include "apconnect_ui.h"
+#include "file_state.h"
+#include "modding.h"
 #include "recomputils.h"
 #include "save_data_tool.h"
-#include "file_state.h"
-
-// Archipelago slotdata imports
-RECOMP_IMPORT(".", void rando_get_slotdata_raw_o32(const char *key, u32 *out_handle_ptr));
-RECOMP_IMPORT(".", u32 rando_access_slotdata_raw_u32_o32(u32 *in_handle_ptr));
-RECOMP_IMPORT(".", bool rando_is_connected());
-RECOMP_IMPORT(".", void rando_iter_slotdata_raw_dict_o32(u32 *dict, u32 *iter_out));
-RECOMP_IMPORT(".", bool rando_iter_slotdata_raw_dict_next_o32(u32 *dict, u32 *iter, u32 *key_out, u32 *value_out));
-RECOMP_IMPORT(".", void rando_access_slotdata_raw_string_o32(u32 *slotdata_str, char *out_str));
-RECOMP_IMPORT(".", void rando_access_slotdata_raw_dict_o32(u32 *in_handle_ptr, const char *key, u32 *out_handle_ptr));
-
-// Import rando data storage functions
-RECOMP_IMPORT(".", u32 rando_get_datastorage_u32_sync(char *key));
-RECOMP_IMPORT(".", void rando_set_datastorage_u32_sync(char *key, u32 value));
+#include "types.h"
 
 // Forward declarations
 extern void set_starting_characters();
@@ -55,7 +43,7 @@ static int simple_atoi(const char *str)
 
     return result * sign;
 }
-extern void handle_item_by_id(u32 item_id);
+
 void grant_starting_items();
 
 // Implementation of sync function declared in save_data_tool.h
@@ -129,8 +117,8 @@ void sync_all_save_data_from_datastore(void)
 
     // // Sync all flags from datastore
     // s32 flags_synced = 0;
-    // // Only sync flags that are within the range of the save data array (0x304 bytes = 0x1820 bits)
-    // for (s32 flag_id = 0; flag_id < 0x1820; flag_id++) {
+    // // Only sync flags that are within the range of the save data array (0x304
+    // bytes = 0x1820 bits) for (s32 flag_id = 0; flag_id < 0x1820; flag_id++) {
     //     char key[16];
     //     sprintf(key, "flag_%ld", flag_id);
     //     u32 flag_value = rando_get_datastorage_u32_sync(key);
@@ -182,8 +170,9 @@ void on_save_start_hook()
         WRITE_SPAWN_Y(0); // Y coordinate
         WRITE_SPAWN_Z(0); // Z coordinate
     }
-    else if (starting_room == 0x1B6 || starting_room == 0x1B5 || starting_room == 0x1B1 ||
-             starting_room == 0x1B4 || starting_room == 0x1B3)
+    else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
+             starting_room == 0x1B1 || starting_room == 0x1B4 ||
+             starting_room == 0x1B3)
     {
         WRITE_SPAWN_X(0);   // X coordinate
         WRITE_SPAWN_Y(20);  // Y coordinate
@@ -218,14 +207,16 @@ void grant_starting_items()
     {
         return; // Do nothing if not connected
     }
-    // Get the slot data for starting_items and using their ap_id pass it to  handle_item_by_id function
+    // Get the slot data for starting_items and using their ap_id pass it to
+    // handle_item_by_id function
     u32 starting_items_handle[2];
     rando_get_slotdata_raw_o32("starting_items", starting_items_handle);
     u32 items_iter[2];
     rando_iter_slotdata_raw_dict_o32(starting_items_handle, items_iter);
     u32 item_key[2];
     u32 item_value[2];
-    while (rando_iter_slotdata_raw_dict_next_o32(starting_items_handle, items_iter, item_key, item_value))
+    while (rando_iter_slotdata_raw_dict_next_o32(
+        starting_items_handle, items_iter, item_key, item_value))
     {
         // Each item_value is an object with fields like 'ap_id', 'name', etc.
         // We need to get the 'ap_id' field from the item object

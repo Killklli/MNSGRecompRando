@@ -1,9 +1,22 @@
-#include "types.h"
+#include "Archipelago.h"
+#include "common.h"
 #include "modding.h"
 #include "recomputils.h"
-#include "common.h"
 #include "save_data_tool.h"
-#include "Archipelago.h"
+#include "types.h"
+
+// External function declarations
+extern s32 func_800240DC_24CDC(u16 flag);
+extern void func_8003521C_35E1C(void *callback);
+extern void func_08001240_6F4720(void *entity_ptr, void *arg1);
+extern void func_80024038_24C38(u16 param);
+extern void func_801FB240_5B7150(void);
+extern s32 func_8003F1D8_3FDD8(void);
+extern void func_8003D310_3DF10(s32 param);
+
+// External data declarations
+extern u32 D_8015C8F8[];
+extern s32 D_800C7AA8;
 
 // Function to count collected keys of a specific type from archipelago
 u8 count_collected_keys(u8 lock_type)
@@ -11,7 +24,8 @@ u8 count_collected_keys(u8 lock_type)
     u32 has_keys = 0;
 
     // Only check Archipelago items if connected
-    if (!rando_is_connected()) {
+    if (!rando_is_connected())
+    {
         return 0;
     }
 
@@ -30,7 +44,8 @@ u8 count_collected_keys(u8 lock_type)
         return 0;
     }
 
-    DEBUG_PRINTF("Taglink items status for type %d: count=%d\n", lock_type, has_keys);
+    DEBUG_PRINTF("Taglink items status for type %d: count=%d\n", lock_type,
+                 has_keys);
     return (u8)has_keys;
 }
 
@@ -92,22 +107,11 @@ void increment_used_key_count(u8 lock_type)
 
     u8 current_used = READ_SAVE_DATA_B(save_byte);
     WRITE_SAVE_DATA_B(save_byte, current_used + 1);
-    DEBUG_PRINTF("Incremented used key count for type %d (save byte 0x%02X) from %d to %d\n",
-                  lock_type, save_byte, current_used, current_used + 1);
+    DEBUG_PRINTF(
+        "Incremented used key count for type %d (save byte 0x%02X) from %d to "
+        "%d\n",
+        lock_type, save_byte, current_used, current_used + 1);
 }
-
-// External function declarations
-extern s32 func_800240DC_24CDC(u16 flag);
-extern void func_8003521C_35E1C(void *callback);
-extern void func_08001240_6F4720(void *entity_ptr, void *arg1);
-extern void func_80024038_24C38(u16 param);
-extern void func_801FB240_5B7150(void);
-extern s32 func_8003F1D8_3FDD8(void);
-extern void func_8003D310_3DF10(s32 param);
-
-// External data declarations
-extern u32 D_8015C8F8[];
-extern s32 D_800C7AA8;
 
 void calculate_key_on_pause()
 {
@@ -166,7 +170,8 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
         {
             // PROBABLY for a different key type
             DEBUG_PRINTF("D4");
-            DEBUG_PRINTF("Item collection flag triggered for 0x%04X\n", *(u16 *)(entity + 0xD4));
+            DEBUG_PRINTF("Item collection flag triggered for 0x%04X\n",
+                         *(u16 *)(entity + 0xD4));
             // Call flag check again to consume/clear the flag
             flag_check_func(*(u16 *)(entity + 0xD4));
 
@@ -192,7 +197,7 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
         u8 available_keys = get_key_count(lock_type);
 
         DEBUG_PRINTF("Lock type: %d, Collected: %d, Used: %d, Available: %d\n",
-                      lock_type, collected_keys, used_keys, available_keys);
+                     lock_type, collected_keys, used_keys, available_keys);
 
         if (available_keys > 0)
         {
@@ -221,7 +226,8 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
     else if (lock_type == 3 && *(u16 *)(entity + 0xD6) == 0x027)
     {
         DEBUG_PRINTF("Attempting to open jump gym\n");
-        // We use the ID because we use the other value for the pause menu key tracking
+        // We use the ID because we use the other value for the pause menu key
+        // tracking
         if (rando_is_connected() && rando_has_item(6464003) > 0)
         {
             DEBUG_PRINTF("Using jump gym key\n");
@@ -246,7 +252,8 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
     // Load state from offset 0xD1
     state = entity[0xD1];
 
-    // Handle different states - only call func_8003D310_3DF10 if func_8003F1D8_3FDD8 returns 0
+    // Handle different states - only call func_8003D310_3DF10 if
+    // func_8003F1D8_3FDD8 returns 0
     if (state == 0)
     {
         if (func_8003F1D8_3FDD8() == 0)
@@ -282,7 +289,8 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
     // Clear field_0xDA (set to 0)
     *(u16 *)(entity + 0xDA) = 0;
 
-    // If bit 2 is set in flags, clear it. Otherwise, set up callback to re-run this function
+    // If bit 2 is set in flags, clear it. Otherwise, set up callback to re-run
+    // this function
     if (flags & 0x4)
     {
         *(u32 *)(entity + 0xEC) = flags & ~0x4; // Clear bit 2

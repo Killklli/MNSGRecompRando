@@ -1,9 +1,10 @@
-// Adjusts the Impact Miracle Item Script to not set the Beat Thaisamba flag so we can prevent the submarine from despawning.
+// Adjusts the Impact Miracle Item Script to not set the Beat Thaisamba flag so
+// we can prevent the submarine from despawning.
 
-#include "scenario.h"
 #include "common.h"
 #include "modding.h"
 #include "recomputils.h"
+#include "scenario.h"
 #include "scenario_replacer.h"
 
 // Forward declarations for scenario functions
@@ -838,7 +839,8 @@ s32 scenario_code_impact_departure[] = {
     TXT,
     (s32)scenario_text_impact_well_ive_got,
 
-    // Print text: "      a {em-yellow}movie{/em} to complete...{button}{endline}"
+    // Print text: "      a {em-yellow}movie{/em} to
+    // complete...{button}{endline}"
     TXT,
     (s32)scenario_text_movie_to_complete,
 
@@ -1075,7 +1077,8 @@ s32 scenario_code_save_no_pak[] = {
     TXT,
     (s32)scenario_text_space_newline,
 
-    // Print text: "  Please press the [{em-yellow}A{/em} Button]{button}{endline}"
+    // Print text: "  Please press the [{em-yellow}A{/em}
+    // Button]{button}{endline}"
     TXT,
     (s32)scenario_text_please_press_a_button,
 
@@ -1116,11 +1119,13 @@ s32 scenario_code_save_no_pak[] = {
     TXT,
     (s32)scenario_text_newwindow,
 
-    // Print text: "However, turning the {em-yellow}power off{/em}{newline}{endline}"
+    // Print text: "However, turning the {em-yellow}power
+    // off{/em}{newline}{endline}"
     TXT,
     (s32)scenario_text_however_turning_power_off,
 
-    // Print text: "or {em-yellow}resetting the game{/em} will{newline}{endline}"
+    // Print text: "or {em-yellow}resetting the game{/em}
+    // will{newline}{endline}"
     TXT,
     (s32)scenario_text_or_resetting_game,
 

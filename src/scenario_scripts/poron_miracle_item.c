@@ -1,7 +1,8 @@
-// Adjusts the Poron Miracle Item Script to not set the Beat Thaisamba flag so we can prevent the submarine from despawning.
-#include "scenario.h"
+// Adjusts the Poron Miracle Item Script to not set the Beat Thaisamba flag so
+// we can prevent the submarine from despawning.
 #include "modding.h"
 #include "recomputils.h"
+#include "scenario.h"
 #include "scenario_replacer.h"
 
 #include "common.h"
@@ -1104,7 +1105,8 @@ s32 scenario_code_poron_encounter[] = {
     TXT,
     (s32)&scenario_text_0044,
 
-    // Print text block "      the mighty {em-yellow}Poron{/em}!{button}{endline}"
+    // Print text block "      the mighty
+    // {em-yellow}Poron{/em}!{button}{endline}"
     TXT,
     (s32)&scenario_text_0088,
 
@@ -1238,7 +1240,8 @@ s32 scenario_code_goemon_response[] = {
     TXT,
     (s32)&scenario_text_01D4,
 
-    // Print text block "      the {em-yellow}Miracle item{/em}!{button}{end}{endline}"
+    // Print text block "      the {em-yellow}Miracle
+    // item{/em}!{button}{end}{endline}"
     TXT,
     (s32)&scenario_text_0210,
 
@@ -1292,7 +1295,8 @@ s32 scenario_code_ebisumaru_response[] = {
     TXT,
     (s32)&scenario_text_02C0,
 
-    // Print text block "       the {em-yellow}Miracle item{/em}!{button}{end}{endline}"
+    // Print text block "       the {em-yellow}Miracle
+    // item{/em}!{button}{end}{endline}"
     TXT,
     (s32)&scenario_text_02F0,
 
@@ -1342,7 +1346,8 @@ s32 scenario_code_yae_response[] = {
     TXT,
     (s32)&scenario_text_036C,
 
-    // Print text block "      the {em-yellow}Miracle item{/em}!{button}{end}{endline}"
+    // Print text block "      the {em-yellow}Miracle
+    // item{/em}!{button}{end}{endline}"
     TXT,
     (s32)&scenario_text_0210,
 
@@ -1392,7 +1397,8 @@ s32 scenario_code_sasuke_response[] = {
     TXT,
     (s32)&scenario_text_03D8,
 
-    // Print text block "      the {em-yellow}Miracle item{/em}!{button}{end}{endline}"
+    // Print text block "      the {em-yellow}Miracle
+    // item{/em}!{button}{end}{endline}"
     TXT,
     (s32)&scenario_text_0210,
 
@@ -1442,7 +1448,8 @@ s32 scenario_code_poron_final_response[] = {
     TXT,
     (s32)&scenario_text_0440,
 
-    // Print text block "      the {em-yellow}Miracle...{/em}is that so?{button}{endline}"
+    // Print text block "      the {em-yellow}Miracle...{/em}is that
+    // so?{button}{endline}"
     TXT,
     (s32)&scenario_text_0474,
 
@@ -1462,7 +1469,8 @@ s32 scenario_code_poron_final_response[] = {
     TXT,
     (s32)&scenario_text_0500,
 
-    // Print text block "      the{em-yellow} Kansai Region{/em} on{newline}{endline}"
+    // Print text block "      the{em-yellow} Kansai Region{/em}
+    // on{newline}{endline}"
     TXT,
     (s32)&scenario_text_0534,
 
@@ -1478,7 +1486,8 @@ s32 scenario_code_poron_final_response[] = {
     TXT,
     (s32)&scenario_text_05A0,
 
-    // Print text block "      in the [{em-yellow}Zazen Town{/em}].{newline}{endline}"
+    // Print text block "      in the [{em-yellow}Zazen
+    // Town{/em}].{newline}{endline}"
     TXT,
     (s32)&scenario_text_05E4,
 

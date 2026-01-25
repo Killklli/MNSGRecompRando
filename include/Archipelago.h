@@ -34,4 +34,19 @@ RECOMP_IMPORT(".", void rando_send_queued_scouts(int hint));
 RECOMP_IMPORT(".", void rando_get_saved_apconnect(u8* save_dir, char* address, char* player_name, char* password));
 RECOMP_IMPORT(".", void rando_set_saved_apconnect(u8* save_dir, char* address, char* player_name, char* password));
 RECOMP_IMPORT(".", bool rando_complete_goal());
+
+// Raw slotdata access functions - commonly used across files
+RECOMP_IMPORT(".", void rando_get_slotdata_raw_o32(const char* key, u32* out_handle_ptr));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_dict_o32(u32* in_handle_ptr, const char* key, u32* out_handle_ptr));
+RECOMP_IMPORT(".", u32 rando_access_slotdata_raw_u32_o32(u32* in_handle_ptr));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_string_o32(u32* slotdata_str, char* out_str));
+RECOMP_IMPORT(".", void rando_access_slotdata_raw_array_o32(u32* in_handle_ptr, u32 index, u32* out_handle_ptr));
+RECOMP_IMPORT(".", bool rando_access_slotdata_raw_dict_has_member_o32(u32* dict, char* key));
+RECOMP_IMPORT(".", void rando_iter_slotdata_raw_dict_o32(u32* dict, u32* iter_out));
+RECOMP_IMPORT(".", bool rando_iter_slotdata_raw_dict_next_o32(u32* dict, u32* iter, u32* key_out, u32* value_out));
 RECOMP_IMPORT(".", void rando_iter_slotdata_raw_dict_close_o32(u32* dict, u32* iter));
+
+// Location and item functions
+RECOMP_IMPORT(".", void rando_get_location_item_name(u32 location_id, char* item_name));
+RECOMP_IMPORT(".", void rando_get_location_item_player(u32 location_id, char* player));
+RECOMP_IMPORT(".", void rando_init(char* game, char* address, char* player_name, char* password));

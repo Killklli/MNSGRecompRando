@@ -1,17 +1,23 @@
-#include "types.h"
-#include "modding.h"
+#include "Archipelago.h"
 #include "apconnect_ui.h"
+#include "entities.h"
+#include "file_state.h"
+#include "modding.h"
 #include "recomputils.h"
 #include "save_data_tool.h"
-#include "entities.h"
-#include "Archipelago.h"
-#include "file_state.h"
+#include "types.h"
 
-// Archipelago slotdata imports for starting characters
-RECOMP_IMPORT(".", void rando_get_slotdata_raw_o32(const char *key, u32 *out_handle_ptr));
-RECOMP_IMPORT(".", void rando_access_slotdata_raw_dict_o32(u32 *in_handle_ptr, const char *key, u32 *out_handle_ptr));
-RECOMP_IMPORT(".", u32 rando_access_slotdata_raw_u32_o32(u32 *in_handle_ptr));
-RECOMP_IMPORT(".", bool rando_access_slotdata_raw_dict_has_member_o32(u32 *dict, char *key));
+// External function declarations
+extern void func_80221F70_5DD440(void);
+extern void func_8021804C_5D351C(void *entity, s32 arg1);
+extern void func_80024038_24C38(s32 flag);
+extern s32 func_800240DC_24CDC(s32 flag);
+extern void func_8003D310_3DF10(s32 sound_id);
+extern void func_80218DA8_5D4278(void *entity, s32 arg1, s32 arg2, s32 arg3);
+extern void func_8021A22C_5D56FC(void *entity);
+extern void func_8003521C_35E1C(void *func_ptr);
+extern void func_080006E0_6AEEC0(void *, void *);
+extern void func_8003F608_40208();
 
 // Hooks the cutscene text function, this will tell us if the game is completed
 RECOMP_HOOK("func_8003D310_3DF10")
@@ -28,20 +34,6 @@ void game_completed_hook(s32 param)
     }
 }
 
-// External function declarations
-extern void func_80221F70_5DD440(void);
-extern void func_8021804C_5D351C(void *entity, s32 arg1);
-extern void func_80024038_24C38(s32 flag);
-extern s32 func_800240DC_24CDC(s32 flag);
-extern void func_8003D310_3DF10(s32 sound_id);
-extern void func_80218DA8_5D4278(void *entity, s32 arg1, s32 arg2, s32 arg3);
-extern void func_8021A22C_5D56FC(void *entity);
-extern void func_8003521C_35E1C(void *func_ptr);
-extern void func_080006E0_6AEEC0(void *, void *);
-
-extern void func_8003D310_3DF10(s32 message_id);
-extern s32 func_800240DC_24CDC(s32 flag);
-extern void func_8003F608_40208();
 void increase_silver_fortune_doll()
 {
     s32 fortune_dolls = READ_SAVE_DATA(SAVE_FORTUNE_DOLL_TOTAL);
@@ -108,7 +100,8 @@ void increase_lives()
     // Grant an extra life so the player can survive the deathlink
     s32 current_lives = READ_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL);
     current_lives += 1;
-    // If the current lives is greater than 9 set it to 9 (max 10 lives 0 is included as a life)
+    // If the current lives is greater than 9 set it to 9 (max 10 lives 0 is
+    // included as a life)
     if (current_lives > 10)
     {
         current_lives = 10;
@@ -175,7 +168,8 @@ void set_starting_characters()
     if (!rando_is_connected())
     {
         // Use default starting characters if not connected
-        DEBUG_PRINTF("Not connected to Archipelago, using default starting characters\n");
+        DEBUG_PRINTF(
+            "Not connected to Archipelago, using default starting characters\n");
         return;
     }
 
@@ -185,36 +179,47 @@ void set_starting_characters()
     rando_get_slotdata_raw_o32("starting_characters", starting_characters_handle);
 
     // Check and get each character's starting status
-    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "goemon"))
+    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
+                                                      "goemon"))
     {
         u32 goemon_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "goemon", goemon_handle);
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "goemon",
+                                           goemon_handle);
         goemon_starting = (bool)rando_access_slotdata_raw_u32_o32(goemon_handle);
     }
 
-    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "yae"))
+    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
+                                                      "yae"))
     {
         u32 yae_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "yae", yae_handle);
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "yae",
+                                           yae_handle);
         yae_starting = (bool)rando_access_slotdata_raw_u32_o32(yae_handle);
     }
 
-    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "ebismaru"))
+    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
+                                                      "ebismaru"))
     {
         u32 ebismaru_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "ebismaru", ebismaru_handle);
-        ebisumaru_starting = (bool)rando_access_slotdata_raw_u32_o32(ebismaru_handle);
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "ebismaru",
+                                           ebismaru_handle);
+        ebisumaru_starting =
+            (bool)rando_access_slotdata_raw_u32_o32(ebismaru_handle);
     }
 
-    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "sauske"))
+    if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
+                                                      "sauske"))
     {
         u32 sasuke_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "sauske", sasuke_handle);
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "sauske",
+                                           sasuke_handle);
         sasuke_starting = (bool)rando_access_slotdata_raw_u32_o32(sasuke_handle);
     }
 
-    DEBUG_PRINTF("Starting characters from AP: goemon=%d, yae=%d, ebismaru=%d, sasuke=%d\n",
-                  goemon_starting, yae_starting, ebisumaru_starting, sasuke_starting);
+    DEBUG_PRINTF("Starting characters from AP: goemon=%d, yae=%d, ebismaru=%d, "
+                 "sasuke=%d\n",
+                 goemon_starting, yae_starting, ebisumaru_starting,
+                 sasuke_starting);
 
     // Set recruitment flags in save data based on starting characters
     WRITE_SAVE_DATA(SAVE_GOEMON_RECRUITED, goemon_starting ? 1 : 0);
@@ -248,7 +253,4 @@ void set_starting_characters()
 }
 
 RECOMP_HOOK("func_801DD50C_59941C")
-void taglink()
-{
-    DEBUG_PRINTF("Taglink event received\n");
-}
+void taglink() { DEBUG_PRINTF("Taglink event received\n"); }

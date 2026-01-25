@@ -1,10 +1,28 @@
-#include "Archipelago.h"
-#include "recompui.h"
-#include "apconnect_ui.h"
 #include "menus.h"
-#include "recomputils.h"
-#include "recompconfig.h"
+
+#include "Archipelago.h"
+#include "apconnect_ui.h"
 #include "os_thread.h"
+#include "recompconfig.h"
+#include "recompui.h"
+#include "recomputils.h"
+
+// Define constants
+#define C_TO_PARAMS(c) (c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF
+#define MAIN_THREAD_STACK_LEN 0x4000
+#define MAIN_THREAD_STACK_LEN_U64 ((MAIN_THREAD_STACK_LEN) / sizeof(u64))
+#define OS_PRIORITY_IDLE 0
+#define STACK_TOP_MAGIC 0x00000000FEDCBA98
+
+// External declarations
+extern u64 gGameThreadStack[];
+extern void crash_screen_start_thread();
+extern void thread5_game(void *);
+extern OSThread gGameThread;
+extern s32 D_8003DC94;
+
+// Global variables
+OSThread *APThread;
 
 void createUiFrame(RecompuiContext context, UiFrame *frame)
 {
@@ -39,7 +57,8 @@ void createUiFrame(RecompuiContext context, UiFrame *frame)
     recompui_set_width_auto(frame->root);
     recompui_set_height_auto(frame->root);
 
-    // Set up the root element's background color so the modal contents don't touch the screen edges.
+    // Set up the root element's background color so the modal contents don't
+    // touch the screen edges.
     recompui_set_background_color(frame->root, &bg_color);
 
     // Set up the flexbox properties of the root element.
@@ -47,7 +66,8 @@ void createUiFrame(RecompuiContext context, UiFrame *frame)
     recompui_set_justify_content(frame->root, JUSTIFY_CONTENT_CENTER);
     recompui_set_align_items(frame->root, ALIGN_ITEMS_CENTER);
 
-    // Create a container to act as the modal background and hold the elements in the modal.
+    // Create a container to act as the modal background and hold the elements in
+    // the modal.
     frame->container = recompui_create_element(context, frame->root);
 
     // Set the container's size to grow based on the child elements.
@@ -68,20 +88,6 @@ void createUiFrame(RecompuiContext context, UiFrame *frame)
     recompui_set_background_color(frame->container, &modal_color);
 }
 
-#define C_TO_PARAMS(c) (c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF
-
-#define MAIN_THREAD_STACK_LEN 0x4000
-#define MAIN_THREAD_STACK_LEN_U64 ((MAIN_THREAD_STACK_LEN) / sizeof(u64))
-#define OS_PRIORITY_IDLE 0
-#define STACK_TOP_MAGIC 0x00000000FEDCBA98
-
-extern u64 gGameThreadStack[];
-extern void crash_screen_start_thread();
-extern void thread5_game(void *);
-extern OSThread gGameThread;
-extern s32 D_8003DC94;
-OSThread *APThread;
-
 void threadx_archipelago(void *arg)
 {
     while (1)
@@ -94,25 +100,21 @@ void threadx_archipelago(void *arg)
 RECOMP_DECLARE_EVENT(rando_on_connect());
 static bool connect_menu_shown = false;
 
-void randoStart(bool multiworld) {
+void randoStart(bool multiworld)
+{
     rando_started = true;
     is_multiworld = multiworld;
     rando_on_connect();
 }
-RECOMP_HOOK_RETURN("func_800148C0_154C0") void on_boot(){
-    if (!connect_menu_shown) {
+RECOMP_HOOK_RETURN("func_800148C0_154C0")
+void on_boot()
+{
+    if (!connect_menu_shown)
+    {
         randoCreateAPConnectMenu();
         ShowArchipelagoConnect();
         connect_menu_shown = true;
-            DEBUG_PRINTF("Context Shown\n");
-    rando_started = false;
-
-    // this->state.main = RandoMenu_Main;
-    // this->state.destroy = Setup_Destroy;
-        
+        DEBUG_PRINTF("Context Shown\n");
+        rando_started = false;
     }
 }
-// bool rando_init_common() {
-//     rando_queue_scouts_all();
-//     rando_send_queued_scouts(0);
-// }

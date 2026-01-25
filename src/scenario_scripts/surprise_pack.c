@@ -1,8 +1,9 @@
-// Surprise Pack scenario script replacement, allows us to show a custom message when the Surprise Pack is collected.
-#include "scenario.h"
+// Surprise Pack scenario script replacement, allows us to show a custom message
+// when the Surprise Pack is collected.
 #include "common.h"
 #include "modding.h"
 #include "recomputils.h"
+#include "scenario.h"
 #include "text_utils.h"
 
 // External room ID variable from actor.c
@@ -188,75 +189,92 @@ s32 scenario_code_surprise_pack[] = {
 s32 surprise_pack_increase_players[] = {
 
     // Reset text speed
-    STW, (s32)&D_801C77D8_1C83D8,
-    WTS, 1,
+    STW,
+    (s32)&D_801C77D8_1C83D8,
+    WTS,
+    1,
 
     // Reset text parameter
-    STW, (s32)&D_801C7798_1C8398,
-    WTS, 1,
+    STW,
+    (s32)&D_801C7798_1C8398,
+    WTS,
+    1,
 
     // Display new window and remaining players message
-    TXT, (s32)newwindow_text,
-    TXT, (s32)space_newline_text,
-    TXT, (s32)remaining_players_text,
-    TXT, (s32)increased_by_one_text,
+    TXT,
+    (s32)newwindow_text,
+    TXT,
+    (s32)space_newline_text,
+    TXT,
+    (s32)remaining_players_text,
+    TXT,
+    (s32)increased_by_one_text,
 
     // Increase the player count (write to RAM 8015c5ec equivalent)
     // Using placeholder memory address
-    STW, (s32)&D_801C7900_1C8500,  // Placeholder for 8015c5ec
-    INC, 1,  // Increase by 1
+    STW,
+    (s32)&D_801C7900_1C8500, // Placeholder for 8015c5ec
+    INC,
+    1, // Increase by 1
 
     // Wait for timer again
-    STW, (s32)&D_801C7740_1C8340,
-    WTS, 0x2D,  // Wait value 45
+    STW,
+    (s32)&D_801C7740_1C8340,
+    WTS,
+    0x2D, // Wait value 45
 
     // Execute wait timer function
-    ESR, (s32)&func_8003F460_40060,
+    ESR,
+    (s32)&func_8003F460_40060,
 
     // End scenario
-    TXT, (s32)end_text,
+    TXT,
+    (s32)end_text,
 
     END,
 };
 
-
 // Portable replacement function - handles its own scenario replacement
-void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id, const char *item_name)
+void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code,
+                                    s16 scenario_file_id,
+                                    const char *item_name)
 {
-    // Use the original scenario as base, but modify the text reference dynamically
-    static s32 dynamic_scenario[64];
-    DEBUG_PRINTF("Replacing Surprise Pack scenario (ID: %d) with item: %s\n", scenario_id, item_name);
+  // Use the original scenario as base, but modify the text reference
+  // dynamically
+  static s32 dynamic_scenario[64];
+  DEBUG_PRINTF("Replacing Surprise Pack scenario (ID: %d) with item: %s\n",
+               scenario_id, item_name);
 
-    // Create the dynamic text
-    s16 *received_text = create_received_text(item_name);
+  // Create the dynamic text
+  s16 *received_text = create_received_text(item_name);
 
-    // Copy the original scenario and replace text references
-    for (int i = 0; scenario_code[i] != END; i++)
+  // Copy the original scenario and replace text references
+  for (int i = 0; scenario_code[i] != END; i++)
+  {
+    dynamic_scenario[i] = scenario_code[i];
+
+    // Find TXT commands that might be the received text (look for pattern after
+    // space_newline_text)
+    if (scenario_code[i] == TXT && i > 0 && scenario_code[i - 2] == TXT &&
+        scenario_code[i - 1] == (s32)space_newline_text)
     {
-        dynamic_scenario[i] = scenario_code[i];
-
-        // Find TXT commands that might be the received text (look for pattern after space_newline_text)
-        if (scenario_code[i] == TXT && i > 0 &&
-            scenario_code[i - 2] == TXT && scenario_code[i - 1] == (s32)space_newline_text)
-        {
-            // This should be the received text, replace it
-            dynamic_scenario[i + 1] = (s32)received_text;
-            i++; // Skip the next element since we just processed it
-        }
+      // This should be the received text, replace it
+      dynamic_scenario[i + 1] = (s32)received_text;
+      i++; // Skip the next element since we just processed it
     }
+  }
 
-    // Find the END and copy it
-    for (int i = 0; i < 64; i++)
+  // Find the END and copy it
+  for (int i = 0; i < 64; i++)
+  {
+    if (scenario_code[i] == END)
     {
-        if (scenario_code[i] == END)
-        {
-            dynamic_scenario[i] = END;
-            break;
-        }
+      dynamic_scenario[i] = END;
+      break;
     }
+  }
 
-    // Replace the scenario
-    D_800779A0_785A0[scenario_id] = dynamic_scenario;
-    D_80078608_79208[scenario_id] = scenario_file_id;
+  // Replace the scenario
+  D_800779A0_785A0[scenario_id] = dynamic_scenario;
+  D_80078608_79208[scenario_id] = scenario_file_id;
 }
-
