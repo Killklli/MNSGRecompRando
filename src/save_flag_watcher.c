@@ -160,9 +160,9 @@ void update_full_save_data(void)
 
     // Store the full save string in the datastore
     rando_set_datastorage_string_async("full_save", full_save_string);
-    recomp_printf("FULL SAVE: Updated full_save data string\n");
-    recomp_printf("FULL SAVE STRING: %s\n", full_save_string);
-    recomp_printf("FULL SAVE: String length=%d\n", pos);
+    DEBUG_PRINTF("FULL SAVE: Updated full_save data string\n");
+    DEBUG_PRINTF("FULL SAVE STRING: %s\n", full_save_string);
+    DEBUG_PRINTF("FULL SAVE: String length=%d\n", pos);
 }
 
 // Load comma-delimited string from data storage back into D_8015C608_15D208 array
@@ -171,7 +171,7 @@ bool load_full_save_data_from_storage(void)
 {
     if (!rando_is_connected())
     {
-        recomp_printf("LOAD FULL SAVE: Not connected, cannot load data\n");
+        DEBUG_PRINTF("LOAD FULL SAVE: Not connected, cannot load data\n");
         return false;
     }
 
@@ -187,12 +187,12 @@ bool load_full_save_data_from_storage(void)
     // Check if we got any data
     if (full_save_string[0] == '\0')
     {
-        recomp_printf("LOAD FULL SAVE: No full_save data found in storage\n");
+        DEBUG_PRINTF("LOAD FULL SAVE: No full_save data found in storage\n");
         return false;
     }
     
-    recomp_printf("LOAD FULL SAVE: Retrieved string from storage\n");
-    recomp_printf("LOAD FULL SAVE STRING: %s\n", full_save_string);
+    DEBUG_PRINTF("LOAD FULL SAVE: Retrieved string from storage\n");
+    DEBUG_PRINTF("LOAD FULL SAVE STRING: %s\n", full_save_string);
     
     // Parse the comma-delimited string and load into arrays
     char *token = full_save_string;
@@ -236,7 +236,7 @@ bool load_full_save_data_from_storage(void)
         }
         else
         {
-            recomp_printf("LOAD FULL SAVE: Warning - byte value %u out of range at index %d\n", byte_value, byte_index);
+            DEBUG_PRINTF("LOAD FULL SAVE: Warning - byte value %u out of range at index %d\n", byte_value, byte_index);
             if (byte_index < 0x304)
             {
                 D_8015C608_15D208[byte_index] = 255; // Clamp to max value
@@ -264,12 +264,12 @@ bool load_full_save_data_from_storage(void)
     int main_bytes = (byte_index > 0x304) ? 0x304 : byte_index;
     int extended_bytes = (byte_index > 0x304) ? (byte_index - 0x304) : 0;
     
-    recomp_printf("LOAD FULL SAVE: Loaded %d bytes into D_8015C608_15D208 array\n", main_bytes);
-    recomp_printf("LOAD FULL SAVE: Loaded %d bytes into extended_save array\n", extended_bytes);
+    DEBUG_PRINTF("LOAD FULL SAVE: Loaded %d bytes into D_8015C608_15D208 array\n", main_bytes);
+    DEBUG_PRINTF("LOAD FULL SAVE: Loaded %d bytes into extended_save array\n", extended_bytes);
     
     if (byte_index != total_expected)
     {
-        recomp_printf("LOAD FULL SAVE: Warning - Expected %d bytes, got %d bytes\n", total_expected, byte_index);
+        DEBUG_PRINTF("LOAD FULL SAVE: Warning - Expected %d bytes, got %d bytes\n", total_expected, byte_index);
     }
     
     return true;
@@ -288,7 +288,7 @@ bool should_set_starting_characters(void)
     // If any character is already recruited, don't set starting characters
     if (goemon_recruited != 0 || ebisumaru_recruited != 0 || sasuke_recruited != 0 || yae_recruited != 0)
     {
-        recomp_printf("STARTING CHARS: Characters already recruited, skipping setup\n");
+        DEBUG_PRINTF("STARTING CHARS: Characters already recruited, skipping setup\n");
         return false;
     }
     
@@ -300,11 +300,11 @@ bool should_set_starting_characters(void)
     
     if (goemon_weapon != 0 || ebisumaru_weapon != 0 || sasuke_weapon != 0 || yae_weapon != 0)
     {
-        recomp_printf("STARTING CHARS: Weapon levels already set, skipping setup\n");
+        DEBUG_PRINTF("STARTING CHARS: Weapon levels already set, skipping setup\n");
         return false;
     }
     
-    recomp_printf("STARTING CHARS: No existing character data found, setting starting characters\n");
+    DEBUG_PRINTF("STARTING CHARS: No existing character data found, setting starting characters\n");
     return true;
 }
 

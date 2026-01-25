@@ -67,11 +67,19 @@ u32 get_starting_room()
 RECOMP_HOOK_RETURN("func_8000B640_C240")
 void on_save_start_hook()
 {
-    // Try to load existing save data from storage
-    bool loaded_existing_data = load_full_save_data_from_storage();
+    // Always try to load existing save data from storage first
+    load_full_save_data_from_storage();
     
-    // Only set starting room and coordinates if we don't have existing save data
-    if (!loaded_existing_data)
+    // Check if this is the first time the seed has been started
+    bool should_set_starting_data = false;
+    if (rando_is_connected())
+    {
+        u32 seed_started = rando_get_datastorage_u32_sync("seed_started");
+        should_set_starting_data = (seed_started == 0);
+    }
+    
+    // Only set starting room and coordinates if this is the first time starting the seed
+    if (should_set_starting_data)
     {
         // Set starting room from AP slotdata
         u32 starting_room = get_starting_room();
@@ -96,8 +104,8 @@ void on_save_start_hook()
 
     grant_starting_items();
     
-    // Only set starting characters if we don't already have character data
-    if (should_set_starting_characters())
+    // Only set starting characters if this is the first time starting the seed
+    if (should_set_starting_data)
     {
         // Set starting character based on recruited characters
         set_starting_characters();
