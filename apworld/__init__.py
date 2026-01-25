@@ -34,7 +34,7 @@ class MN64Web(WebWorld):
             "English",
             "setup_en.md",
             "setup/en",
-            ["Killklli", "littlecube_hax", "klorfmorf", "abyssonym"],
+            ["Killklli", "littlecube_hax", "klorfmorf", "abyssonym", "Umed"],
         )
     ]
 
