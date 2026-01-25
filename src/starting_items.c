@@ -46,99 +46,6 @@ static int simple_atoi(const char *str)
 
 void grant_starting_items();
 
-// Implementation of sync function declared in save_data_tool.h
-void sync_all_save_data_from_datastore(void)
-{
-    // Sync all the main save data offsets from the datastore
-    // Character availability
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_GOEMON_RECRUITED);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_EBISUMARU_RECRUITED);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_SASUKE_RECRUITED);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_YAE_RECRUITED);
-
-    // Weapon levels
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_GOEMON_WEAPON_LEVEL);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_EBISUMARU_WEAPON_LEVEL);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_SASUKE_WEAPON_LEVEL);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_YAE_WEAPON_LEVEL);
-
-    // Special weapons/items
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_CHAIN_PIPE);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MEATSAW_HAMMER);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FIRECRACKER_BOMB);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FLUTE);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_GOEMON_RYO);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_WINDUP_CAMERA);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_ICE_KUNAI);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_BAZOOKA);
-
-    // Magic abilities
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_SUDDEN_IMPACT_MAGIC);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MINI_EBISU_MAGIC);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_SUPER_JUMP_MAGIC);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MERMAID_MAGIC);
-
-    // Key items
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_TRITON_SHELL);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_SUPER_PASS);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FORTUNE_DOLL_PROGRESS);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_ACHILLES_HEEL);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_QUALITY_CUCUMBER);
-
-    // Fish counts
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_RED_FISH_COUNT);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_YELLOW_FISH_COUNT);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_BLUE_FISH_COUNT);
-
-    // Miracle items
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MIRACLE_STAR);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MIRACLE_MOON);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MIRACLE_FLOWER);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MIRACLE_SNOW);
-
-    // Map and special items
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_MAP_OF_JAPAN);
-
-    // Special weapon charge abilities
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FIRE_RYO);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_CAMERA_CHARGEABLE);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_KUNAI_BEAM_CHARGEABLE);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_BAZOOKA_CHARGEABLE);
-
-    // Fortune doll system
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FORTUNE_DOLL_TOTAL);
-    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FORTUNE_DOLL_PROGRESS);
-
-    // // Spawn coordinates (16-bit values)
-    // SYNC_SAVE_DATA_H_FROM_DATASTORE(0x204); // SPAWN_ROOM
-    // SYNC_SAVE_DATA_H_FROM_DATASTORE(0x20A); // SPAWN_X
-    // SYNC_SAVE_DATA_H_FROM_DATASTORE(0x20C); // SPAWN_Z
-    // SYNC_SAVE_DATA_H_FROM_DATASTORE(0x20E); // SPAWN_Y
-    // SYNC_SAVE_DATA_FROM_DATASTORE(0x68);    // SPAWN_CHARACTER
-
-    // We have this disabled for now as syncing all flags can be slow, we think we can just let it lazy load flags as needed
-    // // Sync all flags from datastore
-    // s32 flags_synced = 0;
-    // // Only sync flags that are within the range of the save data array (0x304 bytes = 0x1820 bits) 
-    // for (s32 flag_id = 0; flag_id < 0x1820; flag_id++) {
-    //     char key[16];
-    //     sprintf(key, "flag_%ld", flag_id);
-    //     u32 flag_value = rando_get_datastorage_u32_sync(key);
-
-    //     // If flag is set in datastore, set it in memory using the bit field
-    //     if (flag_value != 0) {
-    //         s32 byte_index = flag_id >> 3;  // Divide by 8
-    //         s32 bit_index = flag_id & 7;    // Modulo 8
-
-    //         // Ensure we don't write outside the array bounds
-    //         if (byte_index < 0x304) {
-    //             D_8015C608_15D208[byte_index] |= (1 << bit_index);
-    //             flags_synced++;
-    //         }
-    //     }
-    // }
-}
-
 u32 get_starting_room()
 {
     // Only proceed if connected to Archipelago
@@ -156,36 +63,45 @@ u32 get_starting_room()
 
     return starting_room;
 }
-extern void load_full_save_data_from_storage();
 // Sets up the starting items and characters when a new file is started
 RECOMP_HOOK_RETURN("func_8000B640_C240")
 void on_save_start_hook()
 {
-    load_full_save_data_from_storage();
-    // Set starting room from AP slotdata
-    u32 starting_room = get_starting_room();
-    WRITE_SPAWN_ROOM(starting_room);
+    // Try to load existing save data from storage
+    bool loaded_existing_data = load_full_save_data_from_storage();
+    
+    // Only set starting room and coordinates if we don't have existing save data
+    if (!loaded_existing_data)
+    {
+        // Set starting room from AP slotdata
+        u32 starting_room = get_starting_room();
+        WRITE_SPAWN_ROOM(starting_room);
 
-    // Set spawn coordinates for specific room IDs
-    if (starting_room == 0x167)
-    {
-        WRITE_SPAWN_X(0); // X coordinate
-        WRITE_SPAWN_Y(0); // Y coordinate
-        WRITE_SPAWN_Z(0); // Z coordinate
-    }
-    else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
-             starting_room == 0x1B1 || starting_room == 0x1B4 ||
-             starting_room == 0x1B3)
-    {
-        WRITE_SPAWN_X(0);   // X coordinate
-        WRITE_SPAWN_Y(20);  // Y coordinate
-        WRITE_SPAWN_Z(-25); // Z coordinate
+        // Set spawn coordinates for specific room IDs
+        if (starting_room == 0x167)
+        {
+            WRITE_SPAWN_X(0); // X coordinate
+            WRITE_SPAWN_Y(0); // Y coordinate
+            WRITE_SPAWN_Z(0); // Z coordinate
+        }
+        else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
+                 starting_room == 0x1B1 || starting_room == 0x1B4 ||
+                 starting_room == 0x1B3)
+        {
+            WRITE_SPAWN_X(0);   // X coordinate
+            WRITE_SPAWN_Y(20);  // Y coordinate
+            WRITE_SPAWN_Z(-25); // Z coordinate
+        }
     }
 
     grant_starting_items();
-    // Set starting character based on recruited characters
-    set_starting_characters();
-
+    
+    // Only set starting characters if we don't already have character data
+    if (should_set_starting_characters())
+    {
+        // Set starting character based on recruited characters
+        set_starting_characters();
+    }
 }
 
 // Declares that a file has started for AP to know to work with file data

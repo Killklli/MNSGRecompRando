@@ -8,10 +8,16 @@
 // External reference to the main data structure
 extern u8 D_8015C608_15D208[0x304];
 
-// Import rando data storage functions (from Archipelago.h)
-extern u32 rando_get_datastorage_u32_sync(char* key);
-extern void rando_set_datastorage_u32_sync(char* key, u32 value);
-extern bool rando_is_connected();
+// Function to update full save data string (from save_flag_watcher.c)
+extern void update_full_save_data(void);
+
+// Function to load full save data from storage (from save_flag_watcher.c)
+// Returns true if data was successfully loaded, false otherwise
+extern bool load_full_save_data_from_storage(void);
+
+// Function to check if starting characters should be set (from save_flag_watcher.c)
+extern bool should_set_starting_characters(void);
+
 
 // ================================================================================
 // CORE MACROS FOR SAVE DATA MANIPULATION
@@ -20,34 +26,22 @@ extern bool rando_is_connected();
 // Write 32-bit values to save data at specified offset
 #define WRITE_SAVE_DATA(offset, value) \
     do { \
-        if (rando_is_connected()) { \
-            char key[32]; \
-            sprintf(key, "save_%ld", (long)(offset)); \
-            rando_set_datastorage_u32_sync(key, (u32)(value)); \
-        } \
         (*(s32 *)(D_8015C608_15D208 + (offset)) = (value)); \
+        update_full_save_data(); \
     } while (0)
 
 // Write 16-bit values to save data at specified offset
 #define WRITE_SAVE_DATA_H(offset, value) \
     do { \
-        if (rando_is_connected()) { \
-            char key[32]; \
-            sprintf(key, "save_h_%ld", (long)(offset)); \
-            rando_set_datastorage_u32_sync(key, (u32)(value)); \
-        } \
         (*(s16 *)(D_8015C608_15D208 + (offset)) = (value)); \
+        update_full_save_data(); \
     } while (0)
 
 // Write 8-bit values to save data at specified offset
 #define WRITE_SAVE_DATA_B(offset, value) \
     do { \
-        if (rando_is_connected()) { \
-            char key[32]; \
-            sprintf(key, "save_b_%ld", (long)(offset)); \
-            rando_set_datastorage_u32_sync(key, (u32)(value)); \
-        } \
         (*(u8 *)(D_8015C608_15D208 + (offset)) = (value)); \
+        update_full_save_data(); \
     } while (0)
 
 // Read 32-bit values from save data at specified offset
@@ -93,51 +87,6 @@ extern bool rando_is_connected();
 // Check if a flag is set
 #define IS_FLAG_SET(flag_id) \
     ((*(u8 *)(D_8015C608_15D208 + ((flag_id) / 8)) & (1 << ((flag_id) % 8))) != 0)
-
-// ================================================================================
-// SAVE DATA SYNCHRONIZATION FUNCTIONS
-// ================================================================================
-
-// Sync a single save data value from datastore to memory
-#define SYNC_SAVE_DATA_FROM_DATASTORE(offset) \
-    do { \
-        if (rando_is_connected()) { \
-            char key[32]; \
-            sprintf(key, "save_%ld", (long)(offset)); \
-            u32 datastore_value = rando_get_datastorage_u32_sync(key); \
-            if (datastore_value != 0) { \
-                (*(s32 *)(D_8015C608_15D208 + (offset)) = (s32)datastore_value); \
-            } \
-        } \
-    } while (0)
-
-#define SYNC_SAVE_DATA_H_FROM_DATASTORE(offset) \
-    do { \
-        if (rando_is_connected()) { \
-            char key[32]; \
-            sprintf(key, "save_h_%ld", (long)(offset)); \
-            u32 datastore_value = rando_get_datastorage_u32_sync(key); \
-            if (datastore_value != 0) { \
-                (*(s16 *)(D_8015C608_15D208 + (offset)) = (s16)datastore_value); \
-            } \
-        } \
-    } while (0)
-
-#define SYNC_SAVE_DATA_B_FROM_DATASTORE(offset) \
-    do { \
-        if (rando_is_connected()) { \
-            char key[32]; \
-            sprintf(key, "save_b_%ld", (long)(offset)); \
-            u32 datastore_value = rando_get_datastorage_u32_sync(key); \
-            if (datastore_value != 0) { \
-                (*(u8 *)(D_8015C608_15D208 + (offset)) = (u8)datastore_value); \
-            } \
-        } \
-    } while (0)
-
-// Function to sync all save data from datastore to memory
-// Call this when loading a save file or starting a new game
-void sync_all_save_data_from_datastore(void);
 
 // ================================================================================
 // SPAWN COORDINATE SYSTEM

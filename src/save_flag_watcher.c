@@ -10,6 +10,25 @@
 // External data declaration
 extern u8 D_8015C608_15D208[];
 
+// Extended save data for flags outside the main array range
+// Calculate size needed for flags beyond 0x304 * 8 (up to reasonable limit)
+#define EXTENDED_SAVE_SIZE 0x200  // 512 bytes for extended flags
+static u8 extended_save[EXTENDED_SAVE_SIZE];
+static int extended_save_initialized = 0;
+
+// Initialize extended save array
+static void init_extended_save(void)
+{
+    if (!extended_save_initialized)
+    {
+        for (int i = 0; i < EXTENDED_SAVE_SIZE; i++)
+        {
+            extended_save[i] = 0;
+        }
+        extended_save_initialized = 1;
+    }
+}
+
 // Flag cache structure
 typedef struct
 {
@@ -108,18 +127,19 @@ static void invalidate_cache_entry(s32 flag_id)
 }
 
 // Create comma-delimited string of all bytes in D_8015C608_15D208 and store it
-static void update_full_save_data(void)
+void update_full_save_data(void)
 {
     if (!rando_is_connected())
     {
         return;
     }
 
-    // Calculate required buffer size: 0x304 bytes * 3 chars per byte ("255") + 0x303 commas + 1 null terminator
-    // = 0x304 * 3 + 0x303 + 1 = 2313 + 772 + 1 = 3086 bytes
-    static char full_save_string[3086];
+    // Calculate required buffer size: (0x304 + EXTENDED_SAVE_SIZE) bytes * 3 chars per byte ("255") + commas + 1 null terminator
+    // = (0x304 + 0x200) * 3 + (0x304 + 0x200 - 1) + 1 = 3843 + 1283 + 1 = 5127 bytes
+    static char full_save_string[5200];  // Round up for safety
     int pos = 0;
 
+    // First, save the main D_8015C608_15D208 array
     for (int i = 0; i < 0x304; i++)
     {
         if (i > 0)
@@ -127,6 +147,14 @@ static void update_full_save_data(void)
             full_save_string[pos++] = ',';
         }
         pos += sprintf(&full_save_string[pos], "%u", (unsigned int)D_8015C608_15D208[i]);
+    }
+
+    // Then, save the extended_save array
+    init_extended_save();
+    for (int i = 0; i < EXTENDED_SAVE_SIZE; i++)
+    {
+        full_save_string[pos++] = ',';
+        pos += sprintf(&full_save_string[pos], "%u", (unsigned int)extended_save[i]);
     }
     full_save_string[pos] = '\0';
 
@@ -138,16 +166,20 @@ static void update_full_save_data(void)
 }
 
 // Load comma-delimited string from data storage back into D_8015C608_15D208 array
-void load_full_save_data_from_storage(void)
+// Returns true if data was successfully loaded, false otherwise
+bool load_full_save_data_from_storage(void)
 {
     if (!rando_is_connected())
     {
         recomp_printf("LOAD FULL SAVE: Not connected, cannot load data\n");
-        return;
+        return false;
     }
 
     // Allocate buffer for the full save string (same size as in update_full_save_data)
-    static char full_save_string[3086];
+    static char full_save_string[5200];
+    
+    // Initialize extended save array
+    init_extended_save();
     
     // Get the full save string from data storage
     rando_get_datastorage_string_sync("full_save", full_save_string);
@@ -156,18 +188,19 @@ void load_full_save_data_from_storage(void)
     if (full_save_string[0] == '\0')
     {
         recomp_printf("LOAD FULL SAVE: No full_save data found in storage\n");
-        return;
+        return false;
     }
     
     recomp_printf("LOAD FULL SAVE: Retrieved string from storage\n");
     recomp_printf("LOAD FULL SAVE STRING: %s\n", full_save_string);
     
-    // Parse the comma-delimited string and load into array
+    // Parse the comma-delimited string and load into arrays
     char *token = full_save_string;
     char *next_token;
     int byte_index = 0;
+    int total_expected = 0x304 + EXTENDED_SAVE_SIZE;
     
-    while (token != NULL && byte_index < 0x304)
+    while (token != NULL && byte_index < total_expected)
     {
         // Find the next comma or end of string
         next_token = token;
@@ -189,15 +222,29 @@ void load_full_save_data_from_storage(void)
             digit_ptr++;
         }
         
-        // Store in the array (with bounds checking)
+        // Store in the appropriate array (with bounds checking)
         if (byte_value <= 255)
         {
-            D_8015C608_15D208[byte_index] = (u8)byte_value;
+            if (byte_index < 0x304)
+            {
+                D_8015C608_15D208[byte_index] = (u8)byte_value;
+            }
+            else if (byte_index < 0x304 + EXTENDED_SAVE_SIZE)
+            {
+                extended_save[byte_index - 0x304] = (u8)byte_value;
+            }
         }
         else
         {
             recomp_printf("LOAD FULL SAVE: Warning - byte value %u out of range at index %d\n", byte_value, byte_index);
-            D_8015C608_15D208[byte_index] = 255; // Clamp to max value
+            if (byte_index < 0x304)
+            {
+                D_8015C608_15D208[byte_index] = 255; // Clamp to max value
+            }
+            else if (byte_index < 0x304 + EXTENDED_SAVE_SIZE)
+            {
+                extended_save[byte_index - 0x304] = 255;
+            }
         }
         
         byte_index++;
@@ -214,12 +261,51 @@ void load_full_save_data_from_storage(void)
         }
     }
     
-    recomp_printf("LOAD FULL SAVE: Loaded %d bytes into D_8015C608_15D208 array\n", byte_index);
+    int main_bytes = (byte_index > 0x304) ? 0x304 : byte_index;
+    int extended_bytes = (byte_index > 0x304) ? (byte_index - 0x304) : 0;
     
-    if (byte_index != 0x304)
+    recomp_printf("LOAD FULL SAVE: Loaded %d bytes into D_8015C608_15D208 array\n", main_bytes);
+    recomp_printf("LOAD FULL SAVE: Loaded %d bytes into extended_save array\n", extended_bytes);
+    
+    if (byte_index != total_expected)
     {
-        recomp_printf("LOAD FULL SAVE: Warning - Expected 0x304 (%d) bytes, got %d bytes\n", 0x304, byte_index);
+        recomp_printf("LOAD FULL SAVE: Warning - Expected %d bytes, got %d bytes\n", total_expected, byte_index);
     }
+    
+    return true;
+}
+
+// Check if starting characters should be set based on current save data
+// Returns true if characters should be set (no existing data), false if they're already set
+bool should_set_starting_characters(void)
+{
+    // Check if any characters are already recruited
+    s32 goemon_recruited = READ_SAVE_DATA(SAVE_GOEMON_RECRUITED);
+    s32 ebisumaru_recruited = READ_SAVE_DATA(SAVE_EBISUMARU_RECRUITED);
+    s32 sasuke_recruited = READ_SAVE_DATA(SAVE_SASUKE_RECRUITED);
+    s32 yae_recruited = READ_SAVE_DATA(SAVE_YAE_RECRUITED);
+    
+    // If any character is already recruited, don't set starting characters
+    if (goemon_recruited != 0 || ebisumaru_recruited != 0 || sasuke_recruited != 0 || yae_recruited != 0)
+    {
+        recomp_printf("STARTING CHARS: Characters already recruited, skipping setup\n");
+        return false;
+    }
+    
+    // Check if any weapon levels are set (indicating existing save data)
+    s32 goemon_weapon = READ_SAVE_DATA(SAVE_GOEMON_WEAPON_LEVEL);
+    s32 ebisumaru_weapon = READ_SAVE_DATA(SAVE_EBISUMARU_WEAPON_LEVEL);
+    s32 sasuke_weapon = READ_SAVE_DATA(SAVE_SASUKE_WEAPON_LEVEL);
+    s32 yae_weapon = READ_SAVE_DATA(SAVE_YAE_WEAPON_LEVEL);
+    
+    if (goemon_weapon != 0 || ebisumaru_weapon != 0 || sasuke_weapon != 0 || yae_weapon != 0)
+    {
+        recomp_printf("STARTING CHARS: Weapon levels already set, skipping setup\n");
+        return false;
+    }
+    
+    recomp_printf("STARTING CHARS: No existing character data found, setting starting characters\n");
+    return true;
 }
 
 RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
@@ -296,9 +382,30 @@ RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
         result = (byte_value & bit_mask) ? 1 : 0;
         DEBUG_PRINTF("FLAG READ: flag_id=%ld, local value=%ld\n", flag_id, result);
     }
+    else if (flag_id >= (0x304 * 8) && flag_id <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
+    {
+        // Handle extended save area
+        init_extended_save();
+        s32 extended_flag_id = flag_id - (0x304 * 8);
+        s32 byte_index = extended_flag_id >> 3;
+        s32 bit_index = extended_flag_id & 7;
+        
+        if (byte_index >= 0 && byte_index < EXTENDED_SAVE_SIZE)
+        {
+            u8 byte_value = extended_save[byte_index];
+            s32 bit_mask = 1 << bit_index;
+            result = (byte_value & bit_mask) ? 1 : 0;
+            DEBUG_PRINTF("FLAG READ: flag_id=%ld, extended save value=%ld\n", flag_id, result);
+        }
+        else
+        {
+            DEBUG_PRINTF("FLAG READ: flag_id=%ld is OUTSIDE extended bounds, returning 0\n", flag_id);
+            result = 0;
+        }
+    }
     else
     {
-        DEBUG_PRINTF("FLAG READ: flag_id=%ld is OUTSIDE bounds, returning 0\n", flag_id);
+        DEBUG_PRINTF("FLAG READ: flag_id=%ld is OUTSIDE all bounds, returning 0\n", flag_id);
         result = 0;
     }
 
@@ -374,10 +481,35 @@ RECOMP_PATCH void func_80024038_24C38(s32 flag_id)
             "FLAG SET: flag_id=%ld written to BOTH local array and datastore\n",
             flag_id);
     }
+    else if (flag_id >= (0x304 * 8) && flag_id <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
+    {
+        // Handle extended save area
+        init_extended_save();
+        s32 extended_flag_id = flag_id - (0x304 * 8);
+        s32 byte_index = extended_flag_id >> 3;
+        s32 bit_index = extended_flag_id & 7;
+        
+        if (byte_index >= 0 && byte_index < EXTENDED_SAVE_SIZE)
+        {
+            u8 current_byte = extended_save[byte_index];
+            u8 bit_mask = 1 << bit_index;
+            extended_save[byte_index] = current_byte | bit_mask;
+            
+            DEBUG_PRINTF(
+                "FLAG SET: flag_id=%ld written to extended save array and datastore\n",
+                flag_id);
+        }
+        else
+        {
+            DEBUG_PRINTF(
+                "FLAG SET: flag_id=%ld is OUTSIDE extended bounds, written to datastore only\n",
+                flag_id);
+        }
+    }
     else
     {
         DEBUG_PRINTF(
-            "FLAG SET: flag_id=%ld is OUTSIDE bounds, written to datastore only\n",
+            "FLAG SET: flag_id=%ld is OUTSIDE all bounds, written to datastore only\n",
             flag_id);
     }
 
@@ -436,9 +568,34 @@ RECOMP_PATCH void func_80024088_24C88(int bit_index)
             "FLAG CLEAR: flag_id=%d cleared from BOTH local array and datastore\n",
             bit_index);
     }
+    else if (bit_index >= (0x304 * 8) && bit_index <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
+    {
+        // Handle extended save area
+        init_extended_save();
+        int extended_bit_index = bit_index - (0x304 * 8);
+        int byte_index = extended_bit_index >> 3;
+        int bit_offset = extended_bit_index & 7;
+        
+        if (byte_index >= 0 && byte_index < EXTENDED_SAVE_SIZE)
+        {
+            unsigned char current_byte = extended_save[byte_index];
+            unsigned char bit_mask = ~(1 << bit_offset);
+            extended_save[byte_index] = current_byte & bit_mask;
+            
+            DEBUG_PRINTF(
+                "FLAG CLEAR: flag_id=%d cleared from extended save array and datastore\n",
+                bit_index);
+        }
+        else
+        {
+            DEBUG_PRINTF("FLAG CLEAR: flag_id=%d is OUTSIDE extended bounds, cleared from "
+                         "datastore only\n",
+                         bit_index);
+        }
+    }
     else
     {
-        DEBUG_PRINTF("FLAG CLEAR: flag_id=%d is OUTSIDE bounds, cleared from "
+        DEBUG_PRINTF("FLAG CLEAR: flag_id=%d is OUTSIDE all bounds, cleared from "
                      "datastore only\n",
                      bit_index);
     }
