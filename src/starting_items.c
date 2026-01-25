@@ -198,7 +198,7 @@ void on_file_started()
     set_file_started();
 
     // Sync all save data from datastore to memory when file is loaded
-    // sync_all_save_data_from_datastore();
+    sync_all_save_data_from_datastore();
 }
 
 void grant_starting_items()
