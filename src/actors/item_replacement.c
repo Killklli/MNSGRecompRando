@@ -332,6 +332,7 @@ void process_items(ActorInstance *actor_instance,
                    overall_index,
                    (unsigned long)replacements.pairs[i].new_item_ap_id,
                    new_item_id, actor_id);
+
       break;
     }
   }
@@ -367,6 +368,17 @@ void process_items(ActorInstance *actor_instance,
       // Change the actor ID in the new definition
       new_actor_def->data[0] =
           (new_actor_def->data[0] & 0x0000FFFF) | (new_item_id << 16);
+
+      // Special handling for KEY items (0x193)
+      if (actor_id == 0x193)
+      {
+        // For keys, the flag ID is in data[2] of the original item
+        // We need to move it to data[1] for the new item
+        unsigned int original_flag_id = (resolved_actor_def->data[2] >> 16) & 0xFFFF;
+        new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (original_flag_id << 16);
+        // and then set data[2] to 0
+        new_actor_def->data[2] = new_actor_def->data[2] & 0x0000FFFF;
+      }
 
       // Update this instance to point to the new definition
       actor_instance->actor_definition = new_actor_def;
