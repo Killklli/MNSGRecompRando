@@ -107,6 +107,121 @@ static void invalidate_cache_entry(s32 flag_id)
     }
 }
 
+// Create comma-delimited string of all bytes in D_8015C608_15D208 and store it
+static void update_full_save_data(void)
+{
+    if (!rando_is_connected())
+    {
+        return;
+    }
+
+    // Calculate required buffer size: 0x304 bytes * 3 chars per byte ("255") + 0x303 commas + 1 null terminator
+    // = 0x304 * 3 + 0x303 + 1 = 2313 + 772 + 1 = 3086 bytes
+    static char full_save_string[3086];
+    int pos = 0;
+
+    for (int i = 0; i < 0x304; i++)
+    {
+        if (i > 0)
+        {
+            full_save_string[pos++] = ',';
+        }
+        pos += sprintf(&full_save_string[pos], "%u", (unsigned int)D_8015C608_15D208[i]);
+    }
+    full_save_string[pos] = '\0';
+
+    // Store the full save string in the datastore
+    rando_set_datastorage_string_async("full_save", full_save_string);
+    recomp_printf("FULL SAVE: Updated full_save data string\n");
+    recomp_printf("FULL SAVE STRING: %s\n", full_save_string);
+    recomp_printf("FULL SAVE: String length=%d\n", pos);
+}
+
+// Load comma-delimited string from data storage back into D_8015C608_15D208 array
+void load_full_save_data_from_storage(void)
+{
+    if (!rando_is_connected())
+    {
+        recomp_printf("LOAD FULL SAVE: Not connected, cannot load data\n");
+        return;
+    }
+
+    // Allocate buffer for the full save string (same size as in update_full_save_data)
+    static char full_save_string[3086];
+    
+    // Get the full save string from data storage
+    rando_get_datastorage_string_sync("full_save", full_save_string);
+    
+    // Check if we got any data
+    if (full_save_string[0] == '\0')
+    {
+        recomp_printf("LOAD FULL SAVE: No full_save data found in storage\n");
+        return;
+    }
+    
+    recomp_printf("LOAD FULL SAVE: Retrieved string from storage\n");
+    recomp_printf("LOAD FULL SAVE STRING: %s\n", full_save_string);
+    
+    // Parse the comma-delimited string and load into array
+    char *token = full_save_string;
+    char *next_token;
+    int byte_index = 0;
+    
+    while (token != NULL && byte_index < 0x304)
+    {
+        // Find the next comma or end of string
+        next_token = token;
+        while (*next_token != ',' && *next_token != '\0')
+        {
+            next_token++;
+        }
+        
+        // Temporarily null-terminate this token
+        char saved_char = *next_token;
+        *next_token = '\0';
+        
+        // Convert string to unsigned integer manually
+        unsigned int byte_value = 0;
+        char *digit_ptr = token;
+        while (*digit_ptr >= '0' && *digit_ptr <= '9')
+        {
+            byte_value = byte_value * 10 + (*digit_ptr - '0');
+            digit_ptr++;
+        }
+        
+        // Store in the array (with bounds checking)
+        if (byte_value <= 255)
+        {
+            D_8015C608_15D208[byte_index] = (u8)byte_value;
+        }
+        else
+        {
+            recomp_printf("LOAD FULL SAVE: Warning - byte value %u out of range at index %d\n", byte_value, byte_index);
+            D_8015C608_15D208[byte_index] = 255; // Clamp to max value
+        }
+        
+        byte_index++;
+        
+        // Restore the character and move to next token
+        *next_token = saved_char;
+        if (saved_char == ',')
+        {
+            token = next_token + 1;
+        }
+        else
+        {
+            token = NULL; // End of string
+        }
+    }
+    
+    recomp_printf("LOAD FULL SAVE: Loaded %d bytes into D_8015C608_15D208 array\n", byte_index);
+    
+    if (byte_index != 0x304)
+    {
+        recomp_printf("LOAD FULL SAVE: Warning - Expected 0x304 (%d) bytes, got %d bytes\n", 0x304, byte_index);
+    }
+}
+
 RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
 {
     // Check cache first
@@ -122,20 +237,17 @@ RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
     {
         s32 super_pass_value = READ_SAVE_DATA(SAVE_SUPER_PASS);
         s32 result = (super_pass_value != 0) ? 1 : 0;
-        cache_flag_value(flag_id, result);
         return result;
     }
     if (flag_id == 0x29)
     {
         s32 have_achilles_heel = READ_SAVE_DATA(SAVE_ACHILLES_HEEL);
         s32 result = (have_achilles_heel != 0) ? 1 : 0;
-        cache_flag_value(flag_id, result);
         return result;
     }
 
-    // First try to read from local game data if within bounds
-    s32 local_value = 0;
-    int local_read_success = 0;
+    // Read from local game data if within bounds
+    s32 result = 0;
 
     if (flag_id >= 0 && flag_id <= ((0x304 * 8) - 1))
     {
@@ -181,52 +293,16 @@ RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
         bit_mask = 1 << bit_index;
 
         // Check if the bit is set
-        local_value = (byte_value & bit_mask) ? 1 : 0;
-        local_read_success = 1;
-    }
-
-    // Try to get from data storage if connected
-    s32 remote_value = 0;
-    int remote_read_success = 0;
-
-    if (rando_is_connected())
-    {
-        char key[16];
-        sprintf(key, "flag_%ld", flag_id);
-        remote_value = rando_get_datastorage_u32_sync(key) ? 1 : 0;
-        remote_read_success = 1;
-        DEBUG_PRINTF("FLAG READ: flag_id=%ld, remote value=%ld\n", flag_id, remote_value);
-    }
-
-    // Determine final value - prefer remote if available, otherwise local
-    s32 final_value = 0;
-    if (remote_read_success && local_read_success)
-    {
-        // Use logical OR - if either local or remote is set, consider it set
-        final_value = local_value || remote_value;
-        DEBUG_PRINTF("FLAG READ: flag_id=%ld, using combined value (local=%ld, remote=%ld, final=%ld)\n",
-                     flag_id, local_value, remote_value, final_value);
-    }
-    else if (remote_read_success)
-    {
-        final_value = remote_value;
-        DEBUG_PRINTF("FLAG READ: flag_id=%ld, using remote value=%ld\n", flag_id, final_value);
-    }
-    else if (local_read_success)
-    {
-        final_value = local_value;
-        DEBUG_PRINTF("FLAG READ: flag_id=%ld, using local value=%ld\n", flag_id, final_value);
+        result = (byte_value & bit_mask) ? 1 : 0;
+        DEBUG_PRINTF("FLAG READ: flag_id=%ld, local value=%ld\n", flag_id, result);
     }
     else
     {
-        DEBUG_PRINTF("FLAG READ: flag_id=%ld, no valid data source, returning 0\n", flag_id);
-        final_value = 0;
+        DEBUG_PRINTF("FLAG READ: flag_id=%ld is OUTSIDE bounds, returning 0\n", flag_id);
+        result = 0;
     }
 
-    // Cache the result
-    cache_flag_value(flag_id, final_value);
-
-    return final_value;
+    return result;
 }
 
 RECOMP_PATCH void func_80024038_24C38(s32 flag_id)
@@ -304,6 +380,9 @@ RECOMP_PATCH void func_80024038_24C38(s32 flag_id)
             "FLAG SET: flag_id=%ld is OUTSIDE bounds, written to datastore only\n",
             flag_id);
     }
+
+    // Update the full save data string
+    update_full_save_data();
 }
 
 RECOMP_PATCH void func_80024088_24C88(int bit_index)
@@ -363,4 +442,7 @@ RECOMP_PATCH void func_80024088_24C88(int bit_index)
                      "datastore only\n",
                      bit_index);
     }
+
+    // Update the full save data string
+    update_full_save_data();
 }

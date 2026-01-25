@@ -70,7 +70,8 @@ native_libraries = [
                                     "rando_access_slotdata_raw_string_o32",
                                     "rando_access_slotdata_raw_dict_has_member_o32",
                                     "rando_iter_slotdata_raw_dict_close_o32",
-                                    "rando_get_datastorage_string_sync" ] }
+                                    "rando_get_datastorage_string_sync",
+                                    "rando_set_datastorage_string_async" ] }
 ]
 
 # Inputs to the mod tool.

@@ -156,11 +156,12 @@ u32 get_starting_room()
 
     return starting_room;
 }
-
+extern void load_full_save_data_from_storage();
 // Sets up the starting items and characters when a new file is started
 RECOMP_HOOK_RETURN("func_8000B640_C240")
 void on_save_start_hook()
 {
+    load_full_save_data_from_storage();
     // Set starting room from AP slotdata
     u32 starting_room = get_starting_room();
     WRITE_SPAWN_ROOM(starting_room);
@@ -181,11 +182,6 @@ void on_save_start_hook()
         WRITE_SPAWN_Z(-25); // Z coordinate
     }
 
-    // Set all characters weapon level to 0
-    WRITE_SAVE_DATA(SAVE_GOEMON_WEAPON_LEVEL, 0);
-    WRITE_SAVE_DATA(SAVE_EBISUMARU_WEAPON_LEVEL, 0);
-    WRITE_SAVE_DATA(SAVE_SASUKE_WEAPON_LEVEL, 0);
-    WRITE_SAVE_DATA(SAVE_YAE_WEAPON_LEVEL, 0);
     grant_starting_items();
     // Set starting character based on recruited characters
     set_starting_characters();
@@ -200,7 +196,7 @@ void on_file_started()
     set_file_started();
 
     // Sync all save data from datastore to memory when file is loaded
-    sync_all_save_data_from_datastore();
+    // sync_all_save_data_from_datastore();
 }
 
 void grant_starting_items()
