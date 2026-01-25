@@ -18,10 +18,84 @@ extern void func_8003D310_3DF10(s32 param);
 extern u32 D_8015C8F8[];
 extern s32 D_800C7AA8;
 
+// Key cache structure
+typedef struct
+{
+    u32 item_id;
+    u32 cached_count;
+    int is_valid;
+} key_cache_entry_t;
+
+// Cache for key counts
+static key_cache_entry_t key_cache[4]; // 4 key types: Silver, Gold, Diamond, Jump Gym
+static int key_cache_initialized = 0;
+
+// Initialize the key cache
+static void init_key_cache(void)
+{
+    if (!key_cache_initialized)
+    {
+        // Initialize all cache entries as invalid
+        for (int i = 0; i < 4; i++)
+        {
+            key_cache[i].item_id = 0;
+            key_cache[i].cached_count = 0;
+            key_cache[i].is_valid = 0;
+        }
+
+        // Set up the item IDs for each key type
+        key_cache[0].item_id = 6464000; // Silver
+        key_cache[1].item_id = 6464001; // Gold
+        key_cache[2].item_id = 6464002; // Diamond
+        key_cache[3].item_id = 6464003; // Jump Gym
+
+        key_cache_initialized = 1;
+    }
+}
+
+// Find cache entry for an item ID
+static key_cache_entry_t *find_key_cache_entry(u32 item_id)
+{
+    init_key_cache();
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (key_cache[i].item_id == item_id)
+        {
+            return &key_cache[i];
+        }
+    }
+
+    return NULL;
+}
+
+// Invalidate cache entry for an item ID
+void invalidate_key_cache_entry(u32 item_id)
+{
+    key_cache_entry_t *entry = find_key_cache_entry(item_id);
+    if (entry != NULL)
+    {
+        entry->is_valid = 0;
+        recomp_printf("KEY CACHE: Invalidated cache for item_id=%lu\n", item_id);
+    }
+}
+
+// Cache key count for an item ID
+static void cache_key_count(u32 item_id, u32 count)
+{
+    key_cache_entry_t *entry = find_key_cache_entry(item_id);
+    if (entry != NULL)
+    {
+        entry->cached_count = count;
+        entry->is_valid = 1;
+        recomp_printf("KEY CACHE: Cached count=%lu for item_id=%lu\n", count, item_id);
+    }
+}
+
 // Function to count collected keys of a specific type from archipelago
 u8 count_collected_keys(u8 lock_type)
 {
-    u32 has_keys = 0;
+    u32 item_id;
 
     // Only check Archipelago items if connected
     if (!rando_is_connected())
@@ -29,23 +103,39 @@ u8 count_collected_keys(u8 lock_type)
         return 0;
     }
 
+    // Map lock type to item ID
     switch (lock_type)
     {
-    case 2:                                 // Silver keys
-        has_keys = rando_has_item(6464000); // Silver
+    case 2:                // Silver keys
+        item_id = 6464000; // Silver
         break;
-    case 1:                                 // Gold keys
-        has_keys = rando_has_item(6464001); // Gold
+    case 1:                // Gold keys
+        item_id = 6464001; // Gold
         break;
-    case 0:                                 // Diamond keys
-        has_keys = rando_has_item(6464002); // Diamond
+    case 0:                // Diamond keys
+        item_id = 6464002; // Diamond
         break;
     default:
         return 0;
     }
 
-    DEBUG_PRINTF("Taglink items status for type %d: count=%d\n", lock_type,
-                 has_keys);
+    // Check cache first
+    key_cache_entry_t *cached_entry = find_key_cache_entry(item_id);
+    if (cached_entry != NULL && cached_entry->is_valid)
+    {
+        recomp_printf("KEY CACHE: Found cached count=%lu for type %d (item_id=%lu)\n",
+                      cached_entry->cached_count, lock_type, item_id);
+        return (u8)cached_entry->cached_count;
+    }
+
+    // Cache miss - query the server
+    u32 has_keys = rando_has_item(item_id);
+
+    // Cache the result
+    cache_key_count(item_id, has_keys);
+
+    recomp_printf("KEY CACHE: Queried server for type %d (item_id=%lu): count=%lu\n",
+                  lock_type, item_id, has_keys);
     return (u8)has_keys;
 }
 
@@ -228,7 +318,25 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
         DEBUG_PRINTF("Attempting to open jump gym\n");
         // We use the ID because we use the other value for the pause menu key
         // tracking
-        if (rando_is_connected() && rando_has_item(6464003) > 0)
+
+        // Check cache first for Jump Gym key
+        key_cache_entry_t *jump_gym_cache = find_key_cache_entry(6464003);
+        u32 has_jump_gym_key = 0;
+
+        if (jump_gym_cache != NULL && jump_gym_cache->is_valid)
+        {
+            has_jump_gym_key = jump_gym_cache->cached_count;
+            DEBUG_PRINTF("KEY CACHE: Found cached Jump Gym key count=%lu\n", has_jump_gym_key);
+        }
+        else if (rando_is_connected())
+        {
+            // Cache miss - query the server
+            has_jump_gym_key = rando_has_item(6464003);
+            cache_key_count(6464003, has_jump_gym_key);
+            DEBUG_PRINTF("KEY CACHE: Queried server for Jump Gym key: count=%lu\n", has_jump_gym_key);
+        }
+
+        if (has_jump_gym_key > 0)
         {
             DEBUG_PRINTF("Using jump gym key\n");
             func_80024038_24C38(*(u16 *)(entity + 0xD4));

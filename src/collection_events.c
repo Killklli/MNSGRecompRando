@@ -14,6 +14,7 @@ extern void increase_silver_fortune_doll();
 extern void increase_gold_fortune_doll();
 extern void progressive_weapon_handler();
 extern void calculate_key_on_pause();
+extern void invalidate_key_cache_entry(u32 item_id);
 extern void func_80038B98_39798(u32 sound_id);
 extern void sauske_batteries();
 extern void normal_health();
@@ -164,6 +165,7 @@ void handle_item_by_id(u32 item_id)
   case 6464003:
     // Jump Gym Key
     // WRITE_SAVE_DATA(SAVE_KEY_TO_TRAINING, 1);
+    invalidate_key_cache_entry(6464003);
     calculate_key_on_pause();
     break;
   case 6464035:
@@ -210,18 +212,21 @@ void handle_item_by_id(u32 item_id)
     // Silver key
     // We don't actually give the player an item, we just display it on the
     // pause screen
+    invalidate_key_cache_entry(6464000);
     calculate_key_on_pause();
     break;
   case 6464001:
     // Gold Key
     // We don't actually give the player an item, we just display it on the
     // pause screen
+    invalidate_key_cache_entry(6464001);
     calculate_key_on_pause();
     break;
   case 6464002:
     // Diamond Key
     // We don't actually give the player an item, we just display it on the
     // pause screen
+    invalidate_key_cache_entry(6464002);
     calculate_key_on_pause();
     break;
   default:
