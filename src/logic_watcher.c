@@ -129,7 +129,7 @@ void normal_health()
     WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, current_health);
 }
 
-void sauske_batteries()
+void sasuke_batteries()
 {
     // SAVE_DEAD_SASUKE_PROFILE 0, 1, 2
     // We just want to increment up to 2
@@ -208,15 +208,15 @@ void set_starting_characters()
     }
 
     if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
-                                                      "sauske"))
+                                                      "sasuke"))
     {
         u32 sasuke_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "sauske",
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "sasuke",
                                            sasuke_handle);
         sasuke_starting = (bool)rando_access_slotdata_raw_u32_o32(sasuke_handle);
     }
 
-    DEBUG_PRINTF("Starting characters from AP: goemon=%d, yae=%d, ebismaru=%d, "
+    recomp_printf("Starting characters from AP: goemon=%d, yae=%d, ebismaru=%d, "
                  "sasuke=%d\n",
                  goemon_starting, yae_starting, ebisumaru_starting,
                  sasuke_starting);

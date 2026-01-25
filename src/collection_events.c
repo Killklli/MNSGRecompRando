@@ -16,7 +16,7 @@ extern void progressive_weapon_handler();
 extern void calculate_key_on_pause();
 extern void invalidate_key_cache_entry(u32 item_id);
 extern void func_80038B98_39798(u32 sound_id);
-extern void sauske_batteries();
+extern void sasuke_batteries();
 extern void normal_health();
 extern void fill_health();
 extern void increase_lives();
@@ -153,12 +153,12 @@ void handle_item_by_id(u32 item_id)
     normal_health();
     break;
   case 6464020:
-    // Sauske Battery 1
-    sauske_batteries();
+    // sasuke Battery 1
+    sasuke_batteries();
     break;
   case 6464021:
-    // Sauske Battery 2
-    sauske_batteries();
+    // sasuke Battery 2
+    sasuke_batteries();
     break;
   // Disabled this because we're using this value to display if we have a key on
   // the pause screen

@@ -107,6 +107,7 @@ void sync_all_save_data_from_datastore(void)
 
     // Fortune doll system
     SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FORTUNE_DOLL_TOTAL);
+    SYNC_SAVE_DATA_FROM_DATASTORE(SAVE_FORTUNE_DOLL_PROGRESS);
 
     // // Spawn coordinates (16-bit values)
     // SYNC_SAVE_DATA_H_FROM_DATASTORE(0x204); // SPAWN_ROOM
@@ -188,6 +189,7 @@ void on_save_start_hook()
     grant_starting_items();
     // Set starting character based on recruited characters
     set_starting_characters();
+
 }
 
 // Declares that a file has started for AP to know to work with file data

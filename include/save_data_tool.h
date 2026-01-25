@@ -333,7 +333,7 @@ void sync_all_save_data_from_datastore(void);
 #define SAVE_KYUSHU_TIME_BOMB_224 0x224 - // Reactivated time bomb on Kyushu
 
 // Dead Sasuke system
-#define SAVE_DEAD_SASUKE_PROFILE 0x260 // Sauske Status - 0 = body, 1 = battery 1, 2 = battery 2
+#define SAVE_DEAD_SASUKE_PROFILE 0x260 // sasuke Status - 0 = body, 1 = battery 1, 2 = battery 2
 
 // Mr. Elephant and Mr. Arrow item systems
 #define SAVE_MR_ELLY_OEDO_CASTLE 0x26C
