@@ -160,8 +160,8 @@ class MN64World(World):
             MN64Items.MIRACLE_SNOW.value,
             MN64Items.MIRACLE_MOON.value,
             MN64Items.MIRACLE_FLOWER.value,
-            MN64Items.GOLDEN_HEALTH.value,
-            MN64Items.NORMAL_HEALTH.value,
+            # MN64Items.GOLDEN_HEALTH.value,
+            # MN64Items.NORMAL_HEALTH.value,
         }
 
         # Create all regions and their locations
@@ -296,8 +296,8 @@ class MN64World(World):
             "Miracle Snow",
             "Miracle Moon",
             "Miracle Flower",
-            "Golden Health",
-            "Normal Health",
+            # "Golden Health",
+            # "Normal Health",
         }
 
         # Characters that can start the game
