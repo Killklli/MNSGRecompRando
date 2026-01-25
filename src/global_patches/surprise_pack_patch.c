@@ -38,7 +38,11 @@ RECOMP_PATCH void func_080009F4_6AF1D4(Entity *entity, ParameterStruct *param)
   {
     // Call various functions to handle the entity state
     func_80221F70_5DD440();
-    u8 flag_id = entity->field_0xD0;
+    
+    // Read the flag ID from the entity (original location)
+    u16 flag_id = entity->field_0xD0;
+    
+    DEBUG_PRINTF("Surprise Pack flag ID from field_0xD0: %d (0x%04X)\n", flag_id, flag_id);
 
     // Check AP logic for this surprise pack
     if (should_run_ap_logic())

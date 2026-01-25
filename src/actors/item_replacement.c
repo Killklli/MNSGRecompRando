@@ -359,18 +359,13 @@ void process_items(ActorInstance *actor_instance,
       new_actor_def->data[1] = resolved_actor_def->data[1];
       new_actor_def->data[2] = resolved_actor_def->data[2];
       new_actor_def->data[3] = resolved_actor_def->data[3];
-      // zero out the new data
-      // new_actor_def->data[0] = 0;
-      // new_actor_def->data[1] = 0;
-      // new_actor_def->data[2] = 0;
-      // new_actor_def->data[3] = 0;
 
       // Change the actor ID in the new definition
       new_actor_def->data[0] =
           (new_actor_def->data[0] & 0x0000FFFF) | (new_item_id << 16);
 
-      // Special handling for KEY items (0x193)
-      if (actor_id == 0x193)
+      // Special handling for different item types
+      if (actor_id == 0x193) // KEY items
       {
         // For keys, the flag ID is in data[2] of the original item
         // We need to move it to data[1] for the new item
