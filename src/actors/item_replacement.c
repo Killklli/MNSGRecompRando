@@ -45,11 +45,18 @@ static int simple_atoi(const char *str)
   return result * sign;
 }
 
-// Function to map Archipelago item IDs to actor IDs using item_metadata
-// This pulls the entity_id from item_metadata for the given AP item ID
-static unsigned short map_ap_id_to_actor_id(u32 ap_id,
-                                            u32 *item_metadata_handle)
+// Structure to hold item data from Archipelago item metadata
+typedef struct ItemData {
+    unsigned short entity_id;
+    unsigned short flag_id;
+} ItemData;
+
+// Function to extract item data from Archipelago item metadata
+// This pulls both entity_id and flag_id from item_metadata for the given AP item ID
+static ItemData get_item_data_from_ap_id(u32 ap_id, u32 *item_metadata_handle)
 {
+  ItemData result = {0, 0};
+  
   // Convert AP ID to string for lookup
   char ap_id_str[16];
   sprintf(ap_id_str, "%lu", (unsigned long)ap_id);
@@ -84,13 +91,35 @@ static unsigned short map_ap_id_to_actor_id(u32 ap_id,
 
       if (entity_id_val != 0)
       {
-        return (unsigned short)entity_id_val;
+        result.entity_id = (unsigned short)entity_id_val;
+      }
+    }
+    
+    // Check if flag_id exists before accessing
+    bool has_flag_id = rando_access_slotdata_raw_dict_has_member_o32(
+        item_data_handle, "flag_id");
+
+    if (has_flag_id)
+    {
+      // Try to get the flag_id from the item data
+      u32 flag_id_handle[2];
+      rando_access_slotdata_raw_dict_o32(item_data_handle, "flag_id",
+                                         flag_id_handle);
+
+      // Get the flag_id as a string and convert to int
+      char flag_id_str[256];
+      rando_access_slotdata_raw_string_o32(flag_id_handle, flag_id_str);
+
+      int flag_id_val = simple_atoi(flag_id_str);
+
+      if (flag_id_val != 0)
+      {
+        result.flag_id = (unsigned short)flag_id_val;
       }
     }
   }
 
-  // No valid mapping found - don't replace the item
-  return 0;
+  return result;
 }
 
 ItemReplacementList get_item_replacements_for_room()
@@ -199,6 +228,21 @@ ItemReplacementList get_item_replacements_for_room()
             rando_access_slotdata_raw_string_o32(new_item_ap_id_handle,
                                                  new_item_ap_id_str);
 
+            // Get flag_id if it exists
+            unsigned short flag_id_to_use = 0;
+            if (rando_access_slotdata_raw_dict_has_member_o32(item_value, "flag_id"))
+            {
+              u32 flag_id_handle[2];
+              rando_access_slotdata_raw_dict_o32(item_value, "flag_id",
+                                                 flag_id_handle);
+              char flag_id_str[256];
+              rando_access_slotdata_raw_string_o32(flag_id_handle, flag_id_str);
+              int flag_id_val = simple_atoi(flag_id_str);
+              if (flag_id_val > 0) {
+                flag_id_to_use = (unsigned short)flag_id_val;
+              }
+            }
+
             // Convert strings to integers
             int instance_id_val = simple_atoi(instance_id_str);
             int new_item_ap_id_val = simple_atoi(new_item_ap_id_str);
@@ -236,22 +280,14 @@ ItemReplacementList get_item_replacements_for_room()
             // }
             // TODO: Update item spawn types, we're pinned to surprise packs
             // right now for safety
-            unsigned short item_id_to_use;
-            unsigned short mapped_item_id =
-                map_ap_id_to_actor_id(new_item_ap_id_val, item_metadata_handle);
-
-            // Only use 0x091 if the mapped item is not 0x085 or 0x08f (We're
-            // overriding Dangos)
-            // if (mapped_item_id == 0x085 || mapped_item_id == 0x08f)
-            // {
-            //   item_id_to_use = mapped_item_id;
-            // }
-            // else
-            // {
-              item_id_to_use = 0x091;
-            //}
+            unsigned short item_id_to_use = 0x091; // Always use surprise pack for now
 
             result.pairs[pair_index].new_item_id = item_id_to_use;
+            result.pairs[pair_index].flag_id = flag_id_to_use;
+            DEBUG_PRINTF("[DEBUG] Room 0x%03X Item Replacement %d: "
+                         "Instance %d, AP ID %d -> Actor 0x%03X, Flag ID %d\n",
+                         D_800C7AB2, pair_index, instance_id_val, new_item_ap_id_val,
+                         item_id_to_use, flag_id_to_use);
 
             DEBUG_PRINTF("  Item instance %d: AP ID %d -> Actor 0x%03X\n",
                          instance_id_val, new_item_ap_id_val,
@@ -292,6 +328,7 @@ void process_items(ActorInstance *actor_instance,
 
   // Look for a replacement in the returned list
   unsigned short new_item_id = 0;
+  unsigned short replacement_flag_id = 0;
   bool found_replacement = false;
 
   // Check the dynamic replacements from Archipelago
@@ -326,12 +363,13 @@ void process_items(ActorInstance *actor_instance,
       }
 
       new_item_id = replacements.pairs[i].new_item_id;
+      replacement_flag_id = replacements.pairs[i].flag_id;
       found_replacement = true;
       DEBUG_PRINTF("Found item replacement: instance %d, AP ID %lu -> actor "
-                   "0x%03X (was 0x%03X)\n",
+                   "0x%03X (was 0x%03X), flag_id=%d\n",
                    overall_index,
                    (unsigned long)replacements.pairs[i].new_item_ap_id,
-                   new_item_id, actor_id);
+                   new_item_id, actor_id, replacement_flag_id);
 
       break;
     }
@@ -367,6 +405,8 @@ void process_items(ActorInstance *actor_instance,
       // Special handling for different item types
       if (actor_id == 0x193) // KEY items
       {
+        DEBUG_PRINTF("Processing key item replacement for instance %d\n",
+                      overall_index);
         // For keys, the flag ID is in data[2] of the original item
         // We need to move it to data[1] for the new item
         unsigned int original_flag_id = (resolved_actor_def->data[2] >> 16) & 0xFFFF;
@@ -375,11 +415,20 @@ void process_items(ActorInstance *actor_instance,
         new_actor_def->data[2] = new_actor_def->data[2] & 0x0000FFFF;
       }
 
-      // Special handling for dango items (0x85 or 0x8F)
-      if (actor_id == 0x85 || actor_id == 0x8F) 
+      // Special handling for dango items (0x84 or 0x85)
+      if (actor_id == 0x84 || actor_id == 0x85) 
       {
-        // Set flag ID to 0x1804 in data[1] upper 16 bits
-        new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (0x1804 << 16);
+        DEBUG_PRINTF("Processing Dango item replacement for instance %d\n",
+                      overall_index);
+        // Use the flag_id from the replacement data we already found
+        unsigned short flag_id_to_use = replacement_flag_id;
+        if (flag_id_to_use == 0) {
+          flag_id_to_use = 0x1804; // Default fallback only if no flag_id was provided
+        }
+        DEBUG_PRINTF("Setting Dango item flag ID to %d for instance %d\n",
+                      flag_id_to_use, overall_index);
+        // Set flag ID in data[1] upper 16 bits
+        new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (flag_id_to_use << 16);
       }
 
       // Update this instance to point to the new definition

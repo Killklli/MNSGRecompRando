@@ -293,6 +293,7 @@ typedef struct ItemReplacementPair
     int instance_id;
     u32 new_item_ap_id;
     unsigned short new_item_id;
+    unsigned short flag_id;
 } ItemReplacementPair;
 
 typedef struct ItemReplacementList
