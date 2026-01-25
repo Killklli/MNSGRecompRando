@@ -12,3 +12,7 @@ patches.map
 build/
 .vscode/settings.json
 out/
+__pycache__
+*.z64
+*.n64
+*.v64
