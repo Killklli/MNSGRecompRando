@@ -1,5 +1,7 @@
 #include "common.h"
 #include "modding.h"
+#include "Archipelago.h"
+#include "recomputils.h"
 
 // External function declarations
 extern void func_801CD24C_6600FC(void *entity);
@@ -232,4 +234,24 @@ RECOMP_PATCH void func_801CE1F0_6610A0(void *entity, s32 param2)
         // B button: register back/cancel callback
         func_8003521C_35E1C(func_801CD768_660618);
     }
+}
+
+RECOMP_HOOK("func_801CE1F0_6610A0")
+void file_selector_watcher(void *entity, s32 param2)
+{
+  bool connected = rando_is_connected();
+  bool scouted = rando_is_scouted();
+
+  if (connected && scouted)
+  {
+    // recomp_printf("file_selector_watcher: Connected to Archipelago and
+    // scouted.\n");
+  }
+  else
+  {
+    recomp_printf("file_selector_watcher: Not connected or not scouted. "
+                  "Connected: %s, Scouted: %s\n",
+                  connected ? "YES" : "NO", scouted ? "YES" : "NO");
+    func_8003521C_35E1C(func_801CD768_660618);
+  }
 }

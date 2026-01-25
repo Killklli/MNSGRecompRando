@@ -115,10 +115,11 @@ void sync_all_save_data_from_datastore(void)
     // SYNC_SAVE_DATA_H_FROM_DATASTORE(0x20E); // SPAWN_Y
     // SYNC_SAVE_DATA_FROM_DATASTORE(0x68);    // SPAWN_CHARACTER
 
+    // We have this disabled for now as syncing all flags can be slow, we think we can just let it lazy load flags as needed
     // // Sync all flags from datastore
     // s32 flags_synced = 0;
-    // // Only sync flags that are within the range of the save data array (0x304
-    // bytes = 0x1820 bits) for (s32 flag_id = 0; flag_id < 0x1820; flag_id++) {
+    // // Only sync flags that are within the range of the save data array (0x304 bytes = 0x1820 bits) 
+    // for (s32 flag_id = 0; flag_id < 0x1820; flag_id++) {
     //     char key[16];
     //     sprintf(key, "flag_%ld", flag_id);
     //     u32 flag_value = rando_get_datastorage_u32_sync(key);
