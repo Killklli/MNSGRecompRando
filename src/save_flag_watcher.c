@@ -335,7 +335,7 @@ RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
     // Read from local game data if within bounds
     s32 result = 0;
 
-    if (flag_id >= 0 && flag_id <= ((0x304 * 8) - 1))
+    if (flag_id >= 0 && flag_id <= 6143)
     {
         s32 byte_index;
         s32 bit_index;
@@ -382,11 +382,11 @@ RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id)
         result = (byte_value & bit_mask) ? 1 : 0;
         DEBUG_PRINTF("FLAG READ: flag_id=%ld, local value=%ld\n", flag_id, result);
     }
-    else if (flag_id >= (0x304 * 8) && flag_id <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
+    else if (flag_id >= 6144 && flag_id <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
     {
         // Handle extended save area
         init_extended_save();
-        s32 extended_flag_id = flag_id - (0x304 * 8);
+        s32 extended_flag_id = flag_id - 6144;
         s32 byte_index = extended_flag_id >> 3;
         s32 bit_index = extended_flag_id & 7;
         
@@ -426,8 +426,8 @@ RECOMP_PATCH void func_80024038_24C38(s32 flag_id)
     {
         rando_set_datastorage_u32_async(key, 1);
     } // If flag is within bounds of D_8015C608_15D208 (0x304 bytes = 6144 flags
-      // max)
-    if (flag_id >= 0 && flag_id <= ((0x304 * 8) - 1))
+      // max, so flags 0-6143)
+    if (flag_id >= 0 && flag_id <= 6143)
     {
         s32 byte_index;
         s32 bit_index;
@@ -481,11 +481,11 @@ RECOMP_PATCH void func_80024038_24C38(s32 flag_id)
             "FLAG SET: flag_id=%ld written to BOTH local array and datastore\n",
             flag_id);
     }
-    else if (flag_id >= (0x304 * 8) && flag_id <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
+    else if (flag_id >= 6144 && flag_id <= ((0x304 + EXTENDED_SAVE_SIZE) * 8 - 1))
     {
         // Handle extended save area
         init_extended_save();
-        s32 extended_flag_id = flag_id - (0x304 * 8);
+        s32 extended_flag_id = flag_id - 6144;
         s32 byte_index = extended_flag_id >> 3;
         s32 bit_index = extended_flag_id & 7;
         

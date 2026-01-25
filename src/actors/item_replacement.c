@@ -242,14 +242,14 @@ ItemReplacementList get_item_replacements_for_room()
 
             // Only use 0x091 if the mapped item is not 0x085 or 0x08f (We're
             // overriding Dangos)
-            if (mapped_item_id == 0x085 || mapped_item_id == 0x08f)
-            {
-              item_id_to_use = mapped_item_id;
-            }
-            else
-            {
+            // if (mapped_item_id == 0x085 || mapped_item_id == 0x08f)
+            // {
+            //   item_id_to_use = mapped_item_id;
+            // }
+            // else
+            // {
               item_id_to_use = 0x091;
-            }
+            //}
 
             result.pairs[pair_index].new_item_id = item_id_to_use;
 
@@ -373,6 +373,13 @@ void process_items(ActorInstance *actor_instance,
         new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (original_flag_id << 16);
         // and then set data[2] to 0
         new_actor_def->data[2] = new_actor_def->data[2] & 0x0000FFFF;
+      }
+
+      // Special handling for dango items (0x85 or 0x8F)
+      if (actor_id == 0x85 || actor_id == 0x8F) 
+      {
+        // Set flag ID to 0x1804 in data[1] upper 16 bits
+        new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (0x1804 << 16);
       }
 
       // Update this instance to point to the new definition
