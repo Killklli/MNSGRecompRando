@@ -149,6 +149,7 @@ LogicRegions = {
                 "Normal Health Pickup",
                 lambda l: True,
                 MN64Items.NORMAL_HEALTH,
+                flag_id=0x1806,
                 instance_id=0x0A,
             ),
             MN64LocationLogic(

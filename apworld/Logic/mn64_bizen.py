@@ -100,6 +100,7 @@ LogicRegions = {
                 "Normal Health",
                 lambda l: True,
                 MN64Items.NORMAL_HEALTH,
+                flag_id=0x1805,
                 instance_id=0x0B,
             ),
         ],
@@ -444,6 +445,7 @@ LogicRegions = {
                 "Golden Health",
                 lambda l: True,
                 MN64Items.GOLDEN_HEALTH,
+                flag_id=0x1804,
                 instance_id=0x07,
             ),
             MN64LocationLogic(
