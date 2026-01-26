@@ -240,6 +240,8 @@ extern bool should_set_starting_characters(void);
 // ================================================================================
 // ADDITIONAL DOCUMENTED SAVE DATA OFFSETS
 // ================================================================================
+// TODO: These negative offsets are actually for D_8015C66C_15D26C, but we're running into semantics if we write to the array itself
+// So we're just leaving it as is for now and loading these independently.
 
 // Rice Ball system (negative offsets from base)
 #define SAVE_CURRENT_RICE_BALL -0x18  // Values: 1,2,3
