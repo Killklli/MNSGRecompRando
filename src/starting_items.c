@@ -79,29 +79,27 @@ void on_save_start_hook()
         should_set_starting_data = (seed_started == 0);
     }
     
-    // Only set starting room and coordinates if this is the first time starting the seed
-    if (should_set_starting_data)
-    {
-        // Set starting room from AP slotdata
-        u32 starting_room = get_starting_room();
-        WRITE_SPAWN_ROOM(starting_room);
 
-        // Set spawn coordinates for specific room IDs
-        if (starting_room == 0x167)
-        {
-            WRITE_SPAWN_X(0); // X coordinate
-            WRITE_SPAWN_Y(0); // Y coordinate
-            WRITE_SPAWN_Z(0); // Z coordinate
-        }
-        else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
-                 starting_room == 0x1B1 || starting_room == 0x1B4 ||
-                 starting_room == 0x1B3)
-        {
-            WRITE_SPAWN_X(0);   // X coordinate
-            WRITE_SPAWN_Y(20);  // Y coordinate
-            WRITE_SPAWN_Z(-25); // Z coordinate
-        }
+    // Set starting room from AP slotdata
+    u32 starting_room = get_starting_room();
+    WRITE_SPAWN_ROOM(starting_room);
+
+    // Set spawn coordinates for specific room IDs
+    if (starting_room == 0x167)
+    {
+        WRITE_SPAWN_X(0); // X coordinate
+        WRITE_SPAWN_Y(0); // Y coordinate
+        WRITE_SPAWN_Z(0); // Z coordinate
     }
+    else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
+                starting_room == 0x1B1 || starting_room == 0x1B4 ||
+                starting_room == 0x1B3)
+    {
+        WRITE_SPAWN_X(0);   // X coordinate
+        WRITE_SPAWN_Y(20);  // Y coordinate
+        WRITE_SPAWN_Z(-25); // Z coordinate
+    }
+    
     
     // Only set starting characters if this is the first time starting the seed
     if (should_set_starting_data)

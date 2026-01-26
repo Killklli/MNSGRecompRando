@@ -92,7 +92,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("IyoHills", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("GhostToysCastleEntrance", lambda l: True),
+            MN64TransitionFront("GhostToysCastleEntrance", lambda l: l.chain_pipe and l.goemon),
         ],
         room_id=0x142,
         room_default_definitions=[
