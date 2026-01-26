@@ -74,41 +74,7 @@ static flag_cache_entry_t *find_cache_entry(s32 flag_id)
     return NULL;
 }
 
-// Add or update cache entry
-static void cache_flag_value(s32 flag_id, s32 value)
-{
-    init_flag_cache();
 
-    // First try to update existing entry
-    for (int i = 0; i < FLAG_CACHE_SIZE; i++)
-    {
-        if (flag_cache[i].flag_id == flag_id)
-        {
-            flag_cache[i].cached_value = value;
-            flag_cache[i].is_valid = 1;
-            return;
-        }
-    }
-
-    // Find empty slot for new entry
-    for (int i = 0; i < FLAG_CACHE_SIZE; i++)
-    {
-        if (!flag_cache[i].is_valid)
-        {
-            flag_cache[i].flag_id = flag_id;
-            flag_cache[i].cached_value = value;
-            flag_cache[i].is_valid = 1;
-            return;
-        }
-    }
-
-    // Cache is full, replace oldest entry (simple round-robin)
-    static int next_slot = 0;
-    flag_cache[next_slot].flag_id = flag_id;
-    flag_cache[next_slot].cached_value = value;
-    flag_cache[next_slot].is_valid = 1;
-    next_slot = (next_slot + 1) % FLAG_CACHE_SIZE;
-}
 
 // Invalidate cache entry for a flag ID
 static void invalidate_cache_entry(s32 flag_id)
@@ -158,11 +124,19 @@ void update_full_save_data(void)
     }
     full_save_string[pos] = '\0';
 
-    // Store the full save string in the datastore
-    rando_set_datastorage_string_async("full_save", full_save_string);
-    DEBUG_PRINTF("FULL SAVE: Updated full_save data string\n");
-    DEBUG_PRINTF("FULL SAVE STRING: %s\n", full_save_string);
-    DEBUG_PRINTF("FULL SAVE: String length=%d\n", pos);
+    // Read the current values and store them
+    s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
+    s32 total_health = READ_SAVE_DATA(SAVE_TOTAL_HEALTH);
+    
+    // Only store if total_health is not 0 (indicating valid game state)
+    if (total_health != 0 && current_health != 0)
+    {
+        // Store the full save string in the datastore
+        rando_set_datastorage_string_async("full_save", full_save_string);
+        DEBUG_PRINTF("FULL SAVE: Updated full_save data string\n");
+        DEBUG_PRINTF("FULL SAVE STRING: %s\n", full_save_string);
+        DEBUG_PRINTF("FULL SAVE: String length=%d\n", pos);
+    }
 }
 
 // Load comma-delimited string from data storage back into D_8015C608_15D208 array
@@ -424,7 +398,7 @@ void save_player_data(){
         s32 total_health = READ_SAVE_DATA(SAVE_TOTAL_HEALTH);
         
         // Only store if total_health is not 0 (indicating valid game state)
-        if (total_health != 0)
+        if (total_health != 0 && current_health != 0)
         {
             // Store each value with its own key
             rando_set_datastorage_u32_async("save_current_lives", (u32)current_lives);

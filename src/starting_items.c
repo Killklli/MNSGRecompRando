@@ -120,14 +120,14 @@ void on_file_started()
     if (rando_is_connected())
     {
         u32 saved_total_health = rando_get_datastorage_u32_sync("save_total_health");
+        u32 saved_current_lives = rando_get_datastorage_u32_sync("save_current_lives");
+        u32 saved_current_ryo = rando_get_datastorage_u32_sync("save_current_ryo");
+        u32 saved_current_health = rando_get_datastorage_u32_sync("save_current_health");
         recomp_printf("RESTORE SAVE: Retrieved saved_total_health=%u from datastore\n", saved_total_health);
         // If save_total_health is not 0, restore all 4 values
-        if (saved_total_health != 0)
+        if (saved_total_health != 0 && saved_current_health != 0 && saved_current_health != NULL && saved_total_health != NULL)
         {
-            u32 saved_current_lives = rando_get_datastorage_u32_sync("save_current_lives");
-            u32 saved_current_ryo = rando_get_datastorage_u32_sync("save_current_ryo");
-            u32 saved_current_health = rando_get_datastorage_u32_sync("save_current_health");
-            
+
             // Write the values back to player data
             WRITE_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL, (s32)saved_current_lives);
             WRITE_SAVE_DATA(SAVE_RYO, (s32)saved_current_ryo);
