@@ -33,7 +33,7 @@ void game_completed_hook(s32 param)
         }
     }
 }
-
+extern void save_player_data();
 void increase_silver_fortune_doll()
 {
     s32 fortune_dolls = READ_SAVE_DATA(SAVE_FORTUNE_DOLL_TOTAL);
@@ -52,6 +52,7 @@ void increase_silver_fortune_doll()
         WRITE_SAVE_DATA(SAVE_TOTAL_HEALTH, total_health);
     }
     WRITE_SAVE_DATA(SAVE_FORTUNE_DOLL_PROGRESS, fortune_progress);
+    save_player_data();
 }
 
 void increase_gold_fortune_doll()
@@ -63,6 +64,7 @@ void increase_gold_fortune_doll()
     s32 total_health = READ_SAVE_DATA(SAVE_TOTAL_HEALTH);
     total_health += 2;
     WRITE_SAVE_DATA(SAVE_TOTAL_HEALTH, total_health);
+    save_player_data();
 }
 
 void progressive_weapon_handler(void)

@@ -9,6 +9,7 @@
 // Forward declarations
 extern void set_starting_characters();
 extern void handle_item_by_id(u32 item_id);
+extern u8 D_8015C66C_15D26C[];
 void grant_starting_items();
 
 // Simple atoi implementation since it's not available in the limited libc
@@ -101,21 +102,43 @@ void on_save_start_hook()
             WRITE_SPAWN_Z(-25); // Z coordinate
         }
     }
-
-    grant_starting_items();
     
     // Only set starting characters if this is the first time starting the seed
     if (should_set_starting_data)
     {
+        grant_starting_items();
         // Set starting character based on recruited characters
         set_starting_characters();
     }
 }
 
 // Declares that a file has started for AP to know to work with file data
-RECOMP_HOOK("func_8000B5D0_C1D0")
+RECOMP_HOOK_RETURN("func_8000B5D0_C1D0")
 void on_file_started()
 {
+    // Check if we should restore saved game state values
+    if (rando_is_connected())
+    {
+        u32 saved_total_health = rando_get_datastorage_u32_sync("save_total_health");
+        recomp_printf("RESTORE SAVE: Retrieved saved_total_health=%u from datastore\n", saved_total_health);
+        // If save_total_health is not 0, restore all 4 values
+        if (saved_total_health != 0)
+        {
+            u32 saved_current_lives = rando_get_datastorage_u32_sync("save_current_lives");
+            u32 saved_current_ryo = rando_get_datastorage_u32_sync("save_current_ryo");
+            u32 saved_current_health = rando_get_datastorage_u32_sync("save_current_health");
+            
+            // Write the values back to player data
+            WRITE_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL, (s32)saved_current_lives);
+            WRITE_SAVE_DATA(SAVE_RYO, (s32)saved_current_ryo);
+            WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, (s32)saved_current_health);
+            WRITE_SAVE_DATA(SAVE_TOTAL_HEALTH, (s32)saved_total_health);
+            
+            recomp_printf("RESTORE SAVE: Restored lives=%u, ryo=%u, current_health=%u, total_health=%u\n",
+                        saved_current_lives, saved_current_ryo, saved_current_health, saved_total_health);
+        }
+    }
+
     // Set the file started flag so AP logic knows we're in a file
     set_file_started();
 
