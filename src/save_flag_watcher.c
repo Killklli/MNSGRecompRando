@@ -423,14 +423,22 @@ void save_player_data(){
         s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
         s32 total_health = READ_SAVE_DATA(SAVE_TOTAL_HEALTH);
         
-        // Store each value with its own key
-        rando_set_datastorage_u32_async("save_current_lives", (u32)current_lives);
-        rando_set_datastorage_u32_async("save_current_ryo", (u32)current_ryo);
-        rando_set_datastorage_u32_async("save_current_health", (u32)current_health);
-        rando_set_datastorage_u32_async("save_total_health", (u32)total_health);
-        
-        recomp_printf("EXTRA SAVE: Stored current_lives=%ld, ryo=%ld, current_health=%ld, total_health=%ld\n", 
-                    current_lives, current_ryo, current_health, total_health);
+        // Only store if total_health is not 0 (indicating valid game state)
+        if (total_health != 0)
+        {
+            // Store each value with its own key
+            rando_set_datastorage_u32_async("save_current_lives", (u32)current_lives);
+            rando_set_datastorage_u32_async("save_current_ryo", (u32)current_ryo);
+            rando_set_datastorage_u32_async("save_current_health", (u32)current_health);
+            rando_set_datastorage_u32_async("save_total_health", (u32)total_health);
+            
+            recomp_printf("EXTRA SAVE: Stored current_lives=%ld, ryo=%ld, current_health=%ld, total_health=%ld\n", 
+                        current_lives, current_ryo, current_health, total_health);
+        }
+        else
+        {
+            DEBUG_PRINTF("EXTRA SAVE: Skipping save - total_health is 0 (invalid game state)\n");
+        }
     }
 }
 
@@ -623,23 +631,7 @@ RECOMP_PATCH void func_80024088_24C88(int bit_index)
     }
 
     // Save additional game state values to their own datastore keys
-    if (rando_is_connected())
-    {
-        // Read the current values and store them
-        s32 current_lives = READ_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL);
-        s32 current_ryo = READ_SAVE_DATA(SAVE_RYO);
-        s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
-        s32 total_health = READ_SAVE_DATA(SAVE_TOTAL_HEALTH);
-        
-        // Store each value with its own key
-        rando_set_datastorage_u32_async("save_current_lives", (u32)current_lives);
-        rando_set_datastorage_u32_async("save_current_ryo", (u32)current_ryo);
-        rando_set_datastorage_u32_async("save_current_health", (u32)current_health);
-        rando_set_datastorage_u32_async("save_total_health", (u32)total_health);
-        
-        DEBUG_PRINTF("EXTRA SAVE: Stored current_lives=%ld, ryo=%ld, current_health=%ld, total_health=%ld\n", 
-                    current_lives, current_ryo, current_health, total_health);
-    }
+    save_player_data();
 
     // Update the full save data string
     update_full_save_data();
