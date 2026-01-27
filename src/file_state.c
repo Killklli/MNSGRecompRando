@@ -1,3 +1,4 @@
+#include "types.h"
 #include "file_state.h"
 #include "Archipelago.h"
 #include "recomputils.h"

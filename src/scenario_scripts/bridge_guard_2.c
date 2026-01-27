@@ -1,8 +1,9 @@
+#include "types.h"
 #include "save_data_tool.h"
 #include "scenario.h"
 #include "scenario_replacer.h"
 
-#include "common.h"
+
 
 // MACHI 0 - Oedo - Bridge to Musashi - Guard (Gatekeeper)
 // Address: @8258

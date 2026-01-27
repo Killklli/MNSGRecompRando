@@ -1,9 +1,10 @@
 // Disables PLASMA from granting flags that affect game progression.
 // We have to do this because we're going to be setting this up to be the hint
 // system
+#include "types.h"
 #include "scenario.h"
 
-#include "common.h"
+
 
 // SHOP 27 - Unknown Town Plasma - Unused - Plasma Backup Dancer
 // Address: @2f98

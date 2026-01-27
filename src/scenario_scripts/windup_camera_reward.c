@@ -1,7 +1,8 @@
 // Wind-Up Camera item reward scenario script
 // Based on original MESSAGE 083: 05d-3834.3834
 
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"

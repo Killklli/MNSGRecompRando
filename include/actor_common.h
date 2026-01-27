@@ -2,7 +2,6 @@
 #define ACTOR_COMMON_H
 
 #include "modding.h"
-#include "common.h"
 #include "recomputils.h"
 #include "recompconfig.h"
 #include "common_structs.h"

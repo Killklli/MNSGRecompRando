@@ -1,5 +1,6 @@
 // Splits up fire ryo charging so other chargable attacks can still be used
 // without having fire ryo
+#include "types.h"
 #include "file_state.h"
 #include "recomputils.h"
 #include "save_data_tool.h"

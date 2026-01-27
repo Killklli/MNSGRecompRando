@@ -1,6 +1,7 @@
+#include "types.h"
 #include "scenario.h"
 
-#include "common.h"
+
 
 // Address: @36e0
 

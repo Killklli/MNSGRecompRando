@@ -1,5 +1,6 @@
 // Text utility functions for scenario script generation
-#include "common.h"
+
+#include "types.h"
 #include "libc/stdbool.h"
 #include "libc/string.h"
 #include "scenario.h"

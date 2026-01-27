@@ -1,5 +1,6 @@
 // Benkei will introduce himself and fight you even after thaisamba
-#include "common.h"
+
+#include "types.h"
 #include "scenario.h"
 
 // External scenario code declarations

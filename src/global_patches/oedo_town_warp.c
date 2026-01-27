@@ -1,5 +1,6 @@
 // Patches the warp to Oedo Town so it does not put you above the map
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 

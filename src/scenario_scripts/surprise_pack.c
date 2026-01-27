@@ -1,6 +1,7 @@
 // Surprise Pack scenario script replacement, allows us to show a custom message
 // when the Surprise Pack is collected.
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"

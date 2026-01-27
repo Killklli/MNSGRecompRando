@@ -9,6 +9,16 @@ class MN64LogicHolder:
 
     This class is passed to all lambda functions defined in the logic files (e.g., for medal_of_flames).    It maintains the current state of all items, abilities, flags, and conditions that determine
     accessibility in the game logic.
+
+    Key Management:
+    - Keys are tracked by count (silver_key_count, gold_key_count, diamond_key_count)
+    - has_*_key() methods automatically track accessible doors and require sufficient keys
+    - can_open_mixed_doors() supports checking multiple key types at once
+
+    Usage examples:
+    - l.has_silver_key()          # Check for silver keys (accounts for accessible doors)
+    - l.has_silver_key(2)         # Check for at least 2 silver keys minimum
+    - l.can_open_mixed_doors(silver_doors=1, gold_doors=1)  # 1 silver + 1 gold
     """
 
     def __init__(self) -> None:
@@ -18,6 +28,14 @@ class MN64LogicHolder:
         self.gold_key_count: int = 0
         self.diamond_key_count: int = 0
         self.jump_gym_key: bool = False  # This one stays boolean as it's a special key
+        
+        # Context tracking for key consumption logic
+        self._current_location_context: str = ""
+        
+        # Track accessible key-consuming locations (shared across evaluations)
+        self._accessible_silver_doors: set = set()
+        self._accessible_gold_doors: set = set()
+        self._accessible_diamond_doors: set = set()
 
         # Equipment and Tools
         self.windup_camera: bool = False
@@ -83,50 +101,79 @@ class MN64LogicHolder:
         self.normal_health_count: int = 0
 
     # Key management methods
-    def has_silver_key(self) -> bool:
-        """Check if we have at least one silver key."""
-        return self.silver_key_count > 0
+    def has_silver_key(self, min_keys: int = 1, location_name: str = None) -> bool:
+        """Check if we have enough silver keys for all accessible silver key doors."""
+        context = location_name or self._current_location_context
+        
+        # If this is a silver key-consuming transition, add it to the set
+        if context and "silver key" in context.lower():
+            self._accessible_silver_doors.add(context)
+        
+        # We need enough keys for all accessible doors plus any additional minimum
+        required_keys = max(min_keys, len(self._accessible_silver_doors))
+        return self.silver_key_count >= required_keys
 
-    def has_gold_key(self) -> bool:
-        """Check if we have at least one gold key."""
-        return self.gold_key_count > 0
+    def has_gold_key(self, min_keys: int = 1, location_name: str = None) -> bool:
+        """Check if we have enough gold keys for all accessible gold key doors."""
+        context = location_name or self._current_location_context
+        
+        # If this is a gold key-consuming transition, add it to the set
+        if context and "gold key" in context.lower():
+            self._accessible_gold_doors.add(context)
+        
+        # We need enough keys for all accessible doors plus any additional minimum
+        required_keys = max(min_keys, len(self._accessible_gold_doors))
+        return self.gold_key_count >= required_keys
 
-    def has_diamond_key(self) -> bool:
-        """Check if we have at least one diamond key."""
-        return self.diamond_key_count > 0
+    def has_diamond_key(self, min_keys: int = 1, location_name: str = None) -> bool:
+        """Check if we have enough diamond keys for all accessible diamond key doors."""
+        context = location_name or self._current_location_context
+        
+        # If this is a diamond key-consuming transition, add it to the set
+        if context and "diamond key" in context.lower():
+            self._accessible_diamond_doors.add(context)
+        
+        # We need enough keys for all accessible doors plus any additional minimum
+        required_keys = max(min_keys, len(self._accessible_diamond_doors))
+        return self.diamond_key_count >= required_keys
 
-    def use_silver_key(self) -> bool:
-        """Use a silver key if available. Returns True if used successfully."""
-        if self.silver_key_count > 0:
-            self.silver_key_count -= 1
-            return True
-        return False
-
-    def use_gold_key(self) -> bool:
-        """Use a gold key if available. Returns True if used successfully."""
-        if self.gold_key_count > 0:
-            self.gold_key_count -= 1
-            return True
-        return False
-
-    def use_diamond_key(self) -> bool:
-        """Use a diamond key if available. Returns True if used successfully."""
-        if self.diamond_key_count > 0:
-            self.diamond_key_count -= 1
-            return True
-        return False
-
-    def add_silver_key(self):
-        """Add a silver key to inventory."""
-        self.silver_key_count += 1
-
-    def add_gold_key(self):
-        """Add a gold key to inventory."""
-        self.gold_key_count += 1
-
-    def add_diamond_key(self):
-        """Add a diamond key to inventory."""
-        self.diamond_key_count += 1
+    def can_open_mixed_doors(self, silver_doors: int = 0, gold_doors: int = 0, diamond_doors: int = 0) -> bool:
+        """Check if we have enough keys to open multiple doors of different types in the same area."""
+        return (self.silver_key_count >= silver_doors and 
+                self.gold_key_count >= gold_doors and 
+                self.diamond_key_count >= diamond_doors)
+    
+    def reset_lock_tracking(self) -> None:
+        """Reset the context tracking but keep door tracking across evaluations."""
+        self._current_location_context = ""
+        # NOTE: We don't clear the door sets here as they represent cumulative accessibility
+    
+    def clear_all_door_tracking(self) -> None:
+        """Clear all door tracking. Use this for fresh logic evaluation sessions."""
+        self._accessible_silver_doors.clear()
+        self._accessible_gold_doors.clear()
+        self._accessible_diamond_doors.clear()
+        self._current_location_context = ""
+    
+    def get_accessible_doors_count(self, key_type: str) -> int:
+        """Get the current count of accessible key-consuming doors for a key type."""
+        if key_type == "silver":
+            return len(self._accessible_silver_doors)
+        elif key_type == "gold":
+            return len(self._accessible_gold_doors)
+        elif key_type == "diamond":
+            return len(self._accessible_diamond_doors)
+        return 0
+    
+    def get_available_keys(self, key_type: str) -> int:
+        """Get the current count of available keys for a key type."""
+        if key_type == "silver":
+            return self.silver_key_count
+        elif key_type == "gold":
+            return self.gold_key_count
+        elif key_type == "diamond":
+            return self.diamond_key_count
+        return 0
 
     def set_state(self, property_name: str, value: bool) -> None:
         """

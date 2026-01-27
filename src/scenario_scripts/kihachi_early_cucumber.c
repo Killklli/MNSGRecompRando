@@ -1,8 +1,9 @@
 // Adjusts the Kihachi quest so you can give him a cucumber if you already have
 // it.
+#include "types.h"
 #include "scenario.h"
 
-#include "common.h"
+
 
 // Address: @d320
 
