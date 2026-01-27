@@ -238,7 +238,7 @@ void handle_item_by_id(u32 item_id)
 RECOMP_HOOK("func_80024038_24C38")
 void func_80024038_24C38_hook(s32 flag)
 {
-  recomp_printf("func_80024038_24C38_hook called with flag value: 0x%08X\n",
+  DEBUG_PRINTF("func_80024038_24C38_hook called with flag value: 0x%08X\n",
                 flag);
 
   // Only proceed with AP logic if we're in a file and connected
@@ -316,13 +316,13 @@ void func_80024038_24C38_hook(s32 flag)
     }
     else
     {
-      recomp_printf("Flag %d not found in flag_id_to_ap_location_id mapping\n",
+      DEBUG_PRINTF("Flag %d not found in flag_id_to_ap_location_id mapping\n",
                     flag);
     }
   }
   else
   {
-    recomp_printf(
+    DEBUG_PRINTF(
         "Not in a file, connected to Archipelago, or not scouted yet\n");
   }
 }

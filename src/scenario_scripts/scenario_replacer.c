@@ -37,7 +37,7 @@ extern s32 scenario_code_message_227_3a14[];
 extern s32 scenario_code_message_157_a930[];
 extern s32 scenario_code_message_15e_b798[];
 extern s32 scenario_code_message_110_8420[];
-extern s32 scenario_code_message_110_8420[];
+extern s32 scenario_code_message_083_3834[];
 
 // Generic scenario replacement function - handles its own scenario replacement
 void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code,
@@ -98,9 +98,10 @@ void consolidated_scenario_hook()
                              NULL, NULL); // Zazen Priest
   replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0, NULL,
                              NULL, NULL); // Zazen Priest Son
-  DEBUG_PRINTF("Replaced first set of scenarios\n");
   replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0, NULL,
                              NULL, NULL); // Bridge Guard 1 (Super Pass Check)
+  replace_scenario_with_flag(0x083, scenario_code_message_083_3834, 0, NULL,
+                             NULL, NULL); // Wind-Up Camera Reward
 }
 
 // Hardcoded function to check super pass and set flag 0x501

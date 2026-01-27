@@ -406,7 +406,7 @@ void save_player_data(){
             rando_set_datastorage_u32_async("save_current_health", (u32)current_health);
             rando_set_datastorage_u32_async("save_total_health", (u32)total_health);
             
-            recomp_printf("EXTRA SAVE: Stored current_lives=%ld, ryo=%ld, current_health=%ld, total_health=%ld\n", 
+            DEBUG_PRINTF("EXTRA SAVE: Stored current_lives=%ld, ryo=%ld, current_health=%ld, total_health=%ld\n", 
                         current_lives, current_ryo, current_health, total_health);
         }
         else

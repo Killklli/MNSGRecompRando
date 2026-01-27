@@ -385,7 +385,7 @@ void process_items(ActorInstance *actor_instance,
                  actor_id, D_800C7AB2, overall_index);
   }
 
-  if (found_replacement)
+  if (found_replacement && actor_id != 0x3d3)
   {
     // Create a new actor definition for this specific instance
     ActorDefinition *new_actor_def =
