@@ -1,10 +1,11 @@
 // Allows us to change the item granted by the Oedo Castle Lord.
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
 #include "scenario_replacer.h"
 
-#include "common.h"
+
 
 // Address: @4b70
 

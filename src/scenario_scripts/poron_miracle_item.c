@@ -1,11 +1,12 @@
 // Adjusts the Poron Miracle Item Script to not set the Beat Thaisamba flag so
 // we can prevent the submarine from despawning.
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
 #include "scenario_replacer.h"
 
-#include "common.h"
+
 
 // Forward declarations
 extern s32 scenario_code_poron_encounter[];

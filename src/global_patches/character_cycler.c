@@ -1,6 +1,7 @@
 // This file handles a patch to the character cycler to skip Goemon if you don't
 // have him
-#include "common.h"
+
+#include "types.h"
 #include "recomputils.h"
 
 // External function declaration

@@ -2,7 +2,7 @@
 // surprise pack collection. We can't just set a scenario script because it
 // needs to be triggered only when the surprise pack is collected.
 #include "Archipelago.h"
-#include "common.h"
+
 #include "file_state.h"
 #include "game_entities.h"
 #include "libc/stdio.h"

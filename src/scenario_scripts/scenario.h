@@ -1,7 +1,8 @@
+#include "types.h"
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-#include "common.h"
+
 
 // Skip Next If Not Equal To Value
 #define SNE 0x8002

@@ -1,5 +1,6 @@
+#include "types.h"
 #include "scenario_replacer.h"
-#include "common.h"
+
 #include "modding.h"
 #include "recomputils.h"
 #include "save_data_tool.h"

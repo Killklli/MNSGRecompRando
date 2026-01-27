@@ -1,4 +1,5 @@
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "Archipelago.h"
 #include "recomputils.h"

@@ -1,9 +1,43 @@
 #include "Archipelago.h"
-#include "common.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "save_data_tool.h"
 #include "types.h"
+
+// Silver lock flags
+#define LOCK_SILVER_OEDO_CASTLE_1F_TILE 0x0109
+#define LOCK_SILVER_OEDO_CASTLE_1F_CHAIN_PIPE 0x010F
+#define LOCK_SILVER_OEDO_CASTLE_1F_TURTLE 0x010B
+#define LOCK_SILVER_OEDO_CASTLE_2F_CRUSHER 0x0111
+#define LOCK_SILVER_OEDO_CASTLE_2F_SPIKE 0x0113
+#define LOCK_SILVER_GHOST_TOYS_1F_FLOWER 0x01AC
+#define LOCK_SILVER_GHOST_TOYS_1F_SHOGI 0x01AE
+#define LOCK_SILVER_GHOST_TOYS_1F_SPIKE_DAR 0x01B0
+#define LOCK_SILVER_GHOST_TOYS_1F_2F_ELEVATOR 0x01B2
+#define LOCK_SILVER_GHOST_TOYS_2F_BIG_SPIKE_2 0x01B4
+#define LOCK_SILVER_GHOST_TOYS_2F_BILLIARDS 0x01BA
+#define LOCK_SILVER_FESTIVAL_TEMPLE_FORK 0x0170
+#define LOCK_SILVER_GOURMET_SUB_2F_JETPACK_2 0x017A
+#define LOCK_SILVER_GOURMET_SUB_2F_LAVA 0x017E
+#define LOCK_SILVER_GOURMET_SUB_2F_UNDERWATER 0x0180
+#define LOCK_SILVER_GOURMET_SUB_3F_FOX_2 0x0182
+#define LOCK_SILVER_GOURMET_SUB_3F_TOFU 0x0186
+#define LOCK_SILVER_MUSICAL_CASTLE_1_TALL 0x018A
+
+// Gold lock flags
+#define LOCK_GOLD_OEDO_CASTLE_1F_FORK 0x010D
+#define LOCK_GOLD_GHOST_TOYS_2F_BIG_SPIKE_1 0x01B6
+#define LOCK_GOLD_FESTIVAL_TEMPLE 0x016F
+#define LOCK_GOLD_GOURMET_SUB_2F_JETPACK_1 0x017C
+#define LOCK_GOLD_MUSICAL_CASTLE_1_ENTRANCE 0x0188
+#define LOCK_GOLD_MUSICAL_CASTLE_1_FAN 0x018D
+#define LOCK_GOLD_MUSICAL_CASTLE_1_MULTI_1 0x018E
+
+// Diamond lock flags
+#define LOCK_DIAMOND_GHOST_TOYS_2F 0x01B8
+#define LOCK_DIAMOND_GOURMET_SUB_3F_FOX_1 0x0184
+#define LOCK_DIAMOND_MUSICAL_CASTLE_1_MULTI_2 0x0190
+#define LOCK_DIAMOND_MUSICAL_CASTLE_2_ENTRANCE 0x0192
 
 // External function declarations
 extern s32 func_800240DC_24CDC(u16 flag);
@@ -139,27 +173,72 @@ u8 count_collected_keys(u8 lock_type)
     return (u8)has_keys;
 }
 
-// Function to get used key count from save data bytes
+// Function to get used key count by checking unlocked flags
 u8 get_used_key_count(u8 lock_type)
 {
-    u8 save_byte;
+    u8 used_count = 0;
 
     switch (lock_type)
     {
-    case 2: // Silver keys - save byte 0x37
-        save_byte = 0x37;
+    case 2: // Silver keys - count unlocked silver locks
+        {
+            u16 silver_locks[] = {
+                LOCK_SILVER_OEDO_CASTLE_1F_TILE, LOCK_SILVER_OEDO_CASTLE_1F_CHAIN_PIPE,
+                LOCK_SILVER_OEDO_CASTLE_1F_TURTLE, LOCK_SILVER_OEDO_CASTLE_2F_CRUSHER,
+                LOCK_SILVER_OEDO_CASTLE_2F_SPIKE, LOCK_SILVER_GHOST_TOYS_1F_FLOWER,
+                LOCK_SILVER_GHOST_TOYS_1F_SHOGI, LOCK_SILVER_GHOST_TOYS_1F_SPIKE_DAR,
+                LOCK_SILVER_GHOST_TOYS_1F_2F_ELEVATOR, LOCK_SILVER_GHOST_TOYS_2F_BIG_SPIKE_2,
+                LOCK_SILVER_GHOST_TOYS_2F_BILLIARDS, LOCK_SILVER_FESTIVAL_TEMPLE_FORK,
+                LOCK_SILVER_GOURMET_SUB_2F_JETPACK_2, LOCK_SILVER_GOURMET_SUB_2F_LAVA,
+                LOCK_SILVER_GOURMET_SUB_2F_UNDERWATER, LOCK_SILVER_GOURMET_SUB_3F_FOX_2,
+                LOCK_SILVER_GOURMET_SUB_3F_TOFU, LOCK_SILVER_MUSICAL_CASTLE_1_TALL
+            };
+            for (int i = 0; i < sizeof(silver_locks) / sizeof(silver_locks[0]); i++)
+            {
+                if (IS_FLAG_SET(silver_locks[i]))
+                {
+                    used_count++;
+                }
+            }
+        }
         break;
-    case 1: // Gold keys - save byte 0x38
-        save_byte = 0x38;
+    case 1: // Gold keys - count unlocked gold locks
+        {
+            u16 gold_locks[] = {
+                LOCK_GOLD_OEDO_CASTLE_1F_FORK, LOCK_GOLD_GHOST_TOYS_2F_BIG_SPIKE_1,
+                LOCK_GOLD_FESTIVAL_TEMPLE, LOCK_GOLD_GOURMET_SUB_2F_JETPACK_1,
+                LOCK_GOLD_MUSICAL_CASTLE_1_ENTRANCE, LOCK_GOLD_MUSICAL_CASTLE_1_FAN,
+                LOCK_GOLD_MUSICAL_CASTLE_1_MULTI_1
+            };
+            for (int i = 0; i < sizeof(gold_locks) / sizeof(gold_locks[0]); i++)
+            {
+                if (IS_FLAG_SET(gold_locks[i]))
+                {
+                    used_count++;
+                }
+            }
+        }
         break;
-    case 0: // Diamond keys - save byte 0x39
-        save_byte = 0x39;
+    case 0: // Diamond keys - count unlocked diamond locks
+        {
+            u16 diamond_locks[] = {
+                LOCK_DIAMOND_GHOST_TOYS_2F, LOCK_DIAMOND_GOURMET_SUB_3F_FOX_1,
+                LOCK_DIAMOND_MUSICAL_CASTLE_1_MULTI_2, LOCK_DIAMOND_MUSICAL_CASTLE_2_ENTRANCE
+            };
+            for (int i = 0; i < sizeof(diamond_locks) / sizeof(diamond_locks[0]); i++)
+            {
+                if (IS_FLAG_SET(diamond_locks[i]))
+                {
+                    used_count++;
+                }
+            }
+        }
         break;
     default:
         return 0;
     }
 
-    return READ_SAVE_DATA_B(save_byte);
+    return used_count;
 }
 
 // Function to get available (unused) key count
@@ -175,33 +254,8 @@ u8 get_key_count(u8 lock_type)
     return 0;
 }
 
-// Function to increment used key count in save data bytes
-void increment_used_key_count(u8 lock_type)
-{
-    u8 save_byte;
-
-    switch (lock_type)
-    {
-    case 2: // Silver keys - save byte 0x37
-        save_byte = 0x37;
-        break;
-    case 1: // Gold keys - save byte 0x38
-        save_byte = 0x38;
-        break;
-    case 0: // Diamond keys - save byte 0x39
-        save_byte = 0x39;
-        break;
-    default:
-        return;
-    }
-
-    u8 current_used = READ_SAVE_DATA_B(save_byte);
-    WRITE_SAVE_DATA_B(save_byte, current_used + 1);
-    DEBUG_PRINTF(
-        "Incremented used key count for type %d (save byte 0x%02X) from %d to "
-        "%d\n",
-        lock_type, save_byte, current_used, current_used + 1);
-}
+// Note: Key usage is now tracked automatically by checking which locks have been unlocked
+// No need for manual increment function
 
 void calculate_key_on_pause()
 {
@@ -293,9 +347,7 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
         {
             DEBUG_PRINTF("Using key of type %d\n", lock_type);
 
-            // Increment the used key count
-            increment_used_key_count(lock_type);
-
+            // Set the unlock flag - this will automatically be counted as "used"
             func_80024038_24C38(*(u16 *)(entity + 0xD4));
 
             // Call cleanup function

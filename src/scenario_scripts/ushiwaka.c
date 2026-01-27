@@ -1,5 +1,6 @@
 // Patches out Ushiwaka events you're always able to fish and do mini ebismaru
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"

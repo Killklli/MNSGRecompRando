@@ -1,10 +1,11 @@
 // Adjusts scenario_code_message_162_d63c so you always learn Kihachi's favorite
 // food
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
 
-#include "common.h"
+
 
 // Address: @cd8c
 

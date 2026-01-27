@@ -1,11 +1,12 @@
 // Adjusts Mokubei so you can always get chain pipe even if you already got the
 // flag to upgrade your pipe.
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
 #include "scenario_replacer.h"
 
-#include "common.h"
+
 
 // SHOP 66 - Mt. Fuji - Pipe Maker's House - Mokubei (Pipe maker)
 // Address: @63fc

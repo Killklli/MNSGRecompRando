@@ -1,4 +1,5 @@
-#include "common.h"
+
+#include "types.h"
 #include "scenario.h"
 
 // External scenario code declarations

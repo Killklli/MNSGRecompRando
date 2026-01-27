@@ -1,7 +1,8 @@
 // Adjusts the Impact Miracle Item Script to not set the Beat Thaisamba flag so
 // we can prevent the submarine from despawning.
 
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"

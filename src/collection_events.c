@@ -1,6 +1,5 @@
 #include "Archipelago.h"
 #include "apconnect_ui.h"
-#include "common.h"
 #include "entities.h"
 #include "file_state.h"
 #include "libc/stdio.h"

@@ -1,7 +1,8 @@
 // This file just disables the Super Jump and Mini-Ebisu paths in the Zazen
 // Priest scenario This allows the player to always receive both abilities from
 // the priest
-#include "common.h"
+
+#include "types.h"
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
