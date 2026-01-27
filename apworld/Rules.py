@@ -12,11 +12,19 @@ if TYPE_CHECKING:
     from .Logic.mn64_logic_holder import MN64LogicHolder
 
 
-def create_logic_holder_from_state(state: CollectionState, player: int) -> "MN64LogicHolder":
+def create_logic_holder_from_state(state: CollectionState, player: int, context_name: str = "") -> "MN64LogicHolder":
     """Create a logic holder populated with the current state."""
     from .Logic.mn64_logic_holder import MN64LogicHolder
 
-    holder = MN64LogicHolder()
+    # Use a global holder instance to maintain door tracking across evaluations
+    if not hasattr(create_logic_holder_from_state, '_holder_instance'):
+        create_logic_holder_from_state._holder_instance = MN64LogicHolder()
+    
+    holder = create_logic_holder_from_state._holder_instance
+    
+    # Reset context but keep door tracking
+    holder.reset_lock_tracking()
+    holder._current_location_context = context_name
 
     # Update holder with current state - Keys
     holder.silver_key_count = state.count(MN64Items.SILVER_KEY.value, player)
@@ -159,10 +167,13 @@ def set_rules(world: "MN64World") -> None:
                 location = next(loc for loc in region.locations if loc.name == unique_name)
                 if location_logic.logic:
                     # Wrap the logic function to use state properly
-                    set_rule(
-                        location,
-                        lambda state, logic_func=location_logic.logic, p=player: logic_func(create_logic_holder_from_state(state, p)),
-                    )
+                    def make_location_rule(logic_func, location_name, player_id):
+                        def location_rule(state):
+                            holder = create_logic_holder_from_state(state, player_id, location_name)
+                            return logic_func(holder)
+                        return location_rule
+                    
+                    set_rule(location, make_location_rule(location_logic.logic, unique_name, player))
             except StopIteration:
                 continue  # Location doesn't exist
 
@@ -179,10 +190,17 @@ def set_rules(world: "MN64World") -> None:
                 if entrance.connected_region and entrance.connected_region.name == exit_logic.destinationRegion:
                     if exit_logic.logic:
                         # Wrap the logic function to use state properly
-                        set_rule(
-                            entrance,
-                            lambda state, logic_func=exit_logic.logic, p=player: logic_func(create_logic_holder_from_state(state, p)),
-                        )
+                        def make_entrance_rule(logic_func, entrance_name, player_id):
+                            def entrance_rule(state):
+                                holder = create_logic_holder_from_state(state, player_id, entrance_name)
+                                return logic_func(holder)
+                            return entrance_rule
+                        
+                        entrance_name = f"{region_name} -> {exit_logic.destinationRegion}"
+                        if exit_logic.consumes_key:
+                            entrance_name += f" ({exit_logic.consumes_key} key)"
+                        
+                        set_rule(entrance, make_entrance_rule(exit_logic.logic, entrance_name, player))
                     break
 
 
