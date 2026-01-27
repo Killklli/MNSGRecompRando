@@ -27,8 +27,8 @@ BASE_ID = 6464000
 
 # Keys
 keys_table: Dict[str, ItemData] = {
-    "Silver Key": ItemData(BASE_ID + 0, 12, ItemClassification.progression, entity_id=0x193),
-    "Gold Key": ItemData(BASE_ID + 1, 6, ItemClassification.progression, entity_id=0x193),
+    "Silver Key": ItemData(BASE_ID + 0, 14, ItemClassification.progression, entity_id=0x193),
+    "Gold Key": ItemData(BASE_ID + 1, 7, ItemClassification.progression, entity_id=0x193),
     "Diamond Key": ItemData(BASE_ID + 2, 4, ItemClassification.progression, entity_id=0x193),
     "Jump Gym Key": ItemData(BASE_ID + 3, 1, ItemClassification.progression, entity_id=0x193),
 }

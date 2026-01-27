@@ -24,7 +24,7 @@ for folder in folders_to_copy:
             dest_path = os.path.join(temp_mnsg_folder, item)
             
             if os.path.isdir(source_path):
-                shutil.copytree(source_path, dest_path, dirs_exist_ok=True, ignore=shutil.ignore_patterns("__pycache__"))
+                shutil.copytree(source_path, dest_path, dirs_exist_ok=True, ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo"))
             else:
                 shutil.copy2(source_path, dest_path)
 
@@ -33,7 +33,14 @@ def zip_folder(folder_path: str, zip_name: str, preserve_root: bool = False, cus
     """Zip a folder."""
     with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zipf:
         folder_basename = custom_root_name if custom_root_name else os.path.basename(folder_path)
-        for root, _, files in os.walk(folder_path):
+        for root, dirs, files in os.walk(folder_path):
+            # Skip __pycache__ directories
+            dirs[:] = [d for d in dirs if d != "__pycache__"]
+            
+            # Skip files in __pycache__ directories
+            if "__pycache__" in root:
+                continue
+                
             for file in files:
                 file_path = os.path.join(root, file)
                 if preserve_root:
