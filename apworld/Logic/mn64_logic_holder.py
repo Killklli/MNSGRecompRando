@@ -95,39 +95,6 @@ class MN64LogicHolder:
         """Check if we have at least one diamond key."""
         return self.diamond_key_count > 0
 
-    def use_silver_key(self) -> bool:
-        """Use a silver key if available. Returns True if used successfully."""
-        if self.silver_key_count > 0:
-            self.silver_key_count -= 1
-            return True
-        return False
-
-    def use_gold_key(self) -> bool:
-        """Use a gold key if available. Returns True if used successfully."""
-        if self.gold_key_count > 0:
-            self.gold_key_count -= 1
-            return True
-        return False
-
-    def use_diamond_key(self) -> bool:
-        """Use a diamond key if available. Returns True if used successfully."""
-        if self.diamond_key_count > 0:
-            self.diamond_key_count -= 1
-            return True
-        return False
-
-    def add_silver_key(self):
-        """Add a silver key to inventory."""
-        self.silver_key_count += 1
-
-    def add_gold_key(self):
-        """Add a gold key to inventory."""
-        self.gold_key_count += 1
-
-    def add_diamond_key(self):
-        """Add a diamond key to inventory."""
-        self.diamond_key_count += 1
-
     def set_state(self, property_name: str, value: bool) -> None:
         """
         Set the state of a specific property.
