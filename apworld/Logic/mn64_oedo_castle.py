@@ -179,7 +179,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("OedoCastleWaterRoom", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("OedoCastleChainPipeGap", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("OedoCastleChainPipeGap", lambda l: l.has_silver_key(), type=MN64DoorType.DOOR, consumes_key="silver"),
         ],
         room_id=0x000,
         room_default_definitions=[
@@ -494,7 +494,13 @@ LogicRegions = {
         exits=[
             MN64TransitionFront("OedoCastle3Platforms", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront("OedoCastle90ChainPipe", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("OedoCastleFloorCleaners", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront(
+                "OedoCastleFloorCleaners",
+                lambda l: True,
+                lambda l: l.has_silver_key(),
+                type=MN64DoorType.DOOR,
+                consumes_key="silver",
+            ),
         ],
         room_id=0x00D,
         room_default_definitions=[

@@ -448,10 +448,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("GhostToysCastleMrArrowRoom", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront(
-                "GhostToysCastleGhostKeyRoom",
-                lambda l: l.windup_camera and l.ebismaru,
-            ),
+            MN64TransitionFront("GhostToysCastleGhostKeyRoom", lambda l: l.windup_camera and l.ebismaru and l.has_silver_key(), type=MN64DoorType.DOOR, consumes_key="silver"),
             MN64TransitionFront(
                 "GhostToysCastleToySoldierElevator",
                 lambda l: True,
@@ -869,7 +866,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("GhostToysSleepingBeanHallway", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("GhostToysCastleBossKeyRoom", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("GhostToysCastleBossKeyRoom", lambda l: l.has_silver_key() and l.ebismaru, type=MN64DoorType.DOOR, consumes_key="silver"),
         ],
         room_id=0x045,
         room_default_definitions=[
