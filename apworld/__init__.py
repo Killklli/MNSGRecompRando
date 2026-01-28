@@ -8,6 +8,7 @@ from typing import Any, ClassVar, Dict, List, Set
 from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
+from .Options import MN64Options
 from .Items import MN64Item, all_item_table, get_item_name_to_id
 from .Locations import get_location_name_to_id
 from .Logic.mn64_logic_classes import MN64DoorType, MN64HintRegion, MN64Items, MN64Levels
@@ -48,6 +49,9 @@ class MN64World(World):
 
     game = "Mystical Ninja Starring Goemon"
     web = MN64Web()
+    options_dataclass = MN64Options
+    options: MN64Options
+    topology_present = False
 
     data_version = 1
 
@@ -160,9 +164,12 @@ class MN64World(World):
             MN64Items.MIRACLE_SNOW.value,
             MN64Items.MIRACLE_MOON.value,
             MN64Items.MIRACLE_FLOWER.value,
-            # MN64Items.GOLDEN_HEALTH.value,
-            # MN64Items.NORMAL_HEALTH.value,
         }
+        
+        # If health randomization is disabled, keep health items at vanilla locations
+        if not self.options.randomize_health.value:
+            vanilla_item_names.add(MN64Items.GOLDEN_HEALTH.value)
+            vanilla_item_names.add(MN64Items.NORMAL_HEALTH.value)
 
         # Create all regions and their locations
         all_location_names = []
@@ -259,19 +266,24 @@ class MN64World(World):
                 entrance.connect(destination)
 
         # Connect Menu to starting region (Oedo Town or GoemonsHouse)
-        # Randomly select a starting region.
-        possible_regions = [
-            "GoemonsHouse",
-            "ZazenTownEntrance",
-            "FestivalVillageEntrance",
-            "KaisCoffeeShop",
-            "IyoCoffeeShop",
-            "IzumoCoffeeShop",
-            "KompurasCoffeeShop",
-            "KiisCoffeeShop",
-        ]
-        # Choose one based on multiworld random
-        starting_region_name = self.random.choice(possible_regions)
+        # Randomly select a starting region if option is enabled
+        if self.options.starting_room_rando.value:
+            possible_regions = [
+                "GoemonsHouse",
+                "ZazenTownEntrance",
+                "FestivalVillageEntrance",
+                "KaisCoffeeShop",
+                "IyoCoffeeShop",
+                "IzumoCoffeeShop",
+                "KompurasCoffeeShop",
+                "KiisCoffeeShop",
+            ]
+            # Choose one based on multiworld random
+            starting_region_name = self.random.choice(possible_regions)
+        else:
+            # Default starting region
+            starting_region_name = "GoemonsHouse"
+        
         self.starting_region_name = starting_region_name  # Store for slot data
 
         # Store the room_id for the starting region
@@ -296,9 +308,12 @@ class MN64World(World):
             "Miracle Snow",
             "Miracle Moon",
             "Miracle Flower",
-            # "Golden Health",
-            # "Normal Health",
         }
+        
+        # If health randomization is disabled, keep health items at vanilla locations
+        if not self.options.randomize_health.value:
+            vanilla_item_names.add("Golden Health")
+            vanilla_item_names.add("Normal Health")
 
         # Characters that can start the game
         character_names = ["Goemon", "Ebismaru", "Yae", "Sasuke"]
@@ -799,6 +814,11 @@ class MN64World(World):
             "starting_characters": starting_characters,
             "starting_items": starting_items,
             "flag_id_to_ap_location_id": flag_id_to_ap_location_id,
+            "enemy_rando": self.options.enemy_rando.value,
+            "starting_room_rando": self.options.starting_room_rando.value,
+            "increase_pot_ryo": self.options.increase_pot_ryo.value,
+            "randomize_health": self.options.randomize_health.value,
+            "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
         }
 
         return slot_data

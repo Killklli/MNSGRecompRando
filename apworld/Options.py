@@ -22,6 +22,23 @@ class EnemyRando(Toggle):
 
     display_name = "Enemy Rando"
 
+class IncreasedPotRyo(Toggle):
+    """Determines if pots have an increased amount of ryo."""
+
+    display_name = "Increase Pot Ryo"
+
+
+class HealthInPool(Toggle):
+    """Determines if Health Items are added into the pool."""
+
+    display_name = "Health In Pool"
+
+
+class PreventOneWaySoftlocks(DefaultOnToggle):
+    """Entrances that are normally one-way are now two-way."""
+
+    display_name = "Prevent One-Way Softlocks"
+
 
 @dataclass
 class MN64Options(PerGameCommonOptions):
@@ -29,3 +46,6 @@ class MN64Options(PerGameCommonOptions):
 
     enemy_rando: EnemyRando
     starting_room_rando: StartingRoomRando
+    increase_pot_ryo: IncreasedPotRyo
+    randomize_health: HealthInPool
+    prevent_oneway_softlocks: PreventOneWaySoftlocks
