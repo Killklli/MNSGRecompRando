@@ -4,6 +4,7 @@
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
+#include "save_data_tool.h"
 
 // External scenario code declarations
 extern s32 scenario_code_message_160_c028[];
@@ -39,24 +40,24 @@ static s16 scenario_text_0000[] = {CTR_BEGIN, CTR_ENDLINE};
 
 // Darn! I know there are {em-yellow}fish{/em} in{newline}{endline}
 static s16 scenario_text_0014[] = {
-    CHR_D,     CHR_a, CHR_r,       CHR_n,         PCT_EXCLAMATION,
-    PCT_SPACE, CHR_I, PCT_SPACE,   CHR_k,         CHR_n,
-    CHR_o,     CHR_w, PCT_SPACE,   CHR_t,         CHR_h,
-    CHR_e,     CHR_r, CHR_e,       PCT_SPACE,     CHR_a,
-    CHR_r,     CHR_e, PCT_SPACE,   CTR_EM_YELLOW, CHR_f,
-    CHR_i,     CHR_s, CHR_h,       CTR_CLOSE_EM,  PCT_SPACE,
-    CHR_i,     CHR_n, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_D, CHR_a, CHR_r, CHR_n, PCT_EXCLAMATION,
+    PCT_SPACE, CHR_I, PCT_SPACE, CHR_k, CHR_n,
+    CHR_o, CHR_w, PCT_SPACE, CHR_t, CHR_h,
+    CHR_e, CHR_r, CHR_e, PCT_SPACE, CHR_a,
+    CHR_r, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_f,
+    CHR_i, CHR_s, CHR_h, CTR_CLOSE_EM, PCT_SPACE,
+    CHR_i, CHR_n, CTR_NEWLINE, CTR_ENDLINE};
 
 // this Creek!{newline}{endline}
 static s16 scenario_text_0058[] = {
-    CHR_t, CHR_h, CHR_i, CHR_s,           PCT_SPACE,   CHR_C,      CHR_r,
+    CHR_t, CHR_h, CHR_i, CHR_s, PCT_SPACE, CHR_C, CHR_r,
     CHR_e, CHR_e, CHR_k, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // But I haven't caught any!{endline}
 static s16 scenario_text_0079[] = {
-    CHR_B, CHR_u, CHR_t, PCT_SPACE,       CHR_I,          PCT_SPACE, CHR_h,
-    CHR_a, CHR_v, CHR_e, CHR_n,           PCT_APOSTROPHE, CHR_t,     PCT_SPACE,
-    CHR_c, CHR_a, CHR_u, CHR_g,           CHR_h,          CHR_t,     PCT_SPACE,
+    CHR_B, CHR_u, CHR_t, PCT_SPACE, CHR_I, PCT_SPACE, CHR_h,
+    CHR_a, CHR_v, CHR_e, CHR_n, PCT_APOSTROPHE, CHR_t, PCT_SPACE,
+    CHR_c, CHR_a, CHR_u, CHR_g, CHR_h, CHR_t, PCT_SPACE,
     CHR_a, CHR_n, CHR_y, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -65,26 +66,26 @@ static s16 scenario_text_009F[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
 // Address: @c0a8
 
 // What?{newline}{endline}
-static s16 scenario_text_00BC[] = {CHR_W,        CHR_h,       CHR_a,      CHR_t,
+static s16 scenario_text_00BC[] = {CHR_W, CHR_h, CHR_a, CHR_t,
                                    PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 // Whaddya want?{newline}{endline}
 static s16 scenario_text_00D7[] = {
-    CHR_W, CHR_h, CHR_a,        CHR_d,       CHR_d,
-    CHR_y, CHR_a, PCT_SPACE,    CHR_w,       CHR_a,
+    CHR_W, CHR_h, CHR_a, CHR_d, CHR_d,
+    CHR_y, CHR_a, PCT_SPACE, CHR_w, CHR_a,
     CHR_n, CHR_t, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}Who are you?{newline}{endline}
 static s16 scenario_text_00FA[] = {
-    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_W,       CHR_h,      CHR_o,
-    PCT_SPACE, CHR_a,     CHR_r,         CHR_e,       PCT_SPACE,  CHR_y,
-    CHR_o,     CHR_u,     PCT_QUESTION,  CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_W, CHR_h, CHR_o,
+    PCT_SPACE, CHR_a, CHR_r, CHR_e, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}Do you know Benkei?{newline}{endline}
 static s16 scenario_text_0129[] = {
-    PCT_SPACE,    PCT_SPACE,   CTR_EM_YELLOW, CHR_D, CHR_o, PCT_SPACE, CHR_y,
-    CHR_o,        CHR_u,       PCT_SPACE,     CHR_k, CHR_n, CHR_o,     CHR_w,
-    PCT_SPACE,    CHR_B,       CHR_e,         CHR_n, CHR_k, CHR_e,     CHR_i,
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_D, CHR_o, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_SPACE, CHR_k, CHR_n, CHR_o, CHR_w,
+    PCT_SPACE, CHR_B, CHR_e, CHR_n, CHR_k, CHR_e, CHR_i,
     PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 // {end}{endline}
@@ -97,70 +98,70 @@ static s16 scenario_text_0171[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}You've got a nerve asking me{newline}{endline}
 static s16 scenario_text_0189[] = {
-    CTR_CLOSE_EM, CHR_Y,     CHR_o,     CHR_u, PCT_APOSTROPHE, CHR_v,
-    CHR_e,        PCT_SPACE, CHR_g,     CHR_o, CHR_t,          PCT_SPACE,
-    CHR_a,        PCT_SPACE, CHR_n,     CHR_e, CHR_r,          CHR_v,
-    CHR_e,        PCT_SPACE, CHR_a,     CHR_s, CHR_k,          CHR_i,
-    CHR_n,        CHR_g,     PCT_SPACE, CHR_m, CHR_e,          CTR_NEWLINE,
+    CTR_CLOSE_EM, CHR_Y, CHR_o, CHR_u, PCT_APOSTROPHE, CHR_v,
+    CHR_e, PCT_SPACE, CHR_g, CHR_o, CHR_t, PCT_SPACE,
+    CHR_a, PCT_SPACE, CHR_n, CHR_e, CHR_r, CHR_v,
+    CHR_e, PCT_SPACE, CHR_a, CHR_s, CHR_k, CHR_i,
+    CHR_n, CHR_g, PCT_SPACE, CHR_m, CHR_e, CTR_NEWLINE,
     CTR_ENDLINE};
 
 // who I am!{newline}{endline}
 static s16 scenario_text_01C0[] = {
-    CHR_w, CHR_h, CHR_o,           PCT_SPACE,   CHR_I,      PCT_SPACE,
+    CHR_w, CHR_h, CHR_o, PCT_SPACE, CHR_I, PCT_SPACE,
     CHR_a, CHR_m, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // You don't recognize me?{button}{endline}
 static s16 scenario_text_01DF[] = {
-    CHR_Y, CHR_o, CHR_u,          PCT_SPACE,  CHR_d,
-    CHR_o, CHR_n, PCT_APOSTROPHE, CHR_t,      PCT_SPACE,
-    CHR_r, CHR_e, CHR_c,          CHR_o,      CHR_g,
-    CHR_n, CHR_i, CHR_z,          CHR_e,      PCT_SPACE,
-    CHR_m, CHR_e, PCT_QUESTION,   CTR_BUTTON, CTR_ENDLINE};
+    CHR_Y, CHR_o, CHR_u, PCT_SPACE, CHR_d,
+    CHR_o, CHR_n, PCT_APOSTROPHE, CHR_t, PCT_SPACE,
+    CHR_r, CHR_e, CHR_c, CHR_o, CHR_g,
+    CHR_n, CHR_i, CHR_z, CHR_e, PCT_SPACE,
+    CHR_m, CHR_e, PCT_QUESTION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_020B[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // I'm only telling you once, {newline}{endline}
 static s16 scenario_text_0223[] = {
-    CHR_I, PCT_APOSTROPHE, CHR_m,     PCT_SPACE,   CHR_o,      CHR_n,
-    CHR_l, CHR_y,          PCT_SPACE, CHR_t,       CHR_e,      CHR_l,
-    CHR_l, CHR_i,          CHR_n,     CHR_g,       PCT_SPACE,  CHR_y,
-    CHR_o, CHR_u,          PCT_SPACE, CHR_o,       CHR_n,      CHR_c,
-    CHR_e, PCT_COMMA,      PCT_SPACE, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_I, PCT_APOSTROPHE, CHR_m, PCT_SPACE, CHR_o, CHR_n,
+    CHR_l, CHR_y, PCT_SPACE, CHR_t, CHR_e, CHR_l,
+    CHR_l, CHR_i, CHR_n, CHR_g, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_SPACE, CHR_o, CHR_n, CHR_c,
+    CHR_e, PCT_COMMA, PCT_SPACE, CTR_NEWLINE, CTR_ENDLINE};
 
 // keep your ears wide open!{button}{endline}
 static s16 scenario_text_0254[] = {
-    CHR_k,     CHR_e, CHR_e,     CHR_p,           PCT_SPACE,  CHR_y,      CHR_o,
-    CHR_u,     CHR_r, PCT_SPACE, CHR_e,           CHR_a,      CHR_r,      CHR_s,
-    PCT_SPACE, CHR_w, CHR_i,     CHR_d,           CHR_e,      PCT_SPACE,  CHR_o,
-    CHR_p,     CHR_e, CHR_n,     PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
+    CHR_k, CHR_e, CHR_e, CHR_p, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, CHR_r, PCT_SPACE, CHR_e, CHR_a, CHR_r, CHR_s,
+    PCT_SPACE, CHR_w, CHR_i, CHR_d, CHR_e, PCT_SPACE, CHR_o,
+    CHR_p, CHR_e, CHR_n, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_0282[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // I'm {em-yellow}Ushiwaka{/em},{newline}{endline}
 static s16 scenario_text_029A[] = {
-    CHR_I, PCT_APOSTROPHE, CHR_m,     PCT_SPACE,   CTR_EM_YELLOW, CHR_U,
-    CHR_s, CHR_h,          CHR_i,     CHR_w,       CHR_a,         CHR_k,
-    CHR_a, CTR_CLOSE_EM,   PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_I, PCT_APOSTROPHE, CHR_m, PCT_SPACE, CTR_EM_YELLOW, CHR_U,
+    CHR_s, CHR_h, CHR_i, CHR_w, CHR_a, CHR_k,
+    CHR_a, CTR_CLOSE_EM, PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 // the {em-yellow}best-looking knight{/em} in{newline}{endline}
 static s16 scenario_text_02CD[] = {
-    CHR_t,        CHR_h,     CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_b,
-    CHR_e,        CHR_s,     CHR_t, PCT_DASH,  CHR_l,         CHR_o,
-    CHR_o,        CHR_k,     CHR_i, CHR_n,     CHR_g,         PCT_SPACE,
-    CHR_k,        CHR_n,     CHR_i, CHR_g,     CHR_h,         CHR_t,
-    CTR_CLOSE_EM, PCT_SPACE, CHR_i, CHR_n,     CTR_NEWLINE,   CTR_ENDLINE};
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_b,
+    CHR_e, CHR_s, CHR_t, PCT_DASH, CHR_l, CHR_o,
+    CHR_o, CHR_k, CHR_i, CHR_n, CHR_g, PCT_SPACE,
+    CHR_k, CHR_n, CHR_i, CHR_g, CHR_h, CHR_t,
+    CTR_CLOSE_EM, PCT_SPACE, CHR_i, CHR_n, CTR_NEWLINE, CTR_ENDLINE};
 
 // the world!{newline}{endline}
 static s16 scenario_text_030D[] = {
-    CHR_t, CHR_h, CHR_e, PCT_SPACE,       CHR_w,       CHR_o,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_w, CHR_o,
     CHR_r, CHR_l, CHR_d, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // Now remember that!{endline}
 static s16 scenario_text_032D[] = {
-    CHR_N, CHR_o, CHR_w, PCT_SPACE,       CHR_r,      CHR_e,     CHR_m,
-    CHR_e, CHR_m, CHR_b, CHR_e,           CHR_r,      PCT_SPACE, CHR_t,
+    CHR_N, CHR_o, CHR_w, PCT_SPACE, CHR_r, CHR_e, CHR_m,
+    CHR_e, CHR_m, CHR_b, CHR_e, CHR_r, PCT_SPACE, CHR_t,
     CHR_h, CHR_a, CHR_t, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -173,25 +174,25 @@ static s16 scenario_text_0369[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}I told you I was only going to{newline}{endline}
 static s16 scenario_text_0381[] = {
-    CTR_CLOSE_EM, CHR_I,       PCT_SPACE,  CHR_t, CHR_o,     CHR_l,
-    CHR_d,        PCT_SPACE,   CHR_y,      CHR_o, CHR_u,     PCT_SPACE,
-    CHR_I,        PCT_SPACE,   CHR_w,      CHR_a, CHR_s,     PCT_SPACE,
-    CHR_o,        CHR_n,       CHR_l,      CHR_y, PCT_SPACE, CHR_g,
-    CHR_o,        CHR_i,       CHR_n,      CHR_g, PCT_SPACE, CHR_t,
-    CHR_o,        CTR_NEWLINE, CTR_ENDLINE};
+    CTR_CLOSE_EM, CHR_I, PCT_SPACE, CHR_t, CHR_o, CHR_l,
+    CHR_d, PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE,
+    CHR_I, PCT_SPACE, CHR_w, CHR_a, CHR_s, PCT_SPACE,
+    CHR_o, CHR_n, CHR_l, CHR_y, PCT_SPACE, CHR_g,
+    CHR_o, CHR_i, CHR_n, CHR_g, PCT_SPACE, CHR_t,
+    CHR_o, CTR_NEWLINE, CTR_ENDLINE};
 
 // tell you once!{newline}{endline}
 static s16 scenario_text_03BA[] = {
-    CHR_t, CHR_e,           CHR_l,       CHR_l,      PCT_SPACE, CHR_y,
-    CHR_o, CHR_u,           PCT_SPACE,   CHR_o,      CHR_n,     CHR_c,
+    CHR_t, CHR_e, CHR_l, CHR_l, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_SPACE, CHR_o, CHR_n, CHR_c,
     CHR_e, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // I'm not telling you again!!{endline}
 static s16 scenario_text_03DE[] = {
-    CHR_I, PCT_APOSTROPHE,  CHR_m,           PCT_SPACE,  CHR_n, CHR_o,
-    CHR_t, PCT_SPACE,       CHR_t,           CHR_e,      CHR_l, CHR_l,
-    CHR_i, CHR_n,           CHR_g,           PCT_SPACE,  CHR_y, CHR_o,
-    CHR_u, PCT_SPACE,       CHR_a,           CHR_g,      CHR_a, CHR_i,
+    CHR_I, PCT_APOSTROPHE, CHR_m, PCT_SPACE, CHR_n, CHR_o,
+    CHR_t, PCT_SPACE, CHR_t, CHR_e, CHR_l, CHR_l,
+    CHR_i, CHR_n, CHR_g, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_a, CHR_g, CHR_a, CHR_i,
     CHR_n, PCT_EXCLAMATION, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -204,16 +205,16 @@ static s16 scenario_text_0423[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}Of course I do!{newline}{endline}
 static s16 scenario_text_043B[] = {
-    CTR_CLOSE_EM, CHR_O, CHR_f, PCT_SPACE,       CHR_c,       CHR_o,
-    CHR_u,        CHR_r, CHR_s, CHR_e,           PCT_SPACE,   CHR_I,
-    PCT_SPACE,    CHR_d, CHR_o, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
+    CTR_CLOSE_EM, CHR_O, CHR_f, PCT_SPACE, CHR_c, CHR_o,
+    CHR_u, CHR_r, CHR_s, CHR_e, PCT_SPACE, CHR_I,
+    PCT_SPACE, CHR_d, CHR_o, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // He's like a follower to me!{button}{endline}
 static s16 scenario_text_0465[] = {
-    CHR_H, CHR_e, PCT_APOSTROPHE,  CHR_s,      PCT_SPACE,  CHR_l,
-    CHR_i, CHR_k, CHR_e,           PCT_SPACE,  CHR_a,      PCT_SPACE,
-    CHR_f, CHR_o, CHR_l,           CHR_l,      CHR_o,      CHR_w,
-    CHR_e, CHR_r, PCT_SPACE,       CHR_t,      CHR_o,      PCT_SPACE,
+    CHR_H, CHR_e, PCT_APOSTROPHE, CHR_s, PCT_SPACE, CHR_l,
+    CHR_i, CHR_k, CHR_e, PCT_SPACE, CHR_a, PCT_SPACE,
+    CHR_f, CHR_o, CHR_l, CHR_l, CHR_o, CHR_w,
+    CHR_e, CHR_r, PCT_SPACE, CHR_t, CHR_o, PCT_SPACE,
     CHR_m, CHR_e, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -221,8 +222,8 @@ static s16 scenario_text_0495[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Wait a sec...{button}{endline}
 static s16 scenario_text_04AD[] = {
-    CHR_W,      CHR_a,      CHR_i,      CHR_t,      PCT_SPACE,
-    CHR_a,      PCT_SPACE,  CHR_s,      CHR_e,      CHR_c,
+    CHR_W, CHR_a, CHR_i, CHR_t, PCT_SPACE,
+    CHR_a, PCT_SPACE, CHR_s, CHR_e, CHR_c,
     PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -230,34 +231,34 @@ static s16 scenario_text_04CF[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // I bet you're trying to get across{newline}{endline}
 static s16 scenario_text_04E7[] = {
-    CHR_I, PCT_SPACE, CHR_b,          CHR_e, CHR_t, PCT_SPACE,   CHR_y,
-    CHR_o, CHR_u,     PCT_APOSTROPHE, CHR_r, CHR_e, PCT_SPACE,   CHR_t,
-    CHR_r, CHR_y,     CHR_i,          CHR_n, CHR_g, PCT_SPACE,   CHR_t,
-    CHR_o, PCT_SPACE, CHR_g,          CHR_e, CHR_t, PCT_SPACE,   CHR_a,
-    CHR_c, CHR_r,     CHR_o,          CHR_s, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_I, PCT_SPACE, CHR_b, CHR_e, CHR_t, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_APOSTROPHE, CHR_r, CHR_e, PCT_SPACE, CHR_t,
+    CHR_r, CHR_y, CHR_i, CHR_n, CHR_g, PCT_SPACE, CHR_t,
+    CHR_o, PCT_SPACE, CHR_g, CHR_e, CHR_t, PCT_SPACE, CHR_a,
+    CHR_c, CHR_r, CHR_o, CHR_s, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 // the {em-yellow}Gojo Ohashi Bridge{/em}{newline}{endline}
 static s16 scenario_text_051E[] = {
-    CHR_t, CHR_h, CHR_e,        PCT_SPACE,   CTR_EM_YELLOW, CHR_G, CHR_o,
-    CHR_j, CHR_o, PCT_SPACE,    CHR_O,       CHR_h,         CHR_a, CHR_s,
-    CHR_h, CHR_i, PCT_SPACE,    CHR_B,       CHR_r,         CHR_i, CHR_d,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_G, CHR_o,
+    CHR_j, CHR_o, PCT_SPACE, CHR_O, CHR_h, CHR_a, CHR_s,
+    CHR_h, CHR_i, PCT_SPACE, CHR_B, CHR_r, CHR_i, CHR_d,
     CHR_g, CHR_e, CTR_CLOSE_EM, CTR_NEWLINE, CTR_ENDLINE};
 
 // that {em-yellow}Benkei's blocking{/em}.{button}{endline}
 static s16 scenario_text_055A[] = {
-    CHR_t,          CHR_h,      CHR_a,      CHR_t, PCT_SPACE, CTR_EM_YELLOW,
-    CHR_B,          CHR_e,      CHR_n,      CHR_k, CHR_e,     CHR_i,
-    PCT_APOSTROPHE, CHR_s,      PCT_SPACE,  CHR_b, CHR_l,     CHR_o,
-    CHR_c,          CHR_k,      CHR_i,      CHR_n, CHR_g,     CTR_CLOSE_EM,
-    PCT_PERIOD,     CTR_BUTTON, CTR_ENDLINE};
+    CHR_t, CHR_h, CHR_a, CHR_t, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_B, CHR_e, CHR_n, CHR_k, CHR_e, CHR_i,
+    PCT_APOSTROPHE, CHR_s, PCT_SPACE, CHR_b, CHR_l, CHR_o,
+    CHR_c, CHR_k, CHR_i, CHR_n, CHR_g, CTR_CLOSE_EM,
+    PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_0596[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Am I right?{newline}{endline}
 static s16 scenario_text_05AE[] = {
-    CHR_A, CHR_m, PCT_SPACE, CHR_I,        PCT_SPACE,   CHR_r,      CHR_i,
-    CHR_g, CHR_h, CHR_t,     PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_A, CHR_m, PCT_SPACE, CHR_I, PCT_SPACE, CHR_r, CHR_i,
+    CHR_g, CHR_h, CHR_t, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {newline}{endline}
 static s16 scenario_text_05CF[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
@@ -265,17 +266,17 @@ static s16 scenario_text_05CF[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
 
 //   {em-yellow}Uh, well, yes.{newline}{endline}
 static s16 scenario_text_05E7[] = {
-    PCT_SPACE, PCT_SPACE,  CTR_EM_YELLOW, CHR_U,      CHR_h,
-    PCT_COMMA, PCT_SPACE,  CHR_w,         CHR_e,      CHR_l,
-    CHR_l,     PCT_COMMA,  PCT_SPACE,     CHR_y,      CHR_e,
-    CHR_s,     PCT_PERIOD, CTR_NEWLINE,   CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_U, CHR_h,
+    PCT_COMMA, PCT_SPACE, CHR_w, CHR_e, CHR_l,
+    CHR_l, PCT_COMMA, PCT_SPACE, CHR_y, CHR_e,
+    CHR_s, PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}Uh, no, not at all...{newline}{endline}
 static s16 scenario_text_0618[] = {
-    PCT_SPACE,   PCT_SPACE,  CTR_EM_YELLOW, CHR_U,      CHR_h,      PCT_COMMA,
-    PCT_SPACE,   CHR_n,      CHR_o,         PCT_COMMA,  PCT_SPACE,  CHR_n,
-    CHR_o,       CHR_t,      PCT_SPACE,     CHR_a,      CHR_t,      PCT_SPACE,
-    CHR_a,       CHR_l,      CHR_l,         PCT_PERIOD, PCT_PERIOD, PCT_PERIOD,
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_U, CHR_h, PCT_COMMA,
+    PCT_SPACE, CHR_n, CHR_o, PCT_COMMA, PCT_SPACE, CHR_n,
+    CHR_o, CHR_t, PCT_SPACE, CHR_a, CHR_t, PCT_SPACE,
+    CHR_a, CHR_l, CHR_l, PCT_PERIOD, PCT_PERIOD, PCT_PERIOD,
     CTR_NEWLINE, CTR_ENDLINE};
 
 // {end}{endline}
@@ -288,17 +289,17 @@ static s16 scenario_text_0662[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}Well, why didn't you tell me in{newline}{endline}
 static s16 scenario_text_067A[] = {
-    CTR_CLOSE_EM, CHR_W, CHR_e,       CHR_l,          CHR_l,     PCT_COMMA,
-    PCT_SPACE,    CHR_w, CHR_h,       CHR_y,          PCT_SPACE, CHR_d,
-    CHR_i,        CHR_d, CHR_n,       PCT_APOSTROPHE, CHR_t,     PCT_SPACE,
-    CHR_y,        CHR_o, CHR_u,       PCT_SPACE,      CHR_t,     CHR_e,
-    CHR_l,        CHR_l, PCT_SPACE,   CHR_m,          CHR_e,     PCT_SPACE,
-    CHR_i,        CHR_n, CTR_NEWLINE, CTR_ENDLINE};
+    CTR_CLOSE_EM, CHR_W, CHR_e, CHR_l, CHR_l, PCT_COMMA,
+    PCT_SPACE, CHR_w, CHR_h, CHR_y, PCT_SPACE, CHR_d,
+    CHR_i, CHR_d, CHR_n, PCT_APOSTROPHE, CHR_t, PCT_SPACE,
+    CHR_y, CHR_o, CHR_u, PCT_SPACE, CHR_t, CHR_e,
+    CHR_l, CHR_l, PCT_SPACE, CHR_m, CHR_e, PCT_SPACE,
+    CHR_i, CHR_n, CTR_NEWLINE, CTR_ENDLINE};
 
 // the first place?{button}{endline}
 static s16 scenario_text_06B4[] = {
-    CHR_t, CHR_h, CHR_e, PCT_SPACE,    CHR_f,      CHR_i,
-    CHR_r, CHR_s, CHR_t, PCT_SPACE,    CHR_p,      CHR_l,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_f, CHR_i,
+    CHR_r, CHR_s, CHR_t, PCT_SPACE, CHR_p, CHR_l,
     CHR_a, CHR_c, CHR_e, PCT_QUESTION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -306,25 +307,25 @@ static s16 scenario_text_06D9[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Just do me a favour, and I'll{newline}{endline}
 static s16 scenario_text_06F1[] = {
-    CHR_J,      CHR_u,     CHR_s,          CHR_t, PCT_SPACE, CHR_d,
-    CHR_o,      PCT_SPACE, CHR_m,          CHR_e, PCT_SPACE, CHR_a,
-    PCT_SPACE,  CHR_f,     CHR_a,          CHR_v, CHR_o,     CHR_u,
-    CHR_r,      PCT_COMMA, PCT_SPACE,      CHR_a, CHR_n,     CHR_d,
-    PCT_SPACE,  CHR_I,     PCT_APOSTROPHE, CHR_l, CHR_l,     CTR_NEWLINE,
+    CHR_J, CHR_u, CHR_s, CHR_t, PCT_SPACE, CHR_d,
+    CHR_o, PCT_SPACE, CHR_m, CHR_e, PCT_SPACE, CHR_a,
+    PCT_SPACE, CHR_f, CHR_a, CHR_v, CHR_o, CHR_u,
+    CHR_r, PCT_COMMA, PCT_SPACE, CHR_a, CHR_n, CHR_d,
+    PCT_SPACE, CHR_I, PCT_APOSTROPHE, CHR_l, CHR_l, CTR_NEWLINE,
     CTR_ENDLINE};
 
 // tell you how to deal with Benkei!{newline}{endline}
 static s16 scenario_text_0724[] = {
-    CHR_t, CHR_e,     CHR_l, CHR_l, PCT_SPACE,       CHR_y,       CHR_o,
-    CHR_u, PCT_SPACE, CHR_h, CHR_o, CHR_w,           PCT_SPACE,   CHR_t,
-    CHR_o, PCT_SPACE, CHR_d, CHR_e, CHR_a,           CHR_l,       PCT_SPACE,
-    CHR_w, CHR_i,     CHR_t, CHR_h, PCT_SPACE,       CHR_B,       CHR_e,
-    CHR_n, CHR_k,     CHR_e, CHR_i, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_t, CHR_e, CHR_l, CHR_l, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_h, CHR_o, CHR_w, PCT_SPACE, CHR_t,
+    CHR_o, PCT_SPACE, CHR_d, CHR_e, CHR_a, CHR_l, PCT_SPACE,
+    CHR_w, CHR_i, CHR_t, CHR_h, PCT_SPACE, CHR_B, CHR_e,
+    CHR_n, CHR_k, CHR_e, CHR_i, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // Well, whaddya say?{button}{endline}
 static s16 scenario_text_075B[] = {
-    CHR_W, CHR_e, CHR_l, CHR_l,        PCT_COMMA,  PCT_SPACE,  CHR_w,
-    CHR_h, CHR_a, CHR_d, CHR_d,        CHR_y,      CHR_a,      PCT_SPACE,
+    CHR_W, CHR_e, CHR_l, CHR_l, PCT_COMMA, PCT_SPACE, CHR_w,
+    CHR_h, CHR_a, CHR_d, CHR_d, CHR_y, CHR_a, PCT_SPACE,
     CHR_s, CHR_a, CHR_y, PCT_QUESTION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -332,10 +333,10 @@ static s16 scenario_text_0782[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Will you do me a favour?{newline}{endline}
 static s16 scenario_text_079A[] = {
-    CHR_W,     CHR_i,     CHR_l,        CHR_l,       PCT_SPACE,  CHR_y, CHR_o,
-    CHR_u,     PCT_SPACE, CHR_d,        CHR_o,       PCT_SPACE,  CHR_m, CHR_e,
-    PCT_SPACE, CHR_a,     PCT_SPACE,    CHR_f,       CHR_a,      CHR_v, CHR_o,
-    CHR_u,     CHR_r,     PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_W, CHR_i, CHR_l, CHR_l, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_d, CHR_o, PCT_SPACE, CHR_m, CHR_e,
+    PCT_SPACE, CHR_a, PCT_SPACE, CHR_f, CHR_a, CHR_v, CHR_o,
+    CHR_u, CHR_r, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {newline}{endline}
 static s16 scenario_text_07C8[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
@@ -343,15 +344,15 @@ static s16 scenario_text_07C8[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
 
 //   {em-yellow}Well, all right.{newline}{endline}
 static s16 scenario_text_07E0[] = {
-    PCT_SPACE,  PCT_SPACE,   CTR_EM_YELLOW, CHR_W, CHR_e, CHR_l,
-    CHR_l,      PCT_COMMA,   PCT_SPACE,     CHR_a, CHR_l, CHR_l,
-    PCT_SPACE,  CHR_r,       CHR_i,         CHR_g, CHR_h, CHR_t,
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_W, CHR_e, CHR_l,
+    CHR_l, PCT_COMMA, PCT_SPACE, CHR_a, CHR_l, CHR_l,
+    PCT_SPACE, CHR_r, CHR_i, CHR_g, CHR_h, CHR_t,
     PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}No way!{newline}{endline}
-static s16 scenario_text_0813[] = {PCT_SPACE,       PCT_SPACE,   CTR_EM_YELLOW,
-                                   CHR_N,           CHR_o,       PCT_SPACE,
-                                   CHR_w,           CHR_a,       CHR_y,
+static s16 scenario_text_0813[] = {PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW,
+                                   CHR_N, CHR_o, PCT_SPACE,
+                                   CHR_w, CHR_a, CHR_y,
                                    PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // {end}{endline}
@@ -364,9 +365,9 @@ static s16 scenario_text_084F[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}Then it's decided!{button}{endline}
 static s16 scenario_text_0867[] = {
-    CTR_CLOSE_EM,    CHR_T,      CHR_h,          CHR_e, CHR_n,     PCT_SPACE,
-    CHR_i,           CHR_t,      PCT_APOSTROPHE, CHR_s, PCT_SPACE, CHR_d,
-    CHR_e,           CHR_c,      CHR_i,          CHR_d, CHR_e,     CHR_d,
+    CTR_CLOSE_EM, CHR_T, CHR_h, CHR_e, CHR_n, PCT_SPACE,
+    CHR_i, CHR_t, PCT_APOSTROPHE, CHR_s, PCT_SPACE, CHR_d,
+    CHR_e, CHR_c, CHR_i, CHR_d, CHR_e, CHR_d,
     PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -375,20 +376,20 @@ static s16 scenario_text_0893[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 // Okay, [{em-yellow}Catch{/em}] me some {em-yellow}fish{/em}
 // from{newline}{endline}
 static s16 scenario_text_08AB[] = {
-    CHR_O,       CHR_k,        CHR_a,         CHR_y,        PCT_COMMA,
-    PCT_SPACE,   PCT_LBRACKET, CTR_EM_YELLOW, CHR_C,        CHR_a,
-    CHR_t,       CHR_c,        CHR_h,         CTR_CLOSE_EM, PCT_RBRACKET,
-    PCT_SPACE,   CHR_m,        CHR_e,         PCT_SPACE,    CHR_s,
-    CHR_o,       CHR_m,        CHR_e,         PCT_SPACE,    CTR_EM_YELLOW,
-    CHR_f,       CHR_i,        CHR_s,         CHR_h,        CTR_CLOSE_EM,
-    PCT_SPACE,   CHR_f,        CHR_r,         CHR_o,        CHR_m,
+    CHR_O, CHR_k, CHR_a, CHR_y, PCT_COMMA,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_C, CHR_a,
+    CHR_t, CHR_c, CHR_h, CTR_CLOSE_EM, PCT_RBRACKET,
+    PCT_SPACE, CHR_m, CHR_e, PCT_SPACE, CHR_s,
+    CHR_o, CHR_m, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_f, CHR_i, CHR_s, CHR_h, CTR_CLOSE_EM,
+    PCT_SPACE, CHR_f, CHR_r, CHR_o, CHR_m,
     CTR_NEWLINE, CTR_ENDLINE};
 
 // the {em-yellow}Duck Creek{/em}!{button}{endline}
 static s16 scenario_text_0900[] = {
-    CHR_t,        CHR_h,           CHR_e,      PCT_SPACE,  CTR_EM_YELLOW,
-    CHR_D,        CHR_u,           CHR_c,      CHR_k,      PCT_SPACE,
-    CHR_C,        CHR_r,           CHR_e,      CHR_e,      CHR_k,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_D, CHR_u, CHR_c, CHR_k, PCT_SPACE,
+    CHR_C, CHR_r, CHR_e, CHR_e, CHR_k,
     CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -396,13 +397,13 @@ static s16 scenario_text_0934[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // First catch [{em-yellow}Three{/em}][{em-yellow}Blue Fish{/em}]!{endline}
 static s16 scenario_text_094C[] = {
-    CHR_F,        CHR_i,        CHR_r,         CHR_s,         CHR_t,
-    PCT_SPACE,    CHR_c,        CHR_a,         CHR_t,         CHR_c,
-    CHR_h,        PCT_SPACE,    PCT_LBRACKET,  CTR_EM_YELLOW, CHR_T,
-    CHR_h,        CHR_r,        CHR_e,         CHR_e,         CTR_CLOSE_EM,
-    PCT_RBRACKET, PCT_LBRACKET, CTR_EM_YELLOW, CHR_B,         CHR_l,
-    CHR_u,        CHR_e,        PCT_SPACE,     CHR_F,         CHR_i,
-    CHR_s,        CHR_h,        CTR_CLOSE_EM,  PCT_RBRACKET,  PCT_EXCLAMATION,
+    CHR_F, CHR_i, CHR_r, CHR_s, CHR_t,
+    PCT_SPACE, CHR_c, CHR_a, CHR_t, CHR_c,
+    CHR_h, PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_T,
+    CHR_h, CHR_r, CHR_e, CHR_e, CTR_CLOSE_EM,
+    PCT_RBRACKET, PCT_LBRACKET, CTR_EM_YELLOW, CHR_B, CHR_l,
+    CHR_u, CHR_e, PCT_SPACE, CHR_F, CHR_i,
+    CHR_s, CHR_h, CTR_CLOSE_EM, PCT_RBRACKET, PCT_EXCLAMATION,
     CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -415,22 +416,22 @@ static s16 scenario_text_09B5[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}Is that so...{newline}{endline}
 static s16 scenario_text_09CD[] = {
-    CTR_CLOSE_EM, CHR_I,      CHR_s,       PCT_SPACE,  CHR_t, CHR_h,
-    CHR_a,        CHR_t,      PCT_SPACE,   CHR_s,      CHR_o, PCT_PERIOD,
-    PCT_PERIOD,   PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
+    CTR_CLOSE_EM, CHR_I, CHR_s, PCT_SPACE, CHR_t, CHR_h,
+    CHR_a, CHR_t, PCT_SPACE, CHR_s, CHR_o, PCT_PERIOD,
+    PCT_PERIOD, PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 // In that case, you're in the way!{newline}{endline}
 static s16 scenario_text_09F5[] = {
-    CHR_I,     CHR_n,           PCT_SPACE,   CHR_t,      CHR_h, CHR_a,
-    CHR_t,     PCT_SPACE,       CHR_c,       CHR_a,      CHR_s, CHR_e,
-    PCT_COMMA, PCT_SPACE,       CHR_y,       CHR_o,      CHR_u, PCT_APOSTROPHE,
-    CHR_r,     CHR_e,           PCT_SPACE,   CHR_i,      CHR_n, PCT_SPACE,
-    CHR_t,     CHR_h,           CHR_e,       PCT_SPACE,  CHR_w, CHR_a,
-    CHR_y,     PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_I, CHR_n, PCT_SPACE, CHR_t, CHR_h, CHR_a,
+    CHR_t, PCT_SPACE, CHR_c, CHR_a, CHR_s, CHR_e,
+    PCT_COMMA, PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_APOSTROPHE,
+    CHR_r, CHR_e, PCT_SPACE, CHR_i, CHR_n, PCT_SPACE,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_w, CHR_a,
+    CHR_y, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // Scram!!{endline}
-static s16 scenario_text_0A2B[] = {CHR_S,           CHR_c,      CHR_r,
-                                   CHR_a,           CHR_m,      PCT_EXCLAMATION,
+static s16 scenario_text_0A2B[] = {CHR_S, CHR_c, CHR_r,
+                                   CHR_a, CHR_m, PCT_EXCLAMATION,
                                    PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -443,18 +444,18 @@ static s16 scenario_text_0A5C[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Hurry up and{newline}{endline}
 static s16 scenario_text_0A74[] = {
-    CHR_H, CHR_u,     CHR_r, CHR_r, CHR_y, PCT_SPACE,   CHR_u,
+    CHR_H, CHR_u, CHR_r, CHR_r, CHR_y, PCT_SPACE, CHR_u,
     CHR_p, PCT_SPACE, CHR_a, CHR_n, CHR_d, CTR_NEWLINE, CTR_ENDLINE};
 
 // get me those {em-yellow}three{/em} [{em-yellow}Blue Fish{/em}]!{endline}
 static s16 scenario_text_0A96[] = {
-    CHR_g,      CHR_e,        CHR_t,         PCT_SPACE,     CHR_m,
-    CHR_e,      PCT_SPACE,    CHR_t,         CHR_h,         CHR_o,
-    CHR_s,      CHR_e,        PCT_SPACE,     CTR_EM_YELLOW, CHR_t,
-    CHR_h,      CHR_r,        CHR_e,         CHR_e,         CTR_CLOSE_EM,
-    PCT_SPACE,  PCT_LBRACKET, CTR_EM_YELLOW, CHR_B,         CHR_l,
-    CHR_u,      CHR_e,        PCT_SPACE,     CHR_F,         CHR_i,
-    CHR_s,      CHR_h,        CTR_CLOSE_EM,  PCT_RBRACKET,  PCT_EXCLAMATION,
+    CHR_g, CHR_e, CHR_t, PCT_SPACE, CHR_m,
+    CHR_e, PCT_SPACE, CHR_t, CHR_h, CHR_o,
+    CHR_s, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_t,
+    CHR_h, CHR_r, CHR_e, CHR_e, CTR_CLOSE_EM,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_B, CHR_l,
+    CHR_u, CHR_e, PCT_SPACE, CHR_F, CHR_i,
+    CHR_s, CHR_h, CTR_CLOSE_EM, PCT_RBRACKET, PCT_EXCLAMATION,
     CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -467,7 +468,7 @@ static s16 scenario_text_0AFF[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // You did it!{button}{endline}
 static s16 scenario_text_0B17[] = {
-    CHR_Y,     CHR_o, CHR_u, PCT_SPACE,       CHR_d,      CHR_i,      CHR_d,
+    CHR_Y, CHR_o, CHR_u, PCT_SPACE, CHR_d, CHR_i, CHR_d,
     PCT_SPACE, CHR_i, CHR_t, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -475,19 +476,19 @@ static s16 scenario_text_0B37[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Okay, next get me {newline}{endline}
 static s16 scenario_text_0B4F[] = {
-    CHR_O,     CHR_k, CHR_a, CHR_y,     PCT_COMMA,   PCT_SPACE,  CHR_n,
-    CHR_e,     CHR_x, CHR_t, PCT_SPACE, CHR_g,       CHR_e,      CHR_t,
+    CHR_O, CHR_k, CHR_a, CHR_y, PCT_COMMA, PCT_SPACE, CHR_n,
+    CHR_e, CHR_x, CHR_t, PCT_SPACE, CHR_g, CHR_e, CHR_t,
     PCT_SPACE, CHR_m, CHR_e, PCT_SPACE, CTR_NEWLINE, CTR_ENDLINE};
 
 //       [{em-yellow}Five{/em}][{em-yellow}Yellow Fish{/em}]!{newline}{endline}
 static s16 scenario_text_0B77[] = {
-    PCT_SPACE,     PCT_SPACE,    PCT_SPACE,     PCT_SPACE,    PCT_SPACE,
-    PCT_SPACE,     PCT_LBRACKET, CTR_EM_YELLOW, CHR_F,        CHR_i,
-    CHR_v,         CHR_e,        CTR_CLOSE_EM,  PCT_RBRACKET, PCT_LBRACKET,
-    CTR_EM_YELLOW, CHR_Y,        CHR_e,         CHR_l,        CHR_l,
-    CHR_o,         CHR_w,        PCT_SPACE,     CHR_F,        CHR_i,
-    CHR_s,         CHR_h,        CTR_CLOSE_EM,  PCT_RBRACKET, PCT_EXCLAMATION,
-    CTR_NEWLINE,   CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_F, CHR_i,
+    CHR_v, CHR_e, CTR_CLOSE_EM, PCT_RBRACKET, PCT_LBRACKET,
+    CTR_EM_YELLOW, CHR_Y, CHR_e, CHR_l, CHR_l,
+    CHR_o, CHR_w, PCT_SPACE, CHR_F, CHR_i,
+    CHR_s, CHR_h, CTR_CLOSE_EM, PCT_RBRACKET, PCT_EXCLAMATION,
+    CTR_NEWLINE, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_0BC7[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -499,18 +500,18 @@ static s16 scenario_text_0BE4[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Hurry up and{newline}{endline}
 static s16 scenario_text_0BFC[] = {
-    CHR_H, CHR_u,     CHR_r, CHR_r, CHR_y, PCT_SPACE,   CHR_u,
+    CHR_H, CHR_u, CHR_r, CHR_r, CHR_y, PCT_SPACE, CHR_u,
     CHR_p, PCT_SPACE, CHR_a, CHR_n, CHR_d, CTR_NEWLINE, CTR_ENDLINE};
 
 //  get me those {em-yellow}five{/em} [{em-yellow}Yellow Fish{/em}]!{endline}
 static s16 scenario_text_0C1E[] = {
-    PCT_SPACE,    CHR_g,           CHR_e,         CHR_t,     PCT_SPACE,
-    CHR_m,        CHR_e,           PCT_SPACE,     CHR_t,     CHR_h,
-    CHR_o,        CHR_s,           CHR_e,         PCT_SPACE, CTR_EM_YELLOW,
-    CHR_f,        CHR_i,           CHR_v,         CHR_e,     CTR_CLOSE_EM,
-    PCT_SPACE,    PCT_LBRACKET,    CTR_EM_YELLOW, CHR_Y,     CHR_e,
-    CHR_l,        CHR_l,           CHR_o,         CHR_w,     PCT_SPACE,
-    CHR_F,        CHR_i,           CHR_s,         CHR_h,     CTR_CLOSE_EM,
+    PCT_SPACE, CHR_g, CHR_e, CHR_t, PCT_SPACE,
+    CHR_m, CHR_e, PCT_SPACE, CHR_t, CHR_h,
+    CHR_o, CHR_s, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_f, CHR_i, CHR_v, CHR_e, CTR_CLOSE_EM,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_Y, CHR_e,
+    CHR_l, CHR_l, CHR_o, CHR_w, PCT_SPACE,
+    CHR_F, CHR_i, CHR_s, CHR_h, CTR_CLOSE_EM,
     PCT_RBRACKET, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -523,7 +524,7 @@ static s16 scenario_text_0C89[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Pretty good!{button}{endline}
 static s16 scenario_text_0CA1[] = {
-    CHR_P, CHR_r, CHR_e, CHR_t, CHR_t,           CHR_y,      PCT_SPACE,
+    CHR_P, CHR_r, CHR_e, CHR_t, CHR_t, CHR_y, PCT_SPACE,
     CHR_g, CHR_o, CHR_o, CHR_d, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -531,22 +532,22 @@ static s16 scenario_text_0CC2[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Okay, this is the last!{newline}{endline}
 static s16 scenario_text_0CDA[] = {
-    CHR_O,     CHR_k, CHR_a,           CHR_y,       PCT_COMMA,
-    PCT_SPACE, CHR_t, CHR_h,           CHR_i,       CHR_s,
-    PCT_SPACE, CHR_i, CHR_s,           PCT_SPACE,   CHR_t,
-    CHR_h,     CHR_e, PCT_SPACE,       CHR_l,       CHR_a,
-    CHR_s,     CHR_t, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_O, CHR_k, CHR_a, CHR_y, PCT_COMMA,
+    PCT_SPACE, CHR_t, CHR_h, CHR_i, CHR_s,
+    PCT_SPACE, CHR_i, CHR_s, PCT_SPACE, CHR_t,
+    CHR_h, CHR_e, PCT_SPACE, CHR_l, CHR_a,
+    CHR_s, CHR_t, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 //     Get me [{em-yellow}Eight{/em}][{em-yellow}Red
 //     Fish{/em}]!{newline}{endline}
 static s16 scenario_text_0D07[] = {
-    PCT_SPACE,    PCT_SPACE,     PCT_SPACE,       PCT_SPACE,    CHR_G,
-    CHR_e,        CHR_t,         PCT_SPACE,       CHR_m,        CHR_e,
-    PCT_SPACE,    PCT_LBRACKET,  CTR_EM_YELLOW,   CHR_E,        CHR_i,
-    CHR_g,        CHR_h,         CHR_t,           CTR_CLOSE_EM, PCT_RBRACKET,
-    PCT_LBRACKET, CTR_EM_YELLOW, CHR_R,           CHR_e,        CHR_d,
-    PCT_SPACE,    CHR_F,         CHR_i,           CHR_s,        CHR_h,
-    CTR_CLOSE_EM, PCT_RBRACKET,  PCT_EXCLAMATION, CTR_NEWLINE,  CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_G,
+    CHR_e, CHR_t, PCT_SPACE, CHR_m, CHR_e,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_E, CHR_i,
+    CHR_g, CHR_h, CHR_t, CTR_CLOSE_EM, PCT_RBRACKET,
+    PCT_LBRACKET, CTR_EM_YELLOW, CHR_R, CHR_e, CHR_d,
+    PCT_SPACE, CHR_F, CHR_i, CHR_s, CHR_h,
+    CTR_CLOSE_EM, PCT_RBRACKET, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_0D5A[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -558,18 +559,18 @@ static s16 scenario_text_0D77[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Hurry up and{newline}{endline}
 static s16 scenario_text_0D8F[] = {
-    CHR_H, CHR_u,     CHR_r, CHR_r, CHR_y, PCT_SPACE,   CHR_u,
+    CHR_H, CHR_u, CHR_r, CHR_r, CHR_y, PCT_SPACE, CHR_u,
     CHR_p, PCT_SPACE, CHR_a, CHR_n, CHR_d, CTR_NEWLINE, CTR_ENDLINE};
 
 //  get me those {em-yellow}eight{/em} [{em-yellow}Red Fish{/em}]!{endline}
 static s16 scenario_text_0DB1[] = {
-    PCT_SPACE,    CHR_g,     CHR_e,        CHR_t,         PCT_SPACE,
-    CHR_m,        CHR_e,     PCT_SPACE,    CHR_t,         CHR_h,
-    CHR_o,        CHR_s,     CHR_e,        PCT_SPACE,     CTR_EM_YELLOW,
-    CHR_e,        CHR_i,     CHR_g,        CHR_h,         CHR_t,
+    PCT_SPACE, CHR_g, CHR_e, CHR_t, PCT_SPACE,
+    CHR_m, CHR_e, PCT_SPACE, CHR_t, CHR_h,
+    CHR_o, CHR_s, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_e, CHR_i, CHR_g, CHR_h, CHR_t,
     CTR_CLOSE_EM, PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_R,
-    CHR_e,        CHR_d,     PCT_SPACE,    CHR_F,         CHR_i,
-    CHR_s,        CHR_h,     CTR_CLOSE_EM, PCT_RBRACKET,  PCT_EXCLAMATION,
+    CHR_e, CHR_d, PCT_SPACE, CHR_F, CHR_i,
+    CHR_s, CHR_h, CTR_CLOSE_EM, PCT_RBRACKET, PCT_EXCLAMATION,
     CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -586,31 +587,31 @@ static s16 scenario_text_0E32[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
 
 //     {blink}{em-yellow}All right, you did it!{/em}{/blink}{button}{endline}
 static s16 scenario_text_0E4A[] = {
-    PCT_SPACE,     PCT_SPACE,  PCT_SPACE,       PCT_SPACE,    CTR_BLINK,
-    CTR_EM_YELLOW, CHR_A,      CHR_l,           CHR_l,        PCT_SPACE,
-    CHR_r,         CHR_i,      CHR_g,           CHR_h,        CHR_t,
-    PCT_COMMA,     PCT_SPACE,  CHR_y,           CHR_o,        CHR_u,
-    PCT_SPACE,     CHR_d,      CHR_i,           CHR_d,        PCT_SPACE,
-    CHR_i,         CHR_t,      PCT_EXCLAMATION, CTR_CLOSE_EM, CTR_CLOSE_BLINK,
-    CTR_BUTTON,    CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CTR_BLINK,
+    CTR_EM_YELLOW, CHR_A, CHR_l, CHR_l, PCT_SPACE,
+    CHR_r, CHR_i, CHR_g, CHR_h, CHR_t,
+    PCT_COMMA, PCT_SPACE, CHR_y, CHR_o, CHR_u,
+    PCT_SPACE, CHR_d, CHR_i, CHR_d, PCT_SPACE,
+    CHR_i, CHR_t, PCT_EXCLAMATION, CTR_CLOSE_EM, CTR_CLOSE_BLINK,
+    CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_0E98[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // With all this fish, {newline}{endline}
 static s16 scenario_text_0EB0[] = {
-    CHR_W,     CHR_i,     CHR_t,       CHR_h,      PCT_SPACE, CHR_a,
-    CHR_l,     CHR_l,     PCT_SPACE,   CHR_t,      CHR_h,     CHR_i,
-    CHR_s,     PCT_SPACE, CHR_f,       CHR_i,      CHR_s,     CHR_h,
+    CHR_W, CHR_i, CHR_t, CHR_h, PCT_SPACE, CHR_a,
+    CHR_l, CHR_l, PCT_SPACE, CHR_t, CHR_h, CHR_i,
+    CHR_s, PCT_SPACE, CHR_f, CHR_i, CHR_s, CHR_h,
     PCT_COMMA, PCT_SPACE, CTR_NEWLINE, CTR_ENDLINE};
 
 // I won't go hungry for some time!{button}{endline}
 static s16 scenario_text_0EDA[] = {
-    CHR_I, PCT_SPACE,       CHR_w,      CHR_o,      CHR_n,     PCT_APOSTROPHE,
-    CHR_t, PCT_SPACE,       CHR_g,      CHR_o,      PCT_SPACE, CHR_h,
-    CHR_u, CHR_n,           CHR_g,      CHR_r,      CHR_y,     PCT_SPACE,
-    CHR_f, CHR_o,           CHR_r,      PCT_SPACE,  CHR_s,     CHR_o,
-    CHR_m, CHR_e,           PCT_SPACE,  CHR_t,      CHR_i,     CHR_m,
+    CHR_I, PCT_SPACE, CHR_w, CHR_o, CHR_n, PCT_APOSTROPHE,
+    CHR_t, PCT_SPACE, CHR_g, CHR_o, PCT_SPACE, CHR_h,
+    CHR_u, CHR_n, CHR_g, CHR_r, CHR_y, PCT_SPACE,
+    CHR_f, CHR_o, CHR_r, PCT_SPACE, CHR_s, CHR_o,
+    CHR_m, CHR_e, PCT_SPACE, CHR_t, CHR_i, CHR_m,
     CHR_e, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -618,9 +619,9 @@ static s16 scenario_text_0F0F[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Well, as I promised...{button}{endline}
 static s16 scenario_text_0F27[] = {
-    CHR_W, CHR_e,      CHR_l,      CHR_l,      PCT_COMMA,  PCT_SPACE,
-    CHR_a, CHR_s,      PCT_SPACE,  CHR_I,      PCT_SPACE,  CHR_p,
-    CHR_r, CHR_o,      CHR_m,      CHR_i,      CHR_s,      CHR_e,
+    CHR_W, CHR_e, CHR_l, CHR_l, PCT_COMMA, PCT_SPACE,
+    CHR_a, CHR_s, PCT_SPACE, CHR_I, PCT_SPACE, CHR_p,
+    CHR_r, CHR_o, CHR_m, CHR_i, CHR_s, CHR_e,
     CHR_d, PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -628,19 +629,19 @@ static s16 scenario_text_0F52[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Throw this at Benkei!{newline}{endline}
 static s16 scenario_text_0F6A[] = {
-    CHR_T, CHR_h,     CHR_r,           CHR_o,       CHR_w,      PCT_SPACE,
-    CHR_t, CHR_h,     CHR_i,           CHR_s,       PCT_SPACE,  CHR_a,
-    CHR_t, PCT_SPACE, CHR_B,           CHR_e,       CHR_n,      CHR_k,
-    CHR_e, CHR_i,     PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_T, CHR_h, CHR_r, CHR_o, CHR_w, PCT_SPACE,
+    CHR_t, CHR_h, CHR_i, CHR_s, PCT_SPACE, CHR_a,
+    CHR_t, PCT_SPACE, CHR_B, CHR_e, CHR_n, CHR_k,
+    CHR_e, CHR_i, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // I'm sure he'll move to the aside.{button}{endline}
 static s16 scenario_text_0F95[] = {
-    CHR_I, PCT_APOSTROPHE, CHR_m,      PCT_SPACE,  CHR_s,      CHR_u,
-    CHR_r, CHR_e,          PCT_SPACE,  CHR_h,      CHR_e,      PCT_APOSTROPHE,
-    CHR_l, CHR_l,          PCT_SPACE,  CHR_m,      CHR_o,      CHR_v,
-    CHR_e, PCT_SPACE,      CHR_t,      CHR_o,      PCT_SPACE,  CHR_t,
-    CHR_h, CHR_e,          PCT_SPACE,  CHR_a,      CHR_s,      CHR_i,
-    CHR_d, CHR_e,          PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
+    CHR_I, PCT_APOSTROPHE, CHR_m, PCT_SPACE, CHR_s, CHR_u,
+    CHR_r, CHR_e, PCT_SPACE, CHR_h, CHR_e, PCT_APOSTROPHE,
+    CHR_l, CHR_l, PCT_SPACE, CHR_m, CHR_o, CHR_v,
+    CHR_e, PCT_SPACE, CHR_t, CHR_o, PCT_SPACE, CHR_t,
+    CHR_h, CHR_e, PCT_SPACE, CHR_a, CHR_s, CHR_i,
+    CHR_d, CHR_e, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_0FCB[] = {CTR_NEWWINDOW, CTR_ENDLINE};
@@ -660,19 +661,19 @@ static s16 scenario_text_1021[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
 
 //  Goemon and allies{newline}{endline}
 static s16 scenario_text_1039[] = {
-    PCT_SPACE, CHR_G, CHR_o, CHR_e, CHR_m,       CHR_o,      CHR_n,
-    PCT_SPACE, CHR_a, CHR_n, CHR_d, PCT_SPACE,   CHR_a,      CHR_l,
-    CHR_l,     CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, CHR_G, CHR_o, CHR_e, CHR_m, CHR_o, CHR_n,
+    PCT_SPACE, CHR_a, CHR_n, CHR_d, PCT_SPACE, CHR_a, CHR_l,
+    CHR_l, CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //      receive an [{em-yellow}Achilles' heel{/em}]!{endline}
 static s16 scenario_text_1061[] = {
-    PCT_SPACE,  PCT_SPACE,      PCT_SPACE,     PCT_SPACE,    PCT_SPACE,
-    CHR_r,      CHR_e,          CHR_c,         CHR_e,        CHR_i,
-    CHR_v,      CHR_e,          PCT_SPACE,     CHR_a,        CHR_n,
-    PCT_SPACE,  PCT_LBRACKET,   CTR_EM_YELLOW, CHR_A,        CHR_c,
-    CHR_h,      CHR_i,          CHR_l,         CHR_l,        CHR_e,
-    CHR_s,      PCT_APOSTROPHE, PCT_SPACE,     CHR_h,        CHR_e,
-    CHR_e,      CHR_l,          CTR_CLOSE_EM,  PCT_RBRACKET, PCT_EXCLAMATION,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_r, CHR_e, CHR_c, CHR_e, CHR_i,
+    CHR_v, CHR_e, PCT_SPACE, CHR_a, CHR_n,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_A, CHR_c,
+    CHR_h, CHR_i, CHR_l, CHR_l, CHR_e,
+    CHR_s, PCT_APOSTROPHE, PCT_SPACE, CHR_h, CHR_e,
+    CHR_e, CHR_l, CTR_CLOSE_EM, PCT_RBRACKET, PCT_EXCLAMATION,
     CTR_ENDLINE};
 
 // {end}{endline}
@@ -682,24 +683,24 @@ static s16 scenario_text_109F[] = {CTR_END, CTR_ENDLINE};
 
 // My dream is to sit back, relax,{newline}{endline}
 static s16 scenario_text_10B1[] = {
-    CHR_M,     CHR_y,     PCT_SPACE, CHR_d,       CHR_r,      CHR_e, CHR_a,
-    CHR_m,     PCT_SPACE, CHR_i,     CHR_s,       PCT_SPACE,  CHR_t, CHR_o,
-    PCT_SPACE, CHR_s,     CHR_i,     CHR_t,       PCT_SPACE,  CHR_b, CHR_a,
-    CHR_c,     CHR_k,     PCT_COMMA, PCT_SPACE,   CHR_r,      CHR_e, CHR_l,
-    CHR_a,     CHR_x,     PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_M, CHR_y, PCT_SPACE, CHR_d, CHR_r, CHR_e, CHR_a,
+    CHR_m, PCT_SPACE, CHR_i, CHR_s, PCT_SPACE, CHR_t, CHR_o,
+    PCT_SPACE, CHR_s, CHR_i, CHR_t, PCT_SPACE, CHR_b, CHR_a,
+    CHR_c, CHR_k, PCT_COMMA, PCT_SPACE, CHR_r, CHR_e, CHR_l,
+    CHR_a, CHR_x, PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 // and have no worries for{newline}{endline}
 static s16 scenario_text_10E6[] = {
-    CHR_a, CHR_n,     CHR_d,       PCT_SPACE,  CHR_h,     CHR_a,     CHR_v,
-    CHR_e, PCT_SPACE, CHR_n,       CHR_o,      PCT_SPACE, CHR_w,     CHR_o,
-    CHR_r, CHR_r,     CHR_i,       CHR_e,      CHR_s,     PCT_SPACE, CHR_f,
-    CHR_o, CHR_r,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_a, CHR_n, CHR_d, PCT_SPACE, CHR_h, CHR_a, CHR_v,
+    CHR_e, PCT_SPACE, CHR_n, CHR_o, PCT_SPACE, CHR_w, CHR_o,
+    CHR_r, CHR_r, CHR_i, CHR_e, CHR_s, PCT_SPACE, CHR_f,
+    CHR_o, CHR_r, CTR_NEWLINE, CTR_ENDLINE};
 
 // the rest of my life.{endline}
 static s16 scenario_text_1113[] = {
-    CHR_t,     CHR_h,     CHR_e, PCT_SPACE, CHR_r,     CHR_e,      CHR_s,
-    CHR_t,     PCT_SPACE, CHR_o, CHR_f,     PCT_SPACE, CHR_m,      CHR_y,
-    PCT_SPACE, CHR_l,     CHR_i, CHR_f,     CHR_e,     PCT_PERIOD, CTR_ENDLINE};
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_r, CHR_e, CHR_s,
+    CHR_t, PCT_SPACE, CHR_o, CHR_f, PCT_SPACE, CHR_m, CHR_y,
+    PCT_SPACE, CHR_l, CHR_i, CHR_f, CHR_e, PCT_PERIOD, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_1134[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -711,39 +712,39 @@ static s16 scenario_text_1151[] = {CTR_BEGIN, CTR_ENDLINE};
 
 // Hey! Long time no see!{button}{endline}
 static s16 scenario_text_1165[] = {
-    CHR_H, CHR_e, CHR_y,     PCT_EXCLAMATION, PCT_SPACE,  CHR_L,
-    CHR_o, CHR_n, CHR_g,     PCT_SPACE,       CHR_t,      CHR_i,
-    CHR_m, CHR_e, PCT_SPACE, CHR_n,           CHR_o,      PCT_SPACE,
-    CHR_s, CHR_e, CHR_e,     PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
+    CHR_H, CHR_e, CHR_y, PCT_EXCLAMATION, PCT_SPACE, CHR_L,
+    CHR_o, CHR_n, CHR_g, PCT_SPACE, CHR_t, CHR_i,
+    CHR_m, CHR_e, PCT_SPACE, CHR_n, CHR_o, PCT_SPACE,
+    CHR_s, CHR_e, CHR_e, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_1190[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // I'm {em-yellow}Ushiwaka{/em}!{button}{end}{endline}
 static s16 scenario_text_11A8[] = {
-    CHR_I,      PCT_APOSTROPHE, CHR_m,      PCT_SPACE,    CTR_EM_YELLOW,
-    CHR_U,      CHR_s,          CHR_h,      CHR_i,        CHR_w,
-    CHR_a,      CHR_k,          CHR_a,      CTR_CLOSE_EM, PCT_EXCLAMATION,
-    CTR_BUTTON, CTR_END,        CTR_ENDLINE};
+    CHR_I, PCT_APOSTROPHE, CHR_m, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w,
+    CHR_a, CHR_k, CHR_a, CTR_CLOSE_EM, PCT_EXCLAMATION,
+    CTR_BUTTON, CTR_END, CTR_ENDLINE};
 
 // {begin}{endline}
 static s16 scenario_text_11DF[] = {CTR_BEGIN, CTR_ENDLINE};
 
 // Goemon:Gasp! What happened?{newline}{endline}
 static s16 scenario_text_11F3[] = {
-    CHR_G,     CHR_o, CHR_e,        CHR_m,       CHR_o,      CHR_n,
-    PCT_COLON, CHR_G, CHR_a,        CHR_s,       CHR_p,      PCT_EXCLAMATION,
-    PCT_SPACE, CHR_W, CHR_h,        CHR_a,       CHR_t,      PCT_SPACE,
-    CHR_h,     CHR_a, CHR_p,        CHR_p,       CHR_e,      CHR_n,
-    CHR_e,     CHR_d, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_G, CHR_o, CHR_e, CHR_m, CHR_o, CHR_n,
+    PCT_COLON, CHR_G, CHR_a, CHR_s, CHR_p, PCT_EXCLAMATION,
+    PCT_SPACE, CHR_W, CHR_h, CHR_a, CHR_t, PCT_SPACE,
+    CHR_h, CHR_a, CHR_p, CHR_p, CHR_e, CHR_n,
+    CHR_e, CHR_d, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //       Why are you so small?!{button}{end}{endline}
 static s16 scenario_text_1224[] = {
-    PCT_SPACE,  PCT_SPACE, PCT_SPACE,    PCT_SPACE,       PCT_SPACE,  PCT_SPACE,
-    CHR_W,      CHR_h,     CHR_y,        PCT_SPACE,       CHR_a,      CHR_r,
-    CHR_e,      PCT_SPACE, CHR_y,        CHR_o,           CHR_u,      PCT_SPACE,
-    CHR_s,      CHR_o,     PCT_SPACE,    CHR_s,           CHR_m,      CHR_a,
-    CHR_l,      CHR_l,     PCT_QUESTION, PCT_EXCLAMATION, CTR_BUTTON, CTR_END,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_W, CHR_h, CHR_y, PCT_SPACE, CHR_a, CHR_r,
+    CHR_e, PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE,
+    CHR_s, CHR_o, PCT_SPACE, CHR_s, CHR_m, CHR_a,
+    CHR_l, CHR_l, PCT_QUESTION, PCT_EXCLAMATION, CTR_BUTTON, CTR_END,
     CTR_ENDLINE};
 
 // {begin}{endline}
@@ -751,26 +752,26 @@ static s16 scenario_text_125A[] = {CTR_BEGIN, CTR_ENDLINE};
 
 // Ushiwaka:Let me tell you.{button}{endline}
 static s16 scenario_text_126E[] = {
-    CHR_U, CHR_s,     CHR_h, CHR_i,      CHR_w,      CHR_a,      CHR_k,
-    CHR_a, PCT_COLON, CHR_L, CHR_e,      CHR_t,      PCT_SPACE,  CHR_m,
-    CHR_e, PCT_SPACE, CHR_t, CHR_e,      CHR_l,      CHR_l,      PCT_SPACE,
-    CHR_y, CHR_o,     CHR_u, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w, CHR_a, CHR_k,
+    CHR_a, PCT_COLON, CHR_L, CHR_e, CHR_t, PCT_SPACE, CHR_m,
+    CHR_e, PCT_SPACE, CHR_t, CHR_e, CHR_l, CHR_l, PCT_SPACE,
+    CHR_y, CHR_o, CHR_u, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_129C[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Those {em-yellow}sweets{/em} at{newline}{endline}
 static s16 scenario_text_12B4[] = {
-    CHR_T,     CHR_h, CHR_o, CHR_s,       CHR_e,      PCT_SPACE, CTR_EM_YELLOW,
-    CHR_s,     CHR_w, CHR_e, CHR_e,       CHR_t,      CHR_s,     CTR_CLOSE_EM,
+    CHR_T, CHR_h, CHR_o, CHR_s, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_s, CHR_w, CHR_e, CHR_e, CHR_t, CHR_s, CTR_CLOSE_EM,
     PCT_SPACE, CHR_a, CHR_t, CTR_NEWLINE, CTR_ENDLINE};
 
 // the {em-yellow}Golden Temple{/em}...{button}{endline}
 static s16 scenario_text_12E9[] = {
-    CHR_t,      CHR_h,      CHR_e,      PCT_SPACE,    CTR_EM_YELLOW,
-    CHR_G,      CHR_o,      CHR_l,      CHR_d,        CHR_e,
-    CHR_n,      PCT_SPACE,  CHR_T,      CHR_e,        CHR_m,
-    CHR_p,      CHR_l,      CHR_e,      CTR_CLOSE_EM, PCT_PERIOD,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_G, CHR_o, CHR_l, CHR_d, CHR_e,
+    CHR_n, PCT_SPACE, CHR_T, CHR_e, CHR_m,
+    CHR_p, CHR_l, CHR_e, CTR_CLOSE_EM, PCT_PERIOD,
     PCT_PERIOD, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -778,25 +779,25 @@ static s16 scenario_text_1322[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Well if you eat {em-yellow}eight{/em} in a row,{newline}{endline}
 static s16 scenario_text_133A[] = {
-    CHR_W, CHR_e,     CHR_l,     CHR_l,       PCT_SPACE,     CHR_i,
-    CHR_f, PCT_SPACE, CHR_y,     CHR_o,       CHR_u,         PCT_SPACE,
-    CHR_e, CHR_a,     CHR_t,     PCT_SPACE,   CTR_EM_YELLOW, CHR_e,
-    CHR_i, CHR_g,     CHR_h,     CHR_t,       CTR_CLOSE_EM,  PCT_SPACE,
-    CHR_i, CHR_n,     PCT_SPACE, CHR_a,       PCT_SPACE,     CHR_r,
-    CHR_o, CHR_w,     PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_W, CHR_e, CHR_l, CHR_l, PCT_SPACE, CHR_i,
+    CHR_f, PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE,
+    CHR_e, CHR_a, CHR_t, PCT_SPACE, CTR_EM_YELLOW, CHR_e,
+    CHR_i, CHR_g, CHR_h, CHR_t, CTR_CLOSE_EM, PCT_SPACE,
+    CHR_i, CHR_n, PCT_SPACE, CHR_a, PCT_SPACE, CHR_r,
+    CHR_o, CHR_w, PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 // there's a strange power that{newline}{endline}
 static s16 scenario_text_137F[] = {
-    CHR_t, CHR_h,     CHR_e, CHR_r,     CHR_e,       PCT_APOSTROPHE,
-    CHR_s, PCT_SPACE, CHR_a, PCT_SPACE, CHR_s,       CHR_t,
-    CHR_r, CHR_a,     CHR_n, CHR_g,     CHR_e,       PCT_SPACE,
-    CHR_p, CHR_o,     CHR_w, CHR_e,     CHR_r,       PCT_SPACE,
-    CHR_t, CHR_h,     CHR_a, CHR_t,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_t, CHR_h, CHR_e, CHR_r, CHR_e, PCT_APOSTROPHE,
+    CHR_s, PCT_SPACE, CHR_a, PCT_SPACE, CHR_s, CHR_t,
+    CHR_r, CHR_a, CHR_n, CHR_g, CHR_e, PCT_SPACE,
+    CHR_p, CHR_o, CHR_w, CHR_e, CHR_r, PCT_SPACE,
+    CHR_t, CHR_h, CHR_a, CHR_t, CTR_NEWLINE, CTR_ENDLINE};
 
 // makes you shrink!{button}{endline}
 static s16 scenario_text_13B1[] = {
-    CHR_m, CHR_a, CHR_k,           CHR_e,      CHR_s,      PCT_SPACE, CHR_y,
-    CHR_o, CHR_u, PCT_SPACE,       CHR_s,      CHR_h,      CHR_r,     CHR_i,
+    CHR_m, CHR_a, CHR_k, CHR_e, CHR_s, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_SPACE, CHR_s, CHR_h, CHR_r, CHR_i,
     CHR_n, CHR_k, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -804,29 +805,29 @@ static s16 scenario_text_13D7[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // If for any reason you want to{newline}{endline}
 static s16 scenario_text_13EF[] = {
-    CHR_I, CHR_f,     PCT_SPACE, CHR_f, CHR_o, CHR_r,       PCT_SPACE,  CHR_a,
-    CHR_n, CHR_y,     PCT_SPACE, CHR_r, CHR_e, CHR_a,       CHR_s,      CHR_o,
-    CHR_n, PCT_SPACE, CHR_y,     CHR_o, CHR_u, PCT_SPACE,   CHR_w,      CHR_a,
-    CHR_n, CHR_t,     PCT_SPACE, CHR_t, CHR_o, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_I, CHR_f, PCT_SPACE, CHR_f, CHR_o, CHR_r, PCT_SPACE, CHR_a,
+    CHR_n, CHR_y, PCT_SPACE, CHR_r, CHR_e, CHR_a, CHR_s, CHR_o,
+    CHR_n, PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE, CHR_w, CHR_a,
+    CHR_n, CHR_t, PCT_SPACE, CHR_t, CHR_o, CTR_NEWLINE, CTR_ENDLINE};
 
 // shrink, go to the {em-yellow}Golden Temple{/em}!{newline}{endline}
 static s16 scenario_text_1422[] = {
-    CHR_s,      CHR_h,     CHR_r,        CHR_i,           CHR_n,
-    CHR_k,      PCT_COMMA, PCT_SPACE,    CHR_g,           CHR_o,
-    PCT_SPACE,  CHR_t,     CHR_o,        PCT_SPACE,       CHR_t,
-    CHR_h,      CHR_e,     PCT_SPACE,    CTR_EM_YELLOW,   CHR_G,
-    CHR_o,      CHR_l,     CHR_d,        CHR_e,           CHR_n,
-    PCT_SPACE,  CHR_T,     CHR_e,        CHR_m,           CHR_p,
-    CHR_l,      CHR_e,     CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_NEWLINE,
+    CHR_s, CHR_h, CHR_r, CHR_i, CHR_n,
+    CHR_k, PCT_COMMA, PCT_SPACE, CHR_g, CHR_o,
+    PCT_SPACE, CHR_t, CHR_o, PCT_SPACE, CHR_t,
+    CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_G,
+    CHR_o, CHR_l, CHR_d, CHR_e, CHR_n,
+    PCT_SPACE, CHR_T, CHR_e, CHR_m, CHR_p,
+    CHR_l, CHR_e, CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_NEWLINE,
     CTR_ENDLINE};
 
 // I'll be there waiting for you.{endline}
 static s16 scenario_text_1468[] = {
-    CHR_I,     PCT_APOSTROPHE, CHR_l,      CHR_l, PCT_SPACE, CHR_b, CHR_e,
-    PCT_SPACE, CHR_t,          CHR_h,      CHR_e, CHR_r,     CHR_e, PCT_SPACE,
-    CHR_w,     CHR_a,          CHR_i,      CHR_t, CHR_i,     CHR_n, CHR_g,
-    PCT_SPACE, CHR_f,          CHR_o,      CHR_r, PCT_SPACE, CHR_y, CHR_o,
-    CHR_u,     PCT_PERIOD,     CTR_ENDLINE};
+    CHR_I, PCT_APOSTROPHE, CHR_l, CHR_l, PCT_SPACE, CHR_b, CHR_e,
+    PCT_SPACE, CHR_t, CHR_h, CHR_e, CHR_r, CHR_e, PCT_SPACE,
+    CHR_w, CHR_a, CHR_i, CHR_t, CHR_i, CHR_n, CHR_g,
+    PCT_SPACE, CHR_f, CHR_o, CHR_r, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_PERIOD, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_1493[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -838,31 +839,31 @@ static s16 scenario_text_14B0[] = {CTR_BEGIN, CTR_ENDLINE};
 
 // Ushiwaka:You made it!{button}{endline}
 static s16 scenario_text_14C4[] = {
-    CHR_U,     CHR_s, CHR_h,           CHR_i,      CHR_w,      CHR_a,
-    CHR_k,     CHR_a, PCT_COLON,       CHR_Y,      CHR_o,      CHR_u,
-    PCT_SPACE, CHR_m, CHR_a,           CHR_d,      CHR_e,      PCT_SPACE,
-    CHR_i,     CHR_t, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w, CHR_a,
+    CHR_k, CHR_a, PCT_COLON, CHR_Y, CHR_o, CHR_u,
+    PCT_SPACE, CHR_m, CHR_a, CHR_d, CHR_e, PCT_SPACE,
+    CHR_i, CHR_t, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_14EE[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator, please explain!{button}{end}{endline}
 static s16 scenario_text_1506[] = {
-    CHR_N,           CHR_a,      CHR_r,     CHR_r,      CHR_a,     CHR_t,
-    CHR_o,           CHR_r,      PCT_COMMA, PCT_SPACE,  CHR_p,     CHR_l,
-    CHR_e,           CHR_a,      CHR_s,     CHR_e,      PCT_SPACE, CHR_e,
-    CHR_x,           CHR_p,      CHR_l,     CHR_a,      CHR_i,     CHR_n,
-    PCT_EXCLAMATION, CTR_BUTTON, CTR_END,   CTR_ENDLINE};
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t,
+    CHR_o, CHR_r, PCT_COMMA, PCT_SPACE, CHR_p, CHR_l,
+    CHR_e, CHR_a, CHR_s, CHR_e, PCT_SPACE, CHR_e,
+    CHR_x, CHR_p, CHR_l, CHR_a, CHR_i, CHR_n,
+    PCT_EXCLAMATION, CTR_BUTTON, CTR_END, CTR_ENDLINE};
 
 // {begin}{endline}
 static s16 scenario_text_1539[] = {CTR_BEGIN, CTR_ENDLINE};
 
 // Narrator:{em-yellow}My pleasure!{/em}{button}{endline}
 static s16 scenario_text_154D[] = {
-    CHR_N, CHR_a,           CHR_r,        CHR_r,      CHR_a,
-    CHR_t, CHR_o,           CHR_r,        PCT_COLON,  CTR_EM_YELLOW,
-    CHR_M, CHR_y,           PCT_SPACE,    CHR_p,      CHR_l,
-    CHR_e, CHR_a,           CHR_s,        CHR_u,      CHR_r,
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a,
+    CHR_t, CHR_o, CHR_r, PCT_COLON, CTR_EM_YELLOW,
+    CHR_M, CHR_y, PCT_SPACE, CHR_p, CHR_l,
+    CHR_e, CHR_a, CHR_s, CHR_u, CHR_r,
     CHR_e, PCT_EXCLAMATION, CTR_CLOSE_EM, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -870,34 +871,34 @@ static s16 scenario_text_1587[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:The {em-yellow}sweets{/em} in {newline}{endline}
 static s16 scenario_text_159F[] = {
-    CHR_N,     CHR_a,         CHR_r,        CHR_r,     CHR_a, CHR_t,
-    CHR_o,     CHR_r,         PCT_COLON,    CHR_T,     CHR_h, CHR_e,
-    PCT_SPACE, CTR_EM_YELLOW, CHR_s,        CHR_w,     CHR_e, CHR_e,
-    CHR_t,     CHR_s,         CTR_CLOSE_EM, PCT_SPACE, CHR_i, CHR_n,
-    PCT_SPACE, CTR_NEWLINE,   CTR_ENDLINE};
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t,
+    CHR_o, CHR_r, PCT_COLON, CHR_T, CHR_h, CHR_e,
+    PCT_SPACE, CTR_EM_YELLOW, CHR_s, CHR_w, CHR_e, CHR_e,
+    CHR_t, CHR_s, CTR_CLOSE_EM, PCT_SPACE, CHR_i, CHR_n,
+    PCT_SPACE, CTR_NEWLINE, CTR_ENDLINE};
 
 //       the {em-yellow}cupboard{/em} at {newline}{endline}
 static s16 scenario_text_15DC[] = {
-    PCT_SPACE,   PCT_SPACE,    PCT_SPACE, PCT_SPACE, PCT_SPACE,     PCT_SPACE,
-    CHR_t,       CHR_h,        CHR_e,     PCT_SPACE, CTR_EM_YELLOW, CHR_c,
-    CHR_u,       CHR_p,        CHR_b,     CHR_o,     CHR_a,         CHR_r,
-    CHR_d,       CTR_CLOSE_EM, PCT_SPACE, CHR_a,     CHR_t,         PCT_SPACE,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_c,
+    CHR_u, CHR_p, CHR_b, CHR_o, CHR_a, CHR_r,
+    CHR_d, CTR_CLOSE_EM, PCT_SPACE, CHR_a, CHR_t, PCT_SPACE,
     CTR_NEWLINE, CTR_ENDLINE};
 
 //       the Temple... will start {newline}{endline}
 static s16 scenario_text_1618[] = {
-    PCT_SPACE, PCT_SPACE, PCT_SPACE,  PCT_SPACE,   PCT_SPACE,  PCT_SPACE, CHR_t,
-    CHR_h,     CHR_e,     PCT_SPACE,  CHR_T,       CHR_e,      CHR_m,     CHR_p,
-    CHR_l,     CHR_e,     PCT_PERIOD, PCT_PERIOD,  PCT_PERIOD, PCT_SPACE, CHR_w,
-    CHR_i,     CHR_l,     CHR_l,      PCT_SPACE,   CHR_s,      CHR_t,     CHR_a,
-    CHR_r,     CHR_t,     PCT_SPACE,  CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_t,
+    CHR_h, CHR_e, PCT_SPACE, CHR_T, CHR_e, CHR_m, CHR_p,
+    CHR_l, CHR_e, PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, PCT_SPACE, CHR_w,
+    CHR_i, CHR_l, CHR_l, PCT_SPACE, CHR_s, CHR_t, CHR_a,
+    CHR_r, CHR_t, PCT_SPACE, CTR_NEWLINE, CTR_ENDLINE};
 
 //       falling from above!{button}{endline}
 static s16 scenario_text_164D[] = {
-    PCT_SPACE,       PCT_SPACE,  PCT_SPACE,  PCT_SPACE, PCT_SPACE, PCT_SPACE,
-    CHR_f,           CHR_a,      CHR_l,      CHR_l,     CHR_i,     CHR_n,
-    CHR_g,           PCT_SPACE,  CHR_f,      CHR_r,     CHR_o,     CHR_m,
-    PCT_SPACE,       CHR_a,      CHR_b,      CHR_o,     CHR_v,     CHR_e,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_f, CHR_a, CHR_l, CHR_l, CHR_i, CHR_n,
+    CHR_g, PCT_SPACE, CHR_f, CHR_r, CHR_o, CHR_m,
+    PCT_SPACE, CHR_a, CHR_b, CHR_o, CHR_v, CHR_e,
     PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -905,24 +906,24 @@ static s16 scenario_text_167B[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:If you catch {em-yellow}eight{/em}{newline}{endline}
 static s16 scenario_text_1693[] = {
-    CHR_N,        CHR_a,         CHR_r,      CHR_r, CHR_a,     CHR_t, CHR_o,
-    CHR_r,        PCT_COLON,     CHR_I,      CHR_f, PCT_SPACE, CHR_y, CHR_o,
-    CHR_u,        PCT_SPACE,     CHR_c,      CHR_a, CHR_t,     CHR_c, CHR_h,
-    PCT_SPACE,    CTR_EM_YELLOW, CHR_e,      CHR_i, CHR_g,     CHR_h, CHR_t,
-    CTR_CLOSE_EM, CTR_NEWLINE,   CTR_ENDLINE};
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t, CHR_o,
+    CHR_r, PCT_COLON, CHR_I, CHR_f, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_c, CHR_a, CHR_t, CHR_c, CHR_h,
+    PCT_SPACE, CTR_EM_YELLOW, CHR_e, CHR_i, CHR_g, CHR_h, CHR_t,
+    CTR_CLOSE_EM, CTR_NEWLINE, CTR_ENDLINE};
 
 //       sweets before the time{newline}{endline}
 static s16 scenario_text_16D4[] = {
-    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,   PCT_SPACE,
-    CHR_s,     CHR_w,     CHR_e,     CHR_e,     CHR_t,       CHR_s,
-    PCT_SPACE, CHR_b,     CHR_e,     CHR_f,     CHR_o,       CHR_r,
-    CHR_e,     PCT_SPACE, CHR_t,     CHR_h,     CHR_e,       PCT_SPACE,
-    CHR_t,     CHR_i,     CHR_m,     CHR_e,     CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_s, CHR_w, CHR_e, CHR_e, CHR_t, CHR_s,
+    PCT_SPACE, CHR_b, CHR_e, CHR_f, CHR_o, CHR_r,
+    CHR_e, PCT_SPACE, CHR_t, CHR_h, CHR_e, PCT_SPACE,
+    CHR_t, CHR_i, CHR_m, CHR_e, CTR_NEWLINE, CTR_ENDLINE};
 
 //       is up...{button}{endline}
 static s16 scenario_text_1706[] = {
-    PCT_SPACE,  PCT_SPACE,  PCT_SPACE,  PCT_SPACE,  PCT_SPACE, PCT_SPACE,
-    CHR_i,      CHR_s,      PCT_SPACE,  CHR_u,      CHR_p,     PCT_PERIOD,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_i, CHR_s, PCT_SPACE, CHR_u, CHR_p, PCT_PERIOD,
     PCT_PERIOD, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -930,96 +931,96 @@ static s16 scenario_text_1729[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:you will be able to use{newline}{endline}
 static s16 scenario_text_1741[] = {
-    CHR_N,     CHR_a,     CHR_r, CHR_r,     CHR_a,       CHR_t,      CHR_o,
-    CHR_r,     PCT_COLON, CHR_y, CHR_o,     CHR_u,       PCT_SPACE,  CHR_w,
-    CHR_i,     CHR_l,     CHR_l, PCT_SPACE, CHR_b,       CHR_e,      PCT_SPACE,
-    CHR_a,     CHR_b,     CHR_l, CHR_e,     PCT_SPACE,   CHR_t,      CHR_o,
-    PCT_SPACE, CHR_u,     CHR_s, CHR_e,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t, CHR_o,
+    CHR_r, PCT_COLON, CHR_y, CHR_o, CHR_u, PCT_SPACE, CHR_w,
+    CHR_i, CHR_l, CHR_l, PCT_SPACE, CHR_b, CHR_e, PCT_SPACE,
+    CHR_a, CHR_b, CHR_l, CHR_e, PCT_SPACE, CHR_t, CHR_o,
+    PCT_SPACE, CHR_u, CHR_s, CHR_e, CTR_NEWLINE, CTR_ENDLINE};
 
 //       {em-yellow}magical powers{/em} to make{newline}{endline}
 static s16 scenario_text_1777[] = {
-    PCT_SPACE,     PCT_SPACE,  PCT_SPACE, PCT_SPACE,    PCT_SPACE, PCT_SPACE,
-    CTR_EM_YELLOW, CHR_m,      CHR_a,     CHR_g,        CHR_i,     CHR_c,
-    CHR_a,         CHR_l,      PCT_SPACE, CHR_p,        CHR_o,     CHR_w,
-    CHR_e,         CHR_r,      CHR_s,     CTR_CLOSE_EM, PCT_SPACE, CHR_t,
-    CHR_o,         PCT_SPACE,  CHR_m,     CHR_a,        CHR_k,     CHR_e,
-    CTR_NEWLINE,   CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CTR_EM_YELLOW, CHR_m, CHR_a, CHR_g, CHR_i, CHR_c,
+    CHR_a, CHR_l, PCT_SPACE, CHR_p, CHR_o, CHR_w,
+    CHR_e, CHR_r, CHR_s, CTR_CLOSE_EM, PCT_SPACE, CHR_t,
+    CHR_o, PCT_SPACE, CHR_m, CHR_a, CHR_k, CHR_e,
+    CTR_NEWLINE, CTR_ENDLINE};
 
 //       you shrink!{button}{endline}
 static s16 scenario_text_17B9[] = {
-    PCT_SPACE, PCT_SPACE,       PCT_SPACE,  PCT_SPACE,  PCT_SPACE,
-    PCT_SPACE, CHR_y,           CHR_o,      CHR_u,      PCT_SPACE,
-    CHR_s,     CHR_h,           CHR_r,      CHR_i,      CHR_n,
-    CHR_k,     PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE,
+    CHR_s, CHR_h, CHR_r, CHR_i, CHR_n,
+    CHR_k, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_17DF[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:However,{newline}{endline}
 static s16 scenario_text_17F7[] = {
-    CHR_N, CHR_a,     CHR_r,     CHR_r,       CHR_a,      CHR_t, CHR_o,
-    CHR_r, PCT_COLON, CHR_H,     CHR_o,       CHR_w,      CHR_e, CHR_v,
-    CHR_e, CHR_r,     PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t, CHR_o,
+    CHR_r, PCT_COLON, CHR_H, CHR_o, CHR_w, CHR_e, CHR_v,
+    CHR_e, CHR_r, PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 //       if you're seen catching{newline}{endline}
 static s16 scenario_text_181E[] = {
-    PCT_SPACE,      PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
-    CHR_i,          CHR_f,     PCT_SPACE, CHR_y,     CHR_o,     CHR_u,
-    PCT_APOSTROPHE, CHR_r,     CHR_e,     PCT_SPACE, CHR_s,     CHR_e,
-    CHR_e,          CHR_n,     PCT_SPACE, CHR_c,     CHR_a,     CHR_t,
-    CHR_c,          CHR_h,     CHR_i,     CHR_n,     CHR_g,     CTR_NEWLINE,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_i, CHR_f, PCT_SPACE, CHR_y, CHR_o, CHR_u,
+    PCT_APOSTROPHE, CHR_r, CHR_e, PCT_SPACE, CHR_s, CHR_e,
+    CHR_e, CHR_n, PCT_SPACE, CHR_c, CHR_a, CHR_t,
+    CHR_c, CHR_h, CHR_i, CHR_n, CHR_g, CTR_NEWLINE,
     CTR_ENDLINE};
 
 //       these {em-yellow}sweets{/em}...{button}{endline}
 static s16 scenario_text_1851[] = {
-    PCT_SPACE,  PCT_SPACE,  PCT_SPACE,     PCT_SPACE,  PCT_SPACE,
-    PCT_SPACE,  CHR_t,      CHR_h,         CHR_e,      CHR_s,
-    CHR_e,      PCT_SPACE,  CTR_EM_YELLOW, CHR_s,      CHR_w,
-    CHR_e,      CHR_e,      CHR_t,         CHR_s,      CTR_CLOSE_EM,
-    PCT_PERIOD, PCT_PERIOD, PCT_PERIOD,    CTR_BUTTON, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_t, CHR_h, CHR_e, CHR_s,
+    CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_s, CHR_w,
+    CHR_e, CHR_e, CHR_t, CHR_s, CTR_CLOSE_EM,
+    PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_188B[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:...something terrible{newline}{endline}
 static s16 scenario_text_18A3[] = {
-    CHR_N,     CHR_a,     CHR_r,       CHR_r,      CHR_a,      CHR_t, CHR_o,
-    CHR_r,     PCT_COLON, PCT_PERIOD,  PCT_PERIOD, PCT_PERIOD, CHR_s, CHR_o,
-    CHR_m,     CHR_e,     CHR_t,       CHR_h,      CHR_i,      CHR_n, CHR_g,
-    PCT_SPACE, CHR_t,     CHR_e,       CHR_r,      CHR_r,      CHR_i, CHR_b,
-    CHR_l,     CHR_e,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t, CHR_o,
+    CHR_r, PCT_COLON, PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, CHR_s, CHR_o,
+    CHR_m, CHR_e, CHR_t, CHR_h, CHR_i, CHR_n, CHR_g,
+    PCT_SPACE, CHR_t, CHR_e, CHR_r, CHR_r, CHR_i, CHR_b,
+    CHR_l, CHR_e, CTR_NEWLINE, CTR_ENDLINE};
 
 //       will happen!{button}{endline}
 static s16 scenario_text_18D7[] = {
-    PCT_SPACE, PCT_SPACE, PCT_SPACE,       PCT_SPACE,  PCT_SPACE,
-    PCT_SPACE, CHR_w,     CHR_i,           CHR_l,      CHR_l,
-    PCT_SPACE, CHR_h,     CHR_a,           CHR_p,      CHR_p,
-    CHR_e,     CHR_n,     PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_w, CHR_i, CHR_l, CHR_l,
+    PCT_SPACE, CHR_h, CHR_a, CHR_p, CHR_p,
+    CHR_e, CHR_n, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_18FE[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:Ready, set...{button}{endline}
 static s16 scenario_text_1916[] = {
-    CHR_N, CHR_a,      CHR_r,      CHR_r,      CHR_a,      CHR_t,
-    CHR_o, CHR_r,      PCT_COLON,  CHR_R,      CHR_e,      CHR_a,
-    CHR_d, CHR_y,      PCT_COMMA,  PCT_SPACE,  CHR_s,      CHR_e,
+    CHR_N, CHR_a, CHR_r, CHR_r, CHR_a, CHR_t,
+    CHR_o, CHR_r, PCT_COLON, CHR_R, CHR_e, CHR_a,
+    CHR_d, CHR_y, PCT_COMMA, PCT_SPACE, CHR_s, CHR_e,
     CHR_t, PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_1941[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Narrator:{newline}{endline}
-static s16 scenario_text_1959[] = {CHR_N,     CHR_a,       CHR_r,      CHR_r,
-                                   CHR_a,     CHR_t,       CHR_o,      CHR_r,
+static s16 scenario_text_1959[] = {CHR_N, CHR_a, CHR_r, CHR_r,
+                                   CHR_a, CHR_t, CHR_o, CHR_r,
                                    PCT_COLON, CTR_NEWLINE, CTR_ENDLINE};
 
 //          {big}{blink}{em-yellow}G o ! {/em}{/blink}{/big}{endline}
 static s16 scenario_text_1978[] = {
-    PCT_SPACE,     PCT_SPACE,       PCT_SPACE, PCT_SPACE,    PCT_SPACE,
-    PCT_SPACE,     PCT_SPACE,       PCT_SPACE, PCT_SPACE,    CTR_BIG,
-    CTR_BLINK,     CTR_EM_YELLOW,   CHR_G,     PCT_SPACE,    CHR_o,
-    PCT_SPACE,     PCT_EXCLAMATION, PCT_SPACE, CTR_CLOSE_EM, CTR_CLOSE_BLINK,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CTR_BIG,
+    CTR_BLINK, CTR_EM_YELLOW, CHR_G, PCT_SPACE, CHR_o,
+    PCT_SPACE, PCT_EXCLAMATION, PCT_SPACE, CTR_CLOSE_EM, CTR_CLOSE_BLINK,
     CTR_CLOSE_BIG, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
@@ -1028,17 +1029,17 @@ static s16 scenario_text_19BE[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
 // Address: @ca28
 
 // Ushiwaka:{newline}{endline}
-static s16 scenario_text_19DB[] = {CHR_U,     CHR_s,       CHR_h,      CHR_i,
-                                   CHR_w,     CHR_a,       CHR_k,      CHR_a,
+static s16 scenario_text_19DB[] = {CHR_U, CHR_s, CHR_h, CHR_i,
+                                   CHR_w, CHR_a, CHR_k, CHR_a,
                                    PCT_COLON, CTR_NEWLINE, CTR_ENDLINE};
 
 //       It wouldn't be for you...{button}{endline}
 static s16 scenario_text_19FA[] = {
-    PCT_SPACE,  PCT_SPACE,  PCT_SPACE,  PCT_SPACE,      PCT_SPACE,  PCT_SPACE,
-    CHR_I,      CHR_t,      PCT_SPACE,  CHR_w,          CHR_o,      CHR_u,
-    CHR_l,      CHR_d,      CHR_n,      PCT_APOSTROPHE, CHR_t,      PCT_SPACE,
-    CHR_b,      CHR_e,      PCT_SPACE,  CHR_f,          CHR_o,      CHR_r,
-    PCT_SPACE,  CHR_y,      CHR_o,      CHR_u,          PCT_PERIOD, PCT_PERIOD,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    CHR_I, CHR_t, PCT_SPACE, CHR_w, CHR_o, CHR_u,
+    CHR_l, CHR_d, CHR_n, PCT_APOSTROPHE, CHR_t, PCT_SPACE,
+    CHR_b, CHR_e, PCT_SPACE, CHR_f, CHR_o, CHR_r,
+    PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_PERIOD, PCT_PERIOD,
     PCT_PERIOD, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -1046,20 +1047,20 @@ static s16 scenario_text_1A2E[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // It's got to be someone with{newline}{endline}
 static s16 scenario_text_1A46[] = {
-    CHR_I, CHR_t, PCT_APOSTROPHE, CHR_s,       PCT_SPACE,  CHR_g,
-    CHR_o, CHR_t, PCT_SPACE,      CHR_t,       CHR_o,      PCT_SPACE,
-    CHR_b, CHR_e, PCT_SPACE,      CHR_s,       CHR_o,      CHR_m,
-    CHR_e, CHR_o, CHR_n,          CHR_e,       PCT_SPACE,  CHR_w,
-    CHR_i, CHR_t, CHR_h,          CTR_NEWLINE, CTR_ENDLINE};
+    CHR_I, CHR_t, PCT_APOSTROPHE, CHR_s, PCT_SPACE, CHR_g,
+    CHR_o, CHR_t, PCT_SPACE, CHR_t, CHR_o, PCT_SPACE,
+    CHR_b, CHR_e, PCT_SPACE, CHR_s, CHR_o, CHR_m,
+    CHR_e, CHR_o, CHR_n, CHR_e, PCT_SPACE, CHR_w,
+    CHR_i, CHR_t, CHR_h, CTR_NEWLINE, CTR_ENDLINE};
 
 // a {em-yellow}big nose{/em} and {em-yellow}thread of eyes{/em}.{endline}
 static s16 scenario_text_1A77[] = {
-    CHR_a,     PCT_SPACE, CTR_EM_YELLOW, CHR_b,      CHR_i,      CHR_g,
-    PCT_SPACE, CHR_n,     CHR_o,         CHR_s,      CHR_e,      CTR_CLOSE_EM,
-    PCT_SPACE, CHR_a,     CHR_n,         CHR_d,      PCT_SPACE,  CTR_EM_YELLOW,
-    CHR_t,     CHR_h,     CHR_r,         CHR_e,      CHR_a,      CHR_d,
-    PCT_SPACE, CHR_o,     CHR_f,         PCT_SPACE,  CHR_e,      CHR_y,
-    CHR_e,     CHR_s,     CTR_CLOSE_EM,  PCT_PERIOD, CTR_ENDLINE};
+    CHR_a, PCT_SPACE, CTR_EM_YELLOW, CHR_b, CHR_i, CHR_g,
+    PCT_SPACE, CHR_n, CHR_o, CHR_s, CHR_e, CTR_CLOSE_EM,
+    PCT_SPACE, CHR_a, CHR_n, CHR_d, PCT_SPACE, CTR_EM_YELLOW,
+    CHR_t, CHR_h, CHR_r, CHR_e, CHR_a, CHR_d,
+    PCT_SPACE, CHR_o, CHR_f, PCT_SPACE, CHR_e, CHR_y,
+    CHR_e, CHR_s, CTR_CLOSE_EM, PCT_PERIOD, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_1AC2[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -1071,24 +1072,24 @@ static s16 scenario_text_1ADF[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Ushiwaka:Way to go!{newline}{endline}
 static s16 scenario_text_1AF7[] = {
-    CHR_U, CHR_s,     CHR_h, CHR_i, CHR_w,           CHR_a,       CHR_k,
-    CHR_a, PCT_COLON, CHR_W, CHR_a, CHR_y,           PCT_SPACE,   CHR_t,
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w, CHR_a, CHR_k,
+    CHR_a, PCT_COLON, CHR_W, CHR_a, CHR_y, PCT_SPACE, CHR_t,
     CHR_o, PCT_SPACE, CHR_g, CHR_o, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 //        Now you can shrink{newline}{endline}
 static s16 scenario_text_1B20[] = {
-    PCT_SPACE, PCT_SPACE,   PCT_SPACE,  PCT_SPACE, PCT_SPACE, PCT_SPACE,
-    PCT_SPACE, CHR_N,       CHR_o,      CHR_w,     PCT_SPACE, CHR_y,
-    CHR_o,     CHR_u,       PCT_SPACE,  CHR_c,     CHR_a,     CHR_n,
-    PCT_SPACE, CHR_s,       CHR_h,      CHR_r,     CHR_i,     CHR_n,
-    CHR_k,     CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_N, CHR_o, CHR_w, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_SPACE, CHR_c, CHR_a, CHR_n,
+    PCT_SPACE, CHR_s, CHR_h, CHR_r, CHR_i, CHR_n,
+    CHR_k, CTR_NEWLINE, CTR_ENDLINE};
 
 //        as you wish!{button}{end}{endline}
 static s16 scenario_text_1B4F[] = {
-    PCT_SPACE,       PCT_SPACE,  PCT_SPACE, PCT_SPACE,  PCT_SPACE, PCT_SPACE,
-    PCT_SPACE,       CHR_a,      CHR_s,     PCT_SPACE,  CHR_y,     CHR_o,
-    CHR_u,           PCT_SPACE,  CHR_w,     CHR_i,      CHR_s,     CHR_h,
-    PCT_EXCLAMATION, CTR_BUTTON, CTR_END,   CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_a, CHR_s, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_w, CHR_i, CHR_s, CHR_h,
+    PCT_EXCLAMATION, CTR_BUTTON, CTR_END, CTR_ENDLINE};
 
 // {begin}{endline}
 static s16 scenario_text_1B7C[] = {CTR_BEGIN, CTR_ENDLINE};
@@ -1099,19 +1100,19 @@ static s16 scenario_text_1B90[] = {PCT_SPACE, PCT_SPACE, CTR_NEWLINE,
 
 // Ebisumaru obtains{newline}{endline}
 static s16 scenario_text_1BA8[] = {
-    CHR_E, CHR_b, CHR_i,     CHR_s,       CHR_u,      CHR_m, CHR_a,
-    CHR_r, CHR_u, PCT_SPACE, CHR_o,       CHR_b,      CHR_t, CHR_a,
-    CHR_i, CHR_n, CHR_s,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_E, CHR_b, CHR_i, CHR_s, CHR_u, CHR_m, CHR_a,
+    CHR_r, CHR_u, PCT_SPACE, CHR_o, CHR_b, CHR_t, CHR_a,
+    CHR_i, CHR_n, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //   the [{em-yellow}Mini-Ebisu{/em}] magic powers!{newline}{endline}
 static s16 scenario_text_1BCF[] = {
-    PCT_SPACE,  PCT_SPACE,    CHR_t,         CHR_h,           CHR_e,
-    PCT_SPACE,  PCT_LBRACKET, CTR_EM_YELLOW, CHR_M,           CHR_i,
-    CHR_n,      CHR_i,        PCT_DASH,      CHR_E,           CHR_b,
-    CHR_i,      CHR_s,        CHR_u,         CTR_CLOSE_EM,    PCT_RBRACKET,
-    PCT_SPACE,  CHR_m,        CHR_a,         CHR_g,           CHR_i,
-    CHR_c,      PCT_SPACE,    CHR_p,         CHR_o,           CHR_w,
-    CHR_e,      CHR_r,        CHR_s,         PCT_EXCLAMATION, CTR_NEWLINE,
+    PCT_SPACE, PCT_SPACE, CHR_t, CHR_h, CHR_e,
+    PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_M, CHR_i,
+    CHR_n, CHR_i, PCT_DASH, CHR_E, CHR_b,
+    CHR_i, CHR_s, CHR_u, CTR_CLOSE_EM, PCT_RBRACKET,
+    PCT_SPACE, CHR_m, CHR_a, CHR_g, CHR_i,
+    CHR_c, PCT_SPACE, CHR_p, CHR_o, CHR_w,
+    CHR_e, CHR_r, CHR_s, PCT_EXCLAMATION, CTR_NEWLINE,
     CTR_ENDLINE};
 
 // {button}{endline}
@@ -1122,59 +1123,59 @@ static s16 scenario_text_1C2A[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // The powers will allow you to{newline}{endline}
 static s16 scenario_text_1C42[] = {
-    CHR_T, CHR_h,     CHR_e, PCT_SPACE, CHR_p,       CHR_o,
-    CHR_w, CHR_e,     CHR_r, CHR_s,     PCT_SPACE,   CHR_w,
-    CHR_i, CHR_l,     CHR_l, PCT_SPACE, CHR_a,       CHR_l,
-    CHR_l, CHR_o,     CHR_w, PCT_SPACE, CHR_y,       CHR_o,
-    CHR_u, PCT_SPACE, CHR_t, CHR_o,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_T, CHR_h, CHR_e, PCT_SPACE, CHR_p, CHR_o,
+    CHR_w, CHR_e, CHR_r, CHR_s, PCT_SPACE, CHR_w,
+    CHR_i, CHR_l, CHR_l, PCT_SPACE, CHR_a, CHR_l,
+    CHR_l, CHR_o, CHR_w, PCT_SPACE, CHR_y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_t, CHR_o, CTR_NEWLINE, CTR_ENDLINE};
 
 // {em-yellow}shrink{/em} and get through{newline}{endline}
 static s16 scenario_text_1C74[] = {
-    CTR_EM_YELLOW, CHR_s,        CHR_h,     CHR_r, CHR_i,     CHR_n,
-    CHR_k,         CTR_CLOSE_EM, PCT_SPACE, CHR_a, CHR_n,     CHR_d,
-    PCT_SPACE,     CHR_g,        CHR_e,     CHR_t, PCT_SPACE, CHR_t,
-    CHR_h,         CHR_r,        CHR_o,     CHR_u, CHR_g,     CHR_h,
-    CTR_NEWLINE,   CTR_ENDLINE};
+    CTR_EM_YELLOW, CHR_s, CHR_h, CHR_r, CHR_i, CHR_n,
+    CHR_k, CTR_CLOSE_EM, PCT_SPACE, CHR_a, CHR_n, CHR_d,
+    PCT_SPACE, CHR_g, CHR_e, CHR_t, PCT_SPACE, CHR_t,
+    CHR_h, CHR_r, CHR_o, CHR_u, CHR_g, CHR_h,
+    CTR_NEWLINE, CTR_ENDLINE};
 
 // {em-yellow}small holes{/em} and {em-yellow}narrow
 // roads{/em}!{button}{endline}
 static s16 scenario_text_1CB0[] = {
-    CTR_EM_YELLOW, CHR_s,        CHR_m,           CHR_a,         CHR_l,
-    CHR_l,         PCT_SPACE,    CHR_h,           CHR_o,         CHR_l,
-    CHR_e,         CHR_s,        CTR_CLOSE_EM,    PCT_SPACE,     CHR_a,
-    CHR_n,         CHR_d,        PCT_SPACE,       CTR_EM_YELLOW, CHR_n,
-    CHR_a,         CHR_r,        CHR_r,           CHR_o,         CHR_w,
-    PCT_SPACE,     CHR_r,        CHR_o,           CHR_a,         CHR_d,
-    CHR_s,         CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_BUTTON,    CTR_ENDLINE};
+    CTR_EM_YELLOW, CHR_s, CHR_m, CHR_a, CHR_l,
+    CHR_l, PCT_SPACE, CHR_h, CHR_o, CHR_l,
+    CHR_e, CHR_s, CTR_CLOSE_EM, PCT_SPACE, CHR_a,
+    CHR_n, CHR_d, PCT_SPACE, CTR_EM_YELLOW, CHR_n,
+    CHR_a, CHR_r, CHR_r, CHR_o, CHR_w,
+    PCT_SPACE, CHR_r, CHR_o, CHR_a, CHR_d,
+    CHR_s, CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
 static s16 scenario_text_1D02[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // However, remember that while{newline}{endline}
 static s16 scenario_text_1D1A[] = {
-    CHR_H, CHR_o,     CHR_w,     CHR_e, CHR_v,       CHR_e,
-    CHR_r, PCT_COMMA, PCT_SPACE, CHR_r, CHR_e,       CHR_m,
-    CHR_e, CHR_m,     CHR_b,     CHR_e, CHR_r,       PCT_SPACE,
-    CHR_t, CHR_h,     CHR_a,     CHR_t, PCT_SPACE,   CHR_w,
-    CHR_h, CHR_i,     CHR_l,     CHR_e, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_H, CHR_o, CHR_w, CHR_e, CHR_v, CHR_e,
+    CHR_r, PCT_COMMA, PCT_SPACE, CHR_r, CHR_e, CHR_m,
+    CHR_e, CHR_m, CHR_b, CHR_e, CHR_r, PCT_SPACE,
+    CHR_t, CHR_h, CHR_a, CHR_t, PCT_SPACE, CHR_w,
+    CHR_h, CHR_i, CHR_l, CHR_e, CTR_NEWLINE, CTR_ENDLINE};
 
 // using the {em-yellow}Mini-Ebisu{/em} powers,{newline}{endline}
 static s16 scenario_text_1D4C[] = {
-    CHR_u,       CHR_s,      CHR_i, CHR_n,        CHR_g,         PCT_SPACE,
-    CHR_t,       CHR_h,      CHR_e, PCT_SPACE,    CTR_EM_YELLOW, CHR_M,
-    CHR_i,       CHR_n,      CHR_i, PCT_DASH,     CHR_E,         CHR_b,
-    CHR_i,       CHR_s,      CHR_u, CTR_CLOSE_EM, PCT_SPACE,     CHR_p,
-    CHR_o,       CHR_w,      CHR_e, CHR_r,        CHR_s,         PCT_COMMA,
+    CHR_u, CHR_s, CHR_i, CHR_n, CHR_g, PCT_SPACE,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_M,
+    CHR_i, CHR_n, CHR_i, PCT_DASH, CHR_E, CHR_b,
+    CHR_i, CHR_s, CHR_u, CTR_CLOSE_EM, PCT_SPACE, CHR_p,
+    CHR_o, CHR_w, CHR_e, CHR_r, CHR_s, PCT_COMMA,
     CTR_NEWLINE, CTR_ENDLINE};
 
 // you will not be able to {em-yellow}attack{/em}!{endline}
 static s16 scenario_text_1D8E[] = {
-    CHR_y,         CHR_o,        CHR_u,           PCT_SPACE,  CHR_w, CHR_i,
-    CHR_l,         CHR_l,        PCT_SPACE,       CHR_n,      CHR_o, CHR_t,
-    PCT_SPACE,     CHR_b,        CHR_e,           PCT_SPACE,  CHR_a, CHR_b,
-    CHR_l,         CHR_e,        PCT_SPACE,       CHR_t,      CHR_o, PCT_SPACE,
-    CTR_EM_YELLOW, CHR_a,        CHR_t,           CHR_t,      CHR_a, CHR_c,
-    CHR_k,         CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_ENDLINE};
+    CHR_y, CHR_o, CHR_u, PCT_SPACE, CHR_w, CHR_i,
+    CHR_l, CHR_l, PCT_SPACE, CHR_n, CHR_o, CHR_t,
+    PCT_SPACE, CHR_b, CHR_e, PCT_SPACE, CHR_a, CHR_b,
+    CHR_l, CHR_e, PCT_SPACE, CHR_t, CHR_o, PCT_SPACE,
+    CTR_EM_YELLOW, CHR_a, CHR_t, CHR_t, CHR_a, CHR_c,
+    CHR_k, CTR_CLOSE_EM, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_1DCA[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -1186,33 +1187,33 @@ static s16 scenario_text_1DE7[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Ushiwaka:Looks like you failed.{newline}{endline}
 static s16 scenario_text_1DFF[] = {
-    CHR_U,     CHR_s,     CHR_h,      CHR_i,       CHR_w,      CHR_a,     CHR_k,
-    CHR_a,     PCT_COLON, CHR_L,      CHR_o,       CHR_o,      CHR_k,     CHR_s,
-    PCT_SPACE, CHR_l,     CHR_i,      CHR_k,       CHR_e,      PCT_SPACE, CHR_y,
-    CHR_o,     CHR_u,     PCT_SPACE,  CHR_f,       CHR_a,      CHR_i,     CHR_l,
-    CHR_e,     CHR_d,     PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w, CHR_a, CHR_k,
+    CHR_a, PCT_COLON, CHR_L, CHR_o, CHR_o, CHR_k, CHR_s,
+    PCT_SPACE, CHR_l, CHR_i, CHR_k, CHR_e, PCT_SPACE, CHR_y,
+    CHR_o, CHR_u, PCT_SPACE, CHR_f, CHR_a, CHR_i, CHR_l,
+    CHR_e, CHR_d, PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 //        You wanna try again?{newline}{endline}
 static s16 scenario_text_1E34[] = {
-    PCT_SPACE, PCT_SPACE, PCT_SPACE,    PCT_SPACE,   PCT_SPACE,  PCT_SPACE,
-    PCT_SPACE, CHR_Y,     CHR_o,        CHR_u,       PCT_SPACE,  CHR_w,
-    CHR_a,     CHR_n,     CHR_n,        CHR_a,       PCT_SPACE,  CHR_t,
-    CHR_r,     CHR_y,     PCT_SPACE,    CHR_a,       CHR_g,      CHR_a,
-    CHR_i,     CHR_n,     PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_Y, CHR_o, CHR_u, PCT_SPACE, CHR_w,
+    CHR_a, CHR_n, CHR_n, CHR_a, PCT_SPACE, CHR_t,
+    CHR_r, CHR_y, PCT_SPACE, CHR_a, CHR_g, CHR_a,
+    CHR_i, CHR_n, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}Absolutely!{newline}{endline}
 static s16 scenario_text_1E65[] = {
-    PCT_SPACE, PCT_SPACE,       CTR_EM_YELLOW, CHR_A,      CHR_b, CHR_s,
-    CHR_o,     CHR_l,           CHR_u,         CHR_t,      CHR_e, CHR_l,
-    CHR_y,     PCT_EXCLAMATION, CTR_NEWLINE,   CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_A, CHR_b, CHR_s,
+    CHR_o, CHR_l, CHR_u, CHR_t, CHR_e, CHR_l,
+    CHR_y, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}I need to rest a little.{newline}{endline}
 static s16 scenario_text_1E93[] = {
-    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_I,       PCT_SPACE,  CHR_n,
-    CHR_e,     CHR_e,     CHR_d,         PCT_SPACE,   CHR_t,      CHR_o,
-    PCT_SPACE, CHR_r,     CHR_e,         CHR_s,       CHR_t,      PCT_SPACE,
-    CHR_a,     PCT_SPACE, CHR_l,         CHR_i,       CHR_t,      CHR_t,
-    CHR_l,     CHR_e,     PCT_PERIOD,    CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_I, PCT_SPACE, CHR_n,
+    CHR_e, CHR_e, CHR_d, PCT_SPACE, CHR_t, CHR_o,
+    PCT_SPACE, CHR_r, CHR_e, CHR_s, CHR_t, PCT_SPACE,
+    CHR_a, PCT_SPACE, CHR_l, CHR_i, CHR_t, CHR_t,
+    CHR_l, CHR_e, PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 // {end}{endline}
 static s16 scenario_text_1ECE[] = {CTR_END, CTR_ENDLINE};
@@ -1224,18 +1225,18 @@ static s16 scenario_text_1EE0[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}That's what I wanna hear!{newline}{endline}
 static s16 scenario_text_1EF8[] = {
-    CTR_CLOSE_EM,    CHR_T,       CHR_h,      CHR_a, CHR_t,
-    PCT_APOSTROPHE,  CHR_s,       PCT_SPACE,  CHR_w, CHR_h,
-    CHR_a,           CHR_t,       PCT_SPACE,  CHR_I, PCT_SPACE,
-    CHR_w,           CHR_a,       CHR_n,      CHR_n, CHR_a,
-    PCT_SPACE,       CHR_h,       CHR_e,      CHR_a, CHR_r,
+    CTR_CLOSE_EM, CHR_T, CHR_h, CHR_a, CHR_t,
+    PCT_APOSTROPHE, CHR_s, PCT_SPACE, CHR_w, CHR_h,
+    CHR_a, CHR_t, PCT_SPACE, CHR_I, PCT_SPACE,
+    CHR_w, CHR_a, CHR_n, CHR_n, CHR_a,
+    PCT_SPACE, CHR_h, CHR_e, CHR_a, CHR_r,
     PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // Thats the spirit!{endline}
 static s16 scenario_text_1F2C[] = {
-    CHR_T, CHR_h, CHR_a, CHR_t,     CHR_s,           PCT_SPACE,
-    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_s,           CHR_p,
-    CHR_i, CHR_r, CHR_i, CHR_t,     PCT_EXCLAMATION, CTR_ENDLINE};
+    CHR_T, CHR_h, CHR_a, CHR_t, CHR_s, PCT_SPACE,
+    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_s, CHR_p,
+    CHR_i, CHR_r, CHR_i, CHR_t, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_1F4A[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -1247,23 +1248,23 @@ static s16 scenario_text_1F67[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // {/em}Is that so...{newline}{endline}
 static s16 scenario_text_1F7F[] = {
-    CTR_CLOSE_EM, CHR_I,      CHR_s,       PCT_SPACE,  CHR_t, CHR_h,
-    CHR_a,        CHR_t,      PCT_SPACE,   CHR_s,      CHR_o, PCT_PERIOD,
-    PCT_PERIOD,   PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
+    CTR_CLOSE_EM, CHR_I, CHR_s, PCT_SPACE, CHR_t, CHR_h,
+    CHR_a, CHR_t, PCT_SPACE, CHR_s, CHR_o, PCT_PERIOD,
+    PCT_PERIOD, PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 // In that case,{newline}{endline}
 static s16 scenario_text_1FA7[] = {
-    CHR_I, CHR_n, PCT_SPACE, CHR_t,       CHR_h,
-    CHR_a, CHR_t, PCT_SPACE, CHR_c,       CHR_a,
+    CHR_I, CHR_n, PCT_SPACE, CHR_t, CHR_h,
+    CHR_a, CHR_t, PCT_SPACE, CHR_c, CHR_a,
     CHR_s, CHR_e, PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 // come back when you're ready!{endline}
 static s16 scenario_text_1FCA[] = {
-    CHR_c,          CHR_o, CHR_m,     CHR_e,           PCT_SPACE,  CHR_b,
-    CHR_a,          CHR_c, CHR_k,     PCT_SPACE,       CHR_w,      CHR_h,
-    CHR_e,          CHR_n, PCT_SPACE, CHR_y,           CHR_o,      CHR_u,
-    PCT_APOSTROPHE, CHR_r, CHR_e,     PCT_SPACE,       CHR_r,      CHR_e,
-    CHR_a,          CHR_d, CHR_y,     PCT_EXCLAMATION, CTR_ENDLINE};
+    CHR_c, CHR_o, CHR_m, CHR_e, PCT_SPACE, CHR_b,
+    CHR_a, CHR_c, CHR_k, PCT_SPACE, CHR_w, CHR_h,
+    CHR_e, CHR_n, PCT_SPACE, CHR_y, CHR_o, CHR_u,
+    PCT_APOSTROPHE, CHR_r, CHR_e, PCT_SPACE, CHR_r, CHR_e,
+    CHR_a, CHR_d, CHR_y, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_1FF3[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -1272,32 +1273,32 @@ static s16 scenario_text_1FF3[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
 
 // Ushiwaka:You've returned to{newline}{endline}
 static s16 scenario_text_2010[] = {
-    CHR_U,          CHR_s, CHR_h,     CHR_i,       CHR_w,      CHR_a,
-    CHR_k,          CHR_a, PCT_COLON, CHR_Y,       CHR_o,      CHR_u,
-    PCT_APOSTROPHE, CHR_v, CHR_e,     PCT_SPACE,   CHR_r,      CHR_e,
-    CHR_t,          CHR_u, CHR_r,     CHR_n,       CHR_e,      CHR_d,
-    PCT_SPACE,      CHR_t, CHR_o,     CTR_NEWLINE, CTR_ENDLINE};
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w, CHR_a,
+    CHR_k, CHR_a, PCT_COLON, CHR_Y, CHR_o, CHR_u,
+    PCT_APOSTROPHE, CHR_v, CHR_e, PCT_SPACE, CHR_r, CHR_e,
+    CHR_t, CHR_u, CHR_r, CHR_n, CHR_e, CHR_d,
+    PCT_SPACE, CHR_t, CHR_o, CTR_NEWLINE, CTR_ENDLINE};
 
 //        give it another shot?{newline}{endline}
 static s16 scenario_text_2041[] = {
-    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,    PCT_SPACE,   PCT_SPACE,
-    PCT_SPACE, CHR_g,     CHR_i,     CHR_v,        CHR_e,       PCT_SPACE,
-    CHR_i,     CHR_t,     PCT_SPACE, CHR_a,        CHR_n,       CHR_o,
-    CHR_t,     CHR_h,     CHR_e,     CHR_r,        PCT_SPACE,   CHR_s,
-    CHR_h,     CHR_o,     CHR_t,     PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_g, CHR_i, CHR_v, CHR_e, PCT_SPACE,
+    CHR_i, CHR_t, PCT_SPACE, CHR_a, CHR_n, CHR_o,
+    CHR_t, CHR_h, CHR_e, CHR_r, PCT_SPACE, CHR_s,
+    CHR_h, CHR_o, CHR_t, PCT_QUESTION, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}You bet.{newline}{endline}
 static s16 scenario_text_2073[] = {
-    PCT_SPACE,  PCT_SPACE,   CTR_EM_YELLOW, CHR_Y, CHR_o,
-    CHR_u,      PCT_SPACE,   CHR_b,         CHR_e, CHR_t,
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_Y, CHR_o,
+    CHR_u, PCT_SPACE, CHR_b, CHR_e, CHR_t,
     PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}Well, not quite...{newline}{endline}
 static s16 scenario_text_209E[] = {
-    PCT_SPACE,  PCT_SPACE,  CTR_EM_YELLOW, CHR_W,       CHR_e,      CHR_l,
-    CHR_l,      PCT_COMMA,  PCT_SPACE,     CHR_n,       CHR_o,      CHR_t,
-    PCT_SPACE,  CHR_q,      CHR_u,         CHR_i,       CHR_t,      CHR_e,
-    PCT_PERIOD, PCT_PERIOD, PCT_PERIOD,    CTR_NEWLINE, CTR_ENDLINE};
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_W, CHR_e, CHR_l,
+    CHR_l, PCT_COMMA, PCT_SPACE, CHR_n, CHR_o, CHR_t,
+    PCT_SPACE, CHR_q, CHR_u, CHR_i, CHR_t, CHR_e,
+    PCT_PERIOD, PCT_PERIOD, PCT_PERIOD, CTR_NEWLINE, CTR_ENDLINE};
 
 // {end}{endline}
 static s16 scenario_text_20D3[] = {CTR_END, CTR_ENDLINE};
@@ -1309,25 +1310,25 @@ static s16 scenario_text_20E5[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // Ushiwaka:When you're smaller,{newline}{endline}
 static s16 scenario_text_20FD[] = {
-    CHR_U,     CHR_s,       CHR_h,      CHR_i,          CHR_w, CHR_a, CHR_k,
-    CHR_a,     PCT_COLON,   CHR_W,      CHR_h,          CHR_e, CHR_n, PCT_SPACE,
-    CHR_y,     CHR_o,       CHR_u,      PCT_APOSTROPHE, CHR_r, CHR_e, PCT_SPACE,
-    CHR_s,     CHR_m,       CHR_a,      CHR_l,          CHR_l, CHR_e, CHR_r,
+    CHR_U, CHR_s, CHR_h, CHR_i, CHR_w, CHR_a, CHR_k,
+    CHR_a, PCT_COLON, CHR_W, CHR_h, CHR_e, CHR_n, PCT_SPACE,
+    CHR_y, CHR_o, CHR_u, PCT_APOSTROPHE, CHR_r, CHR_e, PCT_SPACE,
+    CHR_s, CHR_m, CHR_a, CHR_l, CHR_l, CHR_e, CHR_r,
     PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 //        you don't need to{newline}{endline}
 static s16 scenario_text_2130[] = {
-    PCT_SPACE,   PCT_SPACE,  PCT_SPACE,      PCT_SPACE, PCT_SPACE, PCT_SPACE,
-    PCT_SPACE,   CHR_y,      CHR_o,          CHR_u,     PCT_SPACE, CHR_d,
-    CHR_o,       CHR_n,      PCT_APOSTROPHE, CHR_t,     PCT_SPACE, CHR_n,
-    CHR_e,       CHR_e,      CHR_d,          PCT_SPACE, CHR_t,     CHR_o,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE, CHR_d,
+    CHR_o, CHR_n, PCT_APOSTROPHE, CHR_t, PCT_SPACE, CHR_n,
+    CHR_e, CHR_e, CHR_d, PCT_SPACE, CHR_t, CHR_o,
     CTR_NEWLINE, CTR_ENDLINE};
 
 //        eat as much,{button}{endline}
 static s16 scenario_text_215E[] = {
-    PCT_SPACE, PCT_SPACE,  PCT_SPACE,  PCT_SPACE, PCT_SPACE, PCT_SPACE,
-    PCT_SPACE, CHR_e,      CHR_a,      CHR_t,     PCT_SPACE, CHR_a,
-    CHR_s,     PCT_SPACE,  CHR_m,      CHR_u,     CHR_c,     CHR_h,
+    PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
+    PCT_SPACE, CHR_e, CHR_a, CHR_t, PCT_SPACE, CHR_a,
+    CHR_s, PCT_SPACE, CHR_m, CHR_u, CHR_c, CHR_h,
     PCT_COMMA, CTR_BUTTON, CTR_ENDLINE};
 
 // {newwindow}{endline}
@@ -1335,29 +1336,38 @@ static s16 scenario_text_2186[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
 // and a room can seem so large,{newline}{endline}
 static s16 scenario_text_219E[] = {
-    CHR_a,     CHR_n,       CHR_d,      PCT_SPACE, CHR_a, PCT_SPACE, CHR_r,
-    CHR_o,     CHR_o,       CHR_m,      PCT_SPACE, CHR_c, CHR_a,     CHR_n,
-    PCT_SPACE, CHR_s,       CHR_e,      CHR_e,     CHR_m, PCT_SPACE, CHR_s,
-    CHR_o,     PCT_SPACE,   CHR_l,      CHR_a,     CHR_r, CHR_g,     CHR_e,
+    CHR_a, CHR_n, CHR_d, PCT_SPACE, CHR_a, PCT_SPACE, CHR_r,
+    CHR_o, CHR_o, CHR_m, PCT_SPACE, CHR_c, CHR_a, CHR_n,
+    PCT_SPACE, CHR_s, CHR_e, CHR_e, CHR_m, PCT_SPACE, CHR_s,
+    CHR_o, PCT_SPACE, CHR_l, CHR_a, CHR_r, CHR_g, CHR_e,
     PCT_COMMA, CTR_NEWLINE, CTR_ENDLINE};
 
 // that even a bachelor pad will{newline}{endline}
 static s16 scenario_text_21D1[] = {
-    CHR_t, CHR_h,       CHR_a,      CHR_t,     PCT_SPACE, CHR_e, CHR_v,
-    CHR_e, CHR_n,       PCT_SPACE,  CHR_a,     PCT_SPACE, CHR_b, CHR_a,
-    CHR_c, CHR_h,       CHR_e,      CHR_l,     CHR_o,     CHR_r, PCT_SPACE,
-    CHR_p, CHR_a,       CHR_d,      PCT_SPACE, CHR_w,     CHR_i, CHR_l,
+    CHR_t, CHR_h, CHR_a, CHR_t, PCT_SPACE, CHR_e, CHR_v,
+    CHR_e, CHR_n, PCT_SPACE, CHR_a, PCT_SPACE, CHR_b, CHR_a,
+    CHR_c, CHR_h, CHR_e, CHR_l, CHR_o, CHR_r, PCT_SPACE,
+    CHR_p, CHR_a, CHR_d, PCT_SPACE, CHR_w, CHR_i, CHR_l,
     CHR_l, CTR_NEWLINE, CTR_ENDLINE};
 
 // look like a castle!{endline}
 static s16 scenario_text_2204[] = {
-    CHR_l, CHR_o, CHR_o,     CHR_k, PCT_SPACE,       CHR_l,      CHR_i,
-    CHR_k, CHR_e, PCT_SPACE, CHR_a, PCT_SPACE,       CHR_c,      CHR_a,
-    CHR_s, CHR_t, CHR_l,     CHR_e, PCT_EXCLAMATION, CTR_ENDLINE};
+    CHR_l, CHR_o, CHR_o, CHR_k, PCT_SPACE, CHR_l, CHR_i,
+    CHR_k, CHR_e, PCT_SPACE, CHR_a, PCT_SPACE, CHR_c, CHR_a,
+    CHR_s, CHR_t, CHR_l, CHR_e, PCT_EXCLAMATION, CTR_ENDLINE};
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_2224[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
-
+extern u16 D_800C7AB2;
+void check_ebismaru_and_flag_28(void) {
+    u16 current_room = D_800C7AB2;
+    // Check if the player has Ebismaru and if flag 0x28 is set
+    if (READ_SAVE_DATA(SAVE_EBISUMARU_RECRUITED) && IS_FLAG_SET(0x28) && current_room == 0x16D) {
+        ENABLE_FLAG(0x501); // Set temporary flag 0x501
+    } else {
+        DISABLE_FLAG(0x501); // Clear temporary flag 0x501
+    }
+}
 s32 scenario_code_message_160_c028[] = {
 
     // Address: @c028
@@ -1366,12 +1376,6 @@ s32 scenario_code_message_160_c028[] = {
     // cd04: Print Text
     TXT,
     (s32)&scenario_text_0000,
-
-    // c048: If Flag 029 (Obtained Achilles' Heel), Jump To @cd041
-    // Jump if flag 0x29 is SET to @cd041
-    JFS,
-    0x29,
-    (s32)&scenario_code_message_160_cd04,
 
     // c054: If Flag 02a (Looking for Red Fish), Jump To @c490
     // Jump if flag 0x2A is SET to @c490
@@ -1396,6 +1400,26 @@ s32 scenario_code_message_160_c028[] = {
     JFS,
     0x25,
     (s32)&scenario_code_message_160_c0a8,
+
+    // c048: If Flag 029 (Obtained Achilles' Heel), Jump To @cd041
+    // Jump if flag 0x29 is SET to @cd041
+    JFS,
+    0x29,
+    (s32)&scenario_code_message_160_cd04,
+
+    // Heard about Zazen Dwarf
+    JFS,
+    0x00A,
+    (s32)&scenario_code_message_160_c6b4,
+
+    // 8428: Execute subroutine to check if we have ebismaru AND flag 0x28
+    ESR,
+    (s32)check_ebismaru_and_flag_28,
+
+    // 8430: If temporary flag 0x501 is set (ebismaru AND flag 0x28), jump to @8470
+    JFS,
+    0x501,
+    (s32)&scenario_code_message_160_c838,
 
     // Jump to @cd041
     JMP,
@@ -2128,6 +2152,19 @@ s32 scenario_code_message_160_c4cc[] = {
     TXT,
     (s32)&scenario_text_0F27,
 
+    // Clear the fishing flags
+    CFG,
+    0x2A,
+
+    CFG,
+    0x2B,
+
+    CFG,
+    0x2C,
+
+    CFG,
+    0x25,
+
     // c55c: Set Flag 004 (???)
     SFG,
     0x04,
@@ -2325,6 +2362,9 @@ s32 scenario_code_message_160_c6b4[] = {
     WTS,
     0x20,
 
+    CFG,
+    0x00A,
+
     // c6c4: Write to RAM 801c775c (Dialogue Window Y Pos)
     STW,
     (s32)&D_801C775C_1C835C,
@@ -2519,7 +2559,6 @@ s32 scenario_code_message_160_c6b4[] = {
 s32 scenario_code_message_160_c838[] = {
 
     // Address: @c838
-
     // c838: Print Text
     TXT,
     (s32)&scenario_text_0000,
@@ -2617,7 +2656,8 @@ s32 scenario_code_message_160_c838[] = {
     // c8f4: Print Text
     TXT,
     (s32)&scenario_text_0000,
-
+    CFG,
+    0x501,
     // c8fc: Write to RAM 801c7770 (Unknown)
     STW,
     (s32)&D_801C7770_1C8370,

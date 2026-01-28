@@ -501,6 +501,10 @@ void func_8020D724_5C8BF4_hook()
       // Adjust actual items in the room
       process_items(actor_instance, resolved_actor_def, actor_id,
                     actor_data_file_id, overall_index);
+
+      // Adjust pot spawn contents
+      adjust_pot_contents(actor_instance, resolved_actor_def, actor_id,
+                         actor_data_file_id, overall_index);
     }
   }
 }
