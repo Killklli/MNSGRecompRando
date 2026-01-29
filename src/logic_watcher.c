@@ -143,7 +143,29 @@ void sasuke_batteries()
     }
 }
 
-void deathlink()
+RECOMP_HOOK("func_80002040_2C40") void deathlink_hooks()
+{
+    if (!rando_get_death_link_enabled()) {
+        return;
+    }
+    
+    if (rando_get_death_link_pending()) {
+        deathlink_received();
+    } else {
+        deathlink_sender();
+    }
+}
+
+void deathlink_sender()
+{
+    // if the players total health is 0 (or less), send a deathlink
+    s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
+    if (current_health <= 0) {
+        rando_send_death_link();
+    }
+}
+
+void deathlink_received()
 {
     increase_lives();
     // Set their current health to 0

@@ -56,3 +56,4 @@ class MN64Options(PerGameCommonOptions):
     randomize_health: HealthInPool
     prevent_oneway_softlocks: PreventOneWaySoftlocks
     chugoku_door_unlocked: ChugokuDoorUnlocked
+    death_link: DeathLink
