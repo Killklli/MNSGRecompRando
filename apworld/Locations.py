@@ -147,7 +147,7 @@ BizenLoc_table: Dict[str, LocationData] = {
     "Kurashiki - Silver Fortune Doll": LocationData(BASE_ID + 80, "Kurashiki", "Fortune Doll"),
     "JumpChallegeTraining - Jetpack": LocationData(BASE_ID + 81, "JumpChallegeTraining", "Ability"),
     "Nagato - Silver Fortune Doll": LocationData(BASE_ID + 82, "Nagato", "Fortune Doll"),
-    "Nagato - Silver Fortune Doll (Hidden)": LocationData(BASE_ID + 83, "Nagato", "Fortune Doll"),
+    "Nagato - Silver Fortune Doll": LocationData(BASE_ID + 83, "Nagato", "Fortune Doll"),
     "Nagato - Normal Health": LocationData(BASE_ID + 84, "Nagato", "Health"),
     "LakewithaLargetree - Sasuke Battery 2": LocationData(BASE_ID + 85, "LakewithaLargetree", "Upgrade"),
     "LakewithaLargetree - Sasuke": LocationData(BASE_ID + 86, "LakewithaLargetree", "Character"),
