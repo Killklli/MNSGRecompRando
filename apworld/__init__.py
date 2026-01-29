@@ -155,6 +155,8 @@ class MN64World(World):
             MN64Items.SASUKE_DEAD.value,
             MN64Items.MOVING_BOULDER_IN_FOREST.value,
             MN64Items.MOKUBEI_BROTHER.value,
+            MN64Items.SASUKE_BATTERY_1.value,
+            MN64Items.SASUKE_BATTERY_2.value,
             "Sasuke Battery 2 Event",
         }
 

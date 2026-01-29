@@ -61,10 +61,7 @@ characters_table: Dict[str, ItemData] = {
 }
 
 # Character Upgrades
-character_upgrades_table: Dict[str, ItemData] = {
-    "Sasuke Battery 1": ItemData(BASE_ID + 20, 1, ItemClassification.progression, entity_id=0x32D),
-    "Sasuke Battery 2": ItemData(BASE_ID + 21, 1, ItemClassification.progression, entity_id=0x3C7),
-}
+character_upgrades_table: Dict[str, ItemData] = {}
 
 # Collectibles
 fortune_dolls_table: Dict[str, ItemData] = {
@@ -129,6 +126,8 @@ event_items_table: Dict[str, ItemData] = {
     "Beat Congo": ItemData(None, 1, ItemClassification.progression),
     "Beat Game Die Hard Fans": ItemData(None, 1, ItemClassification.progression),
     "Cucumber Quest Find Priest": ItemData(None, 1, ItemClassification.progression),
+    "Sasuke Battery 1": ItemData(None, 1, ItemClassification.progression),
+    "Sasuke Battery 2": ItemData(None, 1, ItemClassification.progression),
 }
 
 # Miracle Items
