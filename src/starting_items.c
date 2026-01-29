@@ -78,28 +78,7 @@ void on_save_start_hook()
         u32 seed_started = rando_get_datastorage_u32_sync("seed_started");
         should_set_starting_data = (seed_started == 0);
     }
-    
-
-    // Set starting room from AP slotdata
-    u32 starting_room = get_starting_room();
-    WRITE_SPAWN_ROOM(starting_room);
-
-    // Set spawn coordinates for specific room IDs
-    if (starting_room == 0x167)
-    {
-        WRITE_SPAWN_X(0); // X coordinate
-        WRITE_SPAWN_Y(0); // Y coordinate
-        WRITE_SPAWN_Z(0); // Z coordinate
-    }
-    else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
-                starting_room == 0x1B1 || starting_room == 0x1B4 ||
-                starting_room == 0x1B3)
-    {
-        WRITE_SPAWN_X(0);   // X coordinate
-        WRITE_SPAWN_Y(20);  // Y coordinate
-        WRITE_SPAWN_Z(-25); // Z coordinate
-    }
-    
+        
     
     // Only set starting characters if this is the first time starting the seed
     if (should_set_starting_data)
@@ -134,6 +113,26 @@ void on_file_started()
             
             recomp_printf("RESTORE SAVE: Restored lives=%u, ryo=%u, current_health=%u, total_health=%u\n",
                         saved_current_lives, saved_current_ryo, saved_current_health, saved_total_health);
+                        
+        }
+        // Set starting room from AP slotdata
+        u32 starting_room = get_starting_room();
+        WRITE_SPAWN_ROOM(starting_room);
+
+        // Set spawn coordinates for specific room IDs
+        if (starting_room == 0x167)
+        {
+            WRITE_SPAWN_X(0); // X coordinate
+            WRITE_SPAWN_Y(0); // Y coordinate
+            WRITE_SPAWN_Z(0); // Z coordinate
+        }
+        else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
+                    starting_room == 0x1B1 || starting_room == 0x1B4 ||
+                    starting_room == 0x1B3)
+        {
+            WRITE_SPAWN_X(0);   // X coordinate
+            WRITE_SPAWN_Y(20);  // Y coordinate
+            WRITE_SPAWN_Z(-25); // Z coordinate
         }
     }
 

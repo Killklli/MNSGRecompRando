@@ -344,8 +344,13 @@ void check_for_new_items()
 
   if (!initItems)
   {
-
-    old_items_size = new_items_size;
+    // Load items_received from datastore, default to 0 if not found
+    old_items_size = rando_get_datastorage_u32_sync("items_received");
+    if (old_items_size == 0) {
+      old_items_size = new_items_size;
+      // write it back to datastore
+      rando_set_datastorage_u32_async("items_received", old_items_size);
+    }
     initItems = 1;
   }
 
@@ -385,6 +390,8 @@ void check_for_new_items()
     }
 
     old_items_size += 1;
+    // Write the updated items_received count to datastore asynchronously
+    rando_set_datastorage_u32_async("items_received", old_items_size);
   }
 }
 

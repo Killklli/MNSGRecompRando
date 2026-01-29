@@ -1,6 +1,7 @@
 #include "actor_common.h"
 #include "common_structs.h"
 #include "save_data_tool.h"
+#include "Archipelago.h"
 
 void adjust_pot_contents(ActorInstance *actor_instance,
                           ActorDefinition *resolved_actor_def,
@@ -8,6 +9,19 @@ void adjust_pot_contents(ActorInstance *actor_instance,
                           unsigned short actor_data_file_id,
                           int overall_index)
 {
+  // Check if increase_pot_ryo is enabled in slot data
+  if (rando_is_connected())
+  {
+    u32 increase_pot_ryo_handle[2];
+    rando_get_slotdata_raw_o32("increase_pot_ryo", increase_pot_ryo_handle);
+    u32 increase_pot_ryo_value = rando_access_slotdata_raw_u32_o32(increase_pot_ryo_handle);
+    
+    if (!increase_pot_ryo_value)
+    {
+      return; // Exit early if increase_pot_ryo is False
+    }
+  }
+
   // Check if this is a pot entity (0x192)
   if (actor_id == 0x192) {
     // Extract the current spawn count from data[1] upper 16 bits

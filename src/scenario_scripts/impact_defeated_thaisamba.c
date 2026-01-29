@@ -903,9 +903,9 @@ s32 scenario_code_impact_departure[] = {
     ESR,
     0x8003f460, // Execute Code: 8003f460 (Wait For Timer)
 
-    // Jump to save sequence
-    JMP,
-    (s32)scenario_code_save_sequence,
+    // // Jump to save sequence
+    // JMP,
+    // (s32)scenario_code_save_sequence,
 
     END,
 };

@@ -48,6 +48,7 @@ LogicRegions = {
         exits=[
             MN64TransitionFront("GhostToysCastleEntrance", lambda l: True),
             MN64TransitionFront("GhostToysCastleSpikeHallway", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("GhostToysCastleCraneGameBackside", lambda l: l.jetpack and l.sasuke),
         ],
         room_id=0x031,
         room_default_definitions=[

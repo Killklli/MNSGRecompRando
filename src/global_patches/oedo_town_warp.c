@@ -18,9 +18,9 @@ void func_8003731C_37F1C(u32 arg0)
   // Update the first warp entry (index 0) to warp to room 0x1D1 with position
   // data
   D_8006D410_6E010[0] = 0x1D1;  // Room ID
-  D_8006D410_6E010[1] = 0x0000; // X position
-  D_8006D410_6E010[2] = 0x0000; // Y position
-  D_8006D410_6E010[3] = 0x0000; // Z position
+  D_8006D410_6E010[1] = 0; // X position
+  D_8006D410_6E010[2] = -15; // Y position
+  D_8006D410_6E010[3] = 20; // Z position
   D_8006D410_6E010[4] = 0x0000; // Camera rotation
   D_8006D410_6E010[5] = 0x0000; // Player rotation
 }

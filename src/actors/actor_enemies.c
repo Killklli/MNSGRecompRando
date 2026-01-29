@@ -139,6 +139,19 @@ void process_enemy_actors(ActorInstance *actor_instance,
                           unsigned short actor_data_file_id,
                           int overall_index)
 {
+    // Check if enemy_rando is disabled in slot data
+    if (rando_is_connected())
+    {
+        u32 enemy_rando_handle[2];
+        rando_get_slotdata_raw_o32("enemy_rando", enemy_rando_handle);
+        u32 enemy_rando_value = rando_access_slotdata_raw_u32_o32(enemy_rando_handle);
+        
+        if (!enemy_rando_value)
+        {
+            return; // Exit early if enemy_rando is False
+        }
+    }
+
     // Get the replacement data for the current room from
     // get_enemy_replacements_for_room
     EnemyReplacementList replacements = get_enemy_replacements_for_room();

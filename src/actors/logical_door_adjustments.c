@@ -1,6 +1,7 @@
 #include "actor_common.h"
 #include "common_structs.h"
 #include "save_data_tool.h"
+#include "Archipelago.h"
 
 void adjust_logical_doors(ActorInstance *actor_instance,
                           ActorDefinition *resolved_actor_def,
@@ -8,6 +9,19 @@ void adjust_logical_doors(ActorInstance *actor_instance,
                           unsigned short actor_data_file_id,
                           int overall_index)
 {
+  // Check if prevent_oneway_softlocks is disabled in slot data
+  if (rando_is_connected())
+  {
+    u32 prevent_oneway_handle[2];
+    rando_get_slotdata_raw_o32("prevent_oneway_softlocks", prevent_oneway_handle);
+    u32 prevent_oneway_value = rando_access_slotdata_raw_u32_o32(prevent_oneway_handle);
+    
+    if (!prevent_oneway_value)
+    {
+      return; // Exit early if prevent_oneway_softlocks is False
+    }
+  }
+
   // Static variable to store the exit data for reuse
   static ExitActor stashed_exit_data = {0};
   static int stash_initialized = 0;

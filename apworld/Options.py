@@ -11,24 +11,24 @@ from worlds.AutoWorld import World
 from Options import Choice, DeathLink, DefaultOnToggle, Option, OptionDict, OptionError, OptionGroup, OptionList, PerGameCommonOptions, Range, TextChoice, Toggle
 
 
-class StartingRoomRando(Toggle):
+class StartingRoomRando(DefaultOnToggle):
     """Determines if the starting spawn is randomized."""
 
     display_name = "Starting Room Rando"
 
 
-class EnemyRando(Toggle):
+class EnemyRando(DefaultOnToggle):
     """Determines if enemies are randomized."""
 
     display_name = "Enemy Rando"
 
-class IncreasedPotRyo(Toggle):
+class IncreasedPotRyo(DefaultOnToggle):
     """Determines if pots have an increased amount of ryo."""
 
     display_name = "Increase Pot Ryo"
 
 
-class HealthInPool(Toggle):
+class HealthInPool(DefaultOnToggle):
     """Determines if Health Items are added into the pool."""
 
     display_name = "Health In Pool"

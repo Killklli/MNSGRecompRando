@@ -1401,12 +1401,6 @@ s32 scenario_code_message_160_c028[] = {
     0x25,
     (s32)&scenario_code_message_160_c0a8,
 
-    // c048: If Flag 029 (Obtained Achilles' Heel), Jump To @cd041
-    // Jump if flag 0x29 is SET to @cd041
-    JFS,
-    0x29,
-    (s32)&scenario_code_message_160_cd04,
-
     // Heard about Zazen Dwarf
     JFS,
     0x00A,

@@ -51,6 +51,30 @@ typedef struct ItemData {
     unsigned short flag_id;
 } ItemData;
 
+// Function to check if health randomization is enabled in slot data
+static bool is_health_randomization_enabled()
+{
+  // Check if we're connected to archipelago
+  if (!rando_is_connected())
+  {
+    // If not connected, default to enabled
+    DEBUG_PRINTF("[DEBUG] Not connected to Archipelago, defaulting to health randomization enabled\n");
+    return true;
+  }
+  
+  u32 randomize_health_handle[2];
+  
+  // Get the randomize_health setting from slot data
+  rando_get_slotdata_raw_o32("randomize_health", randomize_health_handle);
+  
+  // Get the boolean value as u32 (0 = false, 1 = true)
+  u32 randomize_health_value = rando_access_slotdata_raw_u32_o32(randomize_health_handle);
+  
+  DEBUG_PRINTF("[DEBUG] Health randomization setting: %u\n", randomize_health_value);
+  
+  return randomize_health_value != 0;
+}
+
 // Function to extract item data from Archipelago item metadata
 // This pulls both entity_id and flag_id from item_metadata for the given AP item ID
 static ItemData get_item_data_from_ap_id(u32 ap_id, u32 *item_metadata_handle)
@@ -359,6 +383,14 @@ void process_items(ActorInstance *actor_instance,
                      "(AP ID: %lu)\n",
                      overall_index,
                      (unsigned long)replacements.pairs[i].new_item_ap_id);
+        break;
+      }
+
+      // Check if this is a health item and if health randomization is disabled
+      if ((actor_id == 0x84 || actor_id == 0x85) && !is_health_randomization_enabled())
+      {
+        DEBUG_PRINTF("Skipping health item replacement for index %d: health randomization is disabled (actor_id: 0x%03X)\n",
+                     overall_index, actor_id);
         break;
       }
 

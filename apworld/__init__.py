@@ -426,6 +426,11 @@ class MN64World(World):
             0x12F,
             0x144,
         ]
+        
+        # If enemy randomization is disabled, clear the enemy pool to skip randomization
+        # while still performing memory management
+        if not self.options.enemy_rando.value:
+            all_enemies = []
         RESTRICTED_ENEMIES = {0x106, 0x10C, 0x133, 0x13A, 0x13C, 0x13D, 0x13E, 0x144}
         RESTRICTED_ENEMY_ROOMS = {0, 0x87}
 
@@ -815,7 +820,6 @@ class MN64World(World):
             "starting_items": starting_items,
             "flag_id_to_ap_location_id": flag_id_to_ap_location_id,
             "enemy_rando": self.options.enemy_rando.value,
-            "starting_room_rando": self.options.starting_room_rando.value,
             "increase_pot_ryo": self.options.increase_pot_ryo.value,
             "randomize_health": self.options.randomize_health.value,
             "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
