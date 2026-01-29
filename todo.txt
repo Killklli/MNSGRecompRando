@@ -1,3 +1,0 @@
-Benkei Fight Broken
-Logical Door Checks are Broken
-Triton Horn give crashes game
