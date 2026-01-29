@@ -22,7 +22,7 @@ The randomizer shuffles a comprehensive set of items including:
 - **Keys**: Silver, Gold, Diamond, and Jump Gym keys
 - **Equipment**: Chain Pipe, Bazooka, Meat Hammer, Wind-up Camera, Ice Kunai, Medal of Flames, Flute
 - **Abilities**: Mermaid, Mini Ebismaru, Sudden Impact, Jetpack
-- **Characters**: Goemon, Yae, Ebismaru, Sasuke (with battery upgrades)
+- **Characters**: Goemon, Yae, Ebismaru, Sasuke
 - **Quest Items**: Cucumber, Super Pass
 - **Collectibles**: Fortune Dolls (Silver/Gold), Mr. Elly Fant and Mr. Arrow collectibles, Achilles Heel
 - **Upgrades**: Strength upgrades and Surprise Packs
