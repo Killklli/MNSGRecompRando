@@ -106,6 +106,7 @@ void handle_item_by_id(u32 item_id)
   case 6464018:
     // Sasuke
     WRITE_SAVE_DATA(SAVE_SASUKE_RECRUITED, 1);
+    WRITE_SAVE_DATA(SAVE_FIRECRACKER_BOMB, 1);
     break;
   case 6464026:
     // Super Pass
