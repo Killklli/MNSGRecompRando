@@ -784,9 +784,6 @@ s32 scenario_code_message_162_cd8c[] = {
 
     // ce60: End Event
     END,
-
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_ce64[] = {
@@ -846,9 +843,6 @@ s32 scenario_code_message_162_ce64[] = {
     (s32)&scenario_code_message_162_d024,
 
     // cecc: End Event
-    END,
-
-    // End scenario script
     END,
 };
 
@@ -915,8 +909,6 @@ s32 scenario_code_message_162_ced0[] = {
     // cf40: End Event
     END,
 
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_cf44[] = {
@@ -976,9 +968,6 @@ s32 scenario_code_message_162_cf44[] = {
     (s32)&scenario_code_message_162_d024,
 
     // cfac: End Event
-    END,
-
-    // End scenario script
     END,
 };
 
@@ -1045,8 +1034,6 @@ s32 scenario_code_message_162_cfb0[] = {
     // d020: End Event
     END,
 
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_d024[] = {
@@ -1436,8 +1423,6 @@ s32 scenario_code_message_162_d024[] = {
     // d31c: End Event
     END,
 
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_d41c[] = {
@@ -1477,8 +1462,6 @@ s32 scenario_code_message_162_d41c[] = {
     // d458: End Event
     END,
 
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_d45c[] = {
@@ -1512,8 +1495,6 @@ s32 scenario_code_message_162_d45c[] = {
     // d48c: End Event
     END,
 
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_d490[] = {
@@ -1683,7 +1664,10 @@ s32 scenario_code_message_162_d490[] = {
     // d5c8: Store Value: 1
     WTS,
     0x1,
-
+    // We patch this in here so we can always complete the rest of the quest
+    // d47c: Set Flag 024 (Learned Kihachi's Favorite Food)
+    SFG,
+    0x22,
     // d5d0: Set Flag 035 (Obtained Miracle Snow)
     SFG,
     0x35,
@@ -1738,18 +1722,15 @@ s32 scenario_code_message_162_d490[] = {
 
     // d638: End Event
     END,
-
-    // End scenario script
-    END,
 };
 
 s32 scenario_code_message_162_d63c[] = {
 
     // Address: @d63c
 
-    // d63c: Set Flag 024 (Learned Kihachi's Favorite Food)
+    // d63c: Set Flag 022 (Learned Kihachi's Favorite Food)
     SFG,
-    0x24,
+    0x22,
 
     // d644: Print Text
     TXT,
@@ -1782,6 +1763,4 @@ s32 scenario_code_message_162_d63c[] = {
     // d674: End Event
     END,
 
-    // End scenario script
-    END,
 };

@@ -118,7 +118,6 @@ LogicRegions = {
                 MN64Items.CUCUMBER_QUEST_PRIEST,
                 flag_id=0x038,
             ),
-            # TODO: Me might need to check if we need to beat Thaisambda for this
             MN64LocationLogic(
                 "Miracle Snow",
                 lambda l: l.cucumber and l.event_cucumber_quest_need_key,
@@ -203,9 +202,10 @@ LogicRegions = {
                 MN64Items.MINI_EBISMARU,
                 flag_id=0x031,
             ),
+            # TODO: We can unbind this by making it so we don't need to defeat ghost toys to get the key, we can patch Grandma to give it after the quest
             MN64LocationLogic(
                 "Jump Gym Key",
-                lambda l: l.event_cucumber_quest_need_key,
+                lambda l: l.event_cucumber_quest_need_key and l.ghost_toys_defeated,
                 MN64Items.JUMP_GYM_KEY,
                 flag_id=0x027,
             ),
@@ -431,7 +431,7 @@ LogicRegions = {
             # MN64LocationLogic("Blue Fish 2", lambda l: l.fish_quest, MN64Items.BLUE_FISH),
             MN64LocationLogic(
                 "Cucumber Quest Start",
-                lambda l: l.beat_thaisambda,
+                lambda l: l.beat_thaisambda and l.achilles_heel,
                 MN64Items.CUCUMBER_QUEST_START,
                 flag_id=0x023,
             ),

@@ -15,16 +15,16 @@ RECOMP_PATCH void func_08002D6C_719C0C(void* entity, void* arg1) {
     // Check button input 0x28 (40)
     button_check1 = func_800240DC_24CDC(0x28);
     
-    if (button_check1 != 1) {
-        // Check button input 0x31 (49)
-        button_check2 = func_800240DC_24CDC(0x31);
+    // if (button_check1 != 0) {
+        // // Check button input 0x31 (49)
+        // button_check2 = func_800240DC_24CDC(0x31);
         
-        if (button_check2 == 0) {
-            // Call some cleanup/exit function
-            func_80034ED4_35AD4();
-            return;
-        }
-    }
+        // if (button_check2 == 0) {
+        //     // Call some cleanup/exit function
+        //     func_80034ED4_35AD4();
+        //     return;
+        // }
+    // }
     
     // Set up entity properties
     *(u16*)(entity + 0x5E) = 0x300;  // Set value 0x300 to offset 0x5E

@@ -22,7 +22,6 @@ extern s32 scenario_code_impact_departure[];
 extern s32 scenario_code_poron_encounter[];
 extern s32 scenario_code_message_30e_251c[];
 extern s32 scenario_code_message_30c_1cd8[];
-extern s32 scenario_code_message_163_d320[];
 extern s32 scenario_code_message_162_d63c[];
 extern s32 scenario_code_message_1ef_72b4[];
 extern s32 scenario_code_message_082_36e0[];
@@ -50,7 +49,7 @@ void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code,
   D_800779A0_785A0[scenario_id] = scenario_code;
   D_80078608_79208[scenario_id] = scenario_file_id;
 }
-
+extern s32 scenario_code_message_162_cd8c[];
 // Consolidated hook to automatically replace all scenarios
 RECOMP_HOOK("func_80000450_1050")
 void consolidated_scenario_hook()
@@ -69,9 +68,7 @@ void consolidated_scenario_hook()
                              NULL, NULL); // Beat Benkei
   replace_scenario_with_flag(0x30c, scenario_code_message_30c_1cd8, 0, NULL,
                              NULL, NULL); // Benkei Collector
-  replace_scenario_with_flag(0x163, scenario_code_message_163_d320, 0, NULL,
-                             NULL, NULL); // Kihachi Early Cucumber
-  replace_scenario_with_flag(0x162, scenario_code_message_162_d63c, 0, NULL,
+  replace_scenario_with_flag(0x162, scenario_code_message_162_cd8c, 0, NULL,
                              NULL, NULL); // Kihachi Quest Complete
   replace_scenario_with_flag(0x1ef, scenario_code_message_1ef_72b4, 0, NULL,
                              NULL, NULL); // Koryuta Flute
@@ -137,7 +134,11 @@ void check_achilles_heel_and_set_flag(void)
 void check_cucumber_and_set_flag(void)
 {
   s32 save_value = READ_SAVE_DATA(SAVE_QUALITY_CUCUMBER);
-  if (save_value != 0)
+  // Also check if 0x24 is set
+  s32 flag_22_set = IS_FLAG_SET(0x22);
+  recomp_printf("check_cucumber_and_set_flag: save_value=%d, flag_22_set=%d\n",
+                save_value, flag_22_set);
+  if (save_value != 0 && flag_22_set != 0)
   {
     ENABLE_FLAG(0x501); // Set flag 0x501 if Cucumber is obtained
   }
