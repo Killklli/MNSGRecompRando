@@ -205,7 +205,7 @@ LogicRegions = {
             # TODO: We can unbind this by making it so we don't need to defeat ghost toys to get the key, we can patch Grandma to give it after the quest
             MN64LocationLogic(
                 "Jump Gym Key",
-                lambda l: l.event_cucumber_quest_need_key and l.ghost_toys_defeated,
+                lambda l: l.event_cucumber_quest_need_key,
                 MN64Items.JUMP_GYM_KEY,
                 flag_id=0x027,
             ),
