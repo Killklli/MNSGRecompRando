@@ -825,6 +825,7 @@ class MN64World(World):
             "increase_pot_ryo": self.options.increase_pot_ryo.value,
             "randomize_health": self.options.randomize_health.value,
             "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
+            "chugoku_door_unlocked": self.options.chugoku_door_unlocked.value,
         }
 
         return slot_data

@@ -40,6 +40,12 @@ class PreventOneWaySoftlocks(DefaultOnToggle):
     display_name = "Prevent One-Way Softlocks"
 
 
+class ChugokuDoorUnlocked(DefaultOnToggle):
+    """Determines if the Chugoku door starts unlocked."""
+
+    display_name = "Chugoku Door Unlocked"
+
+
 @dataclass
 class MN64Options(PerGameCommonOptions):
     """Options for MN64"""
@@ -49,3 +55,4 @@ class MN64Options(PerGameCommonOptions):
     increase_pot_ryo: IncreasedPotRyo
     randomize_health: HealthInPool
     prevent_oneway_softlocks: PreventOneWaySoftlocks
+    chugoku_door_unlocked: ChugokuDoorUnlocked

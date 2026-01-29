@@ -150,6 +150,17 @@ void grant_starting_items()
     {
         return; // Do nothing if not connected
     }
+    
+    // Check if chugoku_door_unlocked option is enabled
+    u32 chugoku_door_unlocked_handle[2];
+    rando_get_slotdata_raw_o32("chugoku_door_unlocked", chugoku_door_unlocked_handle);
+    u32 chugoku_door_unlocked_value = rando_access_slotdata_raw_u32_o32(chugoku_door_unlocked_handle);
+    
+    if (chugoku_door_unlocked_value)
+    {
+        ENABLE_FLAG(FLAG_DEFEATED_DHARMANYO);
+    }
+    
     // Get the slot data for starting_items and using their ap_id pass it to
     // handle_item_by_id function
     u32 starting_items_handle[2];
