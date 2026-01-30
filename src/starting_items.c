@@ -118,7 +118,6 @@ void on_file_started()
         // Set starting room from AP slotdata
         u32 starting_room = get_starting_room();
         WRITE_SPAWN_ROOM(starting_room);
-
         // Set spawn coordinates for specific room IDs
         if (starting_room == 0x167)
         {
@@ -130,17 +129,25 @@ void on_file_started()
                     starting_room == 0x1B1 || starting_room == 0x1B4 ||
                     starting_room == 0x1B3)
         {
+            // Spawn Related
+            WRITE_SAVE_DATA(0x20A, 0x00);
+            WRITE_SAVE_DATA(0x20C, 0x00);
+            WRITE_SAVE_DATA(0x20D, 0x00);
             WRITE_SPAWN_X(0);   // X coordinate
             WRITE_SPAWN_Y(20);  // Y coordinate
             WRITE_SPAWN_Z(-25); // Z coordinate
         }
         else if (starting_room == 0x1D1)
         {
+            // Spawn Related
+            WRITE_SAVE_DATA(0x20A, 0x00);
+            WRITE_SAVE_DATA(0x20C, 0x00);
+            WRITE_SAVE_DATA(0x20D, 0x00);
             WRITE_SPAWN_X(0);   // X coordinate
             WRITE_SPAWN_Y(0);   // Y coordinate
             WRITE_SPAWN_Z(-80);  // Z coordinate
-        }   
-        
+        }
+
     }
 
     // Set the file started flag so AP logic knows we're in a file
