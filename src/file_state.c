@@ -50,3 +50,8 @@ void set_file_started()
     }
   }
 }
+
+bool file_state_has_started()
+{
+  return file_started;
+}

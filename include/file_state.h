@@ -11,3 +11,6 @@ bool should_run_ap_logic();
 
 // Function to set the file started flag
 void set_file_started();
+
+// Function to check if a file has been started
+bool file_state_has_started();
