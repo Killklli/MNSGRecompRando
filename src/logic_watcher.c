@@ -148,41 +148,41 @@ void sasuke_batteries()
     }
 }
 
-RECOMP_HOOK("func_80002040_2C40") void deathlink_hooks()
-{
-    // Check if we're connected first
-    if (!rando_is_connected()) {
-        return;
-    }
-    if (!rando_is_scouted()) {
-        return;
-    }
-    if (!rando_get_death_link_enabled()) {
-        return;
-    }
+// RECOMP_HOOK("func_80002040_2C40") void deathlink_hooks()
+// {
+//     // Check if we're connected first
+//     if (!rando_is_connected()) {
+//         return;
+//     }
+//     if (!rando_is_scouted()) {
+//         return;
+//     }
+//     if (!rando_get_death_link_enabled()) {
+//         return;
+//     }
     
-    if (rando_get_death_link_pending()) {
-        deathlink_received();
-    } else {
-        deathlink_sender();
-    }
-}
+//     if (rando_get_death_link_pending()) {
+//         deathlink_received();
+//     } else {
+//         deathlink_sender();
+//     }
+// }
 
-void deathlink_sender()
-{
-    // if the players total health is 0 (or less), send a deathlink
-    s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
-    if (current_health <= 0) {
-        rando_send_death_link();
-    }
-}
+// void deathlink_sender()
+// {
+//     // if the players total health is 0 (or less), send a deathlink
+//     s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
+//     if (current_health <= 0) {
+//         rando_send_death_link();
+//     }
+// }
 
-void deathlink_received()
-{
-    increase_lives();
-    // Set their current health to 0
-    WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, 0);
-}
+// void deathlink_received()
+// {
+//     increase_lives();
+//     // Set their current health to 0
+//     WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, 0);
+// }
 
 void ringlink()
 {
