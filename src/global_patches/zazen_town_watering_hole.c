@@ -71,3 +71,45 @@ RECOMP_PATCH void func_080027AC_723DCC(SPAWNER_ACTOR_W *spawner,
   /* Spawn failed - cleanup */
   func_80034ED4_35AD4();
 }
+
+
+// External function declarations
+extern void func_80035020_35C20(void);  // Destroy/cleanup function
+
+/**
+ * Function: func_080028D8_723EF8
+ * Decrements a float value by 1.0f and calls cleanup if it goes below 35.0f
+ * 
+ * @param task - Pointer to task structure
+ * @param obj - Pointer to object structure (unused in this function)
+ */
+RECOMP_PATCH void func_080028D8_723EF8(TASK_W *task, CLS_BG_W *obj) {
+    void* temp_ptr;
+    void* data_ptr;
+    f32 current_value;
+    
+    // Get pointer from offset 0xEC of task
+    temp_ptr = *(void**)((char*)task + 0xEC);
+    
+    // Get pointer from offset 0x18 of that structure  
+    data_ptr = *(void**)((char*)temp_ptr + 0x18);
+    
+    // Check if data_ptr is null and return early if so
+    if (data_ptr == 0) {
+        return;
+    }
+    
+    // Load the float value from offset 0xC
+    current_value = *(f32*)((char*)data_ptr + 0xC);
+    
+    // Decrement by 1.0f
+    current_value -= 1.0f;
+    
+    // Store the updated value back
+    *(f32*)((char*)data_ptr + 0xC) = current_value;
+    
+    // If the value has dropped below 35.0f, call cleanup function
+    if (current_value < 35.0f) {
+        func_80035020_35C20();
+    }
+}
