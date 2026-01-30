@@ -250,6 +250,13 @@ LogicRegions = {
                 instance_id=0x15,
             ),
             MN64LocationLogic(
+                "Mr Elly Fant",
+                lambda l: True,
+                MN64Items.MR_ELLY_FANT_GORGEOUS_MUSIC_CASTLE,
+                flag_id=0x0103,
+                instance_id=0x14,
+            ),
+            MN64LocationLogic(
                 "Mr Arrow",
                 lambda l: True,
                 MN64Items.MR_ARROW_GORGEOUS_MUSIC_CASTLE,

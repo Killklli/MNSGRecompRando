@@ -4,8 +4,6 @@ from typing import Dict, NamedTuple
 
 from BaseClasses import Item, ItemClassification
 
-from .Logic.mn64_logic_classes import MN64Items
-
 
 class MN64Item(Item):
     """Item class for MN64."""
@@ -29,10 +27,10 @@ BASE_ID = 6464000
 
 # Keys
 keys_table: Dict[str, ItemData] = {
-    "Silver Key": ItemData(BASE_ID + 0, 18, ItemClassification.progression_skip_balancing, entity_id=0x193),
-    "Gold Key": ItemData(BASE_ID + 1, 7, ItemClassification.progression_skip_balancing, entity_id=0x193),
-    "Diamond Key": ItemData(BASE_ID + 2, 4, ItemClassification.progression_skip_balancing, entity_id=0x193),
-    "Jump Gym Key": ItemData(BASE_ID + 3, 1, ItemClassification.progression_skip_balancing, entity_id=0x193),
+    "Silver Key": ItemData(BASE_ID + 0, 18, ItemClassification.progression, entity_id=0x193),
+    "Gold Key": ItemData(BASE_ID + 1, 7, ItemClassification.progression, entity_id=0x193),
+    "Diamond Key": ItemData(BASE_ID + 2, 4, ItemClassification.progression, entity_id=0x193),
+    "Jump Gym Key": ItemData(BASE_ID + 3, 1, ItemClassification.progression, entity_id=0x193),
 }
 
 # Equipment and Tools
@@ -67,13 +65,13 @@ character_upgrades_table: Dict[str, ItemData] = {}
 
 # Collectibles
 fortune_dolls_table: Dict[str, ItemData] = {
-    "Silver Fortune Doll": ItemData(BASE_ID + 22, 40, ItemClassification.useful, entity_id=0x88),
-    "Gold Fortune Doll": ItemData(BASE_ID + 23, 5, ItemClassification.useful, entity_id=0x89),
+    "Silver Fortune Doll": ItemData(BASE_ID + 22, 41, ItemClassification.useful, entity_id=0x88),
+    "Gold Fortune Doll": ItemData(BASE_ID + 23, 8, ItemClassification.useful, entity_id=0x89),
 }
 
 health_table: Dict[str, ItemData] = {
-    "Golden Health": ItemData(BASE_ID + 24, 28, ItemClassification.filler, entity_id=0x85),
-    "Normal Health": ItemData(BASE_ID + 25, 37, ItemClassification.filler, entity_id=0x8F),
+    "Golden Health": ItemData(BASE_ID + 24, 26, ItemClassification.filler, entity_id=0x85),
+    "Normal Health": ItemData(BASE_ID + 25, 41, ItemClassification.filler, entity_id=0x8F),
 }
 
 # Transportation and Access
@@ -98,7 +96,7 @@ quest_items_table: Dict[str, ItemData] = {
 upgrades_table: Dict[str, ItemData] = {
     "Strength Upgrade 1": ItemData(BASE_ID + 32, 1, ItemClassification.progression, entity_id=0x91),
     "Strength Upgrade 2": ItemData(BASE_ID + 33, 1, ItemClassification.progression, entity_id=0x91),
-    "Suprise Pack": ItemData(BASE_ID + 34, 8, ItemClassification.filler, entity_id=0x91),
+    "Suprise Pack": ItemData(BASE_ID + 34, 5, ItemClassification.filler, entity_id=0x91),
 }
 
 # Collectables (NPCs)
@@ -237,72 +235,3 @@ def get_progression_items() -> Dict[str, ItemData]:
 def get_filler_items() -> Dict[str, ItemData]:
     """Get all filler items."""
     return {name: data for name, data in all_item_table.items() if data.classification == ItemClassification.filler}
-
-
-def get_event_item_names():
-    """Return set of event item names."""
-    return {
-        MN64Items.CRANE_GAME_POWER_ON.value,
-        MN64Items.VISITED_WITCH.value,
-        MN64Items.VISITED_GHOST_TOYS_ENTRANCE.value,
-        MN64Items.beat_tsurami.value,
-        MN64Items.BEAT_THAISAMBDA.value,
-        MN64Items.BEAT_DHARUMANYO.value,
-        MN64Items.BEAT_CONGO.value,
-        MN64Items.BEAT_GAME_DIE_HARD_FANS.value,
-        MN64Items.CUCUMBER_QUEST_PRIEST.value,
-        MN64Items.CUCUMBER_QUEST_START.value,
-        MN64Items.KUYSHU_FLY.value,
-        MN64Items.SASUKE_DEAD.value,
-        MN64Items.MOVING_BOULDER_IN_FOREST.value,
-        MN64Items.MOKUBEI_BROTHER.value,
-        MN64Items.SASUKE_BATTERY_1.value,
-        MN64Items.SASUKE_BATTERY_2.value,
-        "Sasuke Battery 2 Event",
-    }
-
-
-def get_vanilla_item_names(randomize_health: bool):
-    """Return set of vanilla item names (items that stay at their original locations)."""
-    vanilla_item_names = {
-        MN64Items.MIRACLE_STAR.value,
-        MN64Items.MIRACLE_SNOW.value,
-        MN64Items.MIRACLE_MOON.value,
-        MN64Items.MIRACLE_FLOWER.value,
-    }
-
-    # If health randomization is disabled, keep health items at vanilla locations
-    if not randomize_health:
-        vanilla_item_names.add(MN64Items.GOLDEN_HEALTH.value)
-        vanilla_item_names.add(MN64Items.NORMAL_HEALTH.value)
-
-    return vanilla_item_names
-
-
-def populate_item_metadata(world) -> None:
-    """Populate item_metadata with all items from the item table."""
-    for item_name, item_data in all_item_table.items():
-        # Skip event items that don't have AP IDs
-        if item_data.id is None:
-            continue
-
-        # Use AP ID as the key
-        ap_id = item_data.id
-        world.item_metadata[ap_id] = {}
-
-        # Add item name as description
-        world.item_metadata[ap_id]["name"] = item_name
-
-        # Add save ID if it exists
-        if item_data.save_id is not None:
-            world.item_metadata[ap_id]["save_id"] = item_data.save_id
-
-        # Add entity ID if it exists
-        if item_data.entity_id is not None:
-            world.item_metadata[ap_id]["entity_id"] = item_data.entity_id
-
-        # Add classification
-        world.item_metadata[ap_id]["classification"] = item_data.classification.name
-
-        # Add quantity
-        world.item_metadata[ap_id]["qty"] = item_data.qty
