@@ -44,7 +44,7 @@ The randomizer shuffles a comprehensive set of items including:
 
 ### Step 4: Generate and Play
 1. Create a new multiworld game in Archipelago with Mystical Ninja Starring Goemon included
-2. Generate your game and download the generated `.zip` file
+2. Generate your game and use the generated `.zip` file with either the Archipelago Website or local hosting
 3. The mod will connect to your Archipelago world using the generated data
 
 ## Building the APWorld
