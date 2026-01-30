@@ -52,3 +52,8 @@ RECOMP_IMPORT(".", void rando_iter_slotdata_raw_dict_close_o32(u32* dict, u32* i
 RECOMP_IMPORT(".", void rando_get_location_item_name(u32 location_id, char* item_name));
 RECOMP_IMPORT(".", void rando_get_location_item_player(u32 location_id, char* player));
 RECOMP_IMPORT(".", void rando_init(char* game, char* address, char* player_name, char* password));
+
+// Death link functions
+RECOMP_IMPORT(".", bool rando_get_death_link_enabled());
+RECOMP_IMPORT(".", bool rando_get_death_link_pending());
+RECOMP_IMPORT(".", void rando_send_death_link());

@@ -34,6 +34,11 @@ void game_completed_hook(s32 param)
     }
 }
 extern void save_player_data();
+
+// Forward declarations for local functions
+void deathlink_sender();
+void deathlink_received();
+
 void increase_silver_fortune_doll()
 {
     s32 fortune_dolls = READ_SAVE_DATA(SAVE_FORTUNE_DOLL_TOTAL);

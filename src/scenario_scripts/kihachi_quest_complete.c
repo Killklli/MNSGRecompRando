@@ -726,6 +726,9 @@ s32 scenario_code_message_162_cd8c[] = {
     SFG,
     0x03,
 
+    SFG,
+    0x37,
+
     // cdf0: Execute Code: 8003f594 (Load Current Character)
     ESR,
     (s32)&func_8003F594_40194,

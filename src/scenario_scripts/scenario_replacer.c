@@ -134,8 +134,8 @@ void check_achilles_heel_and_set_flag(void)
 void check_cucumber_and_set_flag(void)
 {
   s32 save_value = READ_SAVE_DATA(SAVE_QUALITY_CUCUMBER);
-  // Also check if 0x24 is set
-  s32 flag_22_set = IS_FLAG_SET(0x22);
+  // Also check if 0x37 is set
+  s32 flag_22_set = IS_FLAG_SET(0x37);
   recomp_printf("check_cucumber_and_set_flag: save_value=%d, flag_22_set=%d\n",
                 save_value, flag_22_set);
   if (save_value != 0 && flag_22_set != 0)
