@@ -149,10 +149,10 @@ BizenLoc_table: Dict[str, LocationData] = {
     "Nagato - Silver Fortune Doll": LocationData(BASE_ID + 82, "Nagato", "Fortune Doll"),
     "Nagato - Silver Fortune Doll": LocationData(BASE_ID + 83, "Nagato", "Fortune Doll"),
     "Nagato - Normal Health": LocationData(BASE_ID + 84, "Nagato", "Health"),
-    "LakewithaLargetree - Sasuke Battery 2": LocationData(BASE_ID + 85, "LakewithaLargetree", "Upgrade"),
+    # "LakewithaLargetree - Sasuke Battery 2": LocationData(BASE_ID + 85, "LakewithaLargetree", "Upgrade"),
     "LakewithaLargetree - Sasuke": LocationData(BASE_ID + 86, "LakewithaLargetree", "Character"),
     "Inaba - Golden Health": LocationData(BASE_ID + 87, "Inaba", "Health"),
-    "Inaba - Sasuke Battery 1": LocationData(BASE_ID + 88, "Inaba", "Upgrade"),
+    # "Inaba - Sasuke Battery 1": LocationData(BASE_ID + 88, "Inaba", "Upgrade"),
     "Inaba - Silver Fortune Doll": LocationData(BASE_ID + 89, "Inaba", "Fortune Doll"),
 }
 
@@ -242,7 +242,7 @@ GorgeousMusicLoc_table: Dict[str, LocationData] = {
     "GorgeousMusicCastleWaterRoom - Silver Fortune Doll": LocationData(BASE_ID + 159, "GorgeousMusicCastleWaterRoom", "Fortune Doll"),
     "GorgeousMusicCastleWaterRoom - Suprise Pack": LocationData(BASE_ID + 160, "GorgeousMusicCastleWaterRoom", "Upgrade"),
     "GorgeousMusicCastleWaterRoom - Golden Health": LocationData(BASE_ID + 161, "GorgeousMusicCastleWaterRoom", "Health"),
-    "GorgeousMusicCastleWaterRoom - Mr Elly Fant": LocationData(BASE_ID + 165, "GorgeousMusicCastleWaterRoom", "Collectable"),
+    # "GorgeousMusicCastleWaterRoom - Mr Elly Fant": LocationData(BASE_ID + 165, "GorgeousMusicCastleWaterRoom", "Collectable"),
     "GorgeousMusicCastleWaterRoom - Mr Arrow": LocationData(BASE_ID + 162, "GorgeousMusicCastleWaterRoom", "Collectable"),
     "GorgeousMusicCastleGarden - Strength Upgrade 2": LocationData(BASE_ID + 163, "GorgeousMusicCastleGarden", "Upgrade"),
     "GorgeousMusicCastleDancinWarp - Gold Fortune Doll": LocationData(BASE_ID + 164, "GorgeousMusicCastleDancinWarp", "Fortune Doll"),
