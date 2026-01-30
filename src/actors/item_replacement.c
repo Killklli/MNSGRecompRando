@@ -448,7 +448,7 @@ void process_items(ActorInstance *actor_instance,
       }
 
       // Special handling for dango items (0x84 or 0x85)
-      if (actor_id == 0x84 || actor_id == 0x85) 
+      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4) 
       {
         DEBUG_PRINTF("Processing Dango item replacement for instance %d\n",
                       overall_index);
