@@ -134,6 +134,13 @@ void on_file_started()
             WRITE_SPAWN_Y(20);  // Y coordinate
             WRITE_SPAWN_Z(-25); // Z coordinate
         }
+        else if (starting_room == 0x1D1)
+        {
+            WRITE_SPAWN_X(0);   // X coordinate
+            WRITE_SPAWN_Y(0);   // Y coordinate
+            WRITE_SPAWN_Z(-80);  // Z coordinate
+        }   
+        
     }
 
     // Set the file started flag so AP logic knows we're in a file

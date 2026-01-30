@@ -220,7 +220,7 @@ void adjust_logical_doors(ActorInstance *actor_instance,
   }
   else if (D_800C7AB2 == 0x14F)
   {
-    if (overall_index == 3 && !READ_SAVE_DATA(SAVE_SUDDEN_IMPACT_MAGIC) &&
+    if (overall_index == 3 && !READ_SAVE_DATA(SAVE_SUDDEN_IMPACT_MAGIC) && !READ_SAVE_DATA(SAVE_GOEMON_RECRUITED) &&
         actor_id == 0x242)
     {
       // Create a new locked door actor definition
