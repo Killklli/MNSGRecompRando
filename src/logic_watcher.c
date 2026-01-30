@@ -150,6 +150,13 @@ void sasuke_batteries()
 
 RECOMP_HOOK("func_80002040_2C40") void deathlink_hooks()
 {
+    // Check if we're connected first
+    if (!rando_is_connected()) {
+        return;
+    }
+    if (!rando_is_scouted()) {
+        return;
+    }
     if (!rando_get_death_link_enabled()) {
         return;
     }
