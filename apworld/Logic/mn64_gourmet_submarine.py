@@ -1104,7 +1104,7 @@ LogicRegions = {
                 "Bazooka",
                 lambda l: True,
                 MN64Items.BAZOOKA,
-                flag_id=0x01A5,
+                flag_id=0x1846,
                 instance_id=0x06,
             ),
             MN64LocationLogic(

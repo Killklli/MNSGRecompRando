@@ -448,7 +448,7 @@ void process_items(ActorInstance *actor_instance,
       }
 
       // Special handling for dango items (0x84 or 0x85)
-      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4) 
+      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4 || actor_id == 0x3d5) 
       {
         DEBUG_PRINTF("Processing Dango item replacement for instance %d\n",
                       overall_index);
@@ -462,23 +462,6 @@ void process_items(ActorInstance *actor_instance,
         // Set flag ID in data[1] upper 16 bits
         new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (flag_id_to_use << 16);
       }
-
-      // // Special handling for Inaba Battery items (0x32d)
-      // if (actor_id == 0x32d) 
-      // {
-      //   DEBUG_PRINTF("Processing Inaba Battery item replacement for instance %d\n",
-      //                 overall_index);
-      //   // Use the flag_id from the replacement data we already found
-      //   unsigned short flag_id_to_use = replacement_flag_id;
-      //   if (flag_id_to_use == 0) {
-      //     // Get the original flag_id from the actor definition if no replacement flag_id was provided
-      //     flag_id_to_use = (resolved_actor_def->data[1] >> 16) & 0xFFFF;
-      //   }
-      //   DEBUG_PRINTF("Setting Inaba Battery item flag ID to %d for instance %d\n",
-      //                 flag_id_to_use, overall_index);
-      //   // Set flag ID in data[1] upper 16 bits
-      //   new_actor_def->data[1] = (new_actor_def->data[1] & 0x0000FFFF) | (flag_id_to_use << 16);
-      // }
 
       // Update this instance to point to the new definition
       actor_instance->actor_definition = new_actor_def;

@@ -704,7 +704,7 @@ LogicRegions = {
                 "Ice Kunai",
                 lambda l: True,
                 MN64Items.ICE_KUNAI,
-                flag_id=0x00D4,
+                flag_id=0x1845,
                 instance_id=0x03,
             ),
             MN64LocationLogic(
