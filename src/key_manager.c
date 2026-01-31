@@ -181,59 +181,56 @@ u8 get_used_key_count(u8 lock_type)
     switch (lock_type)
     {
     case 2: // Silver keys - count unlocked silver locks
+    {
+        u16 silver_locks[] = {
+            LOCK_SILVER_OEDO_CASTLE_1F_TILE, LOCK_SILVER_OEDO_CASTLE_1F_CHAIN_PIPE,
+            LOCK_SILVER_OEDO_CASTLE_1F_TURTLE, LOCK_SILVER_OEDO_CASTLE_2F_CRUSHER,
+            LOCK_SILVER_OEDO_CASTLE_2F_SPIKE, LOCK_SILVER_GHOST_TOYS_1F_FLOWER,
+            LOCK_SILVER_GHOST_TOYS_1F_SHOGI, LOCK_SILVER_GHOST_TOYS_1F_SPIKE_DAR,
+            LOCK_SILVER_GHOST_TOYS_1F_2F_ELEVATOR, LOCK_SILVER_GHOST_TOYS_2F_BIG_SPIKE_2,
+            LOCK_SILVER_GHOST_TOYS_2F_BILLIARDS, LOCK_SILVER_FESTIVAL_TEMPLE_FORK,
+            LOCK_SILVER_GOURMET_SUB_2F_JETPACK_2, LOCK_SILVER_GOURMET_SUB_2F_LAVA,
+            LOCK_SILVER_GOURMET_SUB_2F_UNDERWATER, LOCK_SILVER_GOURMET_SUB_3F_FOX_2,
+            LOCK_SILVER_GOURMET_SUB_3F_TOFU, LOCK_SILVER_MUSICAL_CASTLE_1_TALL};
+        for (int i = 0; i < sizeof(silver_locks) / sizeof(silver_locks[0]); i++)
         {
-            u16 silver_locks[] = {
-                LOCK_SILVER_OEDO_CASTLE_1F_TILE, LOCK_SILVER_OEDO_CASTLE_1F_CHAIN_PIPE,
-                LOCK_SILVER_OEDO_CASTLE_1F_TURTLE, LOCK_SILVER_OEDO_CASTLE_2F_CRUSHER,
-                LOCK_SILVER_OEDO_CASTLE_2F_SPIKE, LOCK_SILVER_GHOST_TOYS_1F_FLOWER,
-                LOCK_SILVER_GHOST_TOYS_1F_SHOGI, LOCK_SILVER_GHOST_TOYS_1F_SPIKE_DAR,
-                LOCK_SILVER_GHOST_TOYS_1F_2F_ELEVATOR, LOCK_SILVER_GHOST_TOYS_2F_BIG_SPIKE_2,
-                LOCK_SILVER_GHOST_TOYS_2F_BILLIARDS, LOCK_SILVER_FESTIVAL_TEMPLE_FORK,
-                LOCK_SILVER_GOURMET_SUB_2F_JETPACK_2, LOCK_SILVER_GOURMET_SUB_2F_LAVA,
-                LOCK_SILVER_GOURMET_SUB_2F_UNDERWATER, LOCK_SILVER_GOURMET_SUB_3F_FOX_2,
-                LOCK_SILVER_GOURMET_SUB_3F_TOFU, LOCK_SILVER_MUSICAL_CASTLE_1_TALL
-            };
-            for (int i = 0; i < sizeof(silver_locks) / sizeof(silver_locks[0]); i++)
+            if (IS_FLAG_SET(silver_locks[i]))
             {
-                if (IS_FLAG_SET(silver_locks[i]))
-                {
-                    used_count++;
-                }
+                used_count++;
             }
         }
-        break;
+    }
+    break;
     case 1: // Gold keys - count unlocked gold locks
+    {
+        u16 gold_locks[] = {
+            LOCK_GOLD_OEDO_CASTLE_1F_FORK, LOCK_GOLD_GHOST_TOYS_2F_BIG_SPIKE_1,
+            LOCK_GOLD_FESTIVAL_TEMPLE, LOCK_GOLD_GOURMET_SUB_2F_JETPACK_1,
+            LOCK_GOLD_MUSICAL_CASTLE_1_ENTRANCE, LOCK_GOLD_MUSICAL_CASTLE_1_FAN,
+            LOCK_GOLD_MUSICAL_CASTLE_1_MULTI_1};
+        for (int i = 0; i < sizeof(gold_locks) / sizeof(gold_locks[0]); i++)
         {
-            u16 gold_locks[] = {
-                LOCK_GOLD_OEDO_CASTLE_1F_FORK, LOCK_GOLD_GHOST_TOYS_2F_BIG_SPIKE_1,
-                LOCK_GOLD_FESTIVAL_TEMPLE, LOCK_GOLD_GOURMET_SUB_2F_JETPACK_1,
-                LOCK_GOLD_MUSICAL_CASTLE_1_ENTRANCE, LOCK_GOLD_MUSICAL_CASTLE_1_FAN,
-                LOCK_GOLD_MUSICAL_CASTLE_1_MULTI_1
-            };
-            for (int i = 0; i < sizeof(gold_locks) / sizeof(gold_locks[0]); i++)
+            if (IS_FLAG_SET(gold_locks[i]))
             {
-                if (IS_FLAG_SET(gold_locks[i]))
-                {
-                    used_count++;
-                }
+                used_count++;
             }
         }
-        break;
+    }
+    break;
     case 0: // Diamond keys - count unlocked diamond locks
+    {
+        u16 diamond_locks[] = {
+            LOCK_DIAMOND_GHOST_TOYS_2F, LOCK_DIAMOND_GOURMET_SUB_3F_FOX_1,
+            LOCK_DIAMOND_MUSICAL_CASTLE_1_MULTI_2, LOCK_DIAMOND_MUSICAL_CASTLE_2_ENTRANCE};
+        for (int i = 0; i < sizeof(diamond_locks) / sizeof(diamond_locks[0]); i++)
         {
-            u16 diamond_locks[] = {
-                LOCK_DIAMOND_GHOST_TOYS_2F, LOCK_DIAMOND_GOURMET_SUB_3F_FOX_1,
-                LOCK_DIAMOND_MUSICAL_CASTLE_1_MULTI_2, LOCK_DIAMOND_MUSICAL_CASTLE_2_ENTRANCE
-            };
-            for (int i = 0; i < sizeof(diamond_locks) / sizeof(diamond_locks[0]); i++)
+            if (IS_FLAG_SET(diamond_locks[i]))
             {
-                if (IS_FLAG_SET(diamond_locks[i]))
-                {
-                    used_count++;
-                }
+                used_count++;
             }
         }
-        break;
+    }
+    break;
     default:
         return 0;
     }
@@ -387,6 +384,22 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
             cache_key_count(6464003, has_jump_gym_key);
             DEBUG_PRINTF("KEY CACHE: Queried server for Jump Gym key: count=%lu\n", has_jump_gym_key);
         }
+        if (flag_check_func(*(u16 *)(entity + 0xD4)) == 1)
+        {
+            DEBUG_PRINTF("D4");
+            DEBUG_PRINTF("Item collection flag triggered for 0x%04X\n",
+                         *(u16 *)(entity + 0xD4));
+            // Call flag check again to consume/clear the flag
+            flag_check_func(*(u16 *)(entity + 0xD4));
+
+            // Set bit 1 in flags
+            flags = *(u32 *)(entity + 0xEC);
+            *(u32 *)(entity + 0xEC) = flags | 0x2;
+
+            // Set up callback and return
+            func_8003521C_35E1C(func_08001240_6F4720);
+            return;
+        }
 
         if (has_jump_gym_key > 0)
         {
@@ -411,7 +424,7 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1)
 
     // Load state from offset 0xD1
     state = entity[0xD1];
-
+    recomp_printf("Entity state: %d\n", state);
     // Handle different states - only call func_8003D310_3DF10 if
     // func_8003F1D8_3FDD8 returns 0
     if (state == 0)
