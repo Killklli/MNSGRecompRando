@@ -1845,7 +1845,7 @@ s32 scenario_code_message_160_c350[] = {
 
     // c358: Skip Next If Not Equal: 3
     SNE,
-    0x1,
+    0x3,
 
     // c360: Jump To @c38c
     JMP,
@@ -1943,7 +1943,7 @@ s32 scenario_code_message_160_c3f0[] = {
 
     // c3f8: Skip Next If Not Equal: 5
     SNE,
-    0x1,
+    0x5,
 
     // c400: Jump To @c42c
     JMP,
@@ -2041,7 +2041,7 @@ s32 scenario_code_message_160_c490[] = {
 
     // c498: Skip Next If Not Equal: 8
     SNE,
-    0x1,
+    0x8,
 
     // c4a0: Jump To @c4cc
     JMP,
