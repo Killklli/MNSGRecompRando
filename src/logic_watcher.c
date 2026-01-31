@@ -231,13 +231,13 @@ void set_starting_characters()
     }
 
     if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
-                                                      "ebismaru"))
+                                                      "Ebisumaru"))
     {
-        u32 ebismaru_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "ebismaru",
-                                           ebismaru_handle);
+        u32 Ebisumaru_handle[2];
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "Ebisumaru",
+                                           Ebisumaru_handle);
         ebisumaru_starting =
-            (bool)rando_access_slotdata_raw_u32_o32(ebismaru_handle);
+            (bool)rando_access_slotdata_raw_u32_o32(Ebisumaru_handle);
     }
 
     if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
@@ -249,7 +249,7 @@ void set_starting_characters()
         sasuke_starting = (bool)rando_access_slotdata_raw_u32_o32(sasuke_handle);
     }
 
-    recomp_printf("Starting characters from AP: goemon=%d, yae=%d, ebismaru=%d, "
+    recomp_printf("Starting characters from AP: goemon=%d, yae=%d, Ebisumaru=%d, "
                  "sasuke=%d\n",
                  goemon_starting, yae_starting, ebisumaru_starting,
                  sasuke_starting);

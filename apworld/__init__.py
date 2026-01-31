@@ -105,7 +105,7 @@ class MN64World(World):
         vanilla_item_names = get_vanilla_item_names(self.options.randomize_health.value)
 
         # Characters that can start the game
-        character_names = ["Goemon", "Ebismaru", "Yae", "Sasuke"]
+        character_names = ["Goemon", "Ebisumaru", "Yae", "Sasuke"]
 
         # Randomly select one character to start with
         starting_character = self.random.choice(character_names)
@@ -237,7 +237,7 @@ class MN64World(World):
         # import time
         # time.sleep(10)
         # Determine starting characters
-        character_names = ["Goemon", "Yae", "Ebismaru", "Sasuke"]
+        character_names = ["Goemon", "Yae", "Ebisumaru", "Sasuke"]
         starting_characters = {}
 
         # Check which characters are precollected (starting inventory)

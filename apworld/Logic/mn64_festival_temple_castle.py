@@ -449,9 +449,9 @@ LogicRegions = {
         level=MN64Levels.FESTIVAL_TEMPLE_CASTLE,
         locations=[
             MN64LocationLogic(
-                "Suprise Pack",
+                "Surprise Pack",
                 lambda l: True,
-                MN64Items.SUPRISE_PACK,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00F8,
                 instance_id=0x0B,
             ),

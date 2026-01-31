@@ -49,7 +49,7 @@ equipment_table: Dict[str, ItemData] = {
 # Abilities
 abilities_table: Dict[str, ItemData] = {
     "Mermaid": ItemData(BASE_ID + 11, 1, ItemClassification.progression, "", 0xF0, entity_id=0x91),
-    "Mini Ebismaru": ItemData(BASE_ID + 12, 1, ItemClassification.progression, "", 0xE8, entity_id=0x91),
+    "Mini Ebisumaru": ItemData(BASE_ID + 12, 1, ItemClassification.progression, "", 0xE8, entity_id=0x91),
     "Sudden Impact": ItemData(BASE_ID + 13, 1, ItemClassification.progression, "", 0xE4, entity_id=0x91),
     "Jetpack": ItemData(BASE_ID + 14, 1, ItemClassification.progression, "", 0xEC, entity_id=0x91),
 }
@@ -58,7 +58,7 @@ abilities_table: Dict[str, ItemData] = {
 characters_table: Dict[str, ItemData] = {
     "Goemon": ItemData(BASE_ID + 15, 1, ItemClassification.progression, "", entity_id=0x91),
     "Yae": ItemData(BASE_ID + 16, 1, ItemClassification.progression, "", 0xA0, entity_id=0x91),
-    "Ebismaru": ItemData(BASE_ID + 17, 1, ItemClassification.progression, entity_id=0x91),
+    "Ebisumaru": ItemData(BASE_ID + 17, 1, ItemClassification.progression, entity_id=0x91),
     "Sasuke": ItemData(BASE_ID + 18, 1, ItemClassification.progression, "", 0x9C, entity_id=0x91),
 }
 
@@ -98,7 +98,7 @@ quest_items_table: Dict[str, ItemData] = {
 upgrades_table: Dict[str, ItemData] = {
     "Strength Upgrade 1": ItemData(BASE_ID + 32, 1, ItemClassification.progression, entity_id=0x91),
     "Strength Upgrade 2": ItemData(BASE_ID + 33, 1, ItemClassification.progression, entity_id=0x91),
-    "Suprise Pack": ItemData(BASE_ID + 34, 8, ItemClassification.filler, entity_id=0x91),
+    "Surprise Pack": ItemData(BASE_ID + 34, 8, ItemClassification.filler, entity_id=0x91),
 }
 
 # Collectables (NPCs)

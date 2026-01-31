@@ -612,7 +612,7 @@ LogicRegions = {
             MN64LocationLogic(
                 "Surprise Pack",
                 lambda l: l.mermaid and l.yae,
-                MN64Items.SUPRISE_PACK,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00FE,
                 instance_id=0x16,
             ),

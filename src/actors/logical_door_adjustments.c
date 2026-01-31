@@ -15,7 +15,7 @@ void adjust_logical_doors(ActorInstance *actor_instance,
     u32 prevent_oneway_handle[2];
     rando_get_slotdata_raw_o32("prevent_oneway_softlocks", prevent_oneway_handle);
     u32 prevent_oneway_value = rando_access_slotdata_raw_u32_o32(prevent_oneway_handle);
-    
+
     if (!prevent_oneway_value)
     {
       return; // Exit early if prevent_oneway_softlocks is False
@@ -167,7 +167,15 @@ void adjust_logical_doors(ActorInstance *actor_instance,
   {
     DEBUG_PRINTF("Flagging locked door in room 0x143 at instance %d\n",
                  overall_index);
-    if (overall_index == 3 && !IS_FLAG_SET(FLAG_DEFEATED_DHARMANYO))
+    // Check chugoku_door_unlocked slot data
+    int chugoku_door_unlocked = 0;
+    if (rando_is_connected())
+    {
+      u32 chugoku_door_handle[2];
+      rando_get_slotdata_raw_o32("chugoku_door_unlocked", chugoku_door_handle);
+      chugoku_door_unlocked = rando_access_slotdata_raw_u32_o32(chugoku_door_handle);
+    }
+    if (overall_index == 3 && (!IS_FLAG_SET(FLAG_DEFEATED_DHARMANYO) && !chugoku_door_unlocked))
     {
       DEBUG_PRINTF("Modifying locked door in room 0x143 at instance %d\n",
                    overall_index);
@@ -241,6 +249,55 @@ void adjust_logical_doors(ActorInstance *actor_instance,
 
         // Update this instance to point to the new definition
         actor_instance->actor_definition = (ActorDefinition *)new_door;
+      }
+    }
+  }
+  else if (D_800C7AB2 == 0x16E)
+  {
+    // Check chugoku_door_unlocked slot data
+    int chugoku_door_unlocked = 0;
+    if (rando_is_connected())
+    {
+      u32 chugoku_door_handle[2];
+      rando_get_slotdata_raw_o32("chugoku_door_unlocked", chugoku_door_handle);
+      chugoku_door_unlocked = rando_access_slotdata_raw_u32_o32(chugoku_door_handle);
+    }
+    if (overall_index == 3 && (!IS_FLAG_SET(FLAG_DEFEATED_DHARMANYO) && !chugoku_door_unlocked) && actor_id == 0x241)
+    {
+      // Lock the door
+      LockedDoorActor *new_door =
+          (LockedDoorActor *)recomp_alloc(sizeof(LockedDoorActor));
+      if (new_door != NULL)
+      {
+        // Set up the locked door parameters as specified
+        new_door->actor_id = 0x023E;   // Locked door actor ID
+        new_door->padding1 = 0x0000;   // Padding
+        new_door->door_design = 0x05;  // Door design 05
+        new_door->key_type = 0x03;     // Key type 03
+        new_door->padding2 = 0x0000;   // Padding
+        new_door->lock_index = 0xFFFF; // Lock index 0011
+        new_door->accept_key = 0xFFFF; // Accept key FFFF
+        new_door->exit_id = 0x01;      // Exit ID 01
+        new_door->padding3 = 0x0000;   // Padding
+
+        // Update this instance to point to the new definition
+        actor_instance->actor_definition = (ActorDefinition *)new_door;
+      }
+    }
+
+    if (overall_index == 8 && actor_id == 0x345)
+    {
+      // Handle Invisible Wall That Blocks Doors Until Event Conditions Are Met
+      // Update flag from 0x0198 to 0x047
+      FlagActor *flag_actor = (FlagActor *)resolved_actor_def;
+      
+      if (flag_actor != NULL)
+      {
+        // Update all values of the actor to Null
+        flag_actor->actor_id = 0x0000;
+        flag_actor->padding1 = 0x0000;
+        flag_actor->padding2 = 0x0000;
+        flag_actor->padding4 = 0x00000000;
       }
     }
   }

@@ -197,9 +197,9 @@ LogicRegions = {
         level=MN64Levels.OEDO_TOWN,
         locations=[
             MN64LocationLogic(
-                "Mini Ebismaru",
-                lambda l: l.requires_visiting_ghost_toys_entrance_ebismaru and l.ebismaru,
-                MN64Items.MINI_EBISMARU,
+                "Mini Ebisumaru",
+                lambda l: l.requires_visiting_ghost_toys_entrance_ebisumaru and l.ebisumaru,
+                MN64Items.MINI_EBISUMARU,
                 flag_id=0x031,
             ),
             # TODO: We can unbind this by making it so we don't need to defeat ghost toys to get the key, we can patch Grandma to give it after the quest

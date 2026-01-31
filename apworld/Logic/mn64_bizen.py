@@ -91,7 +91,7 @@ LogicRegions = {
             ),
             MN64LocationLogic(
                 "Silver Fortune Doll 2",
-                lambda l: l.mini_ebismaru and l.ebismaru,
+                lambda l: l.mini_ebisumaru and l.ebisumaru,
                 MN64Items.SILVER_FORTUNE_DOLL,
                 flag_id=0x00E6,
                 instance_id=0x0D,
@@ -404,7 +404,7 @@ LogicRegions = {
             MN64LocationLogic("Sasuke Battery 2", lambda l: l.windup_camera, MN64Items.SASUKE_BATTERY_2, flag_id=None),
             MN64LocationLogic(
                 "Sasuke",
-                lambda l: l.sasuke_battery_1 and l.sasuke_battery_2 and l.sasuke_dead and l.windup_camera and l.ebismaru,
+                lambda l: l.sasuke_battery_1 and l.sasuke_battery_2 and l.sasuke_dead and l.windup_camera and l.ebisumaru,
                 MN64Items.SASUKE,
                 flag_id=0x00E,
             ),

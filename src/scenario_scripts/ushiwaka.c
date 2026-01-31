@@ -1,4 +1,4 @@
-// Patches out Ushiwaka events you're always able to fish and do mini ebismaru
+// Patches out Ushiwaka events you're always able to fish and do mini Ebisumaru
 
 #include "types.h"
 #include "modding.h"
@@ -1359,9 +1359,9 @@ static s16 scenario_text_2204[] = {
 // {waitinput}{end}{endline}
 static s16 scenario_text_2224[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
 extern u16 D_800C7AB2;
-void check_ebismaru_and_flag_28(void) {
+void check_Ebisumaru_and_flag_28(void) {
     u16 current_room = D_800C7AB2;
-    // Check if the player has Ebismaru and if flag 0x28 is set
+    // Check if the player has Ebisumaru and if flag 0x28 is set
     if (READ_SAVE_DATA(SAVE_EBISUMARU_RECRUITED) && IS_FLAG_SET(0x28) && current_room == 0x16D) {
         ENABLE_FLAG(0x501); // Set temporary flag 0x501
     } else {
@@ -1406,11 +1406,11 @@ s32 scenario_code_message_160_c028[] = {
     0x00A,
     (s32)&scenario_code_message_160_c6b4,
 
-    // 8428: Execute subroutine to check if we have ebismaru AND flag 0x28
+    // 8428: Execute subroutine to check if we have Ebisumaru AND flag 0x28
     ESR,
-    (s32)check_ebismaru_and_flag_28,
+    (s32)check_Ebisumaru_and_flag_28,
 
-    // 8430: If temporary flag 0x501 is set (ebismaru AND flag 0x28), jump to @8470
+    // 8430: If temporary flag 0x501 is set (Ebisumaru AND flag 0x28), jump to @8470
     JFS,
     0x501,
     (s32)&scenario_code_message_160_c838,

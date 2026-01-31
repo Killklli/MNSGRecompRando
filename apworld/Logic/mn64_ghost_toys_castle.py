@@ -306,7 +306,7 @@ LogicRegions = {
             MN64TransitionFront("GhostToysCastlePlatformRoom", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "GhostToysCastleMrArrowRoom",
-                lambda l: l.has_silver_key() and l.ebismaru,
+                lambda l: l.has_silver_key() and l.ebisumaru,
                 type=MN64DoorType.DOOR,
                 consumes_key="silver",
             ),
@@ -398,7 +398,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("GhostToysCastlePlatformRoom", lambda l: True),
-            MN64TransitionFront("GhostToysCastleSpikeyWaterCooridor", lambda l: l.windup_camera and l.ebismaru),
+            MN64TransitionFront("GhostToysCastleSpikeyWaterCooridor", lambda l: l.windup_camera and l.ebisumaru),
         ],
         room_id=0x039,
         room_default_definitions=[
@@ -449,7 +449,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("GhostToysCastleMrArrowRoom", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("GhostToysCastleGhostKeyRoom", lambda l: l.windup_camera and l.ebismaru and l.has_silver_key(), type=MN64DoorType.DOOR, consumes_key="silver"),
+            MN64TransitionFront("GhostToysCastleGhostKeyRoom", lambda l: l.windup_camera and l.ebisumaru and l.has_silver_key(), type=MN64DoorType.DOOR, consumes_key="silver"),
             MN64TransitionFront(
                 "GhostToysCastleToySoldierElevator",
                 lambda l: True,
@@ -484,7 +484,7 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Silver Key",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 MN64Items.SILVER_KEY,
                 flag_id=0x01B1,
                 instance_id=0x0A,
@@ -642,7 +642,7 @@ LogicRegions = {
                 lambda l: True,
                 type=MN64DoorType.DOOR,
             ),
-            MN64TransitionFront("GhostToysCastleStairsFight", lambda l: l.windup_camera and l.ebismaru),
+            MN64TransitionFront("GhostToysCastleStairsFight", lambda l: l.windup_camera and l.ebisumaru),
             MN64TransitionFront(
                 "GhostToysCastleJumpRope",
                 lambda l: l.has_silver_key(),
@@ -691,7 +691,7 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Silver Key",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 MN64Items.SILVER_KEY,
                 flag_id=0x01B5,
                 instance_id=0x09,
@@ -761,15 +761,15 @@ LogicRegions = {
         level=MN64Levels.GHOST_TOYS_CASTLE,
         locations=[
             MN64LocationLogic(
-                "Suprise Pack",
-                lambda l: l.windup_camera and l.ebismaru,
-                MN64Items.SUPRISE_PACK,
+                "Surprise Pack",
+                lambda l: l.windup_camera and l.ebisumaru,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00F7,
                 instance_id=0x0D,
             ),
             MN64LocationLogic(
                 "Gold Key",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 MN64Items.GOLD_KEY,
                 flag_id=0x01B7,
                 instance_id=0x0C,
@@ -867,7 +867,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("GhostToysSleepingBeanHallway", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("GhostToysCastleBossKeyRoom", lambda l: l.has_silver_key() and l.ebismaru, type=MN64DoorType.DOOR, consumes_key="silver"),
+            MN64TransitionFront("GhostToysCastleBossKeyRoom", lambda l: l.has_silver_key() and l.ebisumaru, type=MN64DoorType.DOOR, consumes_key="silver"),
         ],
         room_id=0x045,
         room_default_definitions=[
@@ -948,13 +948,13 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Beat Dharumanyo",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 MN64Items.BEAT_DHARUMANYO,
                 flag_id=0x018,
             ),
             MN64LocationLogic(
                 "Flower Miracle Item",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 MN64Items.MIRACLE_FLOWER,
                 flag_id=0x018,
             ),

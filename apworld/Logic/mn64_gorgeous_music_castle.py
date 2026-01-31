@@ -144,7 +144,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("GorgeousMusicCastleGoldWaterKey", lambda l: l.mini_ebismaru and l.ebismaru),
+            MN64TransitionFront("GorgeousMusicCastleGoldWaterKey", lambda l: l.mini_ebisumaru and l.ebisumaru),
             MN64TransitionFront(
                 "GorgeousMusicCastleClosingFanRoom",
                 lambda l: True,
@@ -236,9 +236,9 @@ LogicRegions = {
                 instance_id=0x14,
             ),
             MN64LocationLogic(
-                "Suprise Pack",
+                "Surprise Pack",
                 lambda l: l.mermaid and l.yae,
-                MN64Items.SUPRISE_PACK,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00FB,
                 instance_id=0x12,
             ),
@@ -904,7 +904,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("GorgeousMusicCastleChangingRoom", lambda l: l.mini_ebismaru and l.ebismaru),
+            MN64TransitionFront("GorgeousMusicCastleChangingRoom", lambda l: l.mini_ebisumaru and l.ebisumaru),
         ],
         # TODO: Technically you can access this room from the wave room and softlock
         room_id=0x0B5,

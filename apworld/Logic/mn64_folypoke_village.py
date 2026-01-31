@@ -41,7 +41,7 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Silver Fortune Doll",
-                lambda l: l.mini_ebismaru and l.ebismaru,
+                lambda l: l.mini_ebisumaru and l.ebisumaru,
                 MN64Items.SILVER_FORTUNE_DOLL,
                 flag_id=0x00F0,
                 instance_id=0x0C,

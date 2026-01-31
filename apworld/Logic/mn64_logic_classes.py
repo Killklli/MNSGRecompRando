@@ -73,14 +73,14 @@ class MN64Items(Enum):
 
     # Characters and Abilities
     MERMAID = "Mermaid"
-    MINI_EBISMARU = "Mini Ebismaru"
+    MINI_EBISUMARU = "Mini Ebisumaru"
     SUDDEN_IMPACT = "Sudden Impact"
     JETPACK = "Jetpack"
 
     # Characters
     GOEMON = "Goemon"
     YAE = "Yae"
-    EBISMARU = "Ebismaru"
+    EBISUMARU = "Ebisumaru"
     SASUKE = "Sasuke"
 
     # Character Items
@@ -107,7 +107,7 @@ class MN64Items(Enum):
     # Upgrades and Power-ups
     STRENGTH_UPGRADE_1 = "Strength Upgrade 1"
     STRENGTH_UPGRADE_2 = "Strength Upgrade 2"
-    SUPRISE_PACK = "Suprise Pack"
+    SURPRISE_PACK = "Surprise Pack"
 
     # Special Items and NPCs
     MR_ELLY_FANT_OEDO_CASTLE = "Mr Elly Fant (Oedo Castle)"

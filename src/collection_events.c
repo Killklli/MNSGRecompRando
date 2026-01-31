@@ -292,7 +292,7 @@ void func_80024038_24C38_hook(s32 flag)
             FLAG_RECRUITED_SASUKE,         // Getting Sasuke Cutscene
             FLAG_UPGRADED_SILVER_WEAPONS,  // Mokubei Weapon Upgrade
             FLAG_UPGRADED_GOLD_WEAPONS,    // Wise Man Weapon Upgrade
-            FLAG_OBTAINED_MINI_EBISU,      // Mini Ebismaru Training
+            FLAG_OBTAINED_MINI_EBISU,      // Mini Ebisumaru Training
             FLAG_DEFEATED_BENKEI,          // Benkei gives you sasuke dead
             FLAG_RECEIVED_CUCUMBER,        // Zazen Son Cucumber
             FLAG_OBTAINED_KEY_TO_TRAINING, // Zazen Priest Key

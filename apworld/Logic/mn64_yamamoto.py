@@ -153,9 +153,9 @@ LogicRegions = {
                 instance_id=0x0A,
             ),
             MN64LocationLogic(
-                "Suprise Pack",
+                "Surprise Pack",
                 lambda l: True,
-                MN64Items.SUPRISE_PACK,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00FC,
                 instance_id=0x0B,
             ),
@@ -226,9 +226,9 @@ LogicRegions = {
         level=MN64Levels.YAMAMOTO,
         locations=[
             MN64LocationLogic(
-                "Suprise Pack",
+                "Surprise Pack",
                 lambda l: True,
-                MN64Items.SUPRISE_PACK,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00FD,
                 instance_id=0x07,
             ),

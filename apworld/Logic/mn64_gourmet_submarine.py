@@ -681,11 +681,11 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("GourmetSubmarineWaterTransition", lambda l: l.mermaid and l.yae),
-            MN64TransitionFront("GourmetSubmarineWaterTransitionMiniEbismaru", lambda l: l.mini_ebismaru and l.ebismaru),
+            MN64TransitionFront("GourmetSubmarineWaterTransitionMiniEbisumaru", lambda l: l.mini_ebisumaru and l.ebisumaru),
             MN64TransitionFront("GourmetSubmarineGiantCrabFight", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "GourmetSubmarineSushiSamurais",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 type=MN64DoorType.DOOR,
             ),
         ],
@@ -723,14 +723,14 @@ LogicRegions = {
             0x2C3,
         ],
     ),
-    "GourmetSubmarineWaterTransitionMiniEbismaru": MN64Region(
-        name="Gourmet Submarine Water Transition Mini Ebismaru",
+    "GourmetSubmarineWaterTransitionMiniEbisumaru": MN64Region(
+        name="Gourmet Submarine Water Transition Mini Ebisumaru",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[],
         exits=[
-            MN64TransitionFront("GourmetSubmarineZeroGravityFightUpper", lambda l: l.mini_ebismaru and l.ebismaru),
-            MN64TransitionFront("GourmetSubmarineSushiWindupCamera", lambda l: l.mini_ebismaru and l.ebismaru),
+            MN64TransitionFront("GourmetSubmarineZeroGravityFightUpper", lambda l: l.mini_ebisumaru and l.ebisumaru),
+            MN64TransitionFront("GourmetSubmarineSushiWindupCamera", lambda l: l.mini_ebisumaru and l.ebisumaru),
         ],
         room_id=0x083,
         room_default_definitions=[
@@ -755,9 +755,9 @@ LogicRegions = {
         level=MN64Levels.OEDO_TOWN,
         locations=[
             MN64LocationLogic(
-                "Suprise Pack",
+                "Surprise Pack",
                 lambda l: True,
-                MN64Items.SUPRISE_PACK,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00F9,
                 instance_id=0x05,
             ),
@@ -978,7 +978,7 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Diamond Key",
-                lambda l: l.windup_camera and l.ebismaru,
+                lambda l: l.windup_camera and l.ebisumaru,
                 MN64Items.DIAMOND_KEY,
                 flag_id=0x0185,
                 instance_id=0x04,
@@ -1056,16 +1056,16 @@ LogicRegions = {
         level=MN64Levels.OEDO_TOWN,
         locations=[
             MN64LocationLogic(
-                "Suprise Pack",
-                lambda l: l.mini_ebismaru and l.ebismaru,
-                MN64Items.SUPRISE_PACK,
+                "Surprise Pack",
+                lambda l: l.mini_ebisumaru and l.ebisumaru,
+                MN64Items.SURPRISE_PACK,
                 flag_id=0x00FA,
                 instance_id=0x0A,
             ),
         ],
         exits=[
-            MN64TransitionFront("GourmetSubmarineSushiWindupCamera", lambda l: l.mini_ebismaru and l.ebismaru),
-            MN64TransitionFront("GourmetSubmarineWaterTransitionMiniEbismaru", lambda l: True),
+            MN64TransitionFront("GourmetSubmarineSushiWindupCamera", lambda l: l.mini_ebisumaru and l.ebisumaru),
+            MN64TransitionFront("GourmetSubmarineWaterTransitionMiniEbisumaru", lambda l: True),
         ],
         room_id=0x082,
         room_default_definitions=[

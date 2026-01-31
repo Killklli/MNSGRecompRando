@@ -49,13 +49,13 @@ class MN64LogicHolder:
 
         # Characters and Abilities
         self.mermaid: bool = False
-        self.mini_ebismaru: bool = False
+        self.mini_ebisumaru: bool = False
         self.sudden_impact: bool = False
         self.jetpack: bool = False
 
         self.goemon: bool = False
         self.yae: bool = False
-        self.ebismaru: bool = False
+        self.ebisumaru: bool = False
         self.sasuke: bool = False
 
         # Game Progression Flags
@@ -77,7 +77,7 @@ class MN64LogicHolder:
 
         # Quest and Event States
         self.event_cucumber_quest_need_key: bool = False
-        self.requires_visiting_ghost_toys_entrance_ebismaru: bool = False
+        self.requires_visiting_ghost_toys_entrance_ebisumaru: bool = False
         self.moving_boulder_in_forest: bool = False
         self.visited_witch: bool = False
         self.kyushu_fly: bool = False

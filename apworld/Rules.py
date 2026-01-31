@@ -33,24 +33,24 @@ def create_logic_holder_from_state(state: CollectionState, player: int, context_
     holder.jump_gym_key = state.has(MN64Items.JUMP_GYM_KEY.value, player)
 
     # Equipment and Tools
-    holder.windup_camera = state.has(MN64Items.WINDUP_CAMERA.value, player) and state.has(MN64Items.EBISMARU.value, player)
+    holder.windup_camera = state.has(MN64Items.WINDUP_CAMERA.value, player) and state.has(MN64Items.EBISUMARU.value, player)
     holder.chain_pipe = state.has(MN64Items.CHAIN_PIPE.value, player) and state.has(MN64Items.GOEMON.value, player)
     holder.ice_kunai = state.has(MN64Items.ICE_KUNAI.value, player) and state.has(MN64Items.SASUKE.value, player)
     holder.medal_of_flames = state.has(MN64Items.MEDAL_OF_FLAMES.value, player) and state.has(MN64Items.GOEMON.value, player)
     holder.bazooka = state.has(MN64Items.BAZOOKA.value, player) and state.has(MN64Items.YAE.value, player)
     holder.flute = state.has(MN64Items.FLUTE.value, player) and state.has(MN64Items.YAE.value, player)
-    holder.meat_hammer = state.has(MN64Items.MEAT_HAMMER.value, player) and state.has(MN64Items.EBISMARU.value, player)
+    holder.meat_hammer = state.has(MN64Items.MEAT_HAMMER.value, player) and state.has(MN64Items.EBISUMARU.value, player)
 
     # Abilities
     holder.mermaid = state.has(MN64Items.MERMAID.value, player) and state.has(MN64Items.YAE.value, player)
-    holder.mini_ebismaru = state.has(MN64Items.MINI_EBISMARU.value, player) and state.has(MN64Items.EBISMARU.value, player)
+    holder.mini_ebisumaru = state.has(MN64Items.MINI_EBISUMARU.value, player) and state.has(MN64Items.EBISUMARU.value, player)
     holder.sudden_impact = state.has(MN64Items.SUDDEN_IMPACT.value, player) and state.has(MN64Items.GOEMON.value, player)
     holder.jetpack = state.has(MN64Items.JETPACK.value, player) and state.has(MN64Items.SASUKE.value, player)
 
     # Characters
     holder.goemon = state.has(MN64Items.GOEMON.value, player)
     holder.yae = state.has(MN64Items.YAE.value, player)
-    holder.ebismaru = state.has(MN64Items.EBISMARU.value, player)
+    holder.ebisumaru = state.has(MN64Items.EBISUMARU.value, player)
     holder.sasuke = state.has(MN64Items.SASUKE.value, player)
 
     # Character Upgrades
@@ -68,7 +68,7 @@ def create_logic_holder_from_state(state: CollectionState, player: int, context_
     # Event Flags
     holder.power_on_crane_game = state.has(MN64Items.CRANE_GAME_POWER_ON.value, player)
     holder.visited_witch = state.has(MN64Items.VISITED_WITCH.value, player)
-    holder.requires_visiting_ghost_toys_entrance_ebismaru = state.has(MN64Items.VISITED_GHOST_TOYS_ENTRANCE.value, player)
+    holder.requires_visiting_ghost_toys_entrance_ebisumaru = state.has(MN64Items.VISITED_GHOST_TOYS_ENTRANCE.value, player)
     holder.kyushu_fly = state.has(MN64Items.KUYSHU_FLY.value, player)
     holder.sasuke_dead = state.has(MN64Items.SASUKE_DEAD.value, player)
     holder.event_cucumber_quest_find_priest = state.has(MN64Items.CUCUMBER_QUEST_PRIEST.value, player)
