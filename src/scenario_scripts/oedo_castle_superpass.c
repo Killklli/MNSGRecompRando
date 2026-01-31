@@ -25,7 +25,7 @@ static s16 scenario_text_002C[] = {
     CHR_e, CTR_NEWLINE, CTR_ENDLINE};
 
 //    a [{em-yellow}Super Pass{/em}] from the Lord!{endline}
-static s16 scenario_text_005F[] = {
+s16 scenario_text_005F[] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_a, PCT_SPACE,
     PCT_LBRACKET, CTR_EM_YELLOW, CHR_S, CHR_u, CHR_p,
     CHR_e, CHR_r, PCT_SPACE, CHR_P, CHR_a,
@@ -124,9 +124,9 @@ s32 scenario_code_message_0ca_4b70[] = {
     TXT,
     (s32)&scenario_text_0014,
 
-    // 4bf8: Print Text
-    TXT,
-    (s32)&scenario_text_002C,
+    // // 4bf8: Print Text
+    // TXT,
+    // (s32)&scenario_text_002C,
 
     // 4c00: Print Text
     TXT,
