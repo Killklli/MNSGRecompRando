@@ -264,7 +264,7 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Silver Fortune Doll",
-                lambda l: l.chain_pipe and l.goemon,
+                lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack),
                 MN64Items.SILVER_FORTUNE_DOLL,
                 flag_id=0x00ED,
                 instance_id=0x0F,
@@ -272,7 +272,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("NihonBashiBridge", lambda l: True),
-            MN64TransitionFront("StairstoOedoCastle", lambda l: l.chain_pipe and l.goemon, type=MN64DoorType.DOOR),
+            MN64TransitionFront("StairstoOedoCastle", lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack), type=MN64DoorType.DOOR),
         ],
         room_id=0x164,
         room_default_definitions=[

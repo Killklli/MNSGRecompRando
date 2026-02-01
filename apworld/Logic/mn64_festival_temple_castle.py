@@ -981,7 +981,7 @@ LogicRegions = {
         exits=[
             MN64TransitionFront(
                 "FestivalTempleMeatHammerRoom",
-                lambda l: l.chain_pipe and l.goemon,
+                lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack),
                 type=MN64DoorType.DOOR,
             ),
             MN64TransitionFront("FestivalTempleJumpingDrums", lambda l: True, type=MN64DoorType.DOOR),

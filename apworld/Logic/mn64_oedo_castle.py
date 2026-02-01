@@ -37,7 +37,7 @@ LogicRegions = {
         locations=[
             MN64LocationLogic(
                 "Silver Key",
-                lambda l: l.chain_pipe and l.goemon,
+                lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack),
                 MN64Items.SILVER_KEY,
                 flag_id=0x0110,
                 instance_id=0x05,
@@ -233,7 +233,7 @@ LogicRegions = {
         exits=[
             MN64TransitionFront("OedoCastleFloorTileRoom", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront("OedoCastleCongosLegs", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("OedoCastlePotRoom", lambda l: l.chain_pipe and l.goemon, type=MN64DoorType.DOOR),
+            MN64TransitionFront("OedoCastlePotRoom", lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack), type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "OedoCastleFloorWaterCleanersRoom",
                 lambda l: l.has_gold_key(),
@@ -741,7 +741,7 @@ LogicRegions = {
             MN64TransitionFront("OedoCastleSpikeyWaterRoom", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "OedoCastleCongoHandRoom",
-                lambda l: l.chain_pipe and l.goemon,
+                lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack),
                 type=MN64DoorType.DOOR,
             ),
         ],
@@ -773,7 +773,7 @@ LogicRegions = {
         locations=[],
         exits=[
             MN64TransitionFront("OedoCastle90ChainPipe", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("OedoCastleTreasureRoom", lambda l: l.chain_pipe and l.goemon, type=MN64DoorType.DOOR),
+            MN64TransitionFront("OedoCastleTreasureRoom", lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack), type=MN64DoorType.DOOR),
             MN64TransitionFront("OedoCastleFightRoom3", lambda l: True, type=MN64DoorType.DOOR),
         ],
         room_id=0x014,
