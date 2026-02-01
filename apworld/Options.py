@@ -46,6 +46,12 @@ class ChugokuDoorUnlocked(DefaultOnToggle):
     display_name = "Chugoku Door Unlocked"
 
 
+class PreUnlockedWarps(DefaultOnToggle):
+    """Pre-unlock all flute warp destinations. You still need to get the flute and Yae to warp."""
+
+    display_name = "Pre-Unlocked Warps"
+
+
 @dataclass
 class MN64Options(PerGameCommonOptions):
     """Options for MN64"""
@@ -56,4 +62,5 @@ class MN64Options(PerGameCommonOptions):
     randomize_health: HealthInPool
     prevent_oneway_softlocks: PreventOneWaySoftlocks
     chugoku_door_unlocked: ChugokuDoorUnlocked
+    pre_unlocked_warps: PreUnlockedWarps
     death_link: DeathLink

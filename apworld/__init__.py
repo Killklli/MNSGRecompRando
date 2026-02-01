@@ -292,6 +292,7 @@ class MN64World(World):
             "randomize_health": self.options.randomize_health.value,
             "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
             "chugoku_door_unlocked": self.options.chugoku_door_unlocked.value,
+            "pre_unlocked_warps": self.options.pre_unlocked_warps.value,
             "death_link": self.options.death_link.value,
         }
 

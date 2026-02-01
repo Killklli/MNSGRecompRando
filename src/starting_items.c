@@ -84,6 +84,27 @@ void on_save_start_hook()
     if (should_set_starting_data)
     {
         grant_starting_items();
+        
+        // Check if pre-unlocked warps option is enabled
+        u32 pre_unlocked_warps = rando_get_slotdata_u32("pre_unlocked_warps");
+        if (pre_unlocked_warps)
+        {
+            recomp_printf("Pre-unlocking all flute warp destinations\n");
+            WRITE_SAVE_DATA(SAVE_WARP_GOEMON_HOUSE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_KAI_HIGHWAY, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_OEDO_CASTLE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_ZAZEN_TOWN, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_KII_COFFEE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_FOLKYPOKE_VILLAGE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_KOMPIRA_MOUNTAIN, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_IYO_TEA_HOUSE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_GHOST_TOYS, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_IZUMO_TEA_HOUSE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_FESTIVAL_TEMPLE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_FESTIVAL_VILLAGE, 1);
+            WRITE_SAVE_DATA(SAVE_WARP_WITCHES_HUT, 1);
+        }
+        
         // Set starting character based on recruited characters
         set_starting_characters();
     }
