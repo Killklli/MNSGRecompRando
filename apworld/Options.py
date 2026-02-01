@@ -46,7 +46,7 @@ class ChugokuDoorUnlocked(DefaultOnToggle):
     display_name = "Chugoku Door Unlocked"
 
 
-class PreUnlockedWarps(DefaultOnToggle):
+class PreUnlockedWarps(Toggle):
     """Pre-unlock all flute warp destinations. You still need to get the flute and Yae to warp."""
 
     display_name = "Pre-Unlocked Warps"
