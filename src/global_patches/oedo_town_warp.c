@@ -19,8 +19,8 @@ void func_8003731C_37F1C(u32 arg0)
   // data
   D_8006D410_6E010[0] = 0x1D1;  // Room ID
   D_8006D410_6E010[1] = 0;      // X position
-  D_8006D410_6E010[2] = 0;    // Y position
-  D_8006D410_6E010[3] = -80;     // Z position
+  D_8006D410_6E010[2] = -80;    // Y position
+  D_8006D410_6E010[3] = 0;     // Z position
   D_8006D410_6E010[4] = 0x0000; // Camera rotation
-  D_8006D410_6E010[5] = 0x0000; // Player rotation
+  D_8006D410_6E010[5] = 0x03; // Player rotation         
 }

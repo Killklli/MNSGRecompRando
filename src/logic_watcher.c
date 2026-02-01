@@ -210,7 +210,10 @@ void set_starting_characters()
     // Get starting characters dictionary from slot data
     u32 starting_characters_handle[2];
     rando_get_slotdata_raw_o32("starting_characters", starting_characters_handle);
-
+    // print the handle data
+    recomp_printf("Starting characters handle: %p %p\n",
+                 (void *)starting_characters_handle[0],
+                 (void *)starting_characters_handle[1]);
     // Check and get each character's starting status
     if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
                                                       "goemon"))
@@ -231,13 +234,13 @@ void set_starting_characters()
     }
 
     if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
-                                                      "Ebisumaru"))
+                                                      "ebisumaru"))
     {
-        u32 Ebisumaru_handle[2];
-        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "Ebisumaru",
-                                           Ebisumaru_handle);
+        u32 ebisumaru_handle[2];
+        rando_access_slotdata_raw_dict_o32(starting_characters_handle, "ebisumaru",
+                                           ebisumaru_handle);
         ebisumaru_starting =
-            (bool)rando_access_slotdata_raw_u32_o32(Ebisumaru_handle);
+            (bool)rando_access_slotdata_raw_u32_o32(ebisumaru_handle);
     }
 
     if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle,
@@ -249,7 +252,7 @@ void set_starting_characters()
         sasuke_starting = (bool)rando_access_slotdata_raw_u32_o32(sasuke_handle);
     }
 
-    recomp_printf("Starting characters from AP: goemon=%d, yae=%d, Ebisumaru=%d, "
+    recomp_printf("Starting characters from AP: goemon=%d, yae=%d, ebisumaru=%d, "
                  "sasuke=%d\n",
                  goemon_starting, yae_starting, ebisumaru_starting,
                  sasuke_starting);
