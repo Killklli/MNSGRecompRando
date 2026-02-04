@@ -33,7 +33,6 @@ extern s32 scenario_code_message_157_a930[];
 extern s32 scenario_code_message_15e_b798[];
 extern s32 scenario_code_message_110_8420[];
 extern s32 scenario_code_message_083_3834[];
-extern s32 scenario_code_message_1ed_6b44[];
 extern s32 scenario_code_message_1ed_6bd4[];
 
 // Storage for persistent scenario buffers and text
@@ -253,8 +252,6 @@ void consolidated_scenario_hook()
                               NULL, 0); // Koryuta Flute
     replace_scenario_with_flag(0x082, scenario_code_message_082_36e0, 0,
                               NULL, 0); // Medal of Flames
-    replace_scenario_with_flag(0x1ed, scenario_code_message_1ed_6b44, 0,
-                              NULL, 0); // Medal of Justice
     replace_scenario_with_flag(0x176, scenario_code_message_176_2ad4, 0,
                               NULL, 0); // Mermaid Complete
     replace_scenario_with_flag(0x1f1, scenario_code_message_1f1_797c, 0,

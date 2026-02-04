@@ -441,7 +441,7 @@ void process_items(ActorInstance *actor_instance,
     }
   }
 
-  if (is_allowed_actor)
+  if (found_replacement && is_allowed_actor)
   {
     // Create a new actor definition for this specific instance
     ActorDefinition *new_actor_def =
