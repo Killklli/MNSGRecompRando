@@ -32,6 +32,19 @@ OedoZazenLoc_table: Dict[str, LocationData] = {
     "ZazenTownWateringhole - Miracle Snow": LocationData(BASE_ID + 5, "ZazenTownWateringhole", "Miracle"),
     "GoldenTemple - Mini Ebisumaru": LocationData(BASE_ID + 6, "GoldenTemple", "Ability"),
     "GoldenTemple - Jump Gym Key": LocationData(BASE_ID + 7, "GoldenTemple", "Key"),
+    "SpawnHousing - Ryo 1": LocationData(BASE_ID + 211, "SpawnHousing", "Ryo"),
+    "SpawnHousing - Ryo 2": LocationData(BASE_ID + 212, "SpawnHousing", "Ryo"),
+    "SpawnHousing - Ryo 3": LocationData(BASE_ID + 213, "SpawnHousing", "Ryo"),
+    "SpawnHousing - Ryo 4": LocationData(BASE_ID + 214, "SpawnHousing", "Ryo"),
+    "SpawnHousing - Ryo 5": LocationData(BASE_ID + 215, "SpawnHousing", "Ryo"),
+    "SpawnHousing - Ryo 6": LocationData(BASE_ID + 216, "SpawnHousing", "Ryo"),
+    "SpawnHousing - Ryo 7": LocationData(BASE_ID + 217, "SpawnHousing", "Ryo"),
+    "OedoCastleMainGate - Ryo 1": LocationData(BASE_ID + 218, "OedoCastleMainGate", "Ryo"),
+    "OedoCastleMainGate - Ryo 2": LocationData(BASE_ID + 219, "OedoCastleMainGate", "Ryo"),
+    "OedoCastleMainGate - Ryo 3": LocationData(BASE_ID + 220, "OedoCastleMainGate", "Ryo"),
+    "DuckCreekJumpArea - Ryo 1": LocationData(BASE_ID + 221, "DuckCreekJumpArea", "Ryo"),
+    "DuckCreekJumpArea - Ryo 2": LocationData(BASE_ID + 222, "DuckCreekJumpArea", "Ryo"),
+    "DuckCreekJumpArea - Ryo 3": LocationData(BASE_ID + 223, "DuckCreekJumpArea", "Ryo"),
 }
 
 # Musashi Province Locations
@@ -42,6 +55,9 @@ MusashiLoc_table: Dict[str, LocationData] = {
     "TunneltoNortheast2 - Silver Fortune Doll": LocationData(BASE_ID + 40, "TunneltoNortheast2", "Fortune Doll"),
     "TunneltoNortheast2 - Normal Health": LocationData(BASE_ID + 41, "TunneltoNortheast2", "Health"),
     "TunneltoNortheast2 - Golden Health": LocationData(BASE_ID + 42, "TunneltoNortheast2", "Health"),
+    "Iga - Ryo 1": LocationData(BASE_ID + 224, "Iga", "Ryo"),
+    "Iga - Ryo 2": LocationData(BASE_ID + 225, "Iga", "Ryo"),
+    "Iga - Ryo 3": LocationData(BASE_ID + 226, "Iga", "Ryo"),
 }
 
 # Duck Creek Locations
@@ -177,6 +193,26 @@ OedoCastleLoc_table: Dict[str, LocationData] = {
     "OedoCastleLordRoom - Super Pass": LocationData(BASE_ID + 106, "OedoCastleLordRoom", "Equipment"),
     "OedoCastleFightRoom3 - Silver Key": LocationData(BASE_ID + 107, "OedoCastleFightRoom3", "Key"),
     "OedoCastleTreasureRoom - Silver Fortune Doll": LocationData(BASE_ID + 108, "OedoCastleTreasureRoom", "Fortune Doll"),
+    "OedoCastleTreasureRoom - Ryo 1": LocationData(BASE_ID + 227, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 2": LocationData(BASE_ID + 228, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 3": LocationData(BASE_ID + 229, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 4": LocationData(BASE_ID + 230, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 5": LocationData(BASE_ID + 231, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 6": LocationData(BASE_ID + 232, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 7": LocationData(BASE_ID + 233, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 8": LocationData(BASE_ID + 234, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 9": LocationData(BASE_ID + 235, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 10": LocationData(BASE_ID + 236, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 11": LocationData(BASE_ID + 237, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 12": LocationData(BASE_ID + 238, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 13": LocationData(BASE_ID + 239, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 14": LocationData(BASE_ID + 240, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 15": LocationData(BASE_ID + 241, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 16": LocationData(BASE_ID + 242, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 17": LocationData(BASE_ID + 243, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 18": LocationData(BASE_ID + 244, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 19": LocationData(BASE_ID + 245, "OedoCastleTreasureRoom", "Ryo"),
+    "OedoCastleTreasureRoom - Ryo 20": LocationData(BASE_ID + 246, "OedoCastleTreasureRoom", "Ryo"),
 }
 
 # Ghost Toys Castle Locations
@@ -260,6 +296,22 @@ GorgeousMusicLoc_table: Dict[str, LocationData] = {
     "GorgeousMusicCastleFanJump - Golden Health 1": LocationData(BASE_ID + 176, "GorgeousMusicCastleFanJump", "Health"),
     "GorgeousMusicCastleFanJump - Golden Health 2": LocationData(BASE_ID + 177, "GorgeousMusicCastleFanJump", "Health"),
     "GorgeousMusicCastleFanJump - Gold Key": LocationData(BASE_ID + 178, "GorgeousMusicCastleFanJump", "Key"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 1": LocationData(BASE_ID + 247, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 2": LocationData(BASE_ID + 248, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 3": LocationData(BASE_ID + 249, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 4": LocationData(BASE_ID + 250, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 5": LocationData(BASE_ID + 251, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 6": LocationData(BASE_ID + 252, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 7": LocationData(BASE_ID + 253, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 8": LocationData(BASE_ID + 254, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 9": LocationData(BASE_ID + 255, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 10": LocationData(BASE_ID + 256, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    # "GorgeousMusicCastleSlideRoomUpper - Ryo 11": LocationData(BASE_ID + 257, "GorgeousMusicCastleSlideRoomUpper", "Ryo"),
+    "GorgeousMusicCastleFlameHallwayLower - Ryo 1": LocationData(BASE_ID + 258, "GorgeousMusicCastleFlameHallwayLower", "Ryo"),
+    "GorgeousMusicCastleFlameHallwayLower - Ryo 2": LocationData(BASE_ID + 259, "GorgeousMusicCastleFlameHallwayLower", "Ryo"),
+    "GorgeousMusicCastleFlameHallwayLower - Ryo 3": LocationData(BASE_ID + 260, "GorgeousMusicCastleFlameHallwayLower", "Ryo"),
+    "GorgeousMusicCastleFlameHallwayLower - Ryo 4": LocationData(BASE_ID + 261, "GorgeousMusicCastleFlameHallwayLower", "Ryo"),
+    "GorgeousMusicCastleFlameHallwayLower - Ryo 5": LocationData(BASE_ID + 262, "GorgeousMusicCastleFlameHallwayLower", "Ryo"),
 }
 
 # Gourmet Submarine Locations
@@ -295,6 +347,15 @@ GourmetSubmarineLoc_table: Dict[str, LocationData] = {
     "GourmetSubmarineBurgerRoom - Bazooka": LocationData(BASE_ID + 207, "GourmetSubmarineBurgerRoom", "Equipment"),
     "GourmetSubmarineBurgerRoom - Silver Key": LocationData(BASE_ID + 208, "GourmetSubmarineBurgerRoom", "Key"),
     "OedoTouristCenterAwajiIslandBranch - Dragon Defeated": LocationData(BASE_ID + 66, "OedoTouristCenterAwajiIslandBranch", "Upgrade"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 1": LocationData(BASE_ID + 263, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 2": LocationData(BASE_ID + 264, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 3": LocationData(BASE_ID + 265, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 4": LocationData(BASE_ID + 266, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 5": LocationData(BASE_ID + 267, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 6": LocationData(BASE_ID + 268, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 7": LocationData(BASE_ID + 269, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 8": LocationData(BASE_ID + 270, "GourmetSubmarineMisoBrothHallway", "Ryo"),
+    "GourmetSubmarineMisoBrothHallway - Ryo 9": LocationData(BASE_ID + 271, "GourmetSubmarineMisoBrothHallway", "Ryo"),
 }
 
 # Combine all location tables

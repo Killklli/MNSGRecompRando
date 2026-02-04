@@ -34,6 +34,12 @@ class HealthInPool(DefaultOnToggle):
     display_name = "Health In Pool"
 
 
+class RyoInPool(DefaultOnToggle):
+    """Determines if Ryo Items are added into the pool."""
+
+    display_name = "Ryo In Pool"
+
+
 class PreventOneWaySoftlocks(DefaultOnToggle):
     """Entrances that are normally one-way are now two-way."""
 
@@ -78,6 +84,7 @@ class MN64Options(PerGameCommonOptions):
     starting_room_rando: StartingRoomRando
     increase_pot_ryo: IncreasedPotRyo
     randomize_health: HealthInPool
+    randomize_ryo: RyoInPool
     prevent_oneway_softlocks: PreventOneWaySoftlocks
     chugoku_door_unlocked: ChugokuDoorUnlocked
     pre_unlocked_warps: PreUnlockedWarps

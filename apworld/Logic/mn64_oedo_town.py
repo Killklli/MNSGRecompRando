@@ -38,7 +38,15 @@ LogicRegions = {
         name="Spawn Housing",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Ryo 1", lambda l: True, MN64Items.RYO, flag_id=0x185B, instance_id=0x16),
+            MN64LocationLogic("Ryo 2", lambda l: True, MN64Items.RYO, flag_id=0x185C, instance_id=0x17),
+            MN64LocationLogic("Ryo 3", lambda l: True, MN64Items.RYO, flag_id=0x185D, instance_id=0x18),
+            MN64LocationLogic("Ryo 4", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x185E, instance_id=0x19),
+            MN64LocationLogic("Ryo 5", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x185F, instance_id=0x1a),
+            MN64LocationLogic("Ryo 6", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x1860, instance_id=0x1b),
+            MN64LocationLogic("Ryo 7", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x1861, instance_id=0x1c),
+        ],
         exits=[
             MN64TransitionFront("ShoppingDistrict", lambda l: True),
             MN64TransitionFront("ShrineArea", lambda l: True),
@@ -269,6 +277,9 @@ LogicRegions = {
                 flag_id=0x00ED,
                 instance_id=0x0F,
             ),
+            MN64LocationLogic("Ryo 1", lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack), MN64Items.RYO, flag_id=0x1862, instance_id=0x10),
+            MN64LocationLogic("Ryo 2", lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack), MN64Items.RYO, flag_id=0x1863, instance_id=0x11),
+            MN64LocationLogic("Ryo 3", lambda l: (l.chain_pipe and l.goemon) or (l.sasuke and l.jetpack), MN64Items.RYO, flag_id=0x1864, instance_id=0x12),
         ],
         exits=[
             MN64TransitionFront("NihonBashiBridge", lambda l: True),

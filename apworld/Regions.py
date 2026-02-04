@@ -56,7 +56,7 @@ def create_game_regions(world, all_regions: Dict, location_name_to_id: Dict) -> 
     from . import MN64Location
     
     event_item_names = get_event_item_names()
-    vanilla_item_names = get_vanilla_item_names(world.options.randomize_health.value)
+    vanilla_item_names = get_vanilla_item_names(world.options.randomize_health.value, world.options.randomize_ryo.value)
 
     for region_name, region_data in all_regions.items():
         region = Region(region_name, world.player, world.multiworld)

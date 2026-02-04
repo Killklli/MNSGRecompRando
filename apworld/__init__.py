@@ -106,7 +106,7 @@ class MN64World(World):
         pool = []
 
         # Get items that are placed at vanilla locations (not randomized)
-        vanilla_item_names = get_vanilla_item_names(self.options.randomize_health.value)
+        vanilla_item_names = get_vanilla_item_names(self.options.randomize_health.value, self.options.randomize_ryo.value)
 
         # Characters that can start the game
         character_names = ["Goemon", "Ebisumaru", "Yae", "Sasuke"]
@@ -304,6 +304,7 @@ class MN64World(World):
             "enemy_rando": self.options.enemy_rando.value,
             "increase_pot_ryo": self.options.increase_pot_ryo.value,
             "randomize_health": self.options.randomize_health.value,
+            "randomize_ryo": self.options.randomize_ryo.value,
             "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
             "chugoku_door_unlocked": self.options.chugoku_door_unlocked.value,
             "pre_unlocked_warps": self.options.pre_unlocked_warps.value,
@@ -323,6 +324,7 @@ class MN64World(World):
         spoiler_handle.write(f"Starting Room Randomization: {'Enabled' if self.options.starting_room_rando.value else 'Disabled'}\n")
         spoiler_handle.write(f"Increased Pot Ryo: {'Enabled' if self.options.increase_pot_ryo.value else 'Disabled'}\n")
         spoiler_handle.write(f"Health in Pool: {'Enabled' if self.options.randomize_health.value else 'Disabled'}\n")
+        spoiler_handle.write(f"Ryo in Pool: {'Enabled' if self.options.randomize_ryo.value else 'Disabled'}\n")
         spoiler_handle.write(f"Prevent One-Way Softlocks: {'Enabled' if self.options.prevent_oneway_softlocks.value else 'Disabled'}\n")
         spoiler_handle.write(f"Chugoku Door Unlocked: {'Enabled' if self.options.chugoku_door_unlocked.value else 'Disabled'}\n")
         spoiler_handle.write(f"Pre-Unlocked Warps: {'Enabled' if self.options.pre_unlocked_warps.value else 'Disabled'}\n")

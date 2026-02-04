@@ -18,7 +18,7 @@ def CompileMNSGHints(world):
         return
     
     # Get vanilla item names to exclude from hints
-    vanilla_item_names = get_vanilla_item_names(world.options.randomize_health.value)
+    vanilla_item_names = get_vanilla_item_names(world.options.randomize_health.value, world.options.randomize_ryo.value)
     
     # Get all filled locations for this player (includes items from all players)
     all_locations = [

@@ -308,7 +308,17 @@ LogicRegions = {
         name="Gourmet Submarine Miso Broth Hallway",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Ryo 1", lambda l: True, MN64Items.RYO, flag_id=0x187B, instance_id=0x18),
+            MN64LocationLogic("Ryo 2", lambda l: True, MN64Items.RYO, flag_id=0x187C, instance_id=0x19),
+            MN64LocationLogic("Ryo 3", lambda l: True, MN64Items.RYO, flag_id=0x187D, instance_id=0x1a),
+            MN64LocationLogic("Ryo 4", lambda l: True, MN64Items.RYO, flag_id=0x187E, instance_id=0x1b),
+            MN64LocationLogic("Ryo 5", lambda l: True, MN64Items.RYO, flag_id=0x187F, instance_id=0x1c),
+            MN64LocationLogic("Ryo 6", lambda l: True, MN64Items.RYO, flag_id=0x1880, instance_id=0x1d),
+            MN64LocationLogic("Ryo 7", lambda l: True, MN64Items.RYO, flag_id=0x1881, instance_id=0x1e),
+            MN64LocationLogic("Ryo 8", lambda l: True, MN64Items.RYO, flag_id=0x1882, instance_id=0x1f),
+            MN64LocationLogic("Ryo 9", lambda l: True, MN64Items.RYO, flag_id=0x1883, instance_id=0x20),
+        ],
         exits=[
             MN64TransitionFront("GourmetSubmarineThreeBowls", lambda l: l.mermaid and l.yae),
             MN64TransitionFront("GourmetSubmarineEvilFishRoom", lambda l: l.mermaid and l.yae),

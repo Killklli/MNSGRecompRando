@@ -33,6 +33,8 @@ extern s32 scenario_code_message_157_a930[];
 extern s32 scenario_code_message_15e_b798[];
 extern s32 scenario_code_message_110_8420[];
 extern s32 scenario_code_message_083_3834[];
+extern s32 scenario_code_message_1ed_6b44[];
+extern s32 scenario_code_message_1ed_6bd4[];
 
 // Storage for persistent scenario buffers and text
 static struct
@@ -202,71 +204,92 @@ void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code,
 extern s32 scenario_code_message_162_cd8c[];
 // External text references that need dynamic replacement
 extern s16 scenario_text_005F[]; // Oedo Castle Superpass reward text
-// Consolidated hook to automatically replace all scenarios
-RECOMP_HOOK_RETURN("func_8000B5D0_C1D0")
+
+// External data declarations
+extern u16 D_800C7AB2;
+static u16 prev_D_800C7AB2 = 0;
+static bool first_call = true;
+
+RECOMP_HOOK("func_80002040_2C40")
 void consolidated_scenario_hook()
-{
-  recomp_printf("Consolidated scenario replacement hook called\n");
-  if (!rando_is_connected())
+{  
+  u16 current_value = D_800C7AB2;
+
+  if (first_call)
   {
-    recomp_printf("Rando not connected, skipping scenario replacements\n");
-    return;
+    prev_D_800C7AB2 = current_value;
+    first_call = false;
+    recomp_printf("D_800C7AB2 initial value: 0x%04X\n", current_value);
   }
-  // Replace all scenario dialogs
-  // Example: Dynamic text replacement for Oedo Castle Superpass
-  // replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0,
-  //                            (s32 *)&scenario_text_005F, AP_LOCATION_OEDO_SUPERPASS); // Oedo Castle Superpass with dynamic text
+  else if (current_value != prev_D_800C7AB2)
+  {
+    recomp_printf("D_800C7AB2 changed from 0x%04X to 0x%04X\n", prev_D_800C7AB2,
+                  current_value);
+    prev_D_800C7AB2 = current_value;
+    recomp_printf("Consolidated scenario replacement hook called\n");
+    if (!rando_is_connected())
+    {
+      recomp_printf("Rando not connected, skipping scenario replacements\n");
+      return;
+    }
+    // Replace all scenario dialogs
+    // Example: Dynamic text replacement for Oedo Castle Superpass
+    // replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0,
+    //                            (s32 *)&scenario_text_005F, AP_LOCATION_OEDO_SUPERPASS); // Oedo Castle Superpass with dynamic text
 
-  // For scenarios without dynamic text replacement, use 0 for AP location ID
-  replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0,
-                             (s32 *)scenario_text_005F, 6474106); // Oedo Castle Superpass
-  // TODO: Mokubei has two items, we need to account for that
-  replace_scenario_with_flag(0x1ea, scenario_code_message_1ea_63fc, 0,
-                             NULL, 0); // Mokubei Upgrades
-  // TODO: This has two items
-  replace_scenario_with_flag(0x160, scenario_code_message_160_c028, 0,
-                             NULL, 0); // Ushiwaka
+    // For scenarios without dynamic text replacement, use 0 for AP location ID
+    replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0,
+                              (s32 *)scenario_text_005F, 6474106); // Oedo Castle Superpass
+    // TODO: Mokubei has two items, we need to account for that
+    replace_scenario_with_flag(0x1ea, scenario_code_message_1ea_63fc, 0,
+                              NULL, 0); // Mokubei Upgrades
+    // TODO: This has two items
+    replace_scenario_with_flag(0x160, scenario_code_message_160_c028, 0,
+                              NULL, 0); // Ushiwaka
 
-  replace_scenario_with_flag(0x083, scenario_code_message_083_3834, 0,
-                             NULL, 0); // Wind-Up Camera Reward
-  replace_scenario_with_flag(0x1ef, scenario_code_message_1ef_72b4, 0,
-                             NULL, 0); // Koryuta Flute
-  replace_scenario_with_flag(0x082, scenario_code_message_082_36e0, 0,
-                             NULL, 0); // Medal of Justice
-  replace_scenario_with_flag(0x176, scenario_code_message_176_2ad4, 0,
-                             NULL, 0); // Mermaid Complete
-  replace_scenario_with_flag(0x1f1, scenario_code_message_1f1_797c, 0,
-                             NULL, 0); // Recruit Sasuke
-  replace_scenario_with_flag(0x14c, scenario_code_message_14c_9904, 0,
-                             NULL, 0); // Recruit Yae
-  replace_scenario_with_flag(0x174, scenario_code_message_174_28bc, 0,
-                             NULL, 0); // Sudden Impact Complete
-  replace_scenario_with_flag(0x17a, scenario_code_message_17a_3650, 0,
-                             NULL, 0); // Super Jump Complete
-  replace_scenario_with_flag(0x157, scenario_code_message_157_a930, 0,
-                             NULL, 0); // Zazen Priest
-  replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0,
-                             NULL, 0); // Zazen Priest Son
+    replace_scenario_with_flag(0x083, scenario_code_message_083_3834, 0,
+                              NULL, 0); // Wind-Up Camera Reward
+    replace_scenario_with_flag(0x1ef, scenario_code_message_1ef_72b4, 0,
+                              NULL, 0); // Koryuta Flute
+    replace_scenario_with_flag(0x082, scenario_code_message_082_36e0, 0,
+                              NULL, 0); // Medal of Flames
+    replace_scenario_with_flag(0x1ed, scenario_code_message_1ed_6b44, 0,
+                              NULL, 0); // Medal of Justice
+    replace_scenario_with_flag(0x176, scenario_code_message_176_2ad4, 0,
+                              NULL, 0); // Mermaid Complete
+    replace_scenario_with_flag(0x1f1, scenario_code_message_1f1_797c, 0,
+                              NULL, 0); // Recruit Sasuke
+    replace_scenario_with_flag(0x14c, scenario_code_message_14c_9904, 0,
+                              NULL, 0); // Recruit Yae
+    replace_scenario_with_flag(0x174, scenario_code_message_174_28bc, 0,
+                              NULL, 0); // Sudden Impact Complete
+    replace_scenario_with_flag(0x17a, scenario_code_message_17a_3650, 0,
+                              NULL, 0); // Super Jump Complete
+    replace_scenario_with_flag(0x157, scenario_code_message_157_a930, 0,
+                              NULL, 0); // Zazen Priest
+    replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0,
+                              NULL, 0); // Zazen Priest Son
 
-  replace_scenario_with_flag(0x162, scenario_code_message_162_cd8c, 0,
-                             NULL, 0); // Kihachi Quest Complete
-  replace_scenario_with_flag(0x288, scenario_code_message_288_2f98, 0,
-                             NULL, 0); // Plasma
-  replace_scenario_with_flag(0x1cd, scenario_code_message_1cd_185c, 0,
-                             NULL, 0); // Wise Man House Explosion
-  replace_scenario_with_flag(0x227, scenario_code_message_227_3a14, 0,
-                             NULL, 0); // Wise Man Sogen
-  replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0,
-                             NULL, 0); // Bridge Guard 1 (Super Pass Check)
+    replace_scenario_with_flag(0x162, scenario_code_message_162_cd8c, 0,
+                              NULL, 0); // Kihachi Quest Complete
+    replace_scenario_with_flag(0x288, scenario_code_message_288_2f98, 0,
+                              NULL, 0); // Plasma
+    replace_scenario_with_flag(0x1cd, scenario_code_message_1cd_185c, 0,
+                              NULL, 0); // Wise Man House Explosion
+    replace_scenario_with_flag(0x227, scenario_code_message_227_3a14, 0,
+                              NULL, 0); // Wise Man Sogen
+    replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0,
+                              NULL, 0); // Bridge Guard 1 (Super Pass Check)
 
-  replace_scenario_with_flag(0x1f4, scenario_code_impact_departure, 0,
-                             NULL, 0); // Impact Defeated Thaisamba
-  replace_scenario_with_flag(0x0fa, scenario_code_poron_encounter, 0,
-                             NULL, 0); // Poron Miracle Item
-  replace_scenario_with_flag(0x30e, scenario_code_message_30e_251c, 0,
-                             NULL, 0); // Beat Benkei
-  replace_scenario_with_flag(0x30c, scenario_code_message_30c_1cd8, 0,
-                             NULL, 0); // Benkei Collector
+    replace_scenario_with_flag(0x1f4, scenario_code_impact_departure, 0,
+                              NULL, 0); // Impact Defeated Thaisamba
+    replace_scenario_with_flag(0x0fa, scenario_code_poron_encounter, 0,
+                              NULL, 0); // Poron Miracle Item
+    replace_scenario_with_flag(0x30e, scenario_code_message_30e_251c, 0,
+                              NULL, 0); // Beat Benkei
+    replace_scenario_with_flag(0x30c, scenario_code_message_30c_1cd8, 0,
+                              NULL, 0); // Benkei Collector
+    }
 }
 
 // Hardcoded function to check super pass and set flag 0x501

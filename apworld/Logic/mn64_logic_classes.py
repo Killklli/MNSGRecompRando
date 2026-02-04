@@ -109,6 +109,9 @@ class MN64Items(Enum):
     STRENGTH_UPGRADE_2 = "Strength Upgrade 2"
     SURPRISE_PACK = "Surprise Pack"
 
+    # Filler Items
+    RYO = "Ryo"
+
     # Special Items and NPCs
     MR_ELLY_FANT_OEDO_CASTLE = "Mr Elly Fant (Oedo Castle)"
     MR_ELLY_FANT_GHOST_TOYS_CASTLE = "Mr Elly Fant (Ghost Toys Castle)"

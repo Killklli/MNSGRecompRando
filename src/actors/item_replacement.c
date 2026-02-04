@@ -333,6 +333,13 @@ void process_items(ActorInstance *actor_instance,
                    ActorDefinition *resolved_actor_def, unsigned short actor_id,
                    unsigned short actor_data_file_id, int overall_index)
 {
+  // List of allowed actor IDs for replacement
+  static const unsigned short allowed_actor_ids[] = {
+    0x193, 0x84, 0x85, 0x3d2, 0x3d4, 0x3d5, 
+    0x086, 0x087, 0x088, 0x089, 0x091, 0x08f, 0x082
+  };
+  static const int allowed_actor_count = sizeof(allowed_actor_ids) / sizeof(allowed_actor_ids[0]);
+
   // Get the replacement data for the current room
   ItemReplacementList replacements = get_item_replacements_for_room();
 
@@ -394,6 +401,14 @@ void process_items(ActorInstance *actor_instance,
         break;
       }
 
+      // Skip replacement for item 0x082 in room 0x00BE
+      if (D_800C7AB2 == 0x00BE && actor_id == 0x082)
+      {
+        DEBUG_PRINTF("Skipping item replacement for index %d: item 0x082 in room 0x00BE should not be replaced\n",
+                     overall_index);
+        break;
+      }
+
       new_item_id = replacements.pairs[i].new_item_id;
       replacement_flag_id = replacements.pairs[i].flag_id;
       found_replacement = true;
@@ -417,7 +432,16 @@ void process_items(ActorInstance *actor_instance,
                  actor_id, D_800C7AB2, overall_index);
   }
 
-  if (found_replacement && actor_id != 0x3d3 && actor_id != 0x3c7 && actor_id != 0x32d)
+  // Check if this actor ID is allowed for replacement
+  bool is_allowed_actor = false;
+  for (int k = 0; k < allowed_actor_count; k++) {
+    if (actor_id == allowed_actor_ids[k]) {
+      is_allowed_actor = true;
+      break;
+    }
+  }
+
+  if (is_allowed_actor)
   {
     // Create a new actor definition for this specific instance
     ActorDefinition *new_actor_def =
@@ -448,7 +472,7 @@ void process_items(ActorInstance *actor_instance,
       }
 
       // Special handling for dango items (0x84 or 0x85)
-      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4 || actor_id == 0x3d5) 
+      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4 || actor_id == 0x3d5 || actor_id == 0x082) 
       {
         DEBUG_PRINTF("Processing Dango item replacement for instance %d\n",
                       overall_index);
