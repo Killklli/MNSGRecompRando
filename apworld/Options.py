@@ -22,10 +22,17 @@ class EnemyRando(DefaultOnToggle):
 
     display_name = "Enemy Rando"
 
+
 class IncreasedPotRyo(DefaultOnToggle):
     """Determines if pots have an increased amount of ryo."""
 
     display_name = "Increase Pot Ryo"
+
+
+class PotRando(DefaultOnToggle):
+    """Determines if pot locations are randomized."""
+
+    display_name = "Pot Rando"
 
 
 class HealthInPool(DefaultOnToggle):
@@ -83,6 +90,7 @@ class MN64Options(PerGameCommonOptions):
     enemy_rando: EnemyRando
     starting_room_rando: StartingRoomRando
     increase_pot_ryo: IncreasedPotRyo
+    pot_rando: PotRando
     randomize_health: HealthInPool
     randomize_ryo: RyoInPool
     prevent_oneway_softlocks: PreventOneWaySoftlocks

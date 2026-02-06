@@ -94,6 +94,7 @@ LogicRegions = {
                 flag_id=0x1817,
                 instance_id=0x13,
             ),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x191A, instance_id=0x14),
         ],
         exits=[
             MN64TransitionFront("MusashiBeach", lambda l: l.sudden_impact and l.goemon),
@@ -162,6 +163,8 @@ LogicRegions = {
                 flag_id=0x1815,
                 instance_id=0x24,
             ),
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x191B, instance_id=0x22),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x191C, instance_id=0x23),
         ],
         exits=[
             MN64TransitionFront("TunneltoNortheast1", lambda l: True),
@@ -225,8 +228,8 @@ LogicRegions = {
                 flag_id=0x1814,
                 instance_id=0x0C,
             ),
-            MN64LocationLogic("Ryo 1", lambda l: True, MN64Items.RYO, flag_id=0x1878, instance_id=0x0d),
-            MN64LocationLogic("Ryo 2", lambda l: True, MN64Items.RYO, flag_id=0x1879, instance_id=0x0e),
+            MN64LocationLogic("Ryo 1", lambda l: True, MN64Items.RYO, flag_id=0x1878, instance_id=0x0D),
+            MN64LocationLogic("Ryo 2", lambda l: True, MN64Items.RYO, flag_id=0x1879, instance_id=0x0E),
             MN64LocationLogic("Ryo 3", lambda l: True, MN64Items.RYO, flag_id=0x187A, instance_id=0x10),
             # MN64LocationLogic("Triton Shell", lambda l: True, MN64Items.TRITON_HORN, save_id=0xF4, flag_id=0x099),
         ],

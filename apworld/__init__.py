@@ -83,12 +83,12 @@ class MN64World(World):
 
         # Import region logic and create all game regions
         self.all_regions = import_region_logic()
-        
+
         # Initialize metadata storage
         self.location_metadata = {}
         self.item_metadata = {}
         populate_item_metadata(self)
-        
+
         # Initialize hint storage for dynamic hints
         self.dynamic_hints = {}
 
@@ -106,7 +106,7 @@ class MN64World(World):
         pool = []
 
         # Get items that are placed at vanilla locations (not randomized)
-        vanilla_item_names = get_vanilla_item_names(self.options.randomize_health.value, self.options.randomize_ryo.value)
+        vanilla_item_names = get_vanilla_item_names(self.options.randomize_health.value, self.options.randomize_ryo.value, self.options.pot_rando.value)
 
         # Characters that can start the game
         character_names = ["Goemon", "Ebisumaru", "Yae", "Sasuke"]
@@ -151,12 +151,7 @@ class MN64World(World):
         # Calculate how many locations are available for items
         # Count non-event, non-vanilla locations
         event_item_names = get_event_item_names()
-        location_count = sum(
-            1
-            for region in self.all_regions.values()
-            for loc in region.locations
-            if loc.item_type.value not in event_item_names and loc.item_type.value not in vanilla_item_names
-        )
+        location_count = sum(1 for region in self.all_regions.values() for loc in region.locations if loc.item_type.value not in event_item_names and loc.item_type.value not in vanilla_item_names)
 
         # Fill remaining slots with filler items
         filler_needed = location_count - len(pool)
@@ -170,7 +165,6 @@ class MN64World(World):
         # Add the starting character to precollected items
         self.multiworld.push_precollected(self.create_item(starting_character))
         self.multiworld.push_precollected(self.create_item(MN64Items.TRITON_HORN.value))
-
 
         # Add Beat Dharumanyo to precollected item if chugoku_door_unlocked option is enabled
         if self.options.chugoku_door_unlocked.value:
@@ -226,7 +220,7 @@ class MN64World(World):
             RESTRICTED_ENEMY_ROOMS,
             self.random,
         )
-        
+
         # Generate hints after all items have been placed
         # Only generate if hint counts are greater than 0
         if self.options.major_hint_count.value > 0 or self.options.location_hint_count.value > 0:
@@ -286,10 +280,10 @@ class MN64World(World):
                     # Convert flag_id hex to decimal string
                     flag_id_str = str(flag_id)
                     flag_id_to_ap_location_id[flag_id_str] = ap_location_id
-        
+
         # Get dynamic hints if they were generated
         dynamic_hints = getattr(self, "dynamic_hints", {})
-        
+
         slot_data = {
             "seed": self.multiworld.seed,
             "location_metadata": self.location_metadata,
@@ -303,6 +297,7 @@ class MN64World(World):
             "hints": {str(location): hint_data for location, hint_data in dynamic_hints.items()},
             "enemy_rando": self.options.enemy_rando.value,
             "increase_pot_ryo": self.options.increase_pot_ryo.value,
+            "pot_rando": self.options.pot_rando.value,
             "randomize_health": self.options.randomize_health.value,
             "randomize_ryo": self.options.randomize_ryo.value,
             "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
@@ -318,18 +313,19 @@ class MN64World(World):
         spoiler_handle.write("\n")
         spoiler_handle.write(f"Mystical Ninja Starring Goemon Settings for {self.player_name}:\n")
         spoiler_handle.write("\n")
-        
+
         # Write option settings
         spoiler_handle.write(f"Enemy Randomization: {'Enabled' if self.options.enemy_rando.value else 'Disabled'}\n")
         spoiler_handle.write(f"Starting Room Randomization: {'Enabled' if self.options.starting_room_rando.value else 'Disabled'}\n")
         spoiler_handle.write(f"Increased Pot Ryo: {'Enabled' if self.options.increase_pot_ryo.value else 'Disabled'}\n")
+        spoiler_handle.write(f"Pot Randomization: {'Enabled' if self.options.pot_rando.value else 'Disabled'}\n")
         spoiler_handle.write(f"Health in Pool: {'Enabled' if self.options.randomize_health.value else 'Disabled'}\n")
         spoiler_handle.write(f"Ryo in Pool: {'Enabled' if self.options.randomize_ryo.value else 'Disabled'}\n")
         spoiler_handle.write(f"Prevent One-Way Softlocks: {'Enabled' if self.options.prevent_oneway_softlocks.value else 'Disabled'}\n")
         spoiler_handle.write(f"Chugoku Door Unlocked: {'Enabled' if self.options.chugoku_door_unlocked.value else 'Disabled'}\n")
         spoiler_handle.write(f"Pre-Unlocked Warps: {'Enabled' if self.options.pre_unlocked_warps.value else 'Disabled'}\n")
         spoiler_handle.write(f"Death Link: {'Enabled' if self.options.death_link.value else 'Disabled'}\n")
-        
+
         # Write hint settings and hints
         if self.options.major_hint_count.value > 0 or self.options.location_hint_count.value > 0:
             spoiler_handle.write("\n")
@@ -337,33 +333,33 @@ class MN64World(World):
             spoiler_handle.write(f"Major Item Hints: {self.options.major_hint_count.value}\n")
             spoiler_handle.write(f"Location Hints: {self.options.location_hint_count.value}\n")
             spoiler_handle.write("\n")
-            
+
             dynamic_hints = getattr(self, "dynamic_hints", {})
             if dynamic_hints:
                 # Sort hints by type and then by location name
                 major_hints = []
                 location_hints = []
-                
+
                 for location_id, hint_data in dynamic_hints.items():
                     if hint_data["type"] == "major":
                         major_hints.append(hint_data)
                     else:
                         location_hints.append(hint_data)
-                
+
                 # Sort by location name
                 major_hints.sort(key=lambda h: h["location_name"])
                 location_hints.sort(key=lambda h: h["location_name"])
-                
+
                 if major_hints:
                     spoiler_handle.write("Major Item Hints:\n")
                     for hint in major_hints:
                         spoiler_handle.write(f"  {hint['text']}\n")
                     spoiler_handle.write("\n")
-                
+
                 if location_hints:
                     spoiler_handle.write("Location Hints:\n")
                     for hint in location_hints:
                         spoiler_handle.write(f"  {hint['text']}\n")
                     spoiler_handle.write("\n")
-        
+
         spoiler_handle.write("\n")

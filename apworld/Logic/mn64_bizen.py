@@ -22,6 +22,10 @@ LogicRegions = {
                 flag_id=0x00E5,
                 instance_id=0x12,
             ),
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x194C, instance_id=16),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x194D, instance_id=17),
+            MN64LocationLogic("Pot 3", lambda l: True, MN64Items.POT, flag_id=0x194E, instance_id=19),
+            MN64LocationLogic("Pot 4", lambda l: True, MN64Items.POT, flag_id=0x194F, instance_id=20),
         ],
         exits=[
             MN64TransitionFront("BizenBridge", lambda l: l.ghost_toys_defeated, type=MN64DoorType.DOOR),
@@ -103,6 +107,8 @@ LogicRegions = {
                 flag_id=0x1805,
                 instance_id=0x0B,
             ),
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x1950, instance_id=12),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x1951, instance_id=15),
         ],
         exits=[
             MN64TransitionFront("Kurashiki", lambda l: True, type=MN64DoorType.DOOR),

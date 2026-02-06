@@ -7,7 +7,9 @@ LogicRegions = {
         name="Tosa Fields",
         hint_name=MN64HintRegion.TOSA,
         level=MN64Levels.TOSA,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1918, instance_id=0x08),
+        ],
         exits=[
             MN64TransitionFront(
                 "FolypokeVillageShoppingDistrict",
@@ -59,6 +61,7 @@ LogicRegions = {
                 flag_id=0x00E3,
                 instance_id=0x15,
             ),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1919, instance_id=0x16),
         ],
         exits=[
             MN64TransitionFront("TosaFields", lambda l: True, type=MN64DoorType.DOOR),

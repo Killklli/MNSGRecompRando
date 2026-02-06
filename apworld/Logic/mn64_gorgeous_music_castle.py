@@ -256,6 +256,7 @@ LogicRegions = {
                 flag_id=0x0108,
                 instance_id=0x13,
             ),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x191E, instance_id=0x16),
         ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleWaveRoom", lambda l: True, type=MN64DoorType.DOOR),
@@ -402,6 +403,7 @@ LogicRegions = {
                 flag_id=0x00F4,
                 instance_id=0x0B,
             ),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1920, instance_id=0x0C),
         ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleDancingLegs", lambda l: True),
@@ -472,6 +474,7 @@ LogicRegions = {
                 flag_id=0x1843,
                 instance_id=0x11,
             ),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x191F, instance_id=0x12),
         ],
         exits=[
             MN64TransitionFront(
@@ -554,7 +557,9 @@ LogicRegions = {
         name="Gorgeous Music Castle Window Hallway",
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1942, instance_id=12),
+        ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleLavaRoom", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
@@ -662,6 +667,7 @@ LogicRegions = {
             # MN64LocationLogic("Ryo 9", lambda l: True, MN64Items.RYO, flag_id=0x1870, instance_id=0x11),
             # MN64LocationLogic("Ryo 10", lambda l: True, MN64Items.RYO, flag_id=0x1871, instance_id=0x12),
             # MN64LocationLogic("Ryo 11", lambda l: True, MN64Items.RYO, flag_id=0x1872, instance_id=0x13),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1943, instance_id=20),
         ],
         exits=[
             MN64TransitionFront(
@@ -694,7 +700,9 @@ LogicRegions = {
         name="Gorgeous Music Castle Slide Room (Lower)",
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1921, instance_id=0x14),
+        ],
         exits=[
             MN64TransitionFront(
                 "GorgeousMusicCastleRotatingBlocks",
@@ -1153,8 +1161,8 @@ LogicRegions = {
             MN64LocationLogic("Ryo 1", lambda l: True, MN64Items.RYO, flag_id=0x1873, instance_id=0x07),
             MN64LocationLogic("Ryo 2", lambda l: True, MN64Items.RYO, flag_id=0x1874, instance_id=0x08),
             MN64LocationLogic("Ryo 3", lambda l: True, MN64Items.RYO, flag_id=0x1875, instance_id=0x09),
-            MN64LocationLogic("Ryo 4", lambda l: True, MN64Items.RYO, flag_id=0x1876, instance_id=0x0a),
-            MN64LocationLogic("Ryo 5", lambda l: True, MN64Items.RYO, flag_id=0x1877, instance_id=0x0c),
+            MN64LocationLogic("Ryo 4", lambda l: True, MN64Items.RYO, flag_id=0x1876, instance_id=0x0A),
+            MN64LocationLogic("Ryo 5", lambda l: True, MN64Items.RYO, flag_id=0x1877, instance_id=0x0C),
         ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleEntrance", lambda l: True, type=MN64DoorType.DOOR),
@@ -1203,6 +1211,8 @@ LogicRegions = {
                 flag_id=0x018B,
                 instance_id=0x08,
             ),
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x193B, instance_id=9),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x193C, instance_id=10),
         ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleFlameHallwayLower", lambda l: True),
@@ -1245,7 +1255,10 @@ LogicRegions = {
         name="Gorgeous Music Castle Scaffolding Climb (Lower)",
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x193D, instance_id=9),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x193E, instance_id=10),
+        ],
         exits=[
             MN64TransitionFront(
                 "GorgeousMusicCastleSlidingKnives",

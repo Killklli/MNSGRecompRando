@@ -17,11 +17,11 @@ def create_logic_holder_from_state(state: CollectionState, player: int, context_
     from .Logic.mn64_logic_holder import MN64LogicHolder
 
     # Use a global holder instance to maintain door tracking across evaluations
-    if not hasattr(create_logic_holder_from_state, '_holder_instance'):
+    if not hasattr(create_logic_holder_from_state, "_holder_instance"):
         create_logic_holder_from_state._holder_instance = MN64LogicHolder()
-    
+
     holder = create_logic_holder_from_state._holder_instance
-    
+
     # Reset context but keep door tracking
     holder.reset_lock_tracking()
     holder._current_location_context = context_name
@@ -171,8 +171,9 @@ def set_rules(world: "MN64World") -> None:
                         def location_rule(state):
                             holder = create_logic_holder_from_state(state, player_id, location_name)
                             return logic_func(holder)
+
                         return location_rule
-                    
+
                     set_rule(location, make_location_rule(location_logic.logic, unique_name, player))
             except StopIteration:
                 continue  # Location doesn't exist
@@ -194,12 +195,13 @@ def set_rules(world: "MN64World") -> None:
                             def entrance_rule(state):
                                 holder = create_logic_holder_from_state(state, player_id, entrance_name)
                                 return logic_func(holder)
+
                             return entrance_rule
-                        
+
                         entrance_name = f"{region_name} -> {exit_logic.destinationRegion}"
                         if exit_logic.consumes_key:
                             entrance_name += f" ({exit_logic.consumes_key} key)"
-                        
+
                         set_rule(entrance, make_entrance_rule(exit_logic.logic, entrance_name, player))
                     break
 

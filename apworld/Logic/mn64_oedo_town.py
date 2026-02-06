@@ -43,9 +43,9 @@ LogicRegions = {
             MN64LocationLogic("Ryo 2", lambda l: True, MN64Items.RYO, flag_id=0x185C, instance_id=0x17),
             MN64LocationLogic("Ryo 3", lambda l: True, MN64Items.RYO, flag_id=0x185D, instance_id=0x18),
             MN64LocationLogic("Ryo 4", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x185E, instance_id=0x19),
-            MN64LocationLogic("Ryo 5", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x185F, instance_id=0x1a),
-            MN64LocationLogic("Ryo 6", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x1860, instance_id=0x1b),
-            MN64LocationLogic("Ryo 7", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x1861, instance_id=0x1c),
+            MN64LocationLogic("Ryo 5", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x185F, instance_id=0x1A),
+            MN64LocationLogic("Ryo 6", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x1860, instance_id=0x1B),
+            MN64LocationLogic("Ryo 7", lambda l: l.yae and l.mermaid, MN64Items.RYO, flag_id=0x1861, instance_id=0x1C),
         ],
         exits=[
             MN64TransitionFront("ShoppingDistrict", lambda l: True),

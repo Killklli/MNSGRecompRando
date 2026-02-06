@@ -111,6 +111,7 @@ class MN64Items(Enum):
 
     # Filler Items
     RYO = "Ryo"
+    POT = "Pot"
 
     # Special Items and NPCs
     MR_ELLY_FANT_OEDO_CASTLE = "Mr Elly Fant (Oedo Castle)"

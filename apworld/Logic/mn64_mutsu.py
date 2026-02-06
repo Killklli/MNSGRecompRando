@@ -59,6 +59,7 @@ LogicRegions = {
                 flag_id=0x00EB,
                 instance_id=0x12,
             ),
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x191D, instance_id=0x11),
         ],
         exits=[
             MN64TransitionFront("MutsuCrossroads", lambda l: True),

@@ -392,7 +392,9 @@ LogicRegions = {
         name="Mt Fuji (Pot Ledge)",
         hint_name=MN64HintRegion.KAI,
         level=MN64Levels.KAI,
-        locations=[],
+        locations=[
+            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1917, instance_id=0x27),
+        ],
         exits=[
             MN64TransitionFront("MtFujiBottom", lambda l: True),
             MN64TransitionFront("MtFujiPeak", lambda l: True),
