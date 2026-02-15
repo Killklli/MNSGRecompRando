@@ -153,7 +153,7 @@ training_table: Dict[str, ItemData] = {
 # Filler Items
 filler_table: Dict[str, ItemData] = {
     "Nothing": ItemData(BASE_ID + 55, 0, ItemClassification.filler),
-    "Pot": ItemData(BASE_ID + 59, 0, ItemClassification.filler, entity_id=0x192),
+    "Pot of Ryo": ItemData(BASE_ID + 59, 0, ItemClassification.filler, entity_id=0x192),
     "Ryo": ItemData(BASE_ID + 58, 83, ItemClassification.filler, entity_id=0x82),
 }
 
