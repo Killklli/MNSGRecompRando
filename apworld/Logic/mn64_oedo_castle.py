@@ -379,9 +379,9 @@ LogicRegions = {
         level=MN64Levels.OEDO_CASTLE,
         locations=[
             MN64LocationLogic(
-                "Chain Pipe",
+                "Golden Health",
                 lambda l: True,
-                MN64Items.CHAIN_PIPE,
+                MN64Items.GOLDEN_HEALTH,
                 flag_id=0x180B,
                 instance_id=0x06,
             ),

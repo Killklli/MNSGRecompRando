@@ -75,6 +75,30 @@ static bool is_health_randomization_enabled()
   return randomize_health_value != 0;
 }
 
+// Function to check if pot randomization is enabled in slot data
+static bool is_pot_randomization_enabled()
+{
+  // Check if we're connected to archipelago
+  if (!rando_is_connected())
+  {
+    // If not connected, default to enabled
+    recomp_printf("[DEBUG] Not connected to Archipelago, defaulting to pot randomization enabled\n");
+    return false;
+  }
+  
+  u32 randomize_pots_handle[2];
+  
+  // Get the randomize_pots setting from slot data
+  rando_get_slotdata_raw_o32("pot_rando", randomize_pots_handle);
+  
+  // Get the boolean value as u32 (0 = false, 1 = true)
+  u32 randomize_pots_value = rando_access_slotdata_raw_u32_o32(randomize_pots_handle);
+  
+  recomp_printf("[DEBUG] Pot randomization setting: %u\n", randomize_pots_value);
+  
+  return randomize_pots_value != 0;
+}
+
 // Function to extract item data from Archipelago item metadata
 // This pulls both entity_id and flag_id from item_metadata for the given AP item ID
 static ItemData get_item_data_from_ap_id(u32 ap_id, u32 *item_metadata_handle)
@@ -336,7 +360,7 @@ void process_items(ActorInstance *actor_instance,
   // List of allowed actor IDs for replacement
   static const unsigned short allowed_actor_ids[] = {
     0x193, 0x84, 0x85, 0x3d2, 0x3d4, 0x3d5, 
-    0x086, 0x087, 0x088, 0x089, 0x091, 0x08f, 0x082
+    0x086, 0x087, 0x088, 0x089, 0x091, 0x08f, 0x082, 0x192
   };
   static const int allowed_actor_count = sizeof(allowed_actor_ids) / sizeof(allowed_actor_ids[0]);
 
@@ -392,7 +416,11 @@ void process_items(ActorInstance *actor_instance,
                      (unsigned long)replacements.pairs[i].new_item_ap_id);
         break;
       }
-
+      if ((actor_id == 0x192) && !is_pot_randomization_enabled()){
+        DEBUG_PRINTF("Skipping pot replacement for index %d: pot randomization is disabled (actor_id: 0x%03X)\n",
+                     overall_index, actor_id);
+        break;
+      }
       // Check if this is a health item and if health randomization is disabled
       if ((actor_id == 0x84 || actor_id == 0x85) && !is_health_randomization_enabled())
       {
@@ -472,7 +500,7 @@ void process_items(ActorInstance *actor_instance,
       }
 
       // Special handling for dango items (0x84 or 0x85)
-      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4 || actor_id == 0x3d5 || actor_id == 0x082) 
+      if (actor_id == 0x84 || actor_id == 0x85 || actor_id == 0x3d2 || actor_id == 0x3d4 || actor_id == 0x3d5 || actor_id == 0x082 || actor_id == 0x192) 
       {
         DEBUG_PRINTF("Processing Dango item replacement for instance %d\n",
                       overall_index);

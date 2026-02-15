@@ -39,6 +39,9 @@ extern void save_player_data();
 void deathlink_sender();
 void deathlink_received();
 
+// Static variable to prevent deathlink sender from immediately triggering after receiving
+static int deathlink_cooldown = 0;
+
 void increase_silver_fortune_doll()
 {
     s32 fortune_dolls = READ_SAVE_DATA(SAVE_FORTUNE_DOLL_TOTAL);
@@ -158,6 +161,12 @@ RECOMP_HOOK("func_80002040_2C40") void deathlink_hooks()
         return;
     }
     
+    // Decrement cooldown if active
+    if (deathlink_cooldown > 0) {
+        deathlink_cooldown--;
+        return;
+    }
+    
     if (rando_get_death_link_pending()) {
         deathlink_received();
     } else {
@@ -170,7 +179,10 @@ void deathlink_sender()
     // if the players total health is 0 (or less), send a deathlink
     s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
     if (current_health <= 0) {
+        DEBUG_PRINTF("Player died (health: %d), sending deathlink\\n", current_health);
         rando_send_death_link();
+        // Set cooldown to prevent immediate re-triggering
+        deathlink_cooldown = 60;
     }
 }
 
@@ -179,6 +191,11 @@ void deathlink_received()
     increase_lives();
     // Set their current health to 0
     WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, 0);
+    // Clear the pending deathlink to prevent infinite loop
+    rando_reset_death_link_pending();
+    // Set cooldown to prevent immediate sender trigger (60 frames = ~1 second at 60fps)
+    deathlink_cooldown = 60;
+    DEBUG_PRINTF("Deathlink received and processed\\n");
 }
 
 void ringlink()

@@ -56,4 +56,5 @@ RECOMP_IMPORT(".", void rando_init(char* game, char* address, char* player_name,
 // Death link functions
 RECOMP_IMPORT(".", bool rando_get_death_link_enabled());
 RECOMP_IMPORT(".", bool rando_get_death_link_pending());
+RECOMP_IMPORT(".", void rando_reset_death_link_pending());
 RECOMP_IMPORT(".", void rando_send_death_link());
