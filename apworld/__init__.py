@@ -291,6 +291,7 @@ class MN64World(World):
             "enemy_data": getattr(self, "randomized_enemy_data", {}),
             "room_file_data": room_data_simple,
             "starting_room": getattr(self, "starting_room_id", None),
+            "starting_spawn_data": getattr(self, "starting_spawn_data", {}),
             "starting_characters": starting_characters,
             "starting_items": starting_items,
             "flag_id_to_ap_location_id": flag_id_to_ap_location_id,

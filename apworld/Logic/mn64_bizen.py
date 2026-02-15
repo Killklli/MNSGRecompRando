@@ -67,6 +67,7 @@ LogicRegions = {
             0x19: 0x103,
             0x1A: 0x0FD,
         },
+        spawn={"x": 593.0, "y": 78.0, "z": 0.0},
     ),
     "JumpChallegeTraining": MN64Region(
         name="Jump Challege Training",
@@ -152,6 +153,7 @@ LogicRegions = {
             0x17: 0x0FB,
             0x18: 0x130,
         },
+        spawn={"x": -880.0, "y": 52.0, "z": 901.0},
     ),
     "Hagi": MN64Region(
         name="Hagi",
@@ -201,6 +203,7 @@ LogicRegions = {
             0x19: 0x110,
             0x1A: 0x0FA,
         },
+        spawn={"x": 791.0, "y": -20.0, "z": -792.0},
     ),
     "Akiyoshidai": MN64Region(
         name="Akiyoshidai",
@@ -262,6 +265,7 @@ LogicRegions = {
             0x24: 0x145,
             0x25: 0x145,
         },
+        spawn={"x": -98.0, "y": 159.0, "z": -1152.0},
     ),
     "Shuhodo": MN64Region(
         name="Shuhodo",
@@ -289,6 +293,7 @@ LogicRegions = {
             0x198,
             0x159,
         ],
+        spawn={"x": -881.0, "y": -24.0, "z": -361.0},
         enemies={0x08: 0x0FD, 0x09: 0x0FD, 0x0A: 0x0FD, 0x0B: 0x0FD},
     ),
     "GatewayViewpoint": MN64Region(
@@ -328,6 +333,7 @@ LogicRegions = {
             0x1B0,
             0x038,
         ],
+        spawn={"x": -443.0, "y": 33.0, "z": -236.0},
     ),
     "IzumoCoffeeShop": MN64Region(
         name="Izumo Coffee Shop",
@@ -353,6 +359,7 @@ LogicRegions = {
             0x282,
             0x279,
         ],
+        spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
     "Izumo": MN64Region(
         name="Izumo",
@@ -401,6 +408,7 @@ LogicRegions = {
             0x1A: 0x0FA,
             0x1B: 0x0FB,
         },
+        spawn={"x": -443.0, "y": 33.0, "z": -236.0},
     ),
     "LakewithaLargetree": MN64Region(
         name="Lake with a Large tree",
@@ -441,6 +449,7 @@ LogicRegions = {
             0x042,
             0x038,
         ],
+        spawn={"x": -27.0, "y": -62.0, "z": -467.0},
     ),
     "Inaba": MN64Region(
         name="Inaba",
@@ -523,8 +532,9 @@ LogicRegions = {
             0x20: 0x144,
             0x21: 0x144,
             0x22: 0x145,
-            0x23: 0x144,
+            0x23: 0x0FA,
             0x24: 0x144,
         },
+        spawn={"x": -27.0, "y": 62.0, "z": -467.0},
     ),
 }

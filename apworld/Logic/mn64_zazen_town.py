@@ -32,6 +32,7 @@ LogicRegions = {
             0x1FF,
             0x037,
         ],
+        spawn={"x": 3.0, "y": 0.0, "z": 153.0},
     ),
     "ZazenTownBridge": MN64Region(
         name="Zazen Town Bridge",
@@ -61,6 +62,7 @@ LogicRegions = {
             0x2C8,
             0x038,
         ],
+        spawn={"x": 0.0, "y": 27.0, "z": 90.0},
     ),
     "ZazenTownMainTown": MN64Region(
         name="Zazen Town Main Town",
@@ -99,6 +101,7 @@ LogicRegions = {
             0x27C,
             0x195,
         ],
+        spawn={"x": 61.0, "y": 8.0, "z": 231.0},
     ),
     "ZazenTownWateringhole": MN64Region(
         name="Zazen Town Watering hole",
@@ -152,6 +155,7 @@ LogicRegions = {
             0x250,
             0x038,
         ],
+        spawn={"x": 5.0, "y": 27.0, "z": 97.0},
     ),
     "ZazenTownBack": MN64Region(
         name="Zazen Town Back",
@@ -190,6 +194,7 @@ LogicRegions = {
             0x278,
             0x195,
         ],
+        spawn={"x": 60.0, "y": 7.0, "z": 221.0},
     ),
     "GoldenTemple": MN64Region(
         name="Golden Temple",
@@ -240,6 +245,7 @@ LogicRegions = {
             0x1FF,
             0x038,
         ],
+        spawn={"x": -106.0, "y": 7.0, "z": 2.0},
     ),
     "MtNyoigatakeSidewalk": MN64Region(
         name="Mt Nyoigatake Sidewalk",
@@ -265,6 +271,7 @@ LogicRegions = {
             0x27F,
             0x195,
         ],
+        spawn={"x": -226.0, "y": 7.0, "z": 0.0},
     ),
     "MtNyoigatakeFireShrine": MN64Region(
         name="Mt Nyoigatake Fire Shrine",
@@ -294,6 +301,7 @@ LogicRegions = {
             0x17E,
             0x039,
         ],
+        spawn={"x": -224.0, "y": 140.0, "z": -1.0},
     ),
     "DuckCreekUpstream": MN64Region(
         name="Duck Creek Upstream",
@@ -332,6 +340,7 @@ LogicRegions = {
             0x2C8,
             0x038,
         ],
+        spawn={"x": -62.0, "y": 6.0, "z": -91.0},
     ),
     "DuckCreekUnderTownBridge": MN64Region(
         name="Duck Creek Under Town Bridge",
@@ -367,6 +376,7 @@ LogicRegions = {
             0x2C8,
             0x038,
         ],
+        spawn={"x": 0.0, "y": 27.0, "z": 90.0},
     ),
     "DuckCreekUshiwaka": MN64Region(
         name="Duck Creek Ushiwaka",
@@ -412,6 +422,7 @@ LogicRegions = {
             0x172,
             0x038,
         ],
+        spawn={"x": -143.0, "y": -48.0, "z": -136.0},
     ),
     "BenkeiBridge": MN64Region(
         name="Benkei Bridge",
@@ -471,6 +482,7 @@ LogicRegions = {
             0x2C8,
             0x038,
         ],
+        spawn={"x": 102.0, "y": 7.0, "z": 0.0},
     ),
     "DuckCreekJumpArea": MN64Region(
         name="Duck Creek Jump Area",
@@ -513,6 +525,7 @@ LogicRegions = {
             0x038,
             0x01A,
         ],
+        spawn={"x": -269.0, "y": -49.0, "z": -118.0},
     ),
     "BizenBridge": MN64Region(
         name="Bizen Bridge",
@@ -551,5 +564,6 @@ LogicRegions = {
             0x2C8,
             0x038,
         ],
+        spawn={"x": 282.0, "y": 7.0, "z": 57.0},
     ),
 }

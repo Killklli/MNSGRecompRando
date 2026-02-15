@@ -37,6 +37,7 @@ LogicRegions = {
             0x2CF,
             0x172,
         ],
+        spawn={"x": 9.0, "y": -86.0, "z": 282.0},
     ),
     "KompuraMountainSecondBlock": MN64Region(
         name="Kompura Mountain Second Block",
@@ -76,6 +77,7 @@ LogicRegions = {
             0x0F: 0x3DA,
             0x10: 0x3DA,
         },
+        spawn={"x": 9.0, "y": -86.0, "z": 282.0},
     ),
     "KompurasCoffeeShop": MN64Region(
         name="Kompuras Coffee Shop",
@@ -101,6 +103,7 @@ LogicRegions = {
             0x279,
             0x282,
         ],
+        spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
     "KompuraMountainThirdBlock": MN64Region(
         name="Kompura Mountain Third block",
@@ -137,6 +140,7 @@ LogicRegions = {
             0x0D: 0x12C,
             0x0E: 0x12C,
         },
+        spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
     "KompuraMountainFourthBlock": MN64Region(
         name="Kompura Mountain Fourth Block",
@@ -186,6 +190,7 @@ LogicRegions = {
             0x16: 0x3DA,
             0x17: 0x3DA,
         },
+        spawn={"x": 0.0, "y": -313.0, "z": 763.0},
     ),
     "KompuraMountainGrounds": MN64Region(
         name="Kompura Mountain Grounds",
@@ -226,5 +231,6 @@ LogicRegions = {
             0x195,
             0x03F,
         ],
+        spawn={"x": -2.0, "y": -44.0, "z": 189.0},
     ),
 }

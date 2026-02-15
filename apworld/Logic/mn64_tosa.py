@@ -48,6 +48,7 @@ LogicRegions = {
             0x0F: 0x103,
             0x10: 0x103,
         },
+        spawn={"x": 491.0, "y": -33.0, "z": -39.0},
     ),
     "TosaBridge": MN64Region(
         name="Tosa Bridge",
@@ -115,5 +116,6 @@ LogicRegions = {
             0x23: 0x130,
             0x24: 0x130,
         },
+        spawn={"x": -29.0, "y": 0.0, "z": 723.0},
     ),
 }

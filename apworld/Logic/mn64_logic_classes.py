@@ -204,6 +204,7 @@ class MN64Region:
         room_id: Optional[Union[int, str]] = None,
         room_default_definitions: Optional[List[str]] = None,
         enemies: Optional[Dict[int, int]] = None,
+        spawn: Optional[Dict[str, float]] = None,
     ) -> None:
         """Initialize with given parameters."""
         self.name = name
@@ -215,3 +216,4 @@ class MN64Region:
         self.room_id = room_id
         self.room_default_definitions = room_default_definitions or []
         self.enemies = enemies or {}
+        self.spawn = spawn or {}

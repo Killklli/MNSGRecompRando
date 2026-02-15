@@ -33,6 +33,7 @@ LogicRegions = {
             0x27E,
             0x27A,
         ],
+        spawn={"x": 74.0, "y": 98.0, "z": 179.0},
     ),
     "FolypokeVillageHayFarm": MN64Region(
         name="Folypoke Village Hay Farm",
@@ -75,6 +76,7 @@ LogicRegions = {
             0x27E,
             0x01A,
         ],
+        spawn={"x": -62.0, "y": 0.0, "z": 214.0},
     ),
     "FolypokeVillageHousing": MN64Region(
         name="Folypoke Village Housing",
@@ -115,6 +117,7 @@ LogicRegions = {
             0x272,
             0x27E,
         ],
+        spawn={"x": -125.0, "y": -14.0, "z": 90.0},
     ),
     "FolypokeVillageShoppingDistrict": MN64Region(
         name="Folypoke Village Shopping District",
@@ -154,6 +157,7 @@ LogicRegions = {
             0x27E,
             0x272,
         ],
+        spawn={"x": 172.0, "y": 98.0, "z": -66.0},
     ),
     "OedoTouristCenterAwaBranch": MN64Region(
         name="Oedo Tourist Center - Awa Branch",
@@ -177,5 +181,6 @@ LogicRegions = {
             0x17E,
             0x2A0,
         ],
+        spawn={"x": 142.0, "y": -70.0, "z": 77.0},
     ),
 }

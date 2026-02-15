@@ -145,26 +145,27 @@ def setup_starting_region(world, all_regions: Dict, logger) -> None:
     """Setup starting region connection from menu."""
     # Randomly select a starting region if option is enabled
     if world.options.starting_room_rando.value:
-        possible_regions = [
-            "GoemonsHouse",
-            "ZazenTownEntrance",
-            "FestivalVillageEntrance",
-            "KaisCoffeeShop",
-            "IyoCoffeeShop",
-            "IzumoCoffeeShop",
-            "KompurasCoffeeShop",
-            "KiisCoffeeShop",
-        ]
-        starting_region_name = world.random.choice(possible_regions)
+        # Find all regions that have spawn data defined
+        possible_regions = []
+        for region_name, region_data in all_regions.items():
+            if hasattr(region_data, "spawn") and region_data.spawn:
+                possible_regions.append(region_name)
+
+        if possible_regions:
+            starting_region_name = world.random.choice(possible_regions)
+        else:
+            # Fallback to default if no spawn regions found
+            starting_region_name = "GoemonsHouse"
     else:
         # Default starting region
         starting_region_name = "GoemonsHouse"
 
     world.starting_region_name = starting_region_name  # Store for slot data
 
-    # Store the room_id for the starting region
+    # Store the room_id and spawn data for the starting region
     starting_region_data = all_regions.get(starting_region_name)
     world.starting_room_id = getattr(starting_region_data, "room_id", None) if starting_region_data else None
+    world.starting_spawn_data = getattr(starting_region_data, "spawn", {}) if starting_region_data else {}
 
     try:
         menu = world.multiworld.get_region("Menu", world.player)

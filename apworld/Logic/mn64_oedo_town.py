@@ -33,6 +33,7 @@ LogicRegions = {
             0x01B,
             0x03D,
         ],
+        spawn={"x": 56.0, "y": -40.0, "z": 51.0},
     ),
     "SpawnHousing": MN64Region(
         name="Spawn Housing",
@@ -83,6 +84,7 @@ LogicRegions = {
             0x195,
             0x038,
         ],
+        spawn={"x": -97.0, "y": 0.0, "z": -190.0},
     ),
     "PipeMakersHouse": MN64Region(
         name="Pipe Makers House",
@@ -144,6 +146,7 @@ LogicRegions = {
             0x274,
             0x27D,
         ],
+        spawn={"x": -103.0, "y": 0.0, "z": 5.0},
     ),
     "SuperPassBridge": MN64Region(
         name="Super Pass Bridge",
@@ -188,6 +191,7 @@ LogicRegions = {
             0x01A,
             0x038,
         ],
+        spawn={"x": -440.0, "y": 0.0, "z": -47.0},
     ),
     "ShrineArea": MN64Region(
         name="Shrine Area",
@@ -230,6 +234,7 @@ LogicRegions = {
             0x280,
             0x158,
         ],
+        spawn={"x": 62.0, "y": 7.0, "z": 45.0},
     ),
     "NihonBashiBridge": MN64Region(
         name="Nihon Bashi Bridge",
@@ -264,6 +269,7 @@ LogicRegions = {
             0x195,
             0x038,
         ],
+        spawn={"x": -238.0, "y": 8.0, "z": 228.0},
     ),
     "OedoCastleMainGate": MN64Region(
         name="Oedo Castle Main Gate",
@@ -306,6 +312,7 @@ LogicRegions = {
             0x01A,
             0x038,
         ],
+        spawn={"x": -350.0, "y": 7.0, "z": 93.0},
     ),
     "StairstoOedoCastle": MN64Region(
         name="Stairs to Oedo Castle",
@@ -318,6 +325,7 @@ LogicRegions = {
         ],
         room_id=0x165,
         room_default_definitions=[0x40F, 0x152, 0x033, 0x1FA, 0x16F, 0x2FC, 0x02B],
+        spawn={"x": 101.0, "y": 7.0, "z": 109.0},
     ),
     "OedoCastleEntrance": MN64Region(
         name="Oedo Castle Entrance",
@@ -343,6 +351,7 @@ LogicRegions = {
             0x195,
             0x04C,
         ],
+        spawn={"x": -143.0, "y": 147.0, "z": 264.0},
     ),
     "RoadtoMtFuji": MN64Region(
         name="Road to Mt Fuji",
@@ -377,5 +386,6 @@ LogicRegions = {
             0x273,
             0x195,
         ],
+        spawn={"x": 34.0, "y": -14.0, "z": 6.0},
     ),
 }

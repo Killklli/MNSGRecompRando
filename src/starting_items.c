@@ -123,7 +123,7 @@ void on_file_started()
         u32 saved_current_health = rando_get_datastorage_u32_sync("save_current_health");
         recomp_printf("RESTORE SAVE: Retrieved saved_total_health=%u from datastore\n", saved_total_health);
         // If save_total_health is not 0, restore all 4 values
-        if (saved_total_health != 0 && saved_current_health != 0 && saved_current_health != NULL && saved_total_health != NULL)
+        if (saved_total_health != 0 && saved_current_health != 0)
         {
 
             // Write the values back to player data
@@ -139,41 +139,47 @@ void on_file_started()
         // Set starting room from AP slotdata
         u32 starting_room = get_starting_room();
         WRITE_SPAWN_ROOM(starting_room);
-        // Set spawn coordinates for specific room IDs
-        if (starting_room == 0x167)
-        {
-            WRITE_SPAWN_X(0); // X coordinate
-            WRITE_SPAWN_Y(0); // Y coordinate
-            WRITE_SPAWN_Z(0); // Z coordinate
-        }
-        else if (starting_room == 0x1B6 || starting_room == 0x1B5 ||
-                    starting_room == 0x1B1 || starting_room == 0x1B4 ||
-                    starting_room == 0x1B3)
-        {
-            // Spawn Related
-            WRITE_SAVE_DATA(0x20A, 0x00);
-            WRITE_SAVE_DATA(0x20C, 0x00);
-            WRITE_SAVE_DATA(0x20D, 0x00);
-            // Set the following 3 bits for direction
-            WRITE_SAVE_DATA_B(0x210, 0x00);
-            WRITE_SAVE_DATA_B(0x211, 0x03);
-            WRITE_SPAWN_X(0);   // X coordinate
-            WRITE_SPAWN_Y(20);  // Y coordinate
-            WRITE_SPAWN_Z(-25); // Z coordinate
-        }
-        else if (starting_room == 0x1D1)
-        {
-            // Spawn Related
-            WRITE_SAVE_DATA(0x20A, 0x00);
-            WRITE_SAVE_DATA(0x20C, 0x00);
-            WRITE_SAVE_DATA(0x20D, 0x00);
-            // Set the following 3 bits for direction
-            WRITE_SAVE_DATA_B(0x210, 0x00);
-            WRITE_SAVE_DATA_B(0x211, 0x03);
-            WRITE_SPAWN_X(0);   // X coordinate
-            WRITE_SPAWN_Y(0);   // Y coordinate
-            WRITE_SPAWN_Z(-80);  // Z coordinate
-        }
+        
+        // Set spawn direction values to 0
+        WRITE_SAVE_DATA(0x20A, 0x00);
+        WRITE_SAVE_DATA(0x20C, 0x00);
+        WRITE_SAVE_DATA(0x20D, 0x00);
+        WRITE_SAVE_DATA_B(0x210, 0x00);
+        WRITE_SAVE_DATA_B(0x211, 0x00);
+        
+        // Get spawn coordinates from AP slot data
+        u32 spawn_data_handle[2];
+        rando_get_slotdata_raw_o32("starting_spawn_data", spawn_data_handle);
+        
+        // Default spawn coordinates (fallback)
+        int spawn_x = 0, spawn_y = 0, spawn_z = 0;
+        
+        // Try to get spawn coordinates from slot data
+        u32 x_handle[2], y_handle[2], z_handle[2];
+        
+        // Access the coordinate values (these functions return void, so we can't check return values)
+        rando_access_slotdata_raw_dict_o32(spawn_data_handle, "x", x_handle);
+        rando_access_slotdata_raw_dict_o32(spawn_data_handle, "y", y_handle);
+        rando_access_slotdata_raw_dict_o32(spawn_data_handle, "z", z_handle);
+        
+        // Read the float values as strings and convert to integers
+        char x_str[32], y_str[32], z_str[32];
+        rando_access_slotdata_raw_string_o32(x_handle, x_str);
+        rando_access_slotdata_raw_string_o32(y_handle, y_str);
+        rando_access_slotdata_raw_string_o32(z_handle, z_str);
+        
+        // Convert string representations of floats to integers
+        spawn_x = (int)simple_atoi(x_str);  // Back to X -> X
+        spawn_y = (int)simple_atoi(z_str);  // Keep Z -> Y  
+        spawn_z = (int)simple_atoi(y_str);  // Try Y -> Z
+        
+        recomp_printf("Using spawn coordinates from slot data (X,Z,Y): X=%d, Y=%d, Z=%d for room 0x%X\n", 
+                     spawn_x, spawn_y, spawn_z, starting_room);
+        
+        // Write spawn coordinates
+        WRITE_SPAWN_X(spawn_x);
+        WRITE_SPAWN_Y(spawn_y);
+        WRITE_SPAWN_Z(spawn_z);
 
     }
 

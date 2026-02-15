@@ -35,6 +35,7 @@ LogicRegions = {
             0x195,
             0x038,
         ],
+        spawn={"x": -167.0, "y": 351.0, "z": -1226.0},
     ),
     "YamamotoUnderwaterCave": MN64Region(
         name="Yamamoto Underwater Cave",
@@ -101,6 +102,7 @@ LogicRegions = {
             0x0E: 0x0FA,
             0x0F: 0x0FA,
         },
+        spawn={"x": -167.0, "y": 351.0, "z": -1226.0},
     ),
     "TurtleStone": MN64Region(
         name="Turtle Stone",
@@ -139,6 +141,7 @@ LogicRegions = {
             0x195,
             0x041,
         ],
+        spawn={"x": -595.0, "y": -96.0, "z": 108.0},
     ),
     "YamamotoShrineInterior": MN64Region(
         name="Yamamoto Shrine Interior",
@@ -194,6 +197,7 @@ LogicRegions = {
             0x01A,
             0x196,
         ],
+        spawn={"x": 51.0, "y": -330.0, "z": 202.0},
     ),
     "KiisCoffeeShop": MN64Region(
         name="Kii's Coffee Shop",
@@ -219,6 +223,7 @@ LogicRegions = {
             0x273,
             0x27D,
         ],
+        spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
     "KiiAwajiIsland": MN64Region(
         name="Kii Awaji Island",
@@ -285,6 +290,7 @@ LogicRegions = {
             0x1A: 0x12D,
             0x1B: 0x12D,
         },
+        spawn={"x": -595.0, "y": -96.0, "z": 108.0},
     ),
     "OedoTouristCenterAwajiIslandBranch": MN64Region(
         name="Oedo Tourist Center - Awaji Island Branch",
@@ -312,6 +318,7 @@ LogicRegions = {
             0x17E,
             0x297,
         ],
+        spawn={"x": 142.0, "y": -70.0, "z": 77.0},
     ),
     "HusbandandWifeRocks": MN64Region(
         name="Husband and Wife Rocks",
@@ -362,5 +369,6 @@ LogicRegions = {
             0x13: 0x12D,
             0x14: 0x12D,
         },
+        spawn={"x": 142.0, "y": -70.0, "z": 77.0},
     ),
 }

@@ -27,6 +27,7 @@ LogicRegions = {
             0x27C,
             0x279,
         ],
+        spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
     "KaiHighway": MN64Region(
         name="Kai Highway",
@@ -110,6 +111,7 @@ LogicRegions = {
             0x37: 0x0FB,
             0x38: 0x12D,
         },
+        spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
     "MtFujiBottom": MN64Region(
         name="Mt Fuji (Bottom)",
@@ -188,6 +190,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
+        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiCrater": MN64Region(
         name="Mt Fuji Crater",
@@ -210,6 +213,7 @@ LogicRegions = {
             0x022,
             0x1B7,
         ],
+        spawn={"x": 173.0, "y": 90.0, "z": 144.0},
         enemies={0x08: 0x102, 0x09: 0x102, 0x0A: 0x102},
     ),
     "MtFujiMid": MN64Region(
@@ -268,6 +272,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
+        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiPeak": MN64Region(
         name="Mt Fuji (Peak)",
@@ -292,6 +297,7 @@ LogicRegions = {
             0x1FB,
             0x16F,
         ],
+        spawn={"x": 180.0, "y": -131.0, "z": 69.0},
     ),
     "MtFujiSalesmanRoom": MN64Region(
         name="Mt Fuji Salesman Room",
@@ -307,6 +313,7 @@ LogicRegions = {
                 flag_id=0x012,
             ),
         ],
+        spawn={"x": 56.0, "y": -40.0, "z": 51.0},
         exits=[
             MN64TransitionFront("MtFujiPeak", lambda l: True, type=MN64DoorType.DOOR),
         ],
@@ -387,6 +394,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
+        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiPotLedge": MN64Region(
         name="Mt Fuji (Pot Ledge)",
@@ -445,6 +453,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
+        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiGoldenHealthLedge": MN64Region(
         name="Mt Fuji (Golden Health Ledge)",
@@ -509,5 +518,6 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
+        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
 }
