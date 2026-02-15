@@ -753,9 +753,9 @@ LogicRegions = {
         hint_name=MN64HintRegion.GHOST_TOYS_CASTLE,
         level=MN64Levels.GHOST_TOYS_CASTLE,
         locations=[
-            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x190F, instance_id=3),
-            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x1910, instance_id=4),
-            MN64LocationLogic("Pot 3", lambda l: True, MN64Items.POT, flag_id=0x1911, instance_id=5),
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x1963, instance_id=3),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x1964, instance_id=4),
+            MN64LocationLogic("Pot 3", lambda l: True, MN64Items.POT, flag_id=0x1965, instance_id=5),
         ],
         exits=[
             MN64TransitionFront("GhostToysCastleJumpRope", lambda l: True, type=MN64DoorType.DOOR),
