@@ -229,6 +229,11 @@ void handle_item_by_id(u32 item_id)
     invalidate_key_cache_entry(6464002);
     calculate_key_on_pause();
     break;
+  case 6464058:
+    // Ryo
+    s32 current_ryo = READ_SAVE_DATA(SAVE_RYO);
+    current_ryo += 5;
+    WRITE_SAVE_DATA(SAVE_RYO, current_ryo);
   case 6464059:
     // Pot
     // For this we just give the player 30 ryo since pots don't have an "item" per say currently

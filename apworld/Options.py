@@ -29,7 +29,7 @@ class IncreasedPotRyo(DefaultOnToggle):
     display_name = "Increase Pot Ryo"
 
 
-class PotRando(DefaultOnToggle):
+class PotRando(Toggle):
     """Determines if pot locations are randomized."""
 
     display_name = "Pot Rando"
@@ -41,7 +41,7 @@ class HealthInPool(DefaultOnToggle):
     display_name = "Health In Pool"
 
 
-class RyoInPool(DefaultOnToggle):
+class RyoInPool(Toggle):
     """Determines if Ryo Items are added into the pool."""
 
     display_name = "Ryo In Pool"
