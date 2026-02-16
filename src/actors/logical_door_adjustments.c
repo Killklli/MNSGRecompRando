@@ -301,4 +301,32 @@ void adjust_logical_doors(ActorInstance *actor_instance,
       }
     }
   }
+  else if (D_800C7AB2 == 0x068)
+  {
+    if (overall_index == 2 && 
+        !((READ_SAVE_DATA(SAVE_GOEMON_RECRUITED) && READ_SAVE_DATA(SAVE_CHAIN_PIPE)) || 
+          (READ_SAVE_DATA(SAVE_SASUKE_RECRUITED) && READ_SAVE_DATA(SAVE_SUPER_JUMP_MAGIC))) &&
+        actor_id == 0x31f)
+    {
+      // Create a new locked door actor definition
+      LockedDoorActor *new_door =
+          (LockedDoorActor *)recomp_alloc(sizeof(LockedDoorActor));
+      if (new_door != NULL)
+      {
+        // Set up the locked door parameters as specified
+        new_door->actor_id = 0x023E;   // Locked door actor ID
+        new_door->padding1 = 0x0000;   // Padding
+        new_door->door_design = 0x03;  // Door design 05
+        new_door->key_type = 0x03;     // Key type 03
+        new_door->padding2 = 0x0000;   // Padding
+        new_door->lock_index = 0xFFFF; // Lock index 0011
+        new_door->accept_key = 0xFFFF; // Accept key FFFF
+        new_door->exit_id = 0x01;      // Exit ID 01
+        new_door->padding3 = 0x0000;   // Padding
+
+        // Update this instance to point to the new definition
+        actor_instance->actor_definition = (ActorDefinition *)new_door;
+      }
+    }
+  }
 }

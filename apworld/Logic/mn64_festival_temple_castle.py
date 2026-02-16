@@ -473,7 +473,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront("FestivalTempleExteriorGrass", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("FestivalTempleStaircaseTanks", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FestivalTempleMovingStaircases", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "FestivalTempleExplodingBoxesRoom",
                 lambda l: True,
@@ -1160,7 +1160,7 @@ LogicRegions = {
                 lambda l: True,
                 type=MN64DoorType.DOOR,
             ),
-            MN64TransitionFront("FestivalTempleCannonExterior", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FestivalTempleStaircaseTanks", lambda l: (l.goemon and l.chain_pipe) or (l.sasuke and l.jetpack), type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "FestivalTempleCobblestoneExterior",
                 lambda l: l.has_gold_key(),
