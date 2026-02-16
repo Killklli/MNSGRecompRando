@@ -244,11 +244,11 @@ LogicRegions = {
                 flag_id=0x00F3,
                 instance_id=0x0C,
             ),
-            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x1954, instance_id=9),
-            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x1955, instance_id=10),
-            MN64LocationLogic("Pot 3", lambda l: True, MN64Items.POT, flag_id=0x1956, instance_id=11),
-            MN64LocationLogic("Pot 4", lambda l: True, MN64Items.POT, flag_id=0x1957, instance_id=16),
-            MN64LocationLogic("Pot 5", lambda l: True, MN64Items.POT, flag_id=0x1958, instance_id=17),
+            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x1959, instance_id=9),
+            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x195A, instance_id=10),
+            MN64LocationLogic("Pot 3", lambda l: True, MN64Items.POT, flag_id=0x195B, instance_id=11),
+            # MN64LocationLogic("Pot 4", lambda l: True, MN64Items.POT, flag_id=0x195C, instance_id=16), - This item is out of bounds for some reason
+            MN64LocationLogic("Pot 4", lambda l: True, MN64Items.POT, flag_id=0x195D, instance_id=17),
         ],
         exits=[
             MN64TransitionFront("FestivalTempleGoldKeyRoomLower", lambda l: True, type=MN64DoorType.DOOR),
@@ -301,11 +301,6 @@ LogicRegions = {
                 flag_id=0x183C,
                 instance_id=0x08,
             ),
-            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x1959, instance_id=9),
-            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x195A, instance_id=10),
-            MN64LocationLogic("Pot 3", lambda l: True, MN64Items.POT, flag_id=0x195B, instance_id=11),
-            MN64LocationLogic("Pot 4", lambda l: True, MN64Items.POT, flag_id=0x195C, instance_id=16),
-            MN64LocationLogic("Pot 5", lambda l: True, MN64Items.POT, flag_id=0x195D, instance_id=17),
         ],
         exits=[
             MN64TransitionFront("FestivalTempleEntrance", lambda l: True, type=MN64DoorType.DOOR),

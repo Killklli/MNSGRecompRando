@@ -360,7 +360,7 @@ void process_items(ActorInstance *actor_instance,
   // List of allowed actor IDs for replacement
   static const unsigned short allowed_actor_ids[] = {
     0x193, 0x84, 0x85, 0x3d2, 0x3d4, 0x3d5, 
-    0x086, 0x087, 0x088, 0x089, 0x091, 0x08f, 0x082, 0x192
+    0x086, 0x087, 0x088, 0x089, 0x091, 0x08f, 0x082
   };
   static const int allowed_actor_count = sizeof(allowed_actor_ids) / sizeof(allowed_actor_ids[0]);
 
