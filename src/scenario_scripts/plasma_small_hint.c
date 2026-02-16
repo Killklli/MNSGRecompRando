@@ -1,23 +1,40 @@
-// Small Hint system for Plasma Fortune Teller  
+// Item Hint system for Plasma Fortune Teller
 // Provides brief hints for progression
 #include "types.h"
 #include "scenario.h"
+#include "Archipelago.h"
+#include "modding.h"
+#include "recomputils.h"
+#include "libc/string.h"
+#include "scenario_replacer.h"
 
-// Small hint response text - placeholder for now
-// {/em}Here's a small hint:{newline}{endline}
-static s16 scenario_text_small_hint_0001[] = {
-    CTR_CLOSE_EM, CHR_H, CHR_e, CHR_r, CHR_e, PCT_APOSTROPHE,
-    CHR_s, PCT_SPACE, CHR_a, PCT_SPACE, CHR_s, CHR_m,
-    CHR_a, CHR_l, CHR_l, PCT_SPACE, CHR_h, CHR_i,
-    CHR_n, CHR_t, PCT_COLON, CTR_NEWLINE, CTR_ENDLINE};
+// Small location hint response text - now dynamically generated
+static s16 scenario_text_small_hint_0001[256]; // Static buffer for dynamic content
 
-// Check the castle, plasma!{button}{endline}
-static s16 scenario_text_small_hint_0002[] = {
-    CHR_C, CHR_h, CHR_e, CHR_c, CHR_k, PCT_SPACE,
-    CHR_t, CHR_h, CHR_e, PCT_SPACE, CHR_c, CHR_a,
-    CHR_s, CHR_t, CHR_l, CHR_e, PCT_COMMA, PCT_SPACE,
-    CHR_p, CHR_l, CHR_a, CHR_s, CHR_m, CHR_a,
-    PCT_EXCLAMATION, CTR_BUTTON, CTR_ENDLINE};
+// Counter to track which hint we're on (persists between calls)
+static int current_hint_index = 0;
+
+// Function to populate the scenario_text_small_hint_0001 buffer with the next hint
+void populate_small_location_hint()
+{
+    s16 *hint_text = get_next_location_hint();
+    
+    // Copy the hint text to the scenario buffer
+    // We need to check for CTR_ENDLINE specifically, not just 0, since PCT_SPACE is 0
+    int i = 0;
+    while (i < 255)
+    {
+        scenario_text_small_hint_0001[i] = hint_text[i];
+        
+        // Stop when we hit CTR_ENDLINE (which marks the actual end of text)
+        if (hint_text[i] == CTR_ENDLINE) {
+            i++;
+            break;
+        }
+        
+        i++;
+    }
+}
 
 // {waitinput}{end}{endline}
 static s16 scenario_text_small_hint_end[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
@@ -102,7 +119,7 @@ extern s32 scenario_code_message_288_small_hint_no_money[];
 
 s32 scenario_code_message_288_small_hint[] = {
     
-    // Small Hint Logic with 10 ryo payment
+    // Item Hint Logic with 10 ryo payment
 
     // Print new window
     TXT,
@@ -236,13 +253,13 @@ s32 scenario_code_message_288_small_hint[] = {
     WTS,
     0x1,
 
-    // Print small hint response
+    // Generate fresh dynamic hint text right before displaying
+    ESR,
+    (s32)&populate_small_location_hint,
+
+    // Print dynamic location hint (populated at runtime)
     TXT,
     (s32)&scenario_text_small_hint_0001,
-
-    // Print hint content
-    TXT,
-    (s32)&scenario_text_small_hint_0002,
 
     // Wait for input and end
     TXT,
@@ -255,7 +272,7 @@ s32 scenario_code_message_288_small_hint[] = {
     END,
 };
 
-// Insufficient funds handler for small hint
+// Insufficient funds handler for item hint
 s32 scenario_code_message_288_small_hint_no_money[] = {
 
     // Write to RAM 801c7740 (Scratch)

@@ -283,7 +283,8 @@ class MN64World(World):
 
         # Get dynamic hints if they were generated
         dynamic_hints = getattr(self, "dynamic_hints", {})
-
+        major_hints = [hint_data["text"] for hint_data in dynamic_hints.values() if hint_data["type"] == "major"]
+        location_hints = [hint_data["text"] for hint_data in dynamic_hints.values() if hint_data["type"] == "location"]
         slot_data = {
             "seed": self.multiworld.seed,
             "location_metadata": self.location_metadata,
@@ -295,7 +296,8 @@ class MN64World(World):
             "starting_characters": starting_characters,
             "starting_items": starting_items,
             "flag_id_to_ap_location_id": flag_id_to_ap_location_id,
-            "hints": {str(location): hint_data for location, hint_data in dynamic_hints.items()},
+            "major_hints": major_hints,
+            "location_hints": location_hints,
             "enemy_rando": self.options.enemy_rando.value,
             "increase_pot_ryo": self.options.increase_pot_ryo.value,
             "pot_rando": self.options.pot_rando.value,

@@ -334,3 +334,194 @@ void check_cucumber_and_set_flag(void)
     DISABLE_FLAG(0x501); // Clear flag 0x501 if Cucumber is not obtained
   }
 }
+
+// Storage for dynamically generated hint text
+static s16 dynamic_hint_buffer[256];
+
+// Counters to track which hint we're on (persists between calls)
+static int current_major_hint_index = 0;
+static int current_location_hint_index = 0;
+
+// Function to convert string to game text format with newline support
+s16 *create_persistent_text_with_newlines(const char *message)
+{
+    int idx = 0;
+
+    // Parse the message character by character
+    for (int i = 0; message[i] != '\0' && idx < 250; i++)
+    {
+        // Handle \n as newline
+        if (message[i] == '\\' && message[i+1] == 'n')
+        {
+            dynamic_hint_buffer[idx++] = CTR_NEWLINE;
+            i++; // Skip the 'n'
+            continue;
+        }
+        
+        if (message[i] >= 'A' && message[i] <= 'Z')
+        {
+            dynamic_hint_buffer[idx++] = CHR_A + (message[i] - 'A');
+        }
+        else if (message[i] >= 'a' && message[i] <= 'z')
+        {
+            dynamic_hint_buffer[idx++] = CHR_a + (message[i] - 'a');
+        }
+        else if (message[i] >= '0' && message[i] <= '9')
+        {
+            dynamic_hint_buffer[idx++] = NUM_0 + (message[i] - '0');
+        }
+        else if (message[i] == ' ')
+        {
+            dynamic_hint_buffer[idx++] = PCT_SPACE;
+        }
+        else if (message[i] == '!')
+        {
+            dynamic_hint_buffer[idx++] = PCT_EXCLAMATION;
+        }
+        else if (message[i] == '\'')
+        {
+            dynamic_hint_buffer[idx++] = PCT_APOSTROPHE;
+        }
+        else if (message[i] == '-')
+        {
+            dynamic_hint_buffer[idx++] = PCT_DASH;
+        }
+        else if (message[i] == ',')
+        {
+            dynamic_hint_buffer[idx++] = PCT_COMMA;
+        }
+        else if (message[i] == '.')
+        {
+            dynamic_hint_buffer[idx++] = PCT_PERIOD;
+        }
+        else if (message[i] == ':')
+        {
+            dynamic_hint_buffer[idx++] = PCT_COLON;
+        }
+        else if (message[i] == '\n')
+        {
+            dynamic_hint_buffer[idx++] = CTR_NEWLINE;
+        }
+        else
+        {
+            // For any unsupported character, use space instead of skipping
+            dynamic_hint_buffer[idx++] = PCT_SPACE;
+        }
+    }
+
+    dynamic_hint_buffer[idx++] = CTR_ENDLINE;
+    
+    return dynamic_hint_buffer;
+}
+
+// Function to get the next location hint from slot data (cycling through them)
+s16 *get_next_location_hint()
+{
+    if (!rando_is_connected())
+    {
+        // Fallback text when not connected
+        return create_persistent_text_with_newlines("No connection to Archipelago.");
+    }
+
+    // Get the location_hints array from slot data
+    u32 location_hints_handle[2];
+    rando_get_slotdata_raw_o32("location_hints", location_hints_handle);
+    
+    // Count the number of hints available by trying to access elements
+    int hint_count = 0;
+    u32 temp_hint[2];
+    
+    // Try to access up to 100 hints to find the actual count
+    for (int i = 0; i < 100; i++)
+    {
+        rando_access_slotdata_raw_array_o32(location_hints_handle, i, temp_hint);
+        
+        // Try to read the string to see if it's valid
+        char test_str[16];
+        rando_access_slotdata_raw_string_o32(temp_hint, test_str);
+        
+        // If we get an empty string or null, we've reached the end
+        if (test_str[0] == '\0' || test_str[0] == 0)
+        {
+            break;
+        }
+        hint_count++;
+    }
+    
+    if (hint_count == 0)
+    {
+        return create_persistent_text_with_newlines("No location hints available.");
+    }
+    
+    // Use the current location hint index and wrap around using modulo
+    int selected_index = current_location_hint_index % hint_count;
+    
+    // Get the selected hint
+    u32 selected_hint[2];
+    rando_access_slotdata_raw_array_o32(location_hints_handle, selected_index, selected_hint);
+    
+    // Extract the hint string
+    char hint_text[256];
+    rando_access_slotdata_raw_string_o32(selected_hint, hint_text);
+    
+    // Increment the counter for next time (this persists between calls)
+    current_location_hint_index++;
+    
+    return create_persistent_text_with_newlines(hint_text);
+}
+
+// Function to get the next major hint from slot data (cycling through them)
+s16 *get_next_major_hint()
+{
+    if (!rando_is_connected())
+    {
+        // Fallback text when not connected
+        return create_persistent_text_with_newlines("No connection to Archipelago.");
+    }
+
+    // Get the major_hints array from slot data
+    u32 major_hints_handle[2];
+    rando_get_slotdata_raw_o32("major_hints", major_hints_handle);
+    
+    // Count the number of hints available by trying to access elements
+    int hint_count = 0;
+    u32 temp_hint[2];
+    
+    // Try to access up to 100 hints to find the actual count
+    for (int i = 0; i < 100; i++)
+    {
+        rando_access_slotdata_raw_array_o32(major_hints_handle, i, temp_hint);
+        
+        // Try to read the string to see if it's valid
+        char test_str[16];
+        rando_access_slotdata_raw_string_o32(temp_hint, test_str);
+        
+        // If we get an empty string or null, we've reached the end
+        if (test_str[0] == '\0' || test_str[0] == 0)
+        {
+            break;
+        }
+        hint_count++;
+    }
+    
+    if (hint_count == 0)
+    {
+        return create_persistent_text_with_newlines("No major hints available.");
+    }
+    
+    // Use the current major hint index and wrap around using modulo
+    int selected_index = current_major_hint_index % hint_count;
+    
+    // Get the selected hint
+    u32 selected_hint[2];
+    rando_access_slotdata_raw_array_o32(major_hints_handle, selected_index, selected_hint);
+    
+    // Extract the hint string
+    char hint_text[256];
+    rando_access_slotdata_raw_string_o32(selected_hint, hint_text);
+    
+    // Increment the counter for next time (this persists between calls)
+    current_major_hint_index++;
+    
+    return create_persistent_text_with_newlines(hint_text);
+}

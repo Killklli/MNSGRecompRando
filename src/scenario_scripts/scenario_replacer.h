@@ -11,6 +11,11 @@
 // - ap_location_id: Archipelago location ID to get item name from (0 to skip text replacement)
 void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id, s32 *original_text_ref, s32 ap_location_id);
 
+// Hint system functions
+s16 *create_persistent_text_with_newlines(const char *message);
+s16 *get_next_location_hint();
+s16 *get_next_major_hint();
+
 // Hardcoded function to check super pass and set flag 0x501
 void check_super_pass_and_set_flag(void);
 

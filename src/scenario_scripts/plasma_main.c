@@ -54,20 +54,22 @@ static s16 scenario_text_012F[] = {
     PCT_COMMA, PCT_SPACE, CHR_p, CHR_l, CHR_a, CHR_s,
     CHR_m, CHR_a, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
-//   {em-yellow}Big Hint (50 ryo){newline}{endline}
+//   {em-yellow}Deep Location Hint (50 ryo){newline}{endline}
 static s16 scenario_text_0197[] = {
-    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_B, CHR_i,
-    CHR_g, PCT_SPACE, CHR_H, CHR_i, CHR_n,
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_D, CHR_e,
+    CHR_e, CHR_p, PCT_SPACE, CHR_L, CHR_o,
+    CHR_c, CHR_a, CHR_t, CHR_i, CHR_o,
+    CHR_n, PCT_SPACE, CHR_H, CHR_i, CHR_n,
     CHR_t, PCT_SPACE, PCT_LPAREN, NUM_5, NUM_0,
     PCT_SPACE, CHR_r, CHR_y, CHR_o, PCT_RPAREN,
     CTR_NEWLINE, CTR_ENDLINE};
 
-//   {em-yellow}Small Hint (10 ryo){newline}{endline}
+//   {em-yellow}Item Hint (10 ryo){newline}{endline}
 static s16 scenario_text_01B5[] = {
-    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_S, CHR_m,
-    CHR_a, CHR_l, CHR_l, PCT_SPACE, CHR_H,
-    CHR_i, CHR_n, CHR_t, PCT_SPACE, PCT_LPAREN,
-    NUM_1, NUM_0, PCT_SPACE, CHR_r, CHR_y,
+    PCT_SPACE, PCT_SPACE, CTR_EM_YELLOW, CHR_I, CHR_t,
+    CHR_e, CHR_m, PCT_SPACE, CHR_H, CHR_i,
+    CHR_n, CHR_t, PCT_SPACE, PCT_LPAREN, NUM_1,
+    NUM_0, PCT_SPACE, CHR_r, CHR_y,
     CHR_o, PCT_RPAREN, CTR_NEWLINE, CTR_ENDLINE};
 
 //   {em-yellow}No, no thank you.{newline}{endline}
@@ -283,19 +285,19 @@ s32 scenario_code_message_288_2f98[] = {
     // 3060: Begin Option Selection
     BOS,
 
-    // 3064: Print Text (Big Hint)
+    // 3064: Print Text (Deep Location Hint)
     TXT,
     (s32)&scenario_text_0197,
 
-    // 306c: Jump To Big Hint System
+    // 306c: Jump To Deep Location Hint System
     JMP,
     (s32)&scenario_code_message_288_big_hint,
 
-    // 3074: Print Text (Small Hint)
+    // 3074: Print Text (Item Hint)
     TXT,
     (s32)&scenario_text_01B5,
 
-    // 307c: Jump To Small Hint System
+    // 307c: Jump To Item Hint System
     JMP,
     (s32)&scenario_code_message_288_small_hint,
 
