@@ -6,6 +6,10 @@
 #include "scenario.h"
 #include "scenario_replacer.h"
 
+// Function declarations
+void update_chain_pipe_text(void);
+void update_weapon_upgrade_text(void);
+
 
 
 // SHOP 66 - Mt. Fuji - Pipe Maker's House - Mokubei (Pipe maker)
@@ -797,9 +801,13 @@ s32 scenario_code_message_1ea_64d0[] = {
     TXT,
     (s32)&scenario_text_00DA,
 
-    // 65e8: Print Text
-    TXT,
-    (s32)&scenario_text_0520,
+    // // 65e8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0520,
+
+    // Update scenario_text_053D with AP location text before displaying it
+    ESR,
+    (s32)&update_chain_pipe_text,
 
     // 65f0: Print Text
     TXT,
@@ -853,17 +861,17 @@ s32 scenario_code_message_1ea_64d0[] = {
     WTS,
     0x1,
 
-    // 6658: Print Text
-    TXT,
-    (s32)&scenario_text_05AE,
+    // // 6658: Print Text
+    // TXT,
+    // (s32)&scenario_text_05AE,
 
-    // 6660: Print Text
-    TXT,
-    (s32)&scenario_text_05E4,
+    // // 6660: Print Text
+    // TXT,
+    // (s32)&scenario_text_05E4,
 
-    // 6668: Print Text
-    TXT,
-    (s32)&scenario_text_062A,
+    // // 6668: Print Text
+    // TXT,
+    // (s32)&scenario_text_062A,
 
     // DISABLED ITEM
     // // 6670: Write to RAM 8015c6bc (Obtained Chain Pipe)
@@ -1344,13 +1352,17 @@ s32 scenario_code_message_1eb_67dc[] = {
     WTS,
     0x1,
 
-    // 68a4: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_00D0,
+    // // 68a4: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_00D0,
 
-    // 68ac: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0100,
+    // // 68ac: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0100,
+
+    // Update scenario_text_1eb_0128 with AP location text before displaying it
+    ESR,
+    (s32)&update_weapon_upgrade_text,
 
     // 68b4: Print Text
     TXT,
@@ -1519,3 +1531,15 @@ s32 scenario_code_message_1eb_67dc[] = {
     // End scenario script
     END,
 };
+
+// Function to update the Chain Pipe text with AP location data
+void update_chain_pipe_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_053D, 6474076, NULL, NULL);
+}
+
+// Function to update the weapon upgrade text with AP location data
+void update_weapon_upgrade_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_1eb_0128, 6474077, NULL, NULL);
+}

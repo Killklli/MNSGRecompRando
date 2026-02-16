@@ -1,5 +1,9 @@
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_super_jump_text(void);
 
 
 
@@ -208,13 +212,17 @@ s32 scenario_code_message_17a_3650[] = {
     WTS,
     0x1,
 
-    // 3730: Print Text
-    TXT,
-    (s32)&scenario_text_00EA,
+    // // 3730: Print Text
+    // TXT,
+    // (s32)&scenario_text_00EA,
 
-    // 3738: Print Text
-    TXT,
-    (s32)&scenario_text_0102,
+    // // 3738: Print Text
+    // TXT,
+    // (s32)&scenario_text_0102,
+
+    // Update scenario_text_0126 with AP location text before displaying it
+    ESR,
+    (s32)&update_super_jump_text,
 
     // 3740: Print Text
     TXT,
@@ -268,17 +276,17 @@ s32 scenario_code_message_17a_3650[] = {
     WTS,
     0x1,
 
-    // 37a8: Print Text
-    TXT,
-    (s32)&scenario_text_0196,
+    // // 37a8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0196,
 
-    // 37b0: Print Text
-    TXT,
-    (s32)&scenario_text_01DA,
+    // // 37b0: Print Text
+    // TXT,
+    // (s32)&scenario_text_01DA,
 
-    // 37b8: Print Text
-    TXT,
-    (s32)&scenario_text_021B,
+    // // 37b8: Print Text
+    // TXT,
+    // (s32)&scenario_text_021B,
 
     // DISABLED ITEM
     // // 37c0: Write to RAM 8015c6f4 (Obtained Super Jump Magic)
@@ -291,9 +299,9 @@ s32 scenario_code_message_17a_3650[] = {
     SFG,
     0x20,
 
-    // 37d8: Print Text
-    TXT,
-    (s32)&scenario_text_023F,
+    // // 37d8: Print Text
+    // TXT,
+    // (s32)&scenario_text_023F,
 
     // 37e0: End Event
     END,
@@ -301,3 +309,9 @@ s32 scenario_code_message_17a_3650[] = {
     // End scenario script
     END,
 };
+
+// Function to update the super jump text with AP location data
+void update_super_jump_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_0126, 6474081, NULL, NULL);
+}

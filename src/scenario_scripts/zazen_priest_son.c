@@ -1,6 +1,7 @@
 
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
 
 // External scenario code declarations
 extern s32 scenario_code_message_15e_b798[];
@@ -15,6 +16,8 @@ extern s32 scenario_code_message_15e_b9b4[];
 extern s32 scenario_code_message_15e_bb10[];
 extern s32 scenario_code_message_15e_bb5c[];
 extern s32 scenario_code_message_15e_bb70[];
+
+void update_quality_cucumber_text(void);
 
 // MACHI 18 - Zazen - Mt. Nyoigatake - Priest
 // Address: @b798
@@ -857,13 +860,17 @@ s32 scenario_code_message_15e_b9b4[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // baa4: Print Text
-    TXT,
-    (s32)&scenario_text_06EE,
+    // // baa4: Print Text
+    // TXT,
+    // (s32)&scenario_text_06EE,
 
-    // baac: Print Text
-    TXT,
-    (s32)&scenario_text_0706,
+    // // baac: Print Text
+    // TXT,
+    // (s32)&scenario_text_0706,
+
+    // bab4: Execute Subroutine (Update Quality Cucumber Text)
+    ESR,
+    (s32)&update_quality_cucumber_text,
 
     // bab4: Print Text
     TXT,
@@ -1025,3 +1032,7 @@ s32 scenario_code_message_15e_bb70[] = {
     // End scenario script
     END,
 };
+
+void update_quality_cucumber_text(void) {
+    update_text_buffer_with_ap_location(scenario_text_072E, 6474008, NULL, NULL);
+}

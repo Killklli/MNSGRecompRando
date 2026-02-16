@@ -1,5 +1,9 @@
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_mermaid_complete_text(void);
 
 
 
@@ -564,9 +568,9 @@ s32 scenario_code_message_176_2ad4[] = {
     TXT,
     (s32)&scenario_text_01CE,
 
-    // 2c20: Print Text
-    TXT,
-    (s32)&scenario_text_01F7,
+    // // 2c20: Print Text
+    // TXT,
+    // (s32)&scenario_text_01F7,
 
     // 2c28: End Event
     END,
@@ -996,13 +1000,17 @@ s32 scenario_code_message_176_301c[] = {
     WTS,
     0x1,
 
-    // 3170: Print Text
-    TXT,
-    (s32)&scenario_text_0617,
+    // // 3170: Print Text
+    // TXT,
+    // (s32)&scenario_text_0617,
 
-    // 3178: Print Text
-    TXT,
-    (s32)&scenario_text_07B1,
+    // // 3178: Print Text
+    // TXT,
+    // (s32)&scenario_text_07B1,
+
+    // Update scenario_text_07D2 with AP location text before displaying it
+    ESR,
+    (s32)&update_mermaid_complete_text,
 
     // 3180: Print Text
     TXT,
@@ -1028,17 +1036,17 @@ s32 scenario_code_message_176_301c[] = {
     WTS,
     0x1,
 
-    // 31b0: Print Text
-    TXT,
-    (s32)&scenario_text_0617,
+    // // 31b0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0617,
 
-    // 31b8: Print Text
-    TXT,
-    (s32)&scenario_text_0844,
+    // // 31b8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0844,
 
-    // 31c0: Print Text
-    TXT,
-    (s32)&scenario_text_0888,
+    // // 31c0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0888,
 
     // DISABLED ITEM
     // // 31c8: Write to RAM 8015c6f8 (Obtained Mermaid Magic)
@@ -1128,3 +1136,9 @@ s32 scenario_code_message_176_31ec[] = {
     // End scenario script
     END,
 };
+
+// Function to update the mermaid complete text with AP location data
+void update_mermaid_complete_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_07D2, 6474046, NULL, NULL);
+}

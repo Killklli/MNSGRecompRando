@@ -1,6 +1,10 @@
 
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_recruit_yae_text(void);
 
 // External scenario code declarations
 extern s32 scenario_code_message_14c_9904[];
@@ -656,13 +660,17 @@ s32 scenario_code_message_14c_9904[] = {
     WTS,
     0x1,
 
-    // 9c0c: Print Text
-    TXT,
-    (s32)&scenario_text_05F0,
+    // // 9c0c: Print Text
+    // TXT,
+    // (s32)&scenario_text_05F0,
 
-    // 9c14: Print Text
-    TXT,
-    (s32)&scenario_text_0607,
+    // // 9c14: Print Text
+    // TXT,
+    // (s32)&scenario_text_0607,
+
+    // Update scenario_text_0632 with AP location text before displaying it
+    ESR,
+    (s32)&update_recruit_yae_text,
 
     // 9c1c: Print Text
     TXT,
@@ -701,3 +709,9 @@ s32 scenario_code_message_14c_9904[] = {
     // End scenario script
     END,
 };
+
+// Function to update the recruit Yae text with AP location data
+void update_recruit_yae_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_0632, 6474003, NULL, NULL);
+}

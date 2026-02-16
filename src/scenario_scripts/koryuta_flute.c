@@ -1,5 +1,9 @@
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_koryuta_flute_text(void);
 
 
 
@@ -803,13 +807,17 @@ s32 scenario_code_message_1ef_72b4[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // 7554: Print Text
-    TXT,
-    (s32)&scenario_text_0554,
+    // // 7554: Print Text
+    // TXT,
+    // (s32)&scenario_text_0554,
 
-    // 755c: Print Text
-    TXT,
-    (s32)&scenario_text_056C,
+    // // 755c: Print Text
+    // TXT,
+    // (s32)&scenario_text_056C,
+
+    // Update scenario_text_0590 with AP location text before displaying it
+    ESR,
+    (s32)&update_koryuta_flute_text,
 
     // 7564: Print Text
     TXT,
@@ -839,45 +847,46 @@ s32 scenario_code_message_1ef_72b4[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // 759c: Print Text
-    TXT,
-    (s32)&scenario_text_05CF,
+    // // TODO: Theoretically I can remove this block but it needs testing
+    // // 759c: Print Text
+    // TXT,
+    // (s32)&scenario_text_05CF,
 
-    // 75a4: Print Text
-    TXT,
-    (s32)&scenario_text_00FF,
+    // // 75a4: Print Text
+    // TXT,
+    // (s32)&scenario_text_00FF,
 
-    // 75ac: Print Text
-    TXT,
-    (s32)&scenario_text_0554,
+    // // 75ac: Print Text
+    // TXT,
+    // (s32)&scenario_text_0554,
 
-    // 75b4: Print Text
-    TXT,
-    (s32)&scenario_text_0614,
+    // // 75b4: Print Text
+    // TXT,
+    // (s32)&scenario_text_0614,
 
-    // 75bc: Print Text
-    TXT,
-    (s32)&scenario_text_0647,
+    // // 75bc: Print Text
+    // TXT,
+    // (s32)&scenario_text_0647,
 
-    // 75c4: Print Text
-    TXT,
-    (s32)&scenario_text_00FF,
+    // // 75c4: Print Text
+    // TXT,
+    // (s32)&scenario_text_00FF,
 
-    // 75cc: Print Text
-    TXT,
-    (s32)&scenario_text_0693,
+    // // 75cc: Print Text
+    // TXT,
+    // (s32)&scenario_text_0693,
 
-    // 75d4: Print Text
-    TXT,
-    (s32)&scenario_text_06CA,
+    // // 75d4: Print Text
+    // TXT,
+    // (s32)&scenario_text_06CA,
 
-    // 75dc: Print Text
-    TXT,
-    (s32)&scenario_text_070F,
+    // // 75dc: Print Text
+    // TXT,
+    // (s32)&scenario_text_070F,
 
-    // 75e4: Print Text
-    TXT,
-    (s32)&scenario_text_0745,
+    // // 75e4: Print Text
+    // TXT,
+    // (s32)&scenario_text_0745,
 
     // DISABLED ITEM
     // // 75ec: Write to RAM 8015c6c8 (Obtained Flute)
@@ -946,215 +955,214 @@ s32 scenario_code_message_1ef_72b4[] = {
     WTS,
     0x16,
 
-    // 7674: Print Text
-    TXT,
-    (s32)&scenario_text_0776,
+    // // 7674: Print Text
+    // TXT,
+    // (s32)&scenario_text_0776,
 
-    // 767c: Print Text
-    TXT,
-    (s32)&scenario_text_07A8,
+    // // 767c: Print Text
+    // TXT,
+    // (s32)&scenario_text_07A8,
 
-    // 7684: Print Text
-    TXT,
-    (s32)&scenario_text_07E6,
+    // // 7684: Print Text
+    // TXT,
+    // (s32)&scenario_text_07E6,
 
-    // 768c: Print Text
-    TXT,
-    (s32)&scenario_text_0826,
+    // // 768c: Print Text
+    // TXT,
+    // (s32)&scenario_text_0826,
 
-    // 7694: Print Text
-    TXT,
-    (s32)&scenario_text_00FF,
+    // // 7694: Print Text
+    // TXT,
+    // (s32)&scenario_text_00FF,
 
-    // 769c: Print Text
-    TXT,
-    (s32)&scenario_text_0872,
+    // // 769c: Print Text
+    // TXT,
+    // (s32)&scenario_text_0872,
 
-    // 76a4: Print Text
-    TXT,
-    (s32)&scenario_text_08AA,
+    // // 76a4: Print Text
+    // TXT,
+    // (s32)&scenario_text_08AA,
 
-    // 76ac: Print Text
-    TXT,
-    (s32)&scenario_text_08DE,
+    // // 76ac: Print Text
+    // TXT,
+    // (s32)&scenario_text_08DE,
 
-    // 76b4: Print Text
-    TXT,
-    (s32)&scenario_text_0922,
+    // // 76b4: Print Text
+    // TXT,
+    // (s32)&scenario_text_0922,
 
-    // 76bc: Print Text
-    TXT,
-    (s32)&scenario_text_00FF,
+    // // 76bc: Print Text
+    // TXT,
+    // (s32)&scenario_text_00FF,
 
     // 76c4: If Flag 009 (Received Map of Japan), Jump To @781c
     // Jump if flag 0x09 is SET to @781c
-    JFS,
-    0x09,
-    (s32)&scenario_code_message_1ef_781c,
-
-    // 76d0: Print Text
-    TXT,
-    (s32)&scenario_text_095E,
-
-    // 76d8: Print Text
-    TXT,
-    (s32)&scenario_text_0983,
-
-    // 76e0: Print Text
-    TXT,
-    (s32)&scenario_text_09C2,
-
-    // 76e8: Print Text
-    TXT,
-    (s32)&scenario_text_09F7,
-
-    // 76f0: Write to RAM 801c7758 (Unknown)
-    STW,
-    (s32)&D_801C7758_1C8358,
-
-    // 76f8: Store Value: 20
-    WTS,
-    0x20,
-
-    // 7700: Write to RAM 801c775c (Dialogue Window Y Pos)
-    STW,
-    (s32)&D_801C775C_1C835C,
-
-    // 7708: Store Value: 48
-    WTS,
-    0x48,
-
-    // 7710: Write to RAM 8007785c (Dialogue Portrait Character)
-    STW,
-    (s32)&D_8007785C_7845C,
-
-    // 7718: Store Value: 100
-    WTS,
-    0x100,
-
-    // 7720: Write to RAM 801c7768 (Dialogue Window Style)
-    STW,
-    (s32)&D_801C7768_1C8368,
-
-    // 7728: Store Value: 7
-    WTS,
-    0x7,
-
-    // 7730: Print Text
-    TXT,
-    (s32)&scenario_text_0000,
-
-    // 7738: Write to RAM 801c7770 (Unknown)
-    STW,
-    (s32)&D_801C7770_1C8370,
-
-    // 7740: Store Value: 1
-    WTS,
-    0x1,
-
-    // 7748: Write to RAM 801c77d8 (Text Speed)
-    STW,
-    0x801c77d8,
-
-    // 7750: Store Value: 64
-    WTS,
-    0x64,
-
-    // 7758: Write to RAM 801c7798 (Unknown)
-    STW,
-    0x801c7798,
-
-    // 7760: Store Value: 1
-    WTS,
-    0x1,
-
-    // 7768: Write to RAM 801c7740 (Scratch)
-    STW,
-    (s32)&D_801C7740_1C8340,
-
-    // 7770: Store Value: 26c
-    WTS,
-    0x26C,
-
-    // 7778: Execute Code: 8003f608 (Play Sound)
-    ESR,
-    (s32)&func_8003F608_40208,
-
-    // 7780: Print Text
-    TXT,
-    (s32)&scenario_text_0554,
-
-    // 7788: Print Text
-    TXT,
-    (s32)&scenario_text_0A4A,
-
-    // 7790: Print Text
-    TXT,
-    (s32)&scenario_text_0A71,
-
-    // 7798: Print Text
-    TXT,
-    (s32)&scenario_text_00FF,
-
-    // 77a0: Print Text
-    TXT,
-    (s32)&scenario_text_0ACE,
-
-    // 77a8: Print Text
-    TXT,
-    (s32)&scenario_text_0B00,
-
-    // 77b0: Print Text
-    TXT,
-    (s32)&scenario_text_0B3A,
-
-    // 77b8: Print Text
-    TXT,
-    (s32)&scenario_text_0B7E,
-
-    // 77c0: Write to RAM 8015c870 (Unknown)
-    STW,
-    0x8015c870,
-
-    // 77c8: Store Value: 1
-    WTS,
-    0x1,
-
-    // 77d0: Set Flag 009 (Received Map of Japan)
-    SFG,
-    0x09,
-
-    // 77d8: Write to RAM 801c7758 (Unknown)
-    STW,
-    (s32)&D_801C7758_1C8358,
-
-    // 77e0: Store Value: 20
-    WTS,
-    0x20,
-
-    // 77e8: Write to RAM 801c775c (Dialogue Window Y Pos)
-    STW,
-    (s32)&D_801C775C_1C835C,
-
-    // 77f0: Store Value: 20
-    WTS,
-    0x20,
-
-    // 77f8: Write to RAM 801c7768 (Dialogue Window Style)
-    STW,
-    (s32)&D_801C7768_1C8368,
-
-    // 7800: Store Value: 1
-    WTS,
-    0x1,
-
-    // 7808: Print Text
-    TXT,
-    (s32)&scenario_text_0000,
-
-    // 7810: Jump To @781c
     JMP,
     (s32)&scenario_code_message_1ef_781c,
+
+    // // 76d0: Print Text
+    // TXT,
+    // (s32)&scenario_text_095E,
+
+    // // 76d8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0983,
+
+    // // 76e0: Print Text
+    // TXT,
+    // (s32)&scenario_text_09C2,
+
+    // // 76e8: Print Text
+    // TXT,
+    // (s32)&scenario_text_09F7,
+
+    // // 76f0: Write to RAM 801c7758 (Unknown)
+    // STW,
+    // (s32)&D_801C7758_1C8358,
+
+    // // 76f8: Store Value: 20
+    // WTS,
+    // 0x20,
+
+    // // 7700: Write to RAM 801c775c (Dialogue Window Y Pos)
+    // STW,
+    // (s32)&D_801C775C_1C835C,
+
+    // // 7708: Store Value: 48
+    // WTS,
+    // 0x48,
+
+    // // 7710: Write to RAM 8007785c (Dialogue Portrait Character)
+    // STW,
+    // (s32)&D_8007785C_7845C,
+
+    // // 7718: Store Value: 100
+    // WTS,
+    // 0x100,
+
+    // // 7720: Write to RAM 801c7768 (Dialogue Window Style)
+    // STW,
+    // (s32)&D_801C7768_1C8368,
+
+    // // 7728: Store Value: 7
+    // WTS,
+    // 0x7,
+
+    // // 7730: Print Text
+    // TXT,
+    // (s32)&scenario_text_0000,
+
+    // // 7738: Write to RAM 801c7770 (Unknown)
+    // STW,
+    // (s32)&D_801C7770_1C8370,
+
+    // // 7740: Store Value: 1
+    // WTS,
+    // 0x1,
+
+    // // 7748: Write to RAM 801c77d8 (Text Speed)
+    // STW,
+    // 0x801c77d8,
+
+    // // 7750: Store Value: 64
+    // WTS,
+    // 0x64,
+
+    // // 7758: Write to RAM 801c7798 (Unknown)
+    // STW,
+    // 0x801c7798,
+
+    // // 7760: Store Value: 1
+    // WTS,
+    // 0x1,
+
+    // // 7768: Write to RAM 801c7740 (Scratch)
+    // STW,
+    // (s32)&D_801C7740_1C8340,
+
+    // // 7770: Store Value: 26c
+    // WTS,
+    // 0x26C,
+
+    // // 7778: Execute Code: 8003f608 (Play Sound)
+    // ESR,
+    // (s32)&func_8003F608_40208,
+
+    // // 7780: Print Text
+    // TXT,
+    // (s32)&scenario_text_0554,
+
+    // // 7788: Print Text
+    // TXT,
+    // (s32)&scenario_text_0A4A,
+
+    // // 7790: Print Text
+    // TXT,
+    // (s32)&scenario_text_0A71,
+
+    // // 7798: Print Text
+    // TXT,
+    // (s32)&scenario_text_00FF,
+
+    // // 77a0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0ACE,
+
+    // // 77a8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0B00,
+
+    // // 77b0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0B3A,
+
+    // // 77b8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0B7E,
+
+    // // 77c0: Write to RAM 8015c870 (Unknown)
+    // STW,
+    // 0x8015c870,
+
+    // // 77c8: Store Value: 1
+    // WTS,
+    // 0x1,
+
+    // // 77d0: Set Flag 009 (Received Map of Japan)
+    // SFG,
+    // 0x09,
+
+    // // 77d8: Write to RAM 801c7758 (Unknown)
+    // STW,
+    // (s32)&D_801C7758_1C8358,
+
+    // // 77e0: Store Value: 20
+    // WTS,
+    // 0x20,
+
+    // // 77e8: Write to RAM 801c775c (Dialogue Window Y Pos)
+    // STW,
+    // (s32)&D_801C775C_1C835C,
+
+    // // 77f0: Store Value: 20
+    // WTS,
+    // 0x20,
+
+    // // 77f8: Write to RAM 801c7768 (Dialogue Window Style)
+    // STW,
+    // (s32)&D_801C7768_1C8368,
+
+    // // 7800: Store Value: 1
+    // WTS,
+    // 0x1,
+
+    // // 7808: Print Text
+    // TXT,
+    // (s32)&scenario_text_0000,
+
+    // // 7810: Jump To @781c
+    // JMP,
+    // (s32)&scenario_code_message_1ef_781c,
 
     // 7818: End Event
     END,
@@ -1257,3 +1265,9 @@ s32 scenario_code_message_1ef_781c[] = {
     // End scenario script
     END,
 };
+
+// Function to update the Koryuta's flute text with AP location data
+void update_koryuta_flute_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_0590, 6474066, NULL, NULL);
+}

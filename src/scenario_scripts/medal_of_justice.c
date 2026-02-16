@@ -1,5 +1,9 @@
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_medal_of_justice_text(void);
 
 
 
@@ -156,13 +160,17 @@ s32 scenario_code_message_082_36e0[] = {
     WTS,
     0x1,
 
-    // 3760: Print Text
-    TXT,
-    (s32)&scenario_text_0014,
+    // // 3760: Print Text
+    // TXT,
+    // (s32)&scenario_text_0014,
 
-    // 3768: Print Text
-    TXT,
-    (s32)&scenario_text_002B,
+    // // 3768: Print Text
+    // TXT,
+    // (s32)&scenario_text_002B,
+
+    // Update scenario_text_0060 with AP location text before displaying it
+    ESR,
+    (s32)&update_medal_of_justice_text,
 
     // 3770: Print Text
     TXT,
@@ -216,37 +224,37 @@ s32 scenario_code_message_082_36e0[] = {
     WTS,
     0x1,
 
-    // 37d8: Print Text
-    TXT,
-    (s32)&scenario_text_00D1,
+    // // 37d8: Print Text
+    // TXT,
+    // (s32)&scenario_text_00D1,
 
-    // 37e0: Print Text
-    TXT,
-    (s32)&scenario_text_00E8,
+    // // 37e0: Print Text
+    // TXT,
+    // (s32)&scenario_text_00E8,
 
-    // 37e8: Print Text
-    TXT,
-    (s32)&scenario_text_0124,
+    // // 37e8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0124,
 
-    // 37f0: Print Text
-    TXT,
-    (s32)&scenario_text_00B9,
+    // // 37f0: Print Text
+    // TXT,
+    // (s32)&scenario_text_00B9,
 
-    // 37f8: Print Text
-    TXT,
-    (s32)&scenario_text_0174,
+    // // 37f8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0174,
 
-    // 3800: Print Text
-    TXT,
-    (s32)&scenario_text_01B8,
+    // // 3800: Print Text
+    // TXT,
+    // (s32)&scenario_text_01B8,
 
-    // 3808: Print Text
-    TXT,
-    (s32)&scenario_text_01EC,
+    // // 3808: Print Text
+    // TXT,
+    // (s32)&scenario_text_01EC,
 
-    // 3810: Print Text
-    TXT,
-    (s32)&scenario_text_022C,
+    // // 3810: Print Text
+    // TXT,
+    // (s32)&scenario_text_022C,
 
     // // 3818: Write to RAM 8015c6dc (Fire Ryo Chargeable?)
     // STW, 0x8015c6dc,
@@ -254,9 +262,9 @@ s32 scenario_code_message_082_36e0[] = {
     // // 3820: Store Value: 1
     // WTS, 0x1,
 
-    // 3828: Print Text
-    TXT,
-    (s32)&scenario_text_0260,
+    // // 3828: Print Text
+    // TXT,
+    // (s32)&scenario_text_0260,
 
     // 3830: End Event
     END,
@@ -264,3 +272,9 @@ s32 scenario_code_message_082_36e0[] = {
     // End scenario script
     END,
 };
+
+// Function to update the Medal of Justice text with AP location data
+void update_medal_of_justice_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_0060, 6474068, NULL, NULL);
+}

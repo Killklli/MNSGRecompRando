@@ -8,6 +8,9 @@
 #include "scenario.h"
 #include "scenario_replacer.h"
 
+// Function declarations
+void update_windup_camera_text(void);
+
 // Text fragments for Wind-Up Camera reward scene
 
 // {begin}{endline}
@@ -367,13 +370,17 @@ s32 scenario_code_message_083_3834[] = {
     WTS,
     0x1,
 
-    // Print Text: " {newline}{endline}"
-    TXT,
-    (s32)scenario_text_newline,
+    // // Print Text: " {newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_newline,
 
-    // Print Text: "   Ebisumaru receives{newline}{endline}"
-    TXT,
-    (s32)scenario_text_ebisumaru_receives,
+    // // Print Text: "   Ebisumaru receives{newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_ebisumaru_receives,
+
+    // Update scenario_text_windup_camera with AP location text before displaying it
+    ESR,
+    (s32)&update_windup_camera_text,
 
     // Print Text: "       the {em-yellow}[Windup Camera]{/em}!{newline}{endline}"
     TXT,
@@ -419,37 +426,37 @@ s32 scenario_code_message_083_3834[] = {
     WTS,
     0x1,
 
-    // Print Text: "By continuously holding down{newline}{endline}"
-    TXT,
-    (s32)scenario_text_continuously_holding,
+    // // Print Text: "By continuously holding down{newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_continuously_holding,
 
-    // Print Text: "the {em-yellow}B Button{/em} and then letting go...{newline}{endline}"
-    TXT,
-    (s32)scenario_text_b_button_letting_go,
+    // // Print Text: "the {em-yellow}B Button{/em} and then letting go...{newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_b_button_letting_go,
 
-    // Print Text: "a light will shine... {button}{endline}"
-    TXT,
-    (s32)scenario_text_light_will_shine,
+    // // Print Text: "a light will shine... {button}{endline}"
+    // TXT,
+    // (s32)scenario_text_light_will_shine,
 
-    // Print Text: "{newwindow}{endline}"
-    TXT,
-    (s32)scenario_text_newwindow,
+    // // Print Text: "{newwindow}{endline}"
+    // TXT,
+    // (s32)scenario_text_newwindow,
 
-    // Print Text: "allowing you to see items{newline}{endline}"
-    TXT,
-    (s32)scenario_text_allowing_see_items,
+    // // Print Text: "allowing you to see items{newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_allowing_see_items,
 
-    // Print Text: "you would not normally see or{newline}{endline}"
-    TXT,
-    (s32)scenario_text_not_normally_see,
+    // // Print Text: "you would not normally see or{newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_not_normally_see,
 
-    // Print Text: "hidden items!{newline}{endline}"
-    TXT,
-    (s32)scenario_text_hidden_items,
+    // // Print Text: "hidden items!{newline}{endline}"
+    // TXT,
+    // (s32)scenario_text_hidden_items,
 
-    // Print Text: "  (Even {em-yellow}ghosts{/em} will appear){endline}"
-    TXT,
-    (s32)scenario_text_ghosts_appear,
+    // // Print Text: "  (Even {em-yellow}ghosts{/em} will appear){endline}"
+    // TXT,
+    // (s32)scenario_text_ghosts_appear,
 
     // // Write to RAM 8015c6d0 (Obtained Wind-Up Camera): 1
     // STW,
@@ -463,10 +470,16 @@ s32 scenario_code_message_083_3834[] = {
     // WTS,
     // 0x1,
 
-    // Print Text: "{waitinput}{end}{endline}"
-    TXT,
-    (s32)scenario_text_waitinput_end,
+    // // Print Text: "{waitinput}{end}{endline}"
+    // TXT,
+    // (s32)scenario_text_waitinput_end,
 
     // End Event
     END,
 };
+
+// Function to update the Wind-Up Camera text with AP location data
+void update_windup_camera_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_windup_camera, 6474109, NULL, NULL);
+}

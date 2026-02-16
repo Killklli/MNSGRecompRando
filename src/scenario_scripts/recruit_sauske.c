@@ -1,5 +1,9 @@
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_recruit_sasuke_text(void);
 
 
 
@@ -1070,13 +1074,17 @@ s32 scenario_code_message_1f1_7a70[] = {
     WTS,
     0x1,
 
-    // 7d98: Print Text
-    TXT,
-    (s32)&scenario_text_0ACB,
+    // // 7d98: Print Text
+    // TXT,
+    // (s32)&scenario_text_0ACB,
 
-    // 7da0: Print Text
-    TXT,
-    (s32)&scenario_text_0AF5,
+    // // 7da0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0AF5,
+
+    // Update scenario_text_0B3A with AP location text before displaying it
+    ESR,
+    (s32)&update_recruit_sasuke_text,
 
     // 7da8: Print Text
     TXT,
@@ -1106,29 +1114,29 @@ s32 scenario_code_message_1f1_7a70[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // 7de0: Print Text
-    TXT,
-    (s32)&scenario_text_0B6E,
+    // // 7de0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0B6E,
 
-    // 7de8: Print Text
-    TXT,
-    (s32)&scenario_text_014C,
+    // // 7de8: Print Text
+    // TXT,
+    // (s32)&scenario_text_014C,
 
-    // 7df0: Print Text
-    TXT,
-    (s32)&scenario_text_0B9B,
+    // // 7df0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0B9B,
 
-    // 7df8: Print Text
-    TXT,
-    (s32)&scenario_text_0BCA,
+    // // 7df8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0BCA,
 
-    // 7e00: Print Text
-    TXT,
-    (s32)&scenario_text_0C0C,
+    // // 7e00: Print Text
+    // TXT,
+    // (s32)&scenario_text_0C0C,
 
-    // 7e08: Print Text
-    TXT,
-    (s32)&scenario_text_0C3D,
+    // // 7e08: Print Text
+    // TXT,
+    // (s32)&scenario_text_0C3D,
 
     // DISABLED ITEM
     // // 7e10: Write to RAM 8015c6c4 (Obtained Firecracker Bomb)
@@ -1147,9 +1155,9 @@ s32 scenario_code_message_1f1_7a70[] = {
     SFG,
     0x0E,
 
-    // 7e38: Print Text
-    TXT,
-    (s32)&scenario_text_0C77,
+    // // 7e38: Print Text
+    // TXT,
+    // (s32)&scenario_text_0C77,
 
     // 7e40: End Event
     END,
@@ -1157,3 +1165,9 @@ s32 scenario_code_message_1f1_7a70[] = {
     // End scenario script
     END,
 };
+
+// Function to update the recruit Sasuke text with AP location data
+void update_recruit_sasuke_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_0B3A, 6474086, NULL, NULL);
+}

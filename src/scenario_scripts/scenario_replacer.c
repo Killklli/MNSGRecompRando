@@ -10,6 +10,9 @@
 #include "save_data_tool.h"
 #include "scenario.h"
 
+// External scenario_text_005F that we can modify directly
+extern s16 scenario_text_005F[];
+
 // External scenario references
 extern s32 scenario_code_message_0ca_4b70[];
 extern s32 scenario_code_message_1ea_63fc[];
@@ -35,174 +38,137 @@ extern s32 scenario_code_message_110_8420[];
 extern s32 scenario_code_message_083_3834[];
 extern s32 scenario_code_message_1ed_6bd4[];
 
-// Storage for persistent scenario buffers and text
-static struct
+// Storage for dynamic text generation
+static s16 dynamic_text_buffer[256];
+
+// Generic function to update any text buffer with AP location data
+void update_text_buffer_with_ap_location(s16 *text_buffer, s32 ap_location_id, const char *prefix, const char *suffix)
 {
-  s32 scenario_buffer[128];
-  s16 text_buffer[256];
-  bool initialized;
-} scenario_storage[32]; // Support up to 32 scenarios with dynamic text
-
-// Get a storage slot for a scenario ID (simple hash)
-static int get_storage_slot(s32 scenario_id)
-{
-  return (scenario_id & 0xFF) % 32; // Simple modulo hash
-}
-
-// Create persistent text that won't be overwritten
-static s16 *create_persistent_text(const char *message, int slot)
-{
-  if (slot < 0 || slot >= 32)
-    return NULL;
-
-  s16 *buffer = scenario_storage[slot].text_buffer;
-  int idx = 0;
-
-  // Build " Got [message]!" manually
-  buffer[idx++] = PCT_SPACE;
-  buffer[idx++] = CHR_G;
-  buffer[idx++] = CHR_o;
-  buffer[idx++] = CHR_t;
-  buffer[idx++] = PCT_SPACE;
-
-  // Add the message
-  for (int i = 0; message[i] != '\0' && idx < 250; i++)
+  if (!rando_is_connected())
   {
-    if (message[i] >= 'A' && message[i] <= 'Z')
+    recomp_printf("Rando not connected, keeping original text\n");
+    return;
+  }
+
+  // Get the player
+  char player[17];
+  rando_get_location_item_player(ap_location_id, player);
+  recomp_printf("got player %s\n", player);
+
+  // Get the item at the location
+  u32 item_id = rando_get_item_at_location(ap_location_id);
+
+  // Get the item name
+  char item_name[33];
+  rando_get_item_name_from_id(item_id, item_name);
+
+  recomp_printf("Item at location %d: 0x%08X (%s)\n", ap_location_id, item_id, item_name);
+
+  // Create formatted message: "Player's Item_name"
+  char surprise_message[64];
+  sprintf(surprise_message, "%s's %s", player, item_name);
+
+  // Split message into lines of max 32 characters
+  char formatted_message[128];
+  int src_idx = 0;
+  int dst_idx = 0;
+  int line_length = 0;
+
+  // Add "Got " prefix if no prefix is provided
+  if (prefix == NULL || prefix[0] == '\0')
+  {
+    formatted_message[dst_idx++] = 'G';
+    formatted_message[dst_idx++] = 'o';
+    formatted_message[dst_idx++] = 't';
+    formatted_message[dst_idx++] = ' ';
+    line_length = 4;
+  }
+
+  while (surprise_message[src_idx] != '\0' && dst_idx < 120)
+  {
+    char c = surprise_message[src_idx];
+    
+    // If adding this character would exceed 32 chars, add newline first
+    if (line_length >= 32 && c != ' ')
     {
-      buffer[idx++] = CHR_A + (message[i] - 'A');
+      // Look back for a space to break at
+      int break_pos = dst_idx - 1;
+      while (break_pos > 0 && formatted_message[break_pos] != ' ')
+      {
+        break_pos--;
+      }
+      
+      if (formatted_message[break_pos] == ' ')
+      {
+        // Replace the space with newline
+        formatted_message[break_pos] = '\n';
+        line_length = dst_idx - break_pos - 1;
+      }
+      else
+      {
+        // No space found, force break
+        formatted_message[dst_idx++] = '\n';
+        line_length = 0;
+      }
     }
-    else if (message[i] >= 'a' && message[i] <= 'z')
+    
+    // Add the character
+    formatted_message[dst_idx++] = c;
+    if (c == '\n')
     {
-      buffer[idx++] = CHR_a + (message[i] - 'a');
-    }
-    else if (message[i] >= '0' && message[i] <= '9')
-    {
-      buffer[idx++] = NUM_0 + (message[i] - '0');
-    }
-    else if (message[i] == ' ')
-    {
-      buffer[idx++] = PCT_SPACE;
-    }
-    else if (message[i] == '!')
-    {
-      buffer[idx++] = PCT_EXCLAMATION;
-    }
-    else if (message[i] == '\'')
-    {
-      buffer[idx++] = PCT_APOSTROPHE;
-    }
-    else if (message[i] == '-')
-    {
-      buffer[idx++] = PCT_DASH;
+      line_length = 0;
     }
     else
     {
-      buffer[idx++] = PCT_SPACE; // Default to space
+      line_length++;
     }
+    
+    src_idx++;
+  }
+  
+  formatted_message[dst_idx] = '\0';
+
+  // If no suffix provided, ensure we end with a newline for proper formatting
+  if (suffix == NULL && dst_idx > 0 && formatted_message[dst_idx-1] != '\n')
+  {
+    formatted_message[dst_idx++] = '\n';
+    formatted_message[dst_idx] = '\0';
   }
 
-  buffer[idx++] = PCT_EXCLAMATION;
-  buffer[idx++] = CTR_NEWLINE;
-  buffer[idx++] = CTR_ENDLINE;
-
-  return buffer;
+  // Use existing function to create the text
+  s16 *new_text = create_persistent_text_with_newlines(formatted_message);
+  if (new_text != NULL)
+  {
+    // Replace the content of the text buffer
+    int i = 0;
+    while (i < 255 && (u16)new_text[i] != 0xFFFF)  // Cast to unsigned to handle CTR_ENDLINE properly
+    {
+      text_buffer[i] = new_text[i];
+      i++;
+    }
+    // Add the endline terminator
+    if (i < 255)
+    {
+      text_buffer[i] = (s16)0xFFFF;  // CTR_ENDLINE
+    }
+    
+    recomp_printf("Successfully updated text buffer with dynamic AP text\n");
+  }
 }
 
 // Generic scenario replacement function - handles its own scenario replacement
 // - scenario_id: The ID of the scenario to replace
 // - scenario_code: Pointer to the original scenario code array
 // - scenario_file_id: The file ID for the scenario
-// - original_text_ref: Pointer to the original text array to replace (NULL to skip text replacement)
-// - ap_location_id: Archipelago location ID to get item name from (0 to skip text replacement)
 void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code,
-                                s16 scenario_file_id,
-                                s32 *original_text_ref, s32 ap_location_id)
+                                s16 scenario_file_id)
 {
-  // If we have text replacement parameters, do dynamic replacement
-  if (original_text_ref != NULL && ap_location_id != 0)
-  {
-    int storage_slot = get_storage_slot(scenario_id);
-    s32 *dynamic_scenario = scenario_storage[storage_slot].scenario_buffer;
-
-    recomp_printf("Replacing scenario (ID: 0x%x) with AP location ID: %d (slot %d)\n", scenario_id, ap_location_id, storage_slot);
-
-    // Get the player
-    char player[17];
-    rando_get_location_item_player(ap_location_id, player);
-    recomp_printf("got player %s\n", player);
-
-    // Get the item at the location
-    u32 item_id = rando_get_item_at_location(ap_location_id);
-
-    // Get the item name
-    char item_name[33];
-    rando_get_item_name_from_id(item_id, item_name);
-
-    recomp_printf("Item at location %d: 0x%08X (%s)\n", ap_location_id, item_id, item_name);
-
-    // Create formatted message: "Player's Item_name"
-    char surprise_message[64];
-    sprintf(surprise_message, "%s's %s", player, item_name);
-
-    // Create persistent text for this scenario
-    s16 *replacement_text = create_persistent_text(surprise_message, storage_slot);
-    if (replacement_text == NULL)
-    {
-      recomp_printf("Error: Failed to create persistent text for scenario 0x%x\n", scenario_id);
-      // Fall back to original scenario
-      D_800779A0_785A0[scenario_id] = scenario_code;
-      D_80078608_79208[scenario_id] = scenario_file_id;
-      return;
-    }
-
-    // Find scenario length first
-    int scenario_length = 0;
-    while (scenario_code[scenario_length] != END && scenario_length < 120)
-    {
-      scenario_length++;
-    }
-    scenario_length++; // Include the END marker
-
-    // Copy the entire scenario at once
-    memcpy(dynamic_scenario, scenario_code, scenario_length * sizeof(s32));
-
-    // Now find and replace the specific text reference
-    bool found_replacement = false;
-    for (int i = 0; i < scenario_length - 1; i++)
-    {
-      if (dynamic_scenario[i] == TXT && dynamic_scenario[i + 1] == (s32)original_text_ref)
-      {
-        dynamic_scenario[i + 1] = (s32)replacement_text;
-        recomp_printf("Replaced text reference at position %d: 0x%08X -> 0x%08X\n",
-                      i, (s32)original_text_ref, (s32)replacement_text);
-        found_replacement = true;
-        break; // Assuming only one replacement needed
-      }
-    }
-
-    if (!found_replacement)
-    {
-      recomp_printf("Warning: Could not find text reference 0x%08X in scenario 0x%x\n",
-                    (s32)original_text_ref, scenario_id);
-    }
-
-    // Mark as initialized and replace the scenario
-    scenario_storage[storage_slot].initialized = true;
-    D_800779A0_785A0[scenario_id] = dynamic_scenario;
-    D_80078608_79208[scenario_id] = scenario_file_id;
-  }
-  else
-  {
-    // No text replacement, just replace the scenario normally
-    D_800779A0_785A0[scenario_id] = scenario_code;
-    D_80078608_79208[scenario_id] = scenario_file_id;
-  }
+  // Replace the scenario code
+  D_800779A0_785A0[scenario_id] = scenario_code;
+  D_80078608_79208[scenario_id] = scenario_file_id;
 }
 
 extern s32 scenario_code_message_162_cd8c[];
-// External text references that need dynamic replacement
-extern s16 scenario_text_005F[]; // Oedo Castle Superpass reward text
 
 // External data declarations
 extern u16 D_800C7AB2;
@@ -232,60 +198,31 @@ void consolidated_scenario_hook()
       return;
     }
     // Replace all scenario dialogs
-    // Example: Dynamic text replacement for Oedo Castle Superpass
-    // replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0,
-    //                            (s32 *)&scenario_text_005F, AP_LOCATION_OEDO_SUPERPASS); // Oedo Castle Superpass with dynamic text
+    replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0); // Oedo Castle Superpass
+    replace_scenario_with_flag(0x1ea, scenario_code_message_1ea_63fc, 0); // Mokubei Upgrades
+    replace_scenario_with_flag(0x160, scenario_code_message_160_c028, 0); // Ushiwaka
 
-    // For scenarios without dynamic text replacement, use 0 for AP location ID
-    replace_scenario_with_flag(0x0ca, scenario_code_message_0ca_4b70, 0,
-                              (s32 *)scenario_text_005F, 6474106); // Oedo Castle Superpass
-    // TODO: Mokubei has two items, we need to account for that
-    replace_scenario_with_flag(0x1ea, scenario_code_message_1ea_63fc, 0,
-                              NULL, 0); // Mokubei Upgrades
-    // TODO: This has two items
-    replace_scenario_with_flag(0x160, scenario_code_message_160_c028, 0,
-                              NULL, 0); // Ushiwaka
+    replace_scenario_with_flag(0x083, scenario_code_message_083_3834, 0); // Wind-Up Camera Reward
+    replace_scenario_with_flag(0x1ef, scenario_code_message_1ef_72b4, 0); // Koryuta Flute
+    replace_scenario_with_flag(0x082, scenario_code_message_082_36e0, 0); // Medal of Flames
+    replace_scenario_with_flag(0x176, scenario_code_message_176_2ad4, 0); // Mermaid Complete
+    replace_scenario_with_flag(0x1f1, scenario_code_message_1f1_797c, 0); // Recruit Sasuke
+    replace_scenario_with_flag(0x14c, scenario_code_message_14c_9904, 0); // Recruit Yae
+    replace_scenario_with_flag(0x174, scenario_code_message_174_28bc, 0); // Sudden Impact Complete
+    replace_scenario_with_flag(0x17a, scenario_code_message_17a_3650, 0); // Super Jump Complete
+    replace_scenario_with_flag(0x157, scenario_code_message_157_a930, 0); // Zazen Priest
+    replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0); // Zazen Priest Son
 
-    replace_scenario_with_flag(0x083, scenario_code_message_083_3834, 0,
-                              NULL, 0); // Wind-Up Camera Reward
-    replace_scenario_with_flag(0x1ef, scenario_code_message_1ef_72b4, 0,
-                              NULL, 0); // Koryuta Flute
-    replace_scenario_with_flag(0x082, scenario_code_message_082_36e0, 0,
-                              NULL, 0); // Medal of Flames
-    replace_scenario_with_flag(0x176, scenario_code_message_176_2ad4, 0,
-                              NULL, 0); // Mermaid Complete
-    replace_scenario_with_flag(0x1f1, scenario_code_message_1f1_797c, 0,
-                              NULL, 0); // Recruit Sasuke
-    replace_scenario_with_flag(0x14c, scenario_code_message_14c_9904, 0,
-                              NULL, 0); // Recruit Yae
-    replace_scenario_with_flag(0x174, scenario_code_message_174_28bc, 0,
-                              NULL, 0); // Sudden Impact Complete
-    replace_scenario_with_flag(0x17a, scenario_code_message_17a_3650, 0,
-                              NULL, 0); // Super Jump Complete
-    replace_scenario_with_flag(0x157, scenario_code_message_157_a930, 0,
-                              NULL, 0); // Zazen Priest
-    replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0,
-                              NULL, 0); // Zazen Priest Son
+    replace_scenario_with_flag(0x162, scenario_code_message_162_cd8c, 0); // Kihachi Quest Complete
+    replace_scenario_with_flag(0x288, scenario_code_message_288_2f98, 0); // Plasma
+    replace_scenario_with_flag(0x1cd, scenario_code_message_1cd_185c, 0); // Wise Man House Explosion
+    replace_scenario_with_flag(0x227, scenario_code_message_227_3a14, 0); // Wise Man Sogen
+    replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0); // Bridge Guard 1 (Super Pass Check)
 
-    replace_scenario_with_flag(0x162, scenario_code_message_162_cd8c, 0,
-                              NULL, 0); // Kihachi Quest Complete
-    replace_scenario_with_flag(0x288, scenario_code_message_288_2f98, 0,
-                              NULL, 0); // Plasma
-    replace_scenario_with_flag(0x1cd, scenario_code_message_1cd_185c, 0,
-                              NULL, 0); // Wise Man House Explosion
-    replace_scenario_with_flag(0x227, scenario_code_message_227_3a14, 0,
-                              NULL, 0); // Wise Man Sogen
-    replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0,
-                              NULL, 0); // Bridge Guard 1 (Super Pass Check)
-
-    replace_scenario_with_flag(0x1f4, scenario_code_impact_departure, 0,
-                              NULL, 0); // Impact Defeated Thaisamba
-    replace_scenario_with_flag(0x0fa, scenario_code_poron_encounter, 0,
-                              NULL, 0); // Poron Miracle Item
-    replace_scenario_with_flag(0x30e, scenario_code_message_30e_251c, 0,
-                              NULL, 0); // Beat Benkei
-    replace_scenario_with_flag(0x30c, scenario_code_message_30c_1cd8, 0,
-                              NULL, 0); // Benkei Collector
+    replace_scenario_with_flag(0x1f4, scenario_code_impact_departure, 0); // Impact Defeated Thaisamba
+    replace_scenario_with_flag(0x0fa, scenario_code_poron_encounter, 0); // Poron Miracle Item
+    replace_scenario_with_flag(0x30e, scenario_code_message_30e_251c, 0); // Beat Benkei
+    replace_scenario_with_flag(0x30c, scenario_code_message_30c_1cd8, 0); // Benkei Collector
     }
 }
 

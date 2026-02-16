@@ -52,6 +52,12 @@ static s16 scenario_text_00E8[] = {CTR_BUTTON, CTR_END, CTR_ENDLINE};
 
 extern s32 scenario_code_message_0ca_4b70[];
 
+// Function to update the Oedo Castle text with AP location data
+void update_oedo_castle_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_005F, 6474106, NULL, NULL);
+}
+
 s32 scenario_code_message_0ca_4b70[] = {
 
     // Address: @4b70
@@ -119,6 +125,10 @@ s32 scenario_code_message_0ca_4b70[] = {
     // 4be8: Execute Code: 8003f608 (Play Sound)
     ESR,
     (s32)&func_8003F608_40208,
+
+    // Update scenario_text_005F with AP location text before displaying it
+    ESR,
+    (s32)&update_oedo_castle_text,
 
     // 4bf0: Print Text
     TXT,

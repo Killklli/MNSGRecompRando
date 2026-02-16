@@ -1,5 +1,9 @@
 #include "types.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_sudden_impact_text(void);
 
 
 
@@ -243,13 +247,17 @@ s32 scenario_code_message_174_28bc[] = {
     WTS,
     0x1,
 
-    // 2974: Print Text
-    TXT,
-    (s32)&scenario_text_00C0,
+    // // 2974: Print Text
+    // TXT,
+    // (s32)&scenario_text_00C0,
 
-    // 297c: Print Text
-    TXT,
-    (s32)&scenario_text_00D7,
+    // // 297c: Print Text
+    // TXT,
+    // (s32)&scenario_text_00D7,
+
+    // Update scenario_text_00FB with AP location text before displaying it
+    ESR,
+    (s32)&update_sudden_impact_text,
 
     // 2984: Print Text
     TXT,
@@ -303,57 +311,57 @@ s32 scenario_code_message_174_28bc[] = {
     WTS,
     0x1,
 
-    // 29ec: Print Text
-    TXT,
-    (s32)&scenario_text_016F,
+    // // 29ec: Print Text
+    // TXT,
+    // (s32)&scenario_text_016F,
 
-    // 29f4: Print Text
-    TXT,
-    (s32)&scenario_text_01AD,
+    // // 29f4: Print Text
+    // TXT,
+    // (s32)&scenario_text_01AD,
 
-    // 29fc: Print Text
-    TXT,
-    (s32)&scenario_text_01DB,
+    // // 29fc: Print Text
+    // TXT,
+    // (s32)&scenario_text_01DB,
 
-    // 2a04: Print Text
-    TXT,
-    (s32)&scenario_text_0222,
+    // // 2a04: Print Text
+    // TXT,
+    // (s32)&scenario_text_0222,
 
-    // 2a0c: Print Text
-    TXT,
-    (s32)&scenario_text_0082,
+    // // 2a0c: Print Text
+    // TXT,
+    // (s32)&scenario_text_0082,
 
-    // 2a14: Print Text
-    TXT,
-    (s32)&scenario_text_0257,
+    // // 2a14: Print Text
+    // TXT,
+    // (s32)&scenario_text_0257,
 
-    // 2a1c: Print Text
-    TXT,
-    (s32)&scenario_text_0279,
+    // // 2a1c: Print Text
+    // TXT,
+    // (s32)&scenario_text_0279,
 
-    // 2a24: Print Text
-    TXT,
-    (s32)&scenario_text_02A7,
+    // // 2a24: Print Text
+    // TXT,
+    // (s32)&scenario_text_02A7,
 
-    // 2a2c: Print Text
-    TXT,
-    (s32)&scenario_text_02EC,
+    // // 2a2c: Print Text
+    // TXT,
+    // (s32)&scenario_text_02EC,
 
-    // 2a34: Print Text
-    TXT,
-    (s32)&scenario_text_0082,
+    // // 2a34: Print Text
+    // TXT,
+    // (s32)&scenario_text_0082,
 
-    // 2a3c: Print Text
-    TXT,
-    (s32)&scenario_text_033D,
+    // // 2a3c: Print Text
+    // TXT,
+    // (s32)&scenario_text_033D,
 
-    // 2a44: Print Text
-    TXT,
-    (s32)&scenario_text_0355,
+    // // 2a44: Print Text
+    // TXT,
+    // (s32)&scenario_text_0355,
 
-    // 2a4c: Print Text
-    TXT,
-    (s32)&scenario_text_039A,
+    // // 2a4c: Print Text
+    // TXT,
+    // (s32)&scenario_text_039A,
 
     // DISABLED ITEM
     // // 2a54: Write to RAM 8015c6ec (Obtained Sudden Impact Magic)
@@ -366,9 +374,9 @@ s32 scenario_code_message_174_28bc[] = {
     SFG,
     0x1C,
 
-    // 2a6c: Print Text
-    TXT,
-    (s32)&scenario_text_03D8,
+    // // 2a6c: Print Text
+    // TXT,
+    // (s32)&scenario_text_03D8,
 
     // 2a74: End Event
     END,
@@ -376,3 +384,9 @@ s32 scenario_code_message_174_28bc[] = {
     // End scenario script
     END,
 };
+
+// Function to update the sudden impact text with AP location data
+void update_sudden_impact_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_00FB, 6474000, NULL, NULL);
+}

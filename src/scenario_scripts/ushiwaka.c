@@ -5,6 +5,11 @@
 #include "recomputils.h"
 #include "scenario.h"
 #include "save_data_tool.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_achilles_heel_text(void);
+void update_mini_ebisu_text(void);
 
 // External scenario code declarations
 extern s32 scenario_code_message_160_c028[];
@@ -2271,13 +2276,17 @@ s32 scenario_code_message_160_c4cc[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // c63c: Print Text
-    TXT,
-    (s32)&scenario_text_05CF,
+    // // c63c: Print Text
+    // TXT,
+    // (s32)&scenario_text_05CF,
 
-    // c644: Print Text
-    TXT,
-    (s32)&scenario_text_1039,
+    // // c644: Print Text
+    // TXT,
+    // (s32)&scenario_text_1039,
+
+    // Update scenario_text_1061 with AP location text before displaying it
+    ESR,
+    (s32)&update_achilles_heel_text,
 
     // c64c: Print Text
     TXT,
@@ -2940,13 +2949,17 @@ s32 scenario_code_message_160_ca5c[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // cb18: Print Text
-    TXT,
-    (s32)&scenario_text_05CF,
+    // // cb18: Print Text
+    // TXT,
+    // (s32)&scenario_text_05CF,
 
-    // cb20: Print Text
-    TXT,
-    (s32)&scenario_text_1BA8,
+    // // cb20: Print Text
+    // TXT,
+    // (s32)&scenario_text_1BA8,
+
+    // Update scenario_text_1BCF with AP location text before displaying it
+    ESR,
+    (s32)&update_mini_ebisu_text,
 
     // cb28: Print Text
     TXT,
@@ -3276,3 +3289,15 @@ s32 scenario_code_message_160_cd04[] = {
     // End scenario script
     END,
 };
+
+// Function to update the Achilles' heel text with AP location data
+void update_achilles_heel_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_1061, 6474019, NULL, NULL);
+}
+
+// Function to update the Mini-Ebisu text with AP location data
+void update_mini_ebisu_text(void)
+{
+  update_text_buffer_with_ap_location(scenario_text_1BCF, 6474006, NULL, NULL);
+}

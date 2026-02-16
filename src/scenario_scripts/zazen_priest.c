@@ -6,6 +6,10 @@
 #include "modding.h"
 #include "recomputils.h"
 #include "scenario.h"
+#include "scenario_replacer.h"
+
+// Function declarations
+void update_zazen_priest_text(void);
 
 // External scenario code declarations
 extern s32 scenario_code_message_157_a930[];
@@ -1447,13 +1451,17 @@ s32 scenario_code_message_157_acc0[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // add8: Print Text
-    TXT,
-    (s32)&scenario_text_0E0A,
+    // // add8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0E0A,
 
-    // ade0: Print Text
-    TXT,
-    (s32)&scenario_text_0E22,
+    // // ade0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0E22,
+
+    // Update scenario_text_0E49 with AP location text before displaying it
+    ESR,
+    (s32)&update_zazen_priest_text,
 
     // ade8: Print Text
     TXT,
@@ -1697,3 +1705,7 @@ s32 scenario_code_message_157_af24[] = {
     // End scenario script
     END,
 };
+
+void update_zazen_priest_text(void) {
+    update_text_buffer_with_ap_location(scenario_text_0E49, 6474007, NULL, NULL);
+}
