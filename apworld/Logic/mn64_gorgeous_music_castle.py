@@ -701,7 +701,6 @@ LogicRegions = {
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
         locations=[
-            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1921, instance_id=0x14),
         ],
         exits=[
             MN64TransitionFront(
