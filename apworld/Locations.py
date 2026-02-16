@@ -403,7 +403,6 @@ PotLoc_table: Dict[str, LocationData] = {
     "GorgeousMusicCastleDancinWarp - Pot": LocationData(BASE_ID + 355, "GorgeousMusicCastleDancinWarp", "Pot of Ryo"),
     "GorgeousMusicCastleConveyorBeltRoom - Pot": LocationData(BASE_ID + 356, "GorgeousMusicCastleConveyorBeltRoom", "Pot of Ryo"),
     "GorgeousMusicCastleWindowHallway - Pot": LocationData(BASE_ID + 357, "GorgeousMusicCastleWindowHallway", "Pot of Ryo"),
-    "GorgeousMusicCastleSlideRoomUpper - Pot": LocationData(BASE_ID + 358, "GorgeousMusicCastleSlideRoomUpper", "Pot of Ryo"),
     "GorgeousMusicCastleScaffoldingClimbUpper - Pot 1": LocationData(BASE_ID + 360, "GorgeousMusicCastleScaffoldingClimbUpper", "Pot of Ryo"),
     "GorgeousMusicCastleScaffoldingClimbUpper - Pot 2": LocationData(BASE_ID + 361, "GorgeousMusicCastleScaffoldingClimbUpper", "Pot of Ryo"),
     "GorgeousMusicCastleScaffoldingClimbLower - Pot 1": LocationData(BASE_ID + 362, "GorgeousMusicCastleScaffoldingClimbLower", "Pot of Ryo"),

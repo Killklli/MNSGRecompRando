@@ -667,7 +667,6 @@ LogicRegions = {
             # MN64LocationLogic("Ryo 9", lambda l: True, MN64Items.RYO, flag_id=0x1870, instance_id=0x11),
             # MN64LocationLogic("Ryo 10", lambda l: True, MN64Items.RYO, flag_id=0x1871, instance_id=0x12),
             # MN64LocationLogic("Ryo 11", lambda l: True, MN64Items.RYO, flag_id=0x1872, instance_id=0x13),
-            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1943, instance_id=20),
         ],
         exits=[
             MN64TransitionFront(
