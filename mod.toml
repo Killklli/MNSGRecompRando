@@ -86,4 +86,4 @@ mod_filename = "mnsg_recomp_rando"
 func_reference_syms_file = "Goemon64RecompSyms/mnsg.us.syms.toml"
 data_reference_syms_files = ["Goemon64RecompSyms/mnsg.us.datasyms.toml"]
 # Additional files to include in the mod.
-additional_files = []
+additional_files = ["thumb.dds"]
