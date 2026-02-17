@@ -369,7 +369,7 @@ PotLoc_table: Dict[str, LocationData] = {
     "FestivalTempleEntrance - Pot 2": LocationData(BASE_ID + 316, "FestivalTempleEntrance", "Pot of Ryo"),
     "FestivalTempleEntrance - Pot 3": LocationData(BASE_ID + 317, "FestivalTempleEntrance", "Pot of Ryo"),
     "FestivalTempleGoldKeyRoomUpper - Pot": LocationData(BASE_ID + 318, "FestivalTempleGoldKeyRoomUpper", "Pot of Ryo"),
-    "FestivalTempleGoldKeyRoomLower - Pot": LocationData(BASE_ID + 319, "FestivalTempleGoldKeyRoomLower", "Pot of Ryo"),
+    # "FestivalTempleGoldKeyRoomLower - Pot": LocationData(BASE_ID + 319, "FestivalTempleGoldKeyRoomLower", "Pot of Ryo"),
     "FestivalTempleRearEntranceUpper - Pot 1": LocationData(BASE_ID + 320, "FestivalTempleRearEntranceUpper", "Pot of Ryo"),
     "FestivalTempleRearEntranceUpper - Pot 2": LocationData(BASE_ID + 321, "FestivalTempleRearEntranceUpper", "Pot of Ryo"),
     "FestivalTempleRearEntranceUpper - Pot 3": LocationData(BASE_ID + 322, "FestivalTempleRearEntranceUpper", "Pot of Ryo"),
