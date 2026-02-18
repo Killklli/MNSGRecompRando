@@ -306,6 +306,7 @@ class MN64World(World):
             "prevent_oneway_softlocks": self.options.prevent_oneway_softlocks.value,
             "chugoku_door_unlocked": self.options.chugoku_door_unlocked.value,
             "pre_unlocked_warps": self.options.pre_unlocked_warps.value,
+            "music_rando": self.options.music_rando.value,
             "death_link": self.options.death_link.value,
         }
 

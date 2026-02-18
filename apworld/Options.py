@@ -65,6 +65,12 @@ class PreUnlockedWarps(Toggle):
     display_name = "Pre-Unlocked Warps"
 
 
+class MusicRando(Toggle):
+    """Determines if music tracks are randomized."""
+
+    display_name = "Music Rando"
+
+
 class MajorHintCount(Range):
     """Number of hints for progression items in the player's world."""
 
@@ -96,6 +102,7 @@ class MN64Options(PerGameCommonOptions):
     prevent_oneway_softlocks: PreventOneWaySoftlocks
     chugoku_door_unlocked: ChugokuDoorUnlocked
     pre_unlocked_warps: PreUnlockedWarps
+    music_rando: MusicRando
     major_hint_count: MajorHintCount
     location_hint_count: LocationHintCount
     death_link: DeathLink
