@@ -105,8 +105,7 @@ class MN64Items(Enum):
     # BLUE_FISH = "Blue Fish"
 
     # Upgrades and Power-ups
-    STRENGTH_UPGRADE_1 = "Strength Upgrade 1"
-    STRENGTH_UPGRADE_2 = "Strength Upgrade 2"
+    PROGRESSIVE_STRENGTH = "Progressive Strength"
     SURPRISE_PACK = "Surprise Pack"
 
     # Filler Items

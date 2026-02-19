@@ -75,6 +75,15 @@ class MN64World(World):
     location_metadata: Dict[str, Dict[str, Any]]
     item_metadata: Dict[str, Dict[str, Any]]
 
+    def generate_early(self) -> None:
+        """Read re_gen_passthrough data from Universal Tracker if present."""
+        self.using_ut = False
+        self.passthrough = {}
+        if hasattr(self.multiworld, "re_gen_passthrough"):
+            if "Mystical Ninja Starring Goemon" in self.multiworld.re_gen_passthrough:
+                self.using_ut = True
+                self.passthrough = self.multiworld.re_gen_passthrough["Mystical Ninja Starring Goemon"]
+
     def create_regions(self) -> None:
         """Create all regions for MN64."""
         # Create menu region
@@ -111,8 +120,14 @@ class MN64World(World):
         # Characters that can start the game
         character_names = ["Goemon", "Ebisumaru", "Yae", "Sasuke"]
 
-        # Randomly select one character to start with
-        starting_character = self.random.choice(character_names)
+        # Restore starting character from passthrough during UT regen, otherwise pick randomly
+        if self.using_ut and self.passthrough.get("starting_characters"):
+            starting_character = next(
+                (name for name in character_names if self.passthrough["starting_characters"].get(name.lower(), False)),
+                self.random.choice(character_names),
+            )
+        else:
+            starting_character = self.random.choice(character_names)
 
         # Build list of available filler items for dynamic filling
         filler_items = []
@@ -292,6 +307,7 @@ class MN64World(World):
             "enemy_data": getattr(self, "randomized_enemy_data", {}),
             "room_file_data": room_data_simple,
             "starting_room": getattr(self, "starting_room_id", None),
+            "starting_region_name": getattr(self, "starting_region_name", "GoemonsHouse"),
             "starting_spawn_data": getattr(self, "starting_spawn_data", {}),
             "starting_characters": starting_characters,
             "starting_items": starting_items,
@@ -367,3 +383,9 @@ class MN64World(World):
                     spoiler_handle.write("\n")
 
         spoiler_handle.write("\n")
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        # returning slot_data so it regens, giving it back in multiworld.re_gen_passthrough
+        # we are using re_gen_passthrough over modifying the world here due to complexities with ER
+        return slot_data

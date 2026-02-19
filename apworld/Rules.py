@@ -56,8 +56,7 @@ def create_logic_holder_from_state(state: CollectionState, player: int, context_
     # Character Upgrades
     holder.sasuke_battery_1 = state.has(MN64Items.SASUKE_BATTERY_1.value, player)
     holder.sasuke_battery_2 = state.has(MN64Items.SASUKE_BATTERY_2.value, player)
-    holder.strength_upgrade_1 = state.has(MN64Items.STRENGTH_UPGRADE_1.value, player)
-    holder.strength_upgrade_2 = state.has(MN64Items.STRENGTH_UPGRADE_2.value, player)
+    holder.strength_count = state.count(MN64Items.PROGRESSIVE_STRENGTH.value, player)
 
     # Boss Defeats (Event Items)
     holder.beat_tsurami = state.has(MN64Items.beat_tsurami.value, player)
@@ -150,6 +149,7 @@ def set_rules(world: "MN64World") -> None:
             continue  # Region doesn't exist yet
 
         # Set location access rules with unique naming
+        display_name = region_data.name
         location_counter = {}  # Track duplicate names within same region
         for location_logic in region_data.locations:
             # Create the same unique location name as in create_regions()
@@ -158,10 +158,10 @@ def set_rules(world: "MN64World") -> None:
             # Check if this location name was already used in this region
             if base_name in location_counter:
                 location_counter[base_name] += 1
-                unique_name = f"{region_name} - {base_name} {location_counter[base_name]}"
+                unique_name = f"{display_name} - {base_name} {location_counter[base_name]}"
             else:
                 location_counter[base_name] = 1
-                unique_name = f"{region_name} - {base_name}"
+                unique_name = f"{display_name} - {base_name}"
 
             try:
                 location = next(loc for loc in region.locations if loc.name == unique_name)

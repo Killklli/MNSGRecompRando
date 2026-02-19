@@ -38,12 +38,12 @@ def CompileMNSGHints(world):
     # Define tedious locations to hint
     # TODO: Fill more locations here
     tedious_location_names = [
-        "MtFujiSalesmanRoom - Chain Pipe",
-        "MtFujiSalesmanRoom - Strength Upgrade 1",
-        "GorgeousMusicCastleGarden - Strength Upgrade 2",
-        "GorgeousMusicCastleScaffoldingClimbUpper - Silver Key",
-        "LakewithaLargetree - Sasuke",
-        "PipeMakersHouse - Sudden Impact",
+        "Mt Fuji Salesman Room - Chain Pipe",
+        "Mt Fuji Salesman Room - Progressive Strength",
+        "Gorgeous Music Castle Garden - Progressive Strength",
+        "Gorgeous Music Castle Scaffolding Climb (Upper) - Silver Key",
+        "Lake with a Large tree - Sasuke",
+        "Pipe Makers House - Sudden Impact",
     ]
 
     # Filter for tedious locations that exist
