@@ -50,6 +50,32 @@ def import_region_logic() -> Dict:
     return all_regions
 
 
+def build_location_names(all_regions: Dict) -> list:
+    """Build the complete list of AP location names derived from Logic region data.
+
+    Uses identical counter/dedup logic to create_game_regions so names always match.
+    Event locations are excluded. Pass the result of import_region_logic() as all_regions.
+    """
+    event_item_names = get_event_item_names()
+    names = []
+    for region_name, region_data in all_regions.items():
+        display_name = region_data.name
+        location_counter: Dict[str, int] = {}
+        for location_logic in region_data.locations:
+            base_name = location_logic.name
+            item_name = location_logic.item_type.value
+            # Mirror the counter increment even for event items so numbering stays consistent
+            if base_name in location_counter:
+                location_counter[base_name] += 1
+                unique_name = f"{display_name} - {base_name} {location_counter[base_name]}"
+            else:
+                location_counter[base_name] = 1
+                unique_name = f"{display_name} - {base_name}"
+            if item_name not in event_item_names:
+                names.append(unique_name)
+    return names
+
+
 def create_game_regions(world, all_regions: Dict, location_name_to_id: Dict) -> None:
     """Create all game regions and their locations."""
     # Import MN64Location here to avoid circular import
@@ -60,21 +86,22 @@ def create_game_regions(world, all_regions: Dict, location_name_to_id: Dict) -> 
 
     for region_name, region_data in all_regions.items():
         region = Region(region_name, world.player, world.multiworld)
+        display_name = region_data.name
 
         # Add locations to region with unique names
         location_counter = {}  # Track duplicate names within same region
         for location_logic in region_data.locations:
-            # Create unique location name using internal region name (without spaces)
+            # Create unique location name using display region name (with spaces)
             base_name = location_logic.name
             item_name = location_logic.item_type.value
 
             # Check if this location name was already used in this region
             if base_name in location_counter:
                 location_counter[base_name] += 1
-                unique_name = f"{region_name} - {base_name} {location_counter[base_name]}"
+                unique_name = f"{display_name} - {base_name} {location_counter[base_name]}"
             else:
                 location_counter[base_name] = 1
-                unique_name = f"{region_name} - {base_name}"
+                unique_name = f"{display_name} - {base_name}"
 
             # Event locations have address None
             location_id = None if item_name in event_item_names else location_name_to_id.get(unique_name, None)
@@ -143,8 +170,11 @@ def connect_regions(world, all_regions: Dict, logger) -> None:
 
 def setup_starting_region(world, all_regions: Dict, logger) -> None:
     """Setup starting region connection from menu."""
+    # During a Universal Tracker regen, restore the original starting region from slot data
+    if getattr(world, "using_ut", False) and world.passthrough.get("starting_region_name"):
+        starting_region_name = world.passthrough["starting_region_name"]
     # Randomly select a starting region if option is enabled
-    if world.options.starting_room_rando.value:
+    elif world.options.starting_room_rando.value:
         # Find all regions that have spawn data defined
         possible_regions = []
         for region_name, region_data in all_regions.items():

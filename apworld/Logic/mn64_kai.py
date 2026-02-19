@@ -307,9 +307,9 @@ LogicRegions = {
         locations=[
             MN64LocationLogic("Chain Pipe", lambda l: True, MN64Items.CHAIN_PIPE, flag_id=0x010),
             MN64LocationLogic(
-                "Strength Upgrade 1",
+                "Progressive Strength",
                 lambda l: l.mokubei_brother,
-                MN64Items.STRENGTH_UPGRADE_1,
+                MN64Items.PROGRESSIVE_STRENGTH,
                 flag_id=0x012,
             ),
         ],

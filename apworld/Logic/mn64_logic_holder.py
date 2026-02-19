@@ -89,8 +89,7 @@ class MN64LogicHolder:
 
         # Character Interactions and Story Flags
         self.omitsu_talked: bool = False
-        self.strength_upgrade_1: bool = False
-        self.strength_upgrade_2: bool = False  # Special Items and Conditions
+        self.strength_count: int = 0
         self.all_miracle_items: bool = False
         self.achilles_heel: bool = False
 

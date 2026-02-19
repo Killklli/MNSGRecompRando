@@ -298,9 +298,9 @@ LogicRegions = {
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
         locations=[
             MN64LocationLogic(
-                "Strength Upgrade 2",
+                "Progressive Strength",
                 lambda l: True,
-                MN64Items.STRENGTH_UPGRADE_2,
+                MN64Items.PROGRESSIVE_STRENGTH,
                 flag_id=0x01A,
             ),
         ],
@@ -308,7 +308,7 @@ LogicRegions = {
             MN64TransitionFront("GorgeousMusicCastleWaterRoom", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
                 "GorgeousMusicCastleDancingLegs",
-                lambda l: l.strength_upgrade_2,
+                lambda l: l.strength_count >= 2,
                 type=MN64DoorType.DOOR,
             ),
         ],
@@ -358,7 +358,7 @@ LogicRegions = {
         exits=[
             MN64TransitionFront(
                 "GorgeousMusicCastleGarden",
-                lambda l: l.strength_upgrade_2,
+                lambda l: l.strength_count >= 2,
                 type=MN64DoorType.DOOR,
             ),
             MN64TransitionFront("GorgeousMusicCastleDancinWarp", lambda l: True),

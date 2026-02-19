@@ -372,7 +372,7 @@ LogicRegions = {
         exits=[
             MN64TransitionFront("FestivalVillageRear", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront("Shoreline", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("WitchesHouse", lambda l: l.strength_upgrade_1),
+            MN64TransitionFront("WitchesHouse", lambda l: l.strength_count >= 1),
         ],
         room_id=0x14B,
         room_default_definitions=[
