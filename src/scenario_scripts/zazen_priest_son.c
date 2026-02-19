@@ -203,7 +203,7 @@ static s16 scenario_text_0450[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
 // {newwindow}{endline}
 static s16 scenario_text_046D[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
-// {/em}Ok, I'll sell it to you for {em-yellow}800{/em}ryo!{newline}{endline}
+// {/em}Ok, I'll sell it to you for {em-yellow}300{/em}ryo!{newline}{endline}
 static s16 scenario_text_0485[] = {
     CTR_CLOSE_EM, CHR_O, CHR_k, PCT_COMMA, PCT_SPACE,
     CHR_I, PCT_APOSTROPHE, CHR_l, CHR_l, PCT_SPACE,
@@ -758,7 +758,7 @@ s32 scenario_code_message_15e_b9b4[] = {
 
     // b9d4: Store Value: fffffce0
     WTS,
-    0xFFFFFCE0,
+    0xFFFFFE70,
 
     // b9dc: Execute Code: 80221fd4 (Give/Take Ryo)
     ESR,

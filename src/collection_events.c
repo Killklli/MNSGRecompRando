@@ -242,7 +242,7 @@ void handle_item_by_id(u32 item_id)
     // Pot
     // For this we just give the player 30 ryo since pots don't have an "item" per say currently
     s32 pot_ryo = READ_SAVE_DATA(SAVE_RYO);
-    pot_ryo += 30;
+    pot_ryo += 50;
     WRITE_SAVE_DATA(SAVE_RYO, pot_ryo);
     break;
   }

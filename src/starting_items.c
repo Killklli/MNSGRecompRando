@@ -108,6 +108,67 @@ void on_save_start_hook()
         // Set starting character based on recruited characters
         set_starting_characters();
     }
+    
+    // Always grant the starting character regardless of seed_started status
+    if (rando_is_connected())
+    {
+        // Get starting characters data from Archipelago slot data
+        bool goemon_starting = false;
+        bool yae_starting = false;
+        bool ebisumaru_starting = false;
+        bool sasuke_starting = false;
+
+        // Get starting characters dictionary from slot data
+        u32 starting_characters_handle[2];
+        rando_get_slotdata_raw_o32("starting_characters", starting_characters_handle);
+        
+        // Check and get each character's starting status
+        if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "goemon"))
+        {
+            u32 goemon_handle[2];
+            rando_access_slotdata_raw_dict_o32(starting_characters_handle, "goemon", goemon_handle);
+            goemon_starting = (bool)rando_access_slotdata_raw_u32_o32(goemon_handle);
+        }
+
+        if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "yae"))
+        {
+            u32 yae_handle[2];
+            rando_access_slotdata_raw_dict_o32(starting_characters_handle, "yae", yae_handle);
+            yae_starting = (bool)rando_access_slotdata_raw_u32_o32(yae_handle);
+        }
+
+        if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "ebisumaru"))
+        {
+            u32 ebisumaru_handle[2];
+            rando_access_slotdata_raw_dict_o32(starting_characters_handle, "ebisumaru", ebisumaru_handle);
+            ebisumaru_starting = (bool)rando_access_slotdata_raw_u32_o32(ebisumaru_handle);
+        }
+
+        if (rando_access_slotdata_raw_dict_has_member_o32(starting_characters_handle, "sasuke"))
+        {
+            u32 sasuke_handle[2];
+            rando_access_slotdata_raw_dict_o32(starting_characters_handle, "sasuke", sasuke_handle);
+            sasuke_starting = (bool)rando_access_slotdata_raw_u32_o32(sasuke_handle);
+        }
+
+        // Only grant the character that is marked as starting
+        if (goemon_starting)
+        {
+            WRITE_SAVE_DATA(SAVE_GOEMON_RECRUITED, 1);
+        }
+        else if (yae_starting)
+        {
+            WRITE_SAVE_DATA(SAVE_YAE_RECRUITED, 1);
+        }
+        else if (ebisumaru_starting)
+        {
+            WRITE_SAVE_DATA(SAVE_EBISUMARU_RECRUITED, 1);
+        }
+        else if (sasuke_starting)
+        {
+            WRITE_SAVE_DATA(SAVE_SASUKE_RECRUITED, 1);
+        }
+    }
 }
 
 // Declares that a file has started for AP to know to work with file data
@@ -139,14 +200,27 @@ void on_file_started()
         // Set starting room from AP slotdata
         u32 starting_room = get_starting_room();
         WRITE_SPAWN_ROOM(starting_room);
-        
-        // Set spawn direction values to 0
-        WRITE_SAVE_DATA(0x20A, 0x00);
-        WRITE_SAVE_DATA(0x20C, 0x00);
-        WRITE_SAVE_DATA(0x20D, 0x00);
-        WRITE_SAVE_DATA_B(0x210, 0x00);
-        WRITE_SAVE_DATA_B(0x211, 0x00);
-        
+        if (starting_room == 0x1D1)
+        {
+            // Spawn Related
+            WRITE_SAVE_DATA(0x20A, 0x00);
+            WRITE_SAVE_DATA(0x20C, 0x00);
+            WRITE_SAVE_DATA(0x20D, 0x00);
+            // Set the following 3 bits for direction
+            WRITE_SAVE_DATA_B(0x210, 0x00);
+            WRITE_SAVE_DATA_B(0x211, 0x03);
+            WRITE_SPAWN_X(0);   // X coordinate
+            WRITE_SPAWN_Y(0);   // Y coordinate
+            WRITE_SPAWN_Z(-80);  // Z coordinate
+        }
+        else{
+            // Set spawn direction values to 0
+            WRITE_SAVE_DATA(0x20A, 0x00);
+            WRITE_SAVE_DATA(0x20C, 0x00);
+            WRITE_SAVE_DATA(0x20D, 0x00);
+            WRITE_SAVE_DATA_B(0x210, 0x00);
+            WRITE_SAVE_DATA_B(0x211, 0x00);
+        }
         // Get spawn coordinates from AP slot data
         u32 spawn_data_handle[2];
         rando_get_slotdata_raw_o32("starting_spawn_data", spawn_data_handle);

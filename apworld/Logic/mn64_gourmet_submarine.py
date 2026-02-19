@@ -1081,7 +1081,6 @@ LogicRegions = {
                 flag_id=0x00FA,
                 instance_id=0x0A,
             ),
-            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1933, instance_id=20),
         ],
         exits=[
             MN64TransitionFront("GourmetSubmarineSushiWindupCamera", lambda l: l.mini_ebisumaru and l.ebisumaru),
