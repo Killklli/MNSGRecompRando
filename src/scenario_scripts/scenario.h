@@ -2,8 +2,6 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-
-
 // Skip Next If Not Equal To Value
 #define SNE 0x8002
 

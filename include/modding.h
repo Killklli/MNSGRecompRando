@@ -3,11 +3,9 @@
 
 // Do not edit these defines. They use special section names that the recomp mod tool recognizes for specific modding functionality.
 
-#define RECOMP_IMPORT(mod, func) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"") \
-    _Pragma("GCC diagnostic ignored \"-Wreturn-type\"") \
-    __attribute__((noinline, weak, used, section(".recomp_import." mod))) func {} \
+#define RECOMP_IMPORT(mod, func)                                                                                                                \
+    _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"") _Pragma("GCC diagnostic ignored \"-Wreturn-type\"") \
+        __attribute__((noinline, weak, used, section(".recomp_import." mod))) func {}                                                           \
     _Pragma("GCC diagnostic pop")
 
 #define RECOMP_EXPORT __attribute__((section(".recomp_export")))
@@ -16,10 +14,8 @@
 
 #define RECOMP_FORCE_PATCH __attribute__((section(".recomp_force_patch")))
 
-#define RECOMP_DECLARE_EVENT(func) \
-    _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"") \
-    __attribute__((noinline, weak, used, section(".recomp_event"))) void func {} \
+#define RECOMP_DECLARE_EVENT(func)                                                                                                                                       \
+    _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"") __attribute__((noinline, weak, used, section(".recomp_event"))) void func {} \
     _Pragma("GCC diagnostic pop")
 
 #define RECOMP_CALLBACK(mod, event) __attribute__((section(".recomp_callback." mod ":" #event)))
@@ -28,15 +24,7 @@
 
 #define RECOMP_HOOK_RETURN(func) __attribute__((section(".recomp_hook_return." func)))
 
-// Debug logging functionality
-#include "libc/stdbool.h"
-extern bool debug_logging_enabled;
-
-// Debug printf macro - only prints if debug logging is enabled
-#define DEBUG_PRINTF(fmt, ...) do { \
-    if (debug_logging_enabled) { \
-        recomp_printf(fmt, ##__VA_ARGS__); \
-    } \
-} while(0)
+// Include recomputils for debug logging functionality
+#include "recomputils.h"
 
 #endif

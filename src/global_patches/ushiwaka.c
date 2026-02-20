@@ -6,12 +6,11 @@
 
 extern s32 func_800240DC_24CDC(s32 id);
 
-extern void func_08001B44_7189E4(void* obj, int mode);
+extern void func_08001B44_7189E4(void *obj, int mode);
 extern s32 D_8015C718;
 
 // Walking away animation patch to prevent ushiwaka from fleeing
-RECOMP_PATCH void func_080001DC_71707C(void* obj /* a0 */, void* a1_unused /* a1 */)
-{
+RECOMP_PATCH void func_080001DC_71707C(void *obj /* a0 */, void *a1_unused /* a1 */) {
     (void)a1_unused;
 
     // We commented out this block in what disables ushiwaka from running away
@@ -40,33 +39,27 @@ RECOMP_PATCH void func_080001DC_71707C(void* obj /* a0 */, void* a1_unused /* a1
     func_08001B44_7189E4(obj, 2);
 }
 
+extern void *D_8015C5C8_15D1C8;
 
-extern void* D_8015C5C8_15D1C8;
+extern void *func_800148F0_154F0(void *src, int len);
+extern void func_80034ED4_35AD4(void);
 
-extern void* func_800148F0_154F0(void* src, int len);
-extern void  func_80034ED4_35AD4(void);
+extern void func_08002604_7194A4(void *obj);
+extern void func_080028B4_719754(void *obj);
 
-extern void  func_08002604_7194A4(void* obj);
-extern void  func_080028B4_719754(void* obj);
-
-extern void  func_80221C0C_5DD0DC(void* obj, int a1, float a2, int a3);
-extern void  func_80221A90_5DCF60(void* obj);
-extern void  func_80218DA8_5D4278(void* obj, int a1, int a2, int a3);
+extern void func_80221C0C_5DD0DC(void *obj, int a1, float a2, int a3);
+extern void func_80221A90_5DCF60(void *obj);
+extern void func_80218DA8_5D4278(void *obj, int a1, int a2, int a3);
 extern void func_8003521C_35E1C(void *callback);
 extern const float D_08003634_71A4D4;
 
-
-static inline void  store_u32(void* base, u32 off, u32 v)   { *(u32*)((u8*)base + off) = v; }
-static inline void  store_u16(void* base, u32 off, u16 v)   { *(u16*)((u8*)base + off) = v; }
-static inline void  store_u8 (void* base, u32 off, u8  v)   { *(u8 *)((u8*)base + off) = v; }
-static inline void  store_f32(void* base, u32 off, float v) { *(float*)((u8*)base + off) = v; }
-
-
-
+static inline void store_u32(void *base, u32 off, u32 v) { *(u32 *)((u8 *)base + off) = v; }
+static inline void store_u16(void *base, u32 off, u16 v) { *(u16 *)((u8 *)base + off) = v; }
+static inline void store_u8(void *base, u32 off, u8 v) { *(u8 *)((u8 *)base + off) = v; }
+static inline void store_f32(void *base, u32 off, float v) { *(float *)((u8 *)base + off) = v; }
 
 // Patch to disable ushiwaka from despawning in the fishing room
-RECOMP_PATCH void func_08000000_716EA0(void* obj /* a0 */, void* cfg /* a1 */)
-{
+RECOMP_PATCH void func_08000000_716EA0(void *obj /* a0 */, void *cfg /* a1 */) {
     // Early gate:
     // if (check(0x28) != 0 && check(0x31) == 0) { func_80034ED4(); return; }
     // if (func_800240DC_24CDC(0x28) != 0) {
@@ -81,8 +74,8 @@ RECOMP_PATCH void func_08000000_716EA0(void* obj /* a0 */, void* cfg /* a1 */)
     {
         // asm does: a0 = *(u32*)&D_8015C5C8_15D1C8; a0 += 0xC7FA4;
         // (treating global as a raw pointer value)
-        u8* base = (u8*)(uintptr_t)(*(u32*)(void*)&D_8015C5C8_15D1C8);
-        void* p = func_800148F0_154F0(base + 0x000C7FA4, 0x14);
+        u8 *base = (u8 *)(uintptr_t)(*(u32 *)(void *)&D_8015C5C8_15D1C8);
+        void *p = func_800148F0_154F0(base + 0x000C7FA4, 0x14);
         store_u32(obj, 0xD0, (u32)(uintptr_t)p);
         if (p == 0) {
             func_80034ED4_35AD4();
@@ -104,10 +97,7 @@ RECOMP_PATCH void func_08000000_716EA0(void* obj /* a0 */, void* cfg /* a1 */)
     }
 
     // If any of {0x2A, 0x2B, 0x2C} is set, call func_08002604(obj).
-    if (func_800240DC_24CDC(0x2A) != 0 ||
-        func_800240DC_24CDC(0x2B) != 0 ||
-        func_800240DC_24CDC(0x2C) != 0)
-    {
+    if (func_800240DC_24CDC(0x2A) != 0 || func_800240DC_24CDC(0x2B) != 0 || func_800240DC_24CDC(0x2C) != 0) {
         func_08002604_7194A4(obj);
     }
 

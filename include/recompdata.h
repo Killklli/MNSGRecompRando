@@ -11,7 +11,7 @@
 // slotmaps: Like hashmaps, but the keys are generated instead of provided.
 //   Amortized O(1) performance for insertion, lookup, and deletion. More performant than hashmaps.
 
-// Hashmaps and slotmaps types are available that hold either 32-bit elements or data elements of a fixed element size.  
+// Hashmaps and slotmaps types are available that hold either 32-bit elements or data elements of a fixed element size.
 
 typedef unsigned long collection_key_t;
 
@@ -38,7 +38,7 @@ RECOMP_IMPORT("*", int recomputil_u32_value_hashmap_insert(U32ValueHashmapHandle
 
 // Attempts to retrieve a value from a u32 -> u32 hashmap.
 // Returns 1 if the key exists in the map and writes the element's value to *out, otherwise returns 0 and does not modify the contents in *out.
-RECOMP_IMPORT("*", int recomputil_u32_value_hashmap_get(U32ValueHashmapHandle handle, collection_key_t key, unsigned long* out));
+RECOMP_IMPORT("*", int recomputil_u32_value_hashmap_get(U32ValueHashmapHandle handle, collection_key_t key, unsigned long *out));
 
 // Erases a key from a u32 -> u32 hashmap. Does nothing if the key doesn't exist in the hashmap.
 // Returns 1 if the key was erased (i.e. it existed in the map), otherwise returns 0.
@@ -71,7 +71,7 @@ RECOMP_IMPORT("*", int recomputil_u32_memory_hashmap_create(U32MemoryHashmapHand
 
 // Attempts to retrieve a value from a u32 -> data hashmap.
 // Returns the element's pointer if the key exists in the map, otherwise returns null.
-RECOMP_IMPORT("*", void* recomputil_u32_memory_hashmap_get(U32MemoryHashmapHandle handle, collection_key_t key));
+RECOMP_IMPORT("*", void *recomputil_u32_memory_hashmap_get(U32MemoryHashmapHandle handle, collection_key_t key));
 
 // Erases a key from a u32 -> data hashmap. Does nothing if the key doesn't exist in the hashmap.
 // Returns 1 if the key was erased (i.e. it existed in the map), otherwise returns 0.
@@ -133,7 +133,7 @@ RECOMP_IMPORT("*", collection_key_t recomputil_u32_slotmap_create(U32SlotmapHand
 
 // Attempts to retrieve a value from a u32 slotmap.
 // Returns 1 if the key exists in the map and writes the element's value to *out, otherwise returns 0 and does not modify the contents in *out.
-RECOMP_IMPORT("*", int recomputil_u32_slotmap_get(U32SlotmapHandle handle, collection_key_t key, unsigned long* out));
+RECOMP_IMPORT("*", int recomputil_u32_slotmap_get(U32SlotmapHandle handle, collection_key_t key, unsigned long *out));
 
 // Attempts to set a value in a u32 slotmap. The value is not assigned if the key does not exist.
 // Returns 1 if the key existed, otherwise returns 0.
@@ -170,7 +170,7 @@ RECOMP_IMPORT("*", collection_key_t recomputil_memory_slotmap_create(MemorySlotm
 
 // Attempts to retrieve an element from a u32 slotmap.
 // Returns 1 if the key exists in the map and writes the element's pointer to *out, otherwise returns 0 and does not modify the contents in *out.
-RECOMP_IMPORT("*", int recomputil_memory_slotmap_get(MemorySlotmapHandle handle, collection_key_t key, void** out));
+RECOMP_IMPORT("*", int recomputil_memory_slotmap_get(MemorySlotmapHandle handle, collection_key_t key, void **out));
 
 // Erases a key from a memory slotmap.
 // Returns 1 if the key was erased (i.e. it exited in the map), otherwise returns 0.

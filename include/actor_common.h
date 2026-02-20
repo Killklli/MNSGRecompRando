@@ -1,14 +1,14 @@
 #ifndef ACTOR_COMMON_H
 #define ACTOR_COMMON_H
 
-#include "modding.h"
-#include "recomputils.h"
-#include "recompconfig.h"
 #include "common_structs.h"
+#include "modding.h"
+#include "recompconfig.h"
+#include "recomputils.h"
 
 // External declarations
 extern StageActorMetadata *D_80231300_5EC7D0[];
-extern unsigned short D_800C7AB2; // Part of the huge "SYS_W" structure, ID of the current stage
+extern unsigned short D_800C7AB2;                                  // Part of the huge "SYS_W" structure, ID of the current stage
 extern s32 func_800141C4_14DC4(unsigned int file_id);              // overlay_get_data_pointer
 extern s32 func_80014840_15440(s32 pointer, unsigned int file_id); // overlay_resolve_pointer
 

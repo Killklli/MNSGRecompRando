@@ -1,4 +1,3 @@
-#include "types.h"
 #include "menus.h"
 
 #include "Archipelago.h"
@@ -7,6 +6,7 @@
 #include "recompconfig.h"
 #include "recompui.h"
 #include "recomputils.h"
+#include "types.h"
 
 // Define constants
 #define C_TO_PARAMS(c) (c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF
@@ -25,8 +25,7 @@ extern s32 D_8003DC94;
 // Global variables
 OSThread *APThread;
 
-void createUiFrame(RecompuiContext context, UiFrame *frame)
-{
+void createUiFrame(RecompuiContext context, UiFrame *frame) {
     RecompuiColor bg_color;
     bg_color.r = 255;
     bg_color.g = 255;
@@ -89,10 +88,8 @@ void createUiFrame(RecompuiContext context, UiFrame *frame)
     recompui_set_background_color(frame->container, &modal_color);
 }
 
-void threadx_archipelago(void *arg)
-{
-    while (1)
-    {
+void threadx_archipelago(void *arg) {
+    while (1) {
         // recomp_printf("Printing from a new thread!\n");
         osSetThreadPri(APThread, 1);
         break;
@@ -101,17 +98,14 @@ void threadx_archipelago(void *arg)
 RECOMP_DECLARE_EVENT(rando_on_connect());
 static bool connect_menu_shown = false;
 
-void randoStart(bool multiworld)
-{
+void randoStart(bool multiworld) {
     rando_started = true;
     is_multiworld = multiworld;
     rando_on_connect();
 }
 RECOMP_HOOK_RETURN("func_800148C0_154C0")
-void on_boot()
-{
-    if (!connect_menu_shown)
-    {
+void on_boot() {
+    if (!connect_menu_shown) {
         randoCreateAPConnectMenu();
         ShowArchipelagoConnect();
         connect_menu_shown = true;

@@ -11,10 +11,7 @@ typedef unsigned long RecompuiTextureHandle;
 // Height of the window in DP units. This is fixed regardless of window size and aspect ratio.
 #define RECOMPUI_TOTAL_HEIGHT 1080.0f
 
-typedef enum {
-    CURSOR_NONE,
-    CURSOR_POINTER
-} RecompuiCursor;
+typedef enum { CURSOR_NONE, CURSOR_POINTER } RecompuiCursor;
 
 typedef enum {
     DISPLAY_NONE,
@@ -33,15 +30,9 @@ typedef enum {
     DISPLAY_TABLE_CELL
 } RecompuiDisplay;
 
-typedef enum {
-    VISIBILITY_VISIBLE,
-    VISIBILITY_HIDDEN
-} RecompuiVisibility;
+typedef enum { VISIBILITY_VISIBLE, VISIBILITY_HIDDEN } RecompuiVisibility;
 
-typedef enum {
-    POSITION_ABSOLUTE,
-    POSITION_RELATIVE
-} RecompuiPosition;
+typedef enum { POSITION_ABSOLUTE, POSITION_RELATIVE } RecompuiPosition;
 
 typedef enum {
     JUSTIFY_CONTENT_FLEX_START,
@@ -52,83 +43,32 @@ typedef enum {
     JUSTIFY_CONTENT_SPACE_EVENLY
 } RecompuiJustifyContent;
 
-typedef enum {
-    FLEX_DIRECTION_ROW,
-    FLEX_DIRECTION_COLUMN,
-    FLEX_DIRECTION_ROW_REVERSE,
-    FLEX_DIRECTION_COLUMN_REVERSE
-} RecompuiFlexDirection;
+typedef enum { FLEX_DIRECTION_ROW, FLEX_DIRECTION_COLUMN, FLEX_DIRECTION_ROW_REVERSE, FLEX_DIRECTION_COLUMN_REVERSE } RecompuiFlexDirection;
 
-typedef enum {
-    ALIGN_ITEMS_FLEX_START,
-    ALIGN_ITEMS_FLEX_END,
-    ALIGN_ITEMS_CENTER,
-    ALIGN_ITEMS_BASELINE,
-    ALIGN_ITEMS_STRETCH
-} RecompuiAlignItems;
+typedef enum { ALIGN_ITEMS_FLEX_START, ALIGN_ITEMS_FLEX_END, ALIGN_ITEMS_CENTER, ALIGN_ITEMS_BASELINE, ALIGN_ITEMS_STRETCH } RecompuiAlignItems;
 
-typedef enum {
-    OVERFLOW_VISIBLE,
-    OVERFLOW_HIDDEN,
-    OVERFLOW_AUTO,
-    OVERFLOW_SCROLL
-} RecompuiOverflow;
+typedef enum { OVERFLOW_VISIBLE, OVERFLOW_HIDDEN, OVERFLOW_AUTO, OVERFLOW_SCROLL } RecompuiOverflow;
 
-typedef enum {
-    UNIT_PX,
-    UNIT_DP,
-    UNIT_PERCENT
-} RecompuiUnit;
+typedef enum { UNIT_PX, UNIT_DP, UNIT_PERCENT } RecompuiUnit;
 
-typedef enum {
-    FONT_STYLE_NORMAL,
-    FONT_STYLE_ITALIC
-} RecompuiFontStyle;
+typedef enum { FONT_STYLE_NORMAL, FONT_STYLE_ITALIC } RecompuiFontStyle;
 
-typedef enum {
-    TEXT_ALIGN_LEFT,
-    TEXT_ALIGN_RIGHT,
-    TEXT_ALIGN_CENTER,
-    TEXT_ALIGN_JUSTIFY
-} RecompuiTextAlign;
+typedef enum { TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, TEXT_ALIGN_JUSTIFY } RecompuiTextAlign;
 
-typedef enum {
-    TEXT_TRANSFORM_NONE,
-    TEXT_TRANSFORM_CAPITALIZE,
-    TEXT_TRANSFORM_UPPERCASE,
-    TEXT_TRANSFORM_LOWERCASE
-} RecompuiTextTransform;
+typedef enum { TEXT_TRANSFORM_NONE, TEXT_TRANSFORM_CAPITALIZE, TEXT_TRANSFORM_UPPERCASE, TEXT_TRANSFORM_LOWERCASE } RecompuiTextTransform;
 
-typedef enum {
-    DRAG_NONE,
-    DRAG_DRAG,
-    DRAG_DRAG_DROP,
-    DRAG_BLOCK,
-    DRAG_CLONE
-} RecompuiDrag;
+typedef enum { DRAG_NONE, DRAG_DRAG, DRAG_DRAG_DROP, DRAG_BLOCK, DRAG_CLONE } RecompuiDrag;
 
-typedef enum {
-    TAB_INDEX_NONE,
-    TAB_INDEX_AUTO
-} RecompuiTabIndex;
+typedef enum { TAB_INDEX_NONE, TAB_INDEX_AUTO } RecompuiTabIndex;
 
 typedef enum {
     BUTTONSTYLE_PRIMARY,
     BUTTONSTYLE_SECONDARY,
 } RecompuiButtonStyle;
 
-typedef enum {
-    LABELSTYLE_ANNOTATION,
-    LABELSTYLE_SMALL,
-    LABELSTYLE_NORMAL,
-    LABELSTYLE_LARGE
-} RecompuiLabelStyle;
+typedef enum { LABELSTYLE_ANNOTATION, LABELSTYLE_SMALL, LABELSTYLE_NORMAL, LABELSTYLE_LARGE } RecompuiLabelStyle;
 
-typedef enum {
-    SLIDERTYPE_NUMBER,
-    SLIDERTYPE_PERCENT,
-    SLIDERTYPE_INTEGER
-} RecompuiSliderType;
+typedef enum { SLIDERTYPE_NUMBER, SLIDERTYPE_PERCENT, SLIDERTYPE_INTEGER } RecompuiSliderType;
 
 typedef enum {
     NAVDIRECTION_UP,
@@ -166,14 +106,13 @@ RECOMP_IMPORT("*", void recompui_set_context_captures_mouse(RecompuiContext cont
 RECOMP_IMPORT("*", RecompuiResource recompui_create_style(RecompuiContext context));
 RECOMP_IMPORT("*", RecompuiResource recompui_create_element(RecompuiContext context, RecompuiResource parent));
 RECOMP_IMPORT("*", RecompuiResource recompui_destroy_element(RecompuiResource parent, RecompuiResource element));
-RECOMP_IMPORT("*", RecompuiResource recompui_create_button(RecompuiContext context, RecompuiResource parent, const char* text, RecompuiButtonStyle style));
-RECOMP_IMPORT("*", RecompuiResource recompui_create_label(RecompuiContext context, RecompuiResource parent, const char* text, RecompuiLabelStyle label_style));
+RECOMP_IMPORT("*", RecompuiResource recompui_create_button(RecompuiContext context, RecompuiResource parent, const char *text, RecompuiButtonStyle style));
+RECOMP_IMPORT("*", RecompuiResource recompui_create_label(RecompuiContext context, RecompuiResource parent, const char *text, RecompuiLabelStyle label_style));
 RECOMP_IMPORT("*", RecompuiResource recompui_create_textinput(RecompuiContext context, RecompuiResource parent));
 RECOMP_IMPORT("*", RecompuiResource recompui_create_passwordinput(RecompuiContext context, RecompuiResource parent));
-RECOMP_IMPORT("*", RecompuiResource recompui_create_labelradio(RecompuiContext context, RecompuiResource parent,
-    const char** options, unsigned long num_options));
-RECOMP_IMPORT("*", RecompuiResource recompui_create_slider(RecompuiContext context, RecompuiResource parent,
-    RecompuiSliderType type, float min_value, float max_value, float step, float initial_value));
+RECOMP_IMPORT("*", RecompuiResource recompui_create_labelradio(RecompuiContext context, RecompuiResource parent, const char **options, unsigned long num_options));
+RECOMP_IMPORT("*",
+              RecompuiResource recompui_create_slider(RecompuiContext context, RecompuiResource parent, RecompuiSliderType type, float min_value, float max_value, float step, float initial_value));
 RECOMP_IMPORT("*", RecompuiResource recompui_create_imageview(RecompuiContext context, RecompuiResource parent, RecompuiTextureHandle texture));
 
 // Position and Layout
@@ -226,13 +165,13 @@ RECOMP_IMPORT("*", void recompui_set_border_bottom_left_radius(RecompuiResource 
 RECOMP_IMPORT("*", void recompui_set_border_bottom_right_radius(RecompuiResource id, float radius, RecompuiUnit unit));
 
 // Colors
-RECOMP_IMPORT("*", void recompui_set_background_color(RecompuiResource id, const RecompuiColor* color));
-RECOMP_IMPORT("*", void recompui_set_border_color(RecompuiResource id, const RecompuiColor* color));
-RECOMP_IMPORT("*", void recompui_set_border_left_color(RecompuiResource id, const RecompuiColor* color));
-RECOMP_IMPORT("*", void recompui_set_border_top_color(RecompuiResource id, const RecompuiColor* color));
-RECOMP_IMPORT("*", void recompui_set_border_right_color(RecompuiResource id, const RecompuiColor* color));
-RECOMP_IMPORT("*", void recompui_set_border_bottom_color(RecompuiResource id, const RecompuiColor* color));
-RECOMP_IMPORT("*", void recompui_set_color(RecompuiResource id, const RecompuiColor* color));
+RECOMP_IMPORT("*", void recompui_set_background_color(RecompuiResource id, const RecompuiColor *color));
+RECOMP_IMPORT("*", void recompui_set_border_color(RecompuiResource id, const RecompuiColor *color));
+RECOMP_IMPORT("*", void recompui_set_border_left_color(RecompuiResource id, const RecompuiColor *color));
+RECOMP_IMPORT("*", void recompui_set_border_top_color(RecompuiResource id, const RecompuiColor *color));
+RECOMP_IMPORT("*", void recompui_set_border_right_color(RecompuiResource id, const RecompuiColor *color));
+RECOMP_IMPORT("*", void recompui_set_border_bottom_color(RecompuiResource id, const RecompuiColor *color));
+RECOMP_IMPORT("*", void recompui_set_color(RecompuiResource id, const RecompuiColor *color));
 
 // Cursor and Display
 RECOMP_IMPORT("*", void recompui_set_cursor(RecompuiResource id, RecompuiCursor cursor));
@@ -254,7 +193,7 @@ RECOMP_IMPORT("*", void recompui_set_overflow_x(RecompuiResource id, RecompuiOve
 RECOMP_IMPORT("*", void recompui_set_overflow_y(RecompuiResource id, RecompuiOverflow overflow));
 
 // Text and Fonts
-RECOMP_IMPORT("*", void recompui_set_text(RecompuiResource id, const char* text));
+RECOMP_IMPORT("*", void recompui_set_text(RecompuiResource id, const char *text));
 RECOMP_IMPORT("*", void recompui_set_font_size(RecompuiResource id, float size, RecompuiUnit unit));
 RECOMP_IMPORT("*", void recompui_set_letter_spacing(RecompuiResource id, float spacing, RecompuiUnit unit));
 RECOMP_IMPORT("*", void recompui_set_line_height(RecompuiResource id, float height, RecompuiUnit unit));
@@ -275,10 +214,10 @@ RECOMP_IMPORT("*", void recompui_set_tab_index(RecompuiResource id, RecompuiTabI
 RECOMP_IMPORT("*", unsigned long recompui_get_input_value_u32(RecompuiResource id));
 RECOMP_IMPORT("*", float recompui_get_input_value_float(RecompuiResource id));
 // !! You must call `recomp_free` on the return value of `recompui_get_input_text` when you're finished with it!
-RECOMP_IMPORT("*", char* recompui_get_input_text(RecompuiResource id));
+RECOMP_IMPORT("*", char *recompui_get_input_text(RecompuiResource id));
 RECOMP_IMPORT("*", void recompui_set_input_value_u32(RecompuiResource id, unsigned long val));
 RECOMP_IMPORT("*", void recompui_set_input_value_float(RecompuiResource id, float val));
-RECOMP_IMPORT("*", void recompui_set_input_text(RecompuiResource id, const char* text));
+RECOMP_IMPORT("*", void recompui_set_input_text(RecompuiResource id, const char *text));
 
 // Navigation
 RECOMP_IMPORT("*", void recompui_set_nav_auto(RecompuiResource id, RecompuiNavDirection direction));
@@ -286,12 +225,12 @@ RECOMP_IMPORT("*", void recompui_set_nav_none(RecompuiResource id, RecompuiNavDi
 RECOMP_IMPORT("*", void recompui_set_nav(RecompuiResource id, RecompuiNavDirection direction, RecompuiResource target_id));
 
 // Images
-RECOMP_IMPORT("*", RecompuiTextureHandle recompui_create_texture_rgba32(void* data, unsigned long width, unsigned long height));
+RECOMP_IMPORT("*", RecompuiTextureHandle recompui_create_texture_rgba32(void *data, unsigned long width, unsigned long height));
 RECOMP_IMPORT("*", void recompui_destroy_texture(RecompuiTextureHandle texture));
 RECOMP_IMPORT("*", void recompui_set_imageview_texture(RecompuiResource id, RecompuiTextureHandle texture));
 
 // Callbacks
-typedef void RecompuiEventHandler(RecompuiResource resource, const RecompuiEventData* event, void* userdata);
-RECOMP_IMPORT("*", void recompui_register_callback(RecompuiResource id, RecompuiEventHandler* handler, void* userdata));
+typedef void RecompuiEventHandler(RecompuiResource resource, const RecompuiEventData *event, void *userdata);
+RECOMP_IMPORT("*", void recompui_register_callback(RecompuiResource id, RecompuiEventHandler *handler, void *userdata));
 
 #endif

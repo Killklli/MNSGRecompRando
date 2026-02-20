@@ -14,9 +14,8 @@
 #define ALIGN_64B(addr) (((unsigned int)(addr) + 0x3F) & 0xFFFFFFC0)
 
 // External data declarations
-extern unsigned short
-    D_800C7AB2;               // Part of the huge "SYS_W" structure, ID of the current stage
-extern u32 D_8015C5C8_15D1C8; // Current level/index value
+extern unsigned short D_800C7AB2; // Part of the huge "SYS_W" structure, ID of the current stage
+extern u32 D_8015C5C8_15D1C8;     // Current level/index value
 extern WAVE_W D_80167FC0_168BC0[WAVE_MAX];
 
 // External function declarations
@@ -27,8 +26,7 @@ extern int func_800142BC_14EBC(unsigned short, int);
 // Function declarations
 void func_80013AC4_146C4(short *file_list);
 
-RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
-{
+RECOMP_PATCH void func_8020D6BC_5C8B8C(void) {
     u32 level_index;
     u32 base_offset;
     StageActorMetadata *level_struct;
@@ -43,11 +41,9 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
     // print D_800C7AB2
     DEBUG_PRINTF("D_800C7AB2 (current room): 0x%03X\n", D_800C7AB2);
     // Print the level index and base offset
-    DEBUG_PRINTF("Level Index: 0x%X, Base Offset: 0x%X\n", level_index,
-                 base_offset);
+    DEBUG_PRINTF("Level Index: 0x%X, Base Offset: 0x%X\n", level_index, base_offset);
     // Get the level data structure from the array
-    level_struct =
-        D_80231300_5EC7D0[*(u16 *)((u8 *)level_index + base_offset + 0x2DF2)];
+    level_struct = D_80231300_5EC7D0[*(u16 *)((u8 *)level_index + base_offset + 0x2DF2)];
 
     // Extract function pointer from offset 0x18 in the structure
     func_ptr = *(void **)((char *)level_struct + 0x18);
@@ -65,10 +61,8 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
     static short ap_file_list[WAVE_MAX] = {0};
     bool use_ap_data = false;
 
-    if (should_run_ap_logic())
-    {
-        DEBUG_PRINTF("Archipelago connected, checking for room %d file list\n",
-                     D_800C7AB2);
+    if (should_run_ap_logic()) {
+        DEBUG_PRINTF("Archipelago connected, checking for room %d file list\n", D_800C7AB2);
 
         // Convert room ID to string for lookup
         char room_id_str[16];
@@ -79,8 +73,7 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
         rando_get_slotdata_raw_o32("room_file_data", room_files_handle);
 
         u32 current_room_files[2];
-        rando_access_slotdata_raw_dict_o32(room_files_handle, room_id_str,
-                                           current_room_files);
+        rando_access_slotdata_raw_dict_o32(room_files_handle, room_id_str, current_room_files);
 
         // Check if we have valid room data
         u32 files_iter[2];
@@ -88,17 +81,14 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
 
         u32 test_file_key[2];
         u32 test_file_value[2];
-        bool has_archipelago_data = rando_iter_slotdata_raw_dict_next_o32(
-            current_room_files, files_iter, test_file_key, test_file_value);
+        bool has_archipelago_data = rando_iter_slotdata_raw_dict_next_o32(current_room_files, files_iter, test_file_key, test_file_value);
 
         // Close the iterator after checking
         rando_iter_slotdata_raw_dict_close_o32(current_room_files, files_iter);
 
-        if (has_archipelago_data)
-        {
+        if (has_archipelago_data) {
             // Clear the AP file list
-            for (int i = 0; i < WAVE_MAX; i++)
-            {
+            for (int i = 0; i < WAVE_MAX; i++) {
                 ap_file_list[i] = 0;
             }
 
@@ -111,10 +101,7 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
             u32 file_key[2];
             u32 file_value[2];
 
-            while (rando_iter_slotdata_raw_dict_next_o32(
-                       current_room_files, files_iter, file_key, file_value) &&
-                   file_count < WAVE_MAX - 2)
-            {
+            while (rando_iter_slotdata_raw_dict_next_o32(current_room_files, files_iter, file_key, file_value) && file_count < WAVE_MAX - 2) {
                 char value_str[256];
                 rando_access_slotdata_raw_string_o32(file_value, value_str);
 
@@ -124,30 +111,24 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
                 // Convert file ID string to integer
                 unsigned int file_id_int = 0;
                 int i = 0;
-                while (value_str[i] >= '0' && value_str[i] <= '9')
-                {
+                while (value_str[i] >= '0' && value_str[i] <= '9') {
                     file_id_int = file_id_int * 10 + (value_str[i] - '0');
                     i++;
                 }
 
-                if (file_id_int > 0)
-                {
+                if (file_id_int > 0) {
                     // Check if this file ID is not already in the list
                     bool already_exists = false;
-                    for (int j = 0; j < file_count; j++)
-                    {
-                        if (ap_file_list[j] == (short)file_id_int)
-                        {
+                    for (int j = 0; j < file_count; j++) {
+                        if (ap_file_list[j] == (short)file_id_int) {
                             already_exists = true;
                             break;
                         }
                     }
 
-                    if (!already_exists)
-                    {
+                    if (!already_exists) {
                         ap_file_list[file_count] = (short)file_id_int;
-                        DEBUG_PRINTF("AP file %d: 0x%X\n", file_count,
-                                     (unsigned short)ap_file_list[file_count]);
+                        DEBUG_PRINTF("AP file %d: 0x%X\n", file_count, (unsigned short)ap_file_list[file_count]);
                         file_count++;
                     }
                 }
@@ -158,40 +139,20 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
 
             // Always inject safety file 0x01A at the END when connected to AP
             bool safety_file_exists = false;
-            for (int j = 0; j < file_count; j++)
-            {
-                if (ap_file_list[j] == 0x01A)
-                {
+            for (int j = 0; j < file_count; j++) {
+                if (ap_file_list[j] == 0x01A) {
                     safety_file_exists = true;
                     break;
                 }
             }
-
-            if (!safety_file_exists && file_count < WAVE_MAX - 1)
-            {
+            // TODO: We should just do this via AP instead of here
+            if (!safety_file_exists && file_count < WAVE_MAX - 1) {
                 ap_file_list[file_count] = 0x01A;
                 DEBUG_PRINTF("Safety file injected at end: 0x01A\n");
                 file_count++;
             }
-
-            // // Always inject safety file 0x01C at the END when connected to AP
-            // bool safety_file_01C_exists = false;
-            // for (int j = 0; j < file_count; j++) {
-            //     if (ap_file_list[j] == 0x037) {
-            //         safety_file_01C_exists = true;
-            //         break;
-            //     }
-            // }
-
-            // if (!safety_file_01C_exists && file_count < WAVE_MAX - 1) {
-            //     ap_file_list[file_count] = 0x037;
-            //     recomp_printf("Safety file injected at end: 0x025\n");
-            //     file_count++;
-            // }
-
             // Ensure the list is properly null-terminated
-            if (file_count < WAVE_MAX)
-            {
+            if (file_count < WAVE_MAX) {
                 ap_file_list[file_count] = 0;
             }
 
@@ -200,20 +161,16 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void)
     }
 
     // Call func_80013AC4_146C4 with appropriate data
-    if (use_ap_data)
-    {
+    if (use_ap_data) {
         DEBUG_PRINTF("Using Archipelago file data\n");
         func_80013AC4_146C4(ap_file_list);
-    }
-    else
-    {
+    } else {
         DEBUG_PRINTF("Using original function call\n");
         ((void (*)())func_at_303C)();
     }
 }
 
-RECOMP_PATCH int func_80013B14_14714(unsigned short wave_no)
-{
+RECOMP_PATCH int func_80013B14_14714(unsigned short wave_no) {
     WAVE_W *slot;
     int load_addr;
     int end_addr;
@@ -222,21 +179,17 @@ RECOMP_PATCH int func_80013B14_14714(unsigned short wave_no)
     slot = D_80167FC0_168BC0;
 
     /* Search for existing overlay or first empty slot */
-    if (D_80167FC0_168BC0[0].file_id != 0)
-    {
-        do
-        {
+    if (D_80167FC0_168BC0[0].file_id != 0) {
+        do {
             /* Found existing overlay - return its code address */
-            if (slot->file_id == wave_no)
-            {
+            if (slot->file_id == wave_no) {
                 return slot[1].data;
             }
 
             slot++;
 
             /* Check if we've exceeded the slot array */
-            if (slot > &D_80167FC0_168BC0[WAVE_MAX - 1])
-            {
+            if (slot > &D_80167FC0_168BC0[WAVE_MAX - 1]) {
                 return 0;
             }
         } while (slot->file_id != 0);
@@ -248,8 +201,7 @@ RECOMP_PATCH int func_80013B14_14714(unsigned short wave_no)
 
     /* Check if overlay requires uncached memory access */
     is_code_overlay = func_80001DF4_29F4(wave_no);
-    if (is_code_overlay != 0)
-    {
+    if (is_code_overlay != 0) {
         load_addr = ALIGN_4KB(load_addr);
         slot->data = load_addr;
     }

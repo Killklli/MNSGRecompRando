@@ -1,8 +1,8 @@
 #pragma once
 
+#include "libc/stdbool.h"
 #include "recompui.h"
 #include "types.h"
-#include "libc/stdbool.h"
 
 typedef struct {
     RecompuiResource root;
@@ -10,6 +10,6 @@ typedef struct {
 } UiFrame;
 
 void randoStart(bool multiworld);
-void createUiFrame(RecompuiContext context, UiFrame* frame);
+void createUiFrame(RecompuiContext context, UiFrame *frame);
 static bool rando_started = false;
 static bool is_multiworld = false;

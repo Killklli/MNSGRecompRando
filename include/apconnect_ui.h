@@ -1,6 +1,6 @@
 #pragma once
-#include "recompui.h"
 #include "menus.h"
+#include "recompui.h"
 
 typedef struct {
     RecompuiContext context;

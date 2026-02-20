@@ -14,12 +14,7 @@ typedef enum {
     UI_EVENT_COUNT
 } RecompuiEventType;
 
-typedef enum {
-    UI_DRAG_NONE,
-    UI_DRAG_START,
-    UI_DRAG_MOVE,
-    UI_DRAG_END
-} RecompuiDragPhase;
+typedef enum { UI_DRAG_NONE, UI_DRAG_START, UI_DRAG_MOVE, UI_DRAG_END } RecompuiDragPhase;
 
 typedef struct {
     RecompuiEventType type;

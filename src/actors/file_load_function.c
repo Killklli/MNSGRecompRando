@@ -4,8 +4,7 @@
 #include "types.h"
 extern unsigned int func_80001E50_2A50(unsigned short);
 extern int func_800141C4_14DC4(unsigned short);
-RECOMP_PATCH int func_80014840_15440(int arg0, unsigned int wave_no) 
-{
+RECOMP_PATCH int func_80014840_15440(int arg0, unsigned int wave_no) {
     int data;
 
     if (arg0 > 0) {

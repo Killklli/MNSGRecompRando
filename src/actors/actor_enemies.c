@@ -7,54 +7,19 @@
 #include "libc/stdio.h"
 #include "libc/string.h"
 #include "modding.h"
+#include "recomputils.h"
 #include "types.h"
 
 // External data declarations
-extern unsigned short
-    D_800C7AB2; // Part of the huge "SYS_W" structure, ID of the current stage
+extern unsigned short D_800C7AB2; // Part of the huge "SYS_W" structure, ID of the current stage
 
 // External function declarations
 extern s32 func_802268A8_5E1D78(void *obj);
 
-// Simple atoi implementation since it's not available in the limited libc
-static int simple_atoi(const char *str)
-{
-    int result = 0;
-    int sign = 1;
-
-    // Skip whitespace
-    while (*str == ' ' || *str == '\t')
-    {
-        str++;
-    }
-
-    // Handle sign
-    if (*str == '-')
-    {
-        sign = -1;
-        str++;
-    }
-    else if (*str == '+')
-    {
-        str++;
-    }
-
-    // Convert digits
-    while (*str >= '0' && *str <= '9')
-    {
-        result = result * 10 + (*str - '0');
-        str++;
-    }
-
-    return result * sign;
-}
-
-EnemyReplacementList get_enemy_replacements_for_room()
-{
+EnemyReplacementList get_enemy_replacements_for_room() {
     EnemyReplacementList result = {NULL, 0};
 
-    if (should_run_ap_logic())
-    {
+    if (should_run_ap_logic()) {
         // try to get the value of enemy_data and then get the key 0x13D
         // Convert room ID to string for lookup
         char room_id_str[16];
@@ -64,8 +29,7 @@ EnemyReplacementList get_enemy_replacements_for_room()
         rando_get_slotdata_raw_o32("enemy_data", room_files_handle);
 
         u32 current_room_files[2];
-        rando_access_slotdata_raw_dict_o32(room_files_handle, room_id_str,
-                                           current_room_files);
+        rando_access_slotdata_raw_dict_o32(room_files_handle, room_id_str, current_room_files);
 
         // Check if we actually got valid room data before clearing the original
         // file list
@@ -75,30 +39,24 @@ EnemyReplacementList get_enemy_replacements_for_room()
         // Test if there's any data in the iterator
         u32 test_file_key[2];
         u32 test_file_value[2];
-        bool has_archipelago_data = rando_iter_slotdata_raw_dict_next_o32(
-            current_room_files, files_iter, test_file_key, test_file_value);
+        bool has_archipelago_data = rando_iter_slotdata_raw_dict_next_o32(current_room_files, files_iter, test_file_key, test_file_value);
         rando_iter_slotdata_raw_dict_close_o32(current_room_files, files_iter);
-        if (has_archipelago_data)
-        {
+        if (has_archipelago_data) {
             // Count the number of replacements first
             int count = 0;
             u32 count_iter[2];
             rando_iter_slotdata_raw_dict_o32(current_room_files, count_iter);
             u32 temp_key[2], temp_value[2];
-            while (rando_iter_slotdata_raw_dict_next_o32(
-                current_room_files, count_iter, temp_key, temp_value))
-            {
+            while (rando_iter_slotdata_raw_dict_next_o32(current_room_files, count_iter, temp_key, temp_value)) {
                 count++;
             }
             rando_iter_slotdata_raw_dict_close_o32(current_room_files, count_iter);
 
             // Allocate memory for the pairs
-            result.pairs = (EnemyReplacementPair *)recomp_alloc(
-                count * sizeof(EnemyReplacementPair));
+            result.pairs = (EnemyReplacementPair *)recomp_alloc(count * sizeof(EnemyReplacementPair));
             result.count = count;
 
-            if (result.pairs != NULL)
-            {
+            if (result.pairs != NULL) {
                 // Re-create the iterator for filling the pairs array
                 u32 fill_iter[2];
                 rando_iter_slotdata_raw_dict_o32(current_room_files, fill_iter);
@@ -107,9 +65,7 @@ EnemyReplacementList get_enemy_replacements_for_room()
                 int pair_index = 0;
                 u32 file_key[2];
                 u32 file_value[2];
-                while (rando_iter_slotdata_raw_dict_next_o32(
-                    current_room_files, fill_iter, file_key, file_value))
-                {
+                while (rando_iter_slotdata_raw_dict_next_o32(current_room_files, fill_iter, file_key, file_value)) {
                     // Get the key as a string (enemy index)
                     char key_str[256];
                     rando_access_slotdata_raw_string_o32(file_key, key_str);
@@ -120,8 +76,7 @@ EnemyReplacementList get_enemy_replacements_for_room()
 
                     // Convert strings to integers
                     result.pairs[pair_index].index = simple_atoi(key_str);
-                    result.pairs[pair_index].new_enemy_id =
-                        (unsigned short)simple_atoi(value_str);
+                    result.pairs[pair_index].new_enemy_id = (unsigned short)simple_atoi(value_str);
 
                     pair_index++;
                 }
@@ -133,21 +88,14 @@ EnemyReplacementList get_enemy_replacements_for_room()
     return result;
 }
 
-void process_enemy_actors(ActorInstance *actor_instance,
-                          ActorDefinition *resolved_actor_def,
-                          unsigned short actor_id,
-                          unsigned short actor_data_file_id,
-                          int overall_index)
-{
+void process_enemy_actors(ActorInstance *actor_instance, ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index) {
     // Check if enemy_rando is disabled in slot data
-    if (rando_is_connected())
-    {
+    if (rando_is_connected()) {
         u32 enemy_rando_handle[2];
         rando_get_slotdata_raw_o32("enemy_rando", enemy_rando_handle);
         u32 enemy_rando_value = rando_access_slotdata_raw_u32_o32(enemy_rando_handle);
-        
-        if (!enemy_rando_value)
-        {
+
+        if (!enemy_rando_value) {
             return; // Exit early if enemy_rando is False
         }
     }
@@ -161,15 +109,11 @@ void process_enemy_actors(ActorInstance *actor_instance,
     bool found_replacement = false;
 
     // Check the dynamic replacements from Archipelago
-    for (int i = 0; i < replacements.count; i++)
-    {
-        if (replacements.pairs[i].index == overall_index)
-        {
+    for (int i = 0; i < replacements.count; i++) {
+        if (replacements.pairs[i].index == overall_index) {
             // Skip if the new enemy ID is 0 (likely invalid)
-            if (replacements.pairs[i].new_enemy_id == 0)
-            {
-                DEBUG_PRINTF("Skipping replacement for index %d: new enemy ID is 0\n",
-                             overall_index);
+            if (replacements.pairs[i].new_enemy_id == 0) {
+                DEBUG_PRINTF("Skipping replacement for index %d: new enemy ID is 0\n", overall_index);
                 break;
             }
 
@@ -179,13 +123,10 @@ void process_enemy_actors(ActorInstance *actor_instance,
         }
     }
 
-    if (found_replacement)
-    {
+    if (found_replacement) {
         // Create a new actor definition for this specific instance
-        ActorDefinition *new_actor_def =
-            (ActorDefinition *)recomp_alloc(sizeof(ActorDefinition));
-        if (new_actor_def != NULL)
-        {
+        ActorDefinition *new_actor_def = (ActorDefinition *)recomp_alloc(sizeof(ActorDefinition));
+        if (new_actor_def != NULL) {
             // Copy the original definition data
             new_actor_def->data[0] = resolved_actor_def->data[0];
             new_actor_def->data[1] = resolved_actor_def->data[1];
@@ -193,21 +134,17 @@ void process_enemy_actors(ActorInstance *actor_instance,
             new_actor_def->data[3] = resolved_actor_def->data[3];
 
             // Change the actor ID in the new definition
-            new_actor_def->data[0] =
-                (new_actor_def->data[0] & 0x0000FFFF) | (new_robot_id << 16);
+            new_actor_def->data[0] = (new_actor_def->data[0] & 0x0000FFFF) | (new_robot_id << 16);
 
             // Update this instance to point to the new definition
             actor_instance->actor_definition = new_actor_def;
 
-            DEBUG_PRINTF(
-                "Enemy replaced in room 0x%03X: 0x%03X -> 0x%03X (index %d)\n",
-                D_800C7AB2, actor_id, new_robot_id, overall_index);
+            DEBUG_PRINTF("Enemy replaced in room 0x%03X: 0x%03X -> 0x%03X (index %d)\n", D_800C7AB2, actor_id, new_robot_id, overall_index);
         }
     }
 
     // Clean up allocated memory
-    if (replacements.pairs != NULL)
-    {
+    if (replacements.pairs != NULL) {
         recomp_free(replacements.pairs);
     }
 }
@@ -215,29 +152,24 @@ void process_enemy_actors(ActorInstance *actor_instance,
 // For some reason we get a divide by zero in this function if certain floats
 // are zero, so we just force them to 1.0f out of safety
 RECOMP_HOOK("func_80219578_5D4A48")
-void func_80219578_5D4A48_hook(void *arg0, float arg1)
-{
+void func_80219578_5D4A48_hook(void *arg0, float arg1) {
     // Check and adjust float at offset 0xd8
     float *float_d8 = (float *)((unsigned char *)(arg0) + 0xd8);
-    if (*float_d8 == 0.0f)
-    {
+    if (*float_d8 == 0.0f) {
         *float_d8 = 20.0f;
     }
     // Check and adjust float at offset 0xdc
     float *float_dc = (float *)((unsigned char *)(arg0) + 0xdc);
-    if (*float_dc == 0.0f)
-    {
+    if (*float_dc == 0.0f) {
         *float_dc = 20.0f;
     }
 }
 
 // Fixes path tracing on enemies that try to path to the player, but start off
 // in the air or invalid locations
-RECOMP_PATCH void func_08001FF4_6D10D4(void *obj, void *arg1)
-{
+RECOMP_PATCH void func_08001FF4_6D10D4(void *obj, void *arg1) {
     // Check if obj pointer is valid
-    if (obj == NULL)
-    {
+    if (obj == NULL) {
         return;
     }
 
@@ -245,9 +177,7 @@ RECOMP_PATCH void func_08001FF4_6D10D4(void *obj, void *arg1)
     uintptr_t obj_addr = (uintptr_t)obj;
     // Check if this looks like a valid N64 address (either 32-bit or
     // sign-extended 64-bit)
-    if ((obj_addr & 0xFFFFFFFF) < 0x80000000 ||
-        (obj_addr & 0xFFFFFFFF) >= 0x88000000)
-    {
+    if ((obj_addr & 0xFFFFFFFF) < 0x80000000 || (obj_addr & 0xFFFFFFFF) >= 0x88000000) {
         return;
     }
 
@@ -257,8 +187,7 @@ RECOMP_PATCH void func_08001FF4_6D10D4(void *obj, void *arg1)
 
     // Check if this looks like a valid object pointer by examining some common
     // object fields
-    if (first_word == 0 || first_word == 0xFFFFFFFF)
-    {
+    if (first_word == 0 || first_word == 0xFFFFFFFF) {
         return;
     }
 
@@ -269,15 +198,12 @@ RECOMP_PATCH void func_08001FF4_6D10D4(void *obj, void *arg1)
     // Call the condition check function
     // s32 condition_result = func_802268A8_5E1D78(obj);
 
-    if (condition_result)
-    {
+    if (condition_result) {
         // Additional safety check for the flags pointer
         u32 *flags_ptr = (u32 *)((u8 *)obj + 0x68);
         uintptr_t flags_addr = (uintptr_t)flags_ptr;
 
-        if ((flags_addr & 0xFFFFFFFF) < 0x80000000 ||
-            (flags_addr & 0xFFFFFFFF) >= 0x88000000)
-        {
+        if ((flags_addr & 0xFFFFFFFF) < 0x80000000 || (flags_addr & 0xFFFFFFFF) >= 0x88000000) {
             return;
         }
 

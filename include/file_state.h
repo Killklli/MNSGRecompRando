@@ -1,7 +1,7 @@
 #pragma once
 
-#include "types.h"
 #include "libc/stdbool.h"
+#include "types.h"
 
 // Global flag to track if we're in a file (save data loaded)
 extern bool file_started;
