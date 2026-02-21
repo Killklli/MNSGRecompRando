@@ -30,15 +30,18 @@ The randomizer shuffles a comprehensive set of items including:
 
 ## Installation
 
-### Step 1: Get the APWorld File
+### Step 1: Get the Recompiled Client
+1. Download the latest Mystical Ninja Starring Goemon: Recompiled client from https://github.com/klorfmorf/Goemon64Recomp/releases
+
+### Step 2: Get the APWorld File
 1. Download the latest `mnsg.apworld` file from the releases, or
 2. Build it yourself using the provided `package_apworld.py` script
 
-### Step 2: Install in Archipelago
+### Step 3: Install in Archipelago
 1. Place the `mnsg.apworld` file in your Archipelago `custom_worlds` folder
 2. The world will now be available when creating new Archipelago games
 
-### Step 3: Get the Mod File
+### Step 4: Get the Mod File
 1. Download the latest `mod.zip` file from the releases
 2. Install the mod in your Mystical Ninja Starring Goemon: Recompiled mods folder
 
