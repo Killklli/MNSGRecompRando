@@ -1,3 +1,4 @@
+// By default the fire platforms in festival temple don't spawn until you actually get the kunai, so this spawns them.
 #include "Archipelago.h"
 #include "common.h"
 // External function declarations

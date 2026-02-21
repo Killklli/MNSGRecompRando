@@ -1,3 +1,4 @@
+// Updates the crane game entity to be a surprise pack because it uses a custom object spawner
 #include "libc/stdbool.h"
 #include "modding.h"
 #include "recomputils.h"

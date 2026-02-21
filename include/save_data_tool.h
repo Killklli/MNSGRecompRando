@@ -231,10 +231,12 @@ extern u8 D_8015C608_15D208[0x304];
 // TODO: These negative offsets are actually for D_8015C66C_15D26C, but we're running into semantics if we write to the array itself
 // So we're just leaving it as is for now and loading these independently.
 
-// Rice Ball system (negative offsets from base)
-#define SAVE_CURRENT_RICE_BALL -0x18  // Values: 1,2,3
-#define SAVE_RICE_BALL_AMOUNT_3 -0x14 // Values: 1,2,3
-#define SAVE_RICE_BALL_AMOUNT_8 -0x10 // Values: 3,5,8
+// Inventory system (negative offsets from base)
+#define SAVE_SLOT_1_ITEM -0x18  // Values: 1,2,3
+#define SAVE_SLOT_2_ITEM -0x14 // Values: 1,2,3
+#define SAVE_SLOT_2_COUNT -0x10 // Values: 3,5,8
+#define SAVE_SLOT_3_ITEM -0x0C // Values: 1,2,3
+#define SAVE_SLOT_3_COUNT -0x08 // Values: 3,5,8
 
 // Life system
 #define SAVE_CURRENT_LIFE_TOTAL -0x1C // Current total lives (8015c5ec)

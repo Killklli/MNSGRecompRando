@@ -323,6 +323,8 @@ class MN64World(World):
             "chugoku_door_unlocked": self.options.chugoku_door_unlocked.value,
             "pre_unlocked_warps": self.options.pre_unlocked_warps.value,
             "music_rando": self.options.music_rando.value,
+            "fast_text": self.options.fast_text.value,
+            "keep_intro_cutscene": self.options.keep_intro_cutscene.value,
             "death_link": self.options.death_link.value,
         }
 

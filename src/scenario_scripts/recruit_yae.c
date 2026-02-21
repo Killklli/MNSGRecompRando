@@ -713,5 +713,5 @@ s32 scenario_code_message_14c_9904[] = {
 // Function to update the recruit Yae text with AP location data
 void update_recruit_yae_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_0632, 6474003, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_0632, 0x03A, NULL, NULL);
 }

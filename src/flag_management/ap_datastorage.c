@@ -154,6 +154,13 @@ void save_player_data() {
         s32 current_health = READ_SAVE_DATA(SAVE_CURRENT_HEALTH);
         s32 total_health = READ_SAVE_DATA(SAVE_TOTAL_HEALTH);
 
+        // Read inventory data
+        s32 slot1_item = READ_SAVE_DATA(SAVE_SLOT_1_ITEM);
+        s32 slot2_item = READ_SAVE_DATA(SAVE_SLOT_2_ITEM);
+        s32 slot2_count = READ_SAVE_DATA(SAVE_SLOT_2_COUNT);
+        s32 slot3_item = READ_SAVE_DATA(SAVE_SLOT_3_ITEM);
+        s32 slot3_count = READ_SAVE_DATA(SAVE_SLOT_3_COUNT);
+
         // Only store if total_health is not 0 (indicating valid game state)
         if (total_health != 0 && current_health != 0) {
             // Store each value with its own key
@@ -162,7 +169,15 @@ void save_player_data() {
             rando_set_datastorage_u32_async("save_current_health", (u32)current_health);
             rando_set_datastorage_u32_async("save_total_health", (u32)total_health);
 
+            // Store inventory data
+            rando_set_datastorage_u32_async("save_slot1_item", (u32)slot1_item);
+            rando_set_datastorage_u32_async("save_slot2_item", (u32)slot2_item);
+            rando_set_datastorage_u32_async("save_slot2_count", (u32)slot2_count);
+            rando_set_datastorage_u32_async("save_slot3_item", (u32)slot3_item);
+            rando_set_datastorage_u32_async("save_slot3_count", (u32)slot3_count);
+
             DEBUG_PRINTF("EXTRA SAVE: Stored current_lives=%ld, ryo=%ld, current_health=%ld, total_health=%ld\n", current_lives, current_ryo, current_health, total_health);
+            DEBUG_PRINTF("EXTRA SAVE: Stored inventory - slot1_item=%ld, slot2_item=%ld, slot2_count=%ld, slot3_item=%ld, slot3_count=%ld\n", slot1_item, slot2_item, slot2_count, slot3_item, slot3_count);
         } else {
             DEBUG_PRINTF("EXTRA SAVE: Skipping save - total_health is 0 (invalid game state)\n");
         }

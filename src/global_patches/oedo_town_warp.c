@@ -1,4 +1,4 @@
-// Patches the warp to Oedo Town so it does not put you above the map
+// Patches the warp to Oedo Town so it does not put you above the map, (and puts you in goemons house instead)
 
 #include "modding.h"
 #include "recomputils.h"

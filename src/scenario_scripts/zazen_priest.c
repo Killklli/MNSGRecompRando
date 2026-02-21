@@ -1707,5 +1707,5 @@ s32 scenario_code_message_157_af24[] = {
 };
 
 void update_zazen_priest_text(void) {
-    update_text_buffer_with_ap_location(scenario_text_0E49, 6474007, NULL, NULL);
+    update_text_buffer_with_ap_location(scenario_text_0E49, 0x027, NULL, NULL);
 }

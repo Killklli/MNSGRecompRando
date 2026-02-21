@@ -1140,5 +1140,5 @@ s32 scenario_code_message_176_31ec[] = {
 // Function to update the mermaid complete text with AP location data
 void update_mermaid_complete_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_07D2, 6474046, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_07D2, 0x01F, NULL, NULL);
 }

@@ -1,3 +1,4 @@
+// Adjusts the object the turtle rock spawns so we don't hardcode a fortune doll.
 #include "Archipelago.h"
 #include "common_structs.h"
 #include "file_state.h"

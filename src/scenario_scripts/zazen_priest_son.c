@@ -1034,5 +1034,5 @@ s32 scenario_code_message_15e_bb70[] = {
 };
 
 void update_quality_cucumber_text(void) {
-    update_text_buffer_with_ap_location(scenario_text_072E, 6474008, NULL, NULL);
+    update_text_buffer_with_ap_location(scenario_text_072E, 0x00F, NULL, NULL);
 }

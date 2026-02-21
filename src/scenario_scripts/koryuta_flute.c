@@ -847,14 +847,13 @@ s32 scenario_code_message_1ef_72b4[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // // TODO: Theoretically I can remove this block but it needs testing
-    // // 759c: Print Text
-    // TXT,
-    // (s32)&scenario_text_05CF,
+    // 759c: Print Text
+    TXT,
+    (s32)&scenario_text_05CF,
 
-    // // 75a4: Print Text
-    // TXT,
-    // (s32)&scenario_text_00FF,
+    // 75a4: Print Text
+    TXT,
+    (s32)&scenario_text_00FF,
 
     // // 75ac: Print Text
     // TXT,
@@ -895,65 +894,65 @@ s32 scenario_code_message_1ef_72b4[] = {
     // // 75f4: Store Value: 1
     // WTS, 0x1,
 
-    // 75fc: Write to RAM 801c7758 (Unknown)
-    STW,
-    (s32)&D_801C7758_1C8358,
+    // // 75fc: Write to RAM 801c7758 (Unknown)
+    // STW,
+    // (s32)&D_801C7758_1C8358,
 
-    // 7604: Store Value: 20
-    WTS,
-    0x20,
+    // // 7604: Store Value: 20
+    // WTS,
+    // 0x20,
 
-    // 760c: Write to RAM 801c775c (Dialogue Window Y Pos)
-    STW,
-    (s32)&D_801C775C_1C835C,
+    // // 760c: Write to RAM 801c775c (Dialogue Window Y Pos)
+    // STW,
+    // (s32)&D_801C775C_1C835C,
 
-    // 7614: Store Value: 20
-    WTS,
-    0x20,
+    // // 7614: Store Value: 20
+    // WTS,
+    // 0x20,
 
-    // 761c: Write to RAM 801c7768 (Dialogue Window Style)
-    STW,
-    (s32)&D_801C7768_1C8368,
+    // // 761c: Write to RAM 801c7768 (Dialogue Window Style)
+    // STW,
+    // (s32)&D_801C7768_1C8368,
 
-    // 7624: Store Value: 1
-    WTS,
-    0x1,
+    // // 7624: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 762c: Print Text
-    TXT,
-    (s32)&scenario_text_0000,
+    // // 762c: Print Text
+    // TXT,
+    // (s32)&scenario_text_0000,
 
-    // 7634: Write to RAM 801c77d8 (Text Speed)
-    STW,
-    0x801c77d8,
+    // // 7634: Write to RAM 801c77d8 (Text Speed)
+    // STW,
+    // 0x801c77d8,
 
-    // 763c: Store Value: 1
-    WTS,
-    0x1,
+    // // 763c: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 7644: Write to RAM 801c7798 (Unknown)
-    STW,
-    0x801c7798,
+    // // 7644: Write to RAM 801c7798 (Unknown)
+    // STW,
+    // 0x801c7798,
 
-    // 764c: Store Value: 1
-    WTS,
-    0x1,
+    // // 764c: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 7654: Write to RAM 801c7770 (Unknown)
-    STW,
-    (s32)&D_801C7770_1C8370,
+    // // 7654: Write to RAM 801c7770 (Unknown)
+    // STW,
+    // (s32)&D_801C7770_1C8370,
 
-    // 765c: Store Value: 1
-    WTS,
-    0x1,
+    // // 765c: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 7664: Write to RAM 8007785c (Dialogue Portrait Character)
-    STW,
-    (s32)&D_8007785C_7845C,
+    // // 7664: Write to RAM 8007785c (Dialogue Portrait Character)
+    // STW,
+    // (s32)&D_8007785C_7845C,
 
-    // 766c: Store Value: 16
-    WTS,
-    0x16,
+    // // 766c: Store Value: 16
+    // WTS,
+    // 0x16,
 
     // // 7674: Print Text
     // TXT,
@@ -1269,5 +1268,5 @@ s32 scenario_code_message_1ef_781c[] = {
 // Function to update the Koryuta's flute text with AP location data
 void update_koryuta_flute_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_0590, 6474066, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_0590, 0x014, NULL, NULL);
 }

@@ -1,3 +1,4 @@
+// Makes it so the priest is always spawned in the shrine
 #include "libc/stdbool.h"
 #include "libc/stdint.h"
 #include "modding.h"

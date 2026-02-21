@@ -276,5 +276,5 @@ s32 scenario_code_message_082_36e0[] = {
 // Function to update the Medal of Justice text with AP location data
 void update_medal_of_justice_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_0060, 6474068, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_0060, 0x013, NULL, NULL);
 }

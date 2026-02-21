@@ -827,6 +827,10 @@ s32 scenario_code_impact_departure[] = {
     WTS,
     0x12, // Write to RAM 8007785c (Dialogue Portrait Character): 0x12 (Impact)
 
+    // Set Flag 032 (Defeated Thaisamba)
+    SFG,
+    0x88,
+
     // Print text: "{begin}{endline}"
     TXT,
     (s32)scenario_text_begin,

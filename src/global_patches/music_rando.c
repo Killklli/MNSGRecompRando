@@ -1,4 +1,4 @@
-
+// Enables music rando in game, we clear a value that lets you persist audio if you per room music enabled.
 #include "Archipelago.h"
 #include "libc/stdbool.h"
 #include "libc/stdio.h"
@@ -20,15 +20,15 @@ extern void func_80038D3C_3993C(void);
 extern void func_80038BC8_397C8(int);
 
 /**
- * Function: is_music_rando_enabled
- * Purpose: Check if music randomization is enabled in slotdata
+ * Function: get_music_rando_mode
+ * Purpose: Get the music randomization mode from slotdata
  * Parameters: None
- * Returns: bool - true if music rando is enabled, false otherwise
+ * Returns: u32 - 0 = off, 1 = on, 2 = on with area music
  */
-bool is_music_rando_enabled(void) {
+u32 get_music_rando_mode(void) {
     // Check if we're connected to archipelago
     if (!rando_is_connected()) {
-        return false; // Default to disabled if not connected
+        return 0; // Default to disabled if not connected
     }
 
     u32 music_rando_handle[2];
@@ -36,10 +36,20 @@ bool is_music_rando_enabled(void) {
     // Get the music_rando setting from slot data
     rando_get_slotdata_raw_o32("music_rando", music_rando_handle);
 
-    // Get the boolean value as u32 (0 = false, 1 = true)
+    // Get the mode value as u32 (0 = off, 1 = on, 2 = on with area music)
     u32 music_rando_value = rando_access_slotdata_raw_u32_o32(music_rando_handle);
 
-    return music_rando_value != 0;
+    return music_rando_value;
+}
+
+/**
+ * Function: is_music_rando_enabled
+ * Purpose: Check if music randomization is enabled (any mode)
+ * Parameters: None
+ * Returns: bool - true if music rando is enabled in any mode, false otherwise
+ */
+bool is_music_rando_enabled(void) {
+    return get_music_rando_mode() > 0;
 }
 
 /**
@@ -106,7 +116,9 @@ RECOMP_PATCH void func_801F9E18_5B5D28(u16 arg0, u16 arg1) {
 }
 RECOMP_HOOK("func_801F82FC_5B420C")
 void func_801F82FC_5B420C() {
-    if (is_music_rando_enabled()) {
+    u32 music_mode = get_music_rando_mode();
+    // Only run this block if music rando is set to "on" (1), not "on with area music" (2)
+    if (music_mode == 1) {
         s32 *data_ptr = (s32 *)(D_8015C5C8_15D1C8 + 0x38000);
         *(data_ptr + 0x2E04 / 4) = 0; // Set word at offset 0x2E04 to 0
         *(data_ptr + 0x2E08 / 4) = 1; // Set word at offset 0x2E08 to 1

@@ -1,4 +1,4 @@
-
+// Adjusts the save screen so it shows that we're managing via archipelago and disables saving to prevent overwriting non AP data.
 #include "Archipelago.h"
 #include "modding.h"
 #include "recomputils.h"

@@ -1,3 +1,4 @@
+// Allows the player to press the start button to skip the dragon animation.
 #include "Archipelago.h"
 #include "common.h"
 #include "ultra64.h"

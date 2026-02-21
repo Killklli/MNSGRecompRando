@@ -12,7 +12,7 @@
 void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id);
 
 // Generic function to update any text buffer with AP location data
-void update_text_buffer_with_ap_location(s16 *text_buffer, s32 ap_location_id, const char *prefix, const char *suffix);
+void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const char *prefix, const char *suffix);
 
 // Hint system functions
 s16 *create_persistent_text_with_newlines(const char *message);

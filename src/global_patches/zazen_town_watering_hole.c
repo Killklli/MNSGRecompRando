@@ -1,3 +1,4 @@
+// Changes the fortune doll from the watering hole in Zazen town to be a surprise pack.
 #include "common_structs.h"
 #include "modding.h"
 #include "recomputils.h"

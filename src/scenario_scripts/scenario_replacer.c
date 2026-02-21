@@ -37,16 +37,41 @@ extern s32 scenario_code_message_15e_b798[];
 extern s32 scenario_code_message_110_8420[];
 extern s32 scenario_code_message_083_3834[];
 extern s32 scenario_code_message_1ed_6bd4[];
+extern s32 scenario_code_2410[];
+extern s32 scenario_code_31f0[];
+extern s32 scenario_code_3260[];
 
 // Storage for dynamic text generation
 static s16 dynamic_text_buffer[256];
 
 // Generic function to update any text buffer with AP location data
-void update_text_buffer_with_ap_location(s16 *text_buffer, s32 ap_location_id, const char *prefix, const char *suffix) {
+void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const char *prefix, const char *suffix) {
     if (!rando_is_connected()) {
         recomp_printf("Rando not connected, keeping original text\n");
         return;
     }
+
+    // Convert flag_id to string key
+    char flag_str[16];
+    sprintf(flag_str, "%d", flag_id);
+
+    // Get the flag_id_to_ap_location_id dictionary from slot data
+    u32 flag_to_location_handle[2];
+    rando_get_slotdata_raw_o32("flag_id_to_ap_location_id", flag_to_location_handle);
+
+    // Try to get the location_id value for this flag directly
+    u32 location_id_handle[2];
+    rando_access_slotdata_raw_dict_o32(flag_to_location_handle, flag_str, location_id_handle);
+
+    // Check if we got a valid handle (non-zero indicates success)
+    if (location_id_handle[0] == 0 && location_id_handle[1] == 0) {
+        recomp_printf("Flag %d not found in flag_id_to_ap_location_id mapping\n", flag_id);
+        return;
+    }
+
+    // Extract the integer value
+    u32 ap_location_id = rando_access_slotdata_raw_u32_o32(location_id_handle);
+    recomp_printf("Flag %d maps to location_id: %d\n", flag_id, ap_location_id);
 
     // Get the player
     char player[17];
@@ -185,15 +210,15 @@ void consolidated_scenario_hook() {
         replace_scenario_with_flag(0x176, scenario_code_message_176_2ad4, 0); // Mermaid Complete
         replace_scenario_with_flag(0x1f1, scenario_code_message_1f1_797c, 0); // Recruit Sasuke
         replace_scenario_with_flag(0x14c, scenario_code_message_14c_9904, 0); // Recruit Yae
-        replace_scenario_with_flag(0x174, scenario_code_message_174_28bc, 0); // Sudden Impact Complete
-        replace_scenario_with_flag(0x17a, scenario_code_message_17a_3650, 0); // Super Jump Complete
+        replace_scenario_with_flag(0x172, scenario_code_2410, 0); // Sudden Impact Complete
+        replace_scenario_with_flag(0x178, scenario_code_3260, 0); // Super Jump Complete
         replace_scenario_with_flag(0x157, scenario_code_message_157_a930, 0); // Zazen Priest
         replace_scenario_with_flag(0x15e, scenario_code_message_15e_b798, 0); // Zazen Priest Son
 
         replace_scenario_with_flag(0x162, scenario_code_message_162_cd8c, 0); // Kihachi Quest Complete
         replace_scenario_with_flag(0x288, scenario_code_message_288_2f98, 0); // Plasma
         replace_scenario_with_flag(0x1cd, scenario_code_message_1cd_185c, 0); // Wise Man House Explosion
-        replace_scenario_with_flag(0x227, scenario_code_message_227_3a14, 0); // Wise Man Sogen
+        replace_scenario_with_flag(0x226, scenario_code_31f0, 0); // Wise Man Sogen
         replace_scenario_with_flag(0x110, scenario_code_message_110_8420, 0); // Bridge Guard 1 (Super Pass Check)
 
         replace_scenario_with_flag(0x1f4, scenario_code_impact_departure, 0); // Impact Defeated Thaisamba

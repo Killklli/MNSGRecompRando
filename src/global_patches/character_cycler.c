@@ -1,6 +1,4 @@
-// This file handles a patch to the character cycler to skip Goemon if you don't
-// have him
-
+// This file handles a patch to the character cycler to skip Goemon if you don't have him unlocked.
 #include "recomputils.h"
 #include "types.h"
 

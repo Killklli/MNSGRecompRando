@@ -65,10 +65,19 @@ class PreUnlockedWarps(Toggle):
     display_name = "Pre-Unlocked Warps"
 
 
-class MusicRando(Toggle):
-    """Determines if music tracks are randomized."""
+class MusicRando(Choice):
+    """Determines if and how music tracks are randomized.
+    
+    - Off: No music randomization
+    - On: Full music randomization 
+    - On with Area Music: Music randomization with area-specific handling
+    """
 
     display_name = "Music Rando"
+    option_off = 0
+    option_on = 1
+    option_on_with_area_music = 2
+    default = 0
 
 
 class MajorHintCount(Range):
@@ -89,6 +98,18 @@ class LocationHintCount(Range):
     default = 5
 
 
+class FastText(DefaultOnToggle):
+    """Make text appear instantly instead of being typed out character by character."""
+
+    display_name = "Fast Text"
+
+
+class KeepIntroCutscene(Toggle):
+    """Keep the intro cutscene at the start of the game."""
+
+    display_name = "Keep Intro Cutscene"
+
+
 @dataclass
 class MN64Options(PerGameCommonOptions):
     """Options for MN64"""
@@ -105,4 +126,6 @@ class MN64Options(PerGameCommonOptions):
     music_rando: MusicRando
     major_hint_count: MajorHintCount
     location_hint_count: LocationHintCount
+    fast_text: FastText
+    keep_intro_cutscene: KeepIntroCutscene
     death_link: DeathLink

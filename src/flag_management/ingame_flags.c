@@ -21,6 +21,20 @@ RECOMP_PATCH s32 func_800240DC_24CDC(s32 flag_id) {
         u8 byte_value;
         s32 bit_mask;
 
+        // These two flags PURELY exist because the cutscenes check the actual item value, but its only a cutscene that checks it, so this should be fine
+        if (flag_id == 0)
+        {
+            s32 super_pass_value = READ_SAVE_DATA(SAVE_SUPER_PASS);
+            s32 result = (super_pass_value != 0) ? 1 : 0;
+            return result;
+        }
+        if (flag_id == 0x29)
+        {
+            s32 have_achilles_heel = READ_SAVE_DATA(SAVE_ACHILLES_HEEL);
+            s32 result = (have_achilles_heel != 0) ? 1 : 0;
+            return result;
+        }
+
         // Calculate byte index - divide by 8 with sign-aware right shift
         if (flag_id < 0) {
             byte_index = (flag_id + 7) >> 3; // Add 7 before shifting for negative numbers

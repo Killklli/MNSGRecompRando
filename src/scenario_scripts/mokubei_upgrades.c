@@ -837,29 +837,29 @@ s32 scenario_code_message_1ea_64d0[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // 6628: Print Text
-    TXT,
-    (s32)&scenario_text_0581,
+    // // 6628: Print Text
+    // TXT,
+    // (s32)&scenario_text_0581,
 
-    // 6630: Print Text
-    TXT,
-    (s32)&scenario_text_0093,
+    // // 6630: Print Text
+    // TXT,
+    // (s32)&scenario_text_0093,
 
-    // 6638: Write to RAM 801c77d8 (Text Speed)
-    STW,
-    0x801c77d8,
+    // // 6638: Write to RAM 801c77d8 (Text Speed)
+    // STW,
+    // 0x801c77d8,
 
-    // 6640: Store Value: 1
-    WTS,
-    0x1,
+    // // 6640: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 6648: Write to RAM 801c7798 (Unknown)
-    STW,
-    0x801c7798,
+    // // 6648: Write to RAM 801c7798 (Unknown)
+    // STW,
+    // 0x801c7798,
 
-    // 6650: Store Value: 1
-    WTS,
-    0x1,
+    // // 6650: Store Value: 1
+    // WTS,
+    // 0x1,
 
     // // 6658: Print Text
     // TXT,
@@ -1392,109 +1392,109 @@ s32 scenario_code_message_1eb_67dc[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // 68ec: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_016B,
+    // // 68ec: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_016B,
 
-    // 68f4: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0180,
+    // // 68f4: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0180,
 
-    // 68fc: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0198,
+    // // 68fc: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0198,
 
-    // 6904: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_01B0,
+    // // 6904: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_01B0,
 
-    // 690c: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_01E6,
+    // // 690c: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_01E6,
 
-    // 6914: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0227,
+    // // 6914: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0227,
 
-    // 691c: Write to RAM 801c7758 (Unknown)
-    STW,
-    (s32)&D_801C7758_1C8358,
+    // // 691c: Write to RAM 801c7758 (Unknown)
+    // STW,
+    // (s32)&D_801C7758_1C8358,
 
-    // 6924: Store Value: 20
-    WTS,
-    0x20,
+    // // 6924: Store Value: 20
+    // WTS,
+    // 0x20,
 
-    // 692c: Write to RAM 801c775c (Dialogue Window Y Pos)
-    STW,
-    (s32)&D_801C775C_1C835C,
+    // // 692c: Write to RAM 801c775c (Dialogue Window Y Pos)
+    // STW,
+    // (s32)&D_801C775C_1C835C,
 
-    // 6934: Store Value: 20
-    WTS,
-    0x20,
+    // // 6934: Store Value: 20
+    // WTS,
+    // 0x20,
 
-    // 693c: Write to RAM 801c7768 (Dialogue Window Style)
-    STW,
-    (s32)&D_801C7768_1C8368,
+    // // 693c: Write to RAM 801c7768 (Dialogue Window Style)
+    // STW,
+    // (s32)&D_801C7768_1C8368,
 
-    // 6944: Store Value: 7
-    WTS,
-    0x7,
+    // // 6944: Store Value: 7
+    // WTS,
+    // 0x7,
 
-    // 694c: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0000,
+    // // 694c: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0000,
 
-    // 6954: Write to RAM 801c7770 (Unknown)
-    STW,
-    (s32)&D_801C7770_1C8370,
+    // // 6954: Write to RAM 801c7770 (Unknown)
+    // STW,
+    // (s32)&D_801C7770_1C8370,
 
-    // 695c: Store Value: 1
-    WTS,
-    0x1,
+    // // 695c: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 6964: Write to RAM 8007785c (Dialogue Portrait Character)
-    STW,
-    (s32)&D_8007785C_7845C,
+    // // 6964: Write to RAM 8007785c (Dialogue Portrait Character)
+    // STW,
+    // (s32)&D_8007785C_7845C,
 
-    // 696c: Store Value: 0
-    WTS,
-    0x0,
+    // // 696c: Store Value: 0
+    // WTS,
+    // 0x0,
 
-    // 6974: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0255,
+    // // 6974: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0255,
 
-    // 697c: Write to RAM 801c7768 (Dialogue Window Style)
-    STW,
-    (s32)&D_801C7768_1C8368,
+    // // 697c: Write to RAM 801c7768 (Dialogue Window Style)
+    // STW,
+    // (s32)&D_801C7768_1C8368,
 
-    // 6984: Store Value: 1
-    WTS,
-    0x1,
+    // // 6984: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 698c: Write to RAM 8007785c (Dialogue Portrait Character)
-    STW,
-    (s32)&D_8007785C_7845C,
+    // // 698c: Write to RAM 8007785c (Dialogue Portrait Character)
+    // STW,
+    // (s32)&D_8007785C_7845C,
 
-    // 6994: Store Value: 100
-    WTS,
-    0x100,
+    // // 6994: Store Value: 100
+    // WTS,
+    // 0x100,
 
-    // 699c: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_0000,
+    // // 699c: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_0000,
 
-    // 69a4: Write to RAM 801c7770 (Unknown)
-    STW,
-    (s32)&D_801C7770_1C8370,
+    // // 69a4: Write to RAM 801c7770 (Unknown)
+    // STW,
+    // (s32)&D_801C7770_1C8370,
 
-    // 69ac: Store Value: 1
-    WTS,
-    0x1,
+    // // 69ac: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // 69b4: Print Text
-    TXT,
-    (s32)&scenario_text_1eb_029C,
+    // // 69b4: Print Text
+    // TXT,
+    // (s32)&scenario_text_1eb_029C,
 
     // DISABLED ITEM
     // // 69bc: Write to RAM 8015c6ac (Goemon Weapon Level)
@@ -1535,11 +1535,11 @@ s32 scenario_code_message_1eb_67dc[] = {
 // Function to update the Chain Pipe text with AP location data
 void update_chain_pipe_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_053D, 6474076, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_053D, 0x010, NULL, NULL);
 }
 
 // Function to update the weapon upgrade text with AP location data
 void update_weapon_upgrade_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_1eb_0128, 6474077, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_1eb_0128, 0x012, NULL, NULL);
 }

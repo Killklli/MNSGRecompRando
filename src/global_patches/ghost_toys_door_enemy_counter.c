@@ -1,3 +1,4 @@
+// Lowers the enemy kill count in ghost toys to prevent softlocking out of safety.
 #include "libc/stdbool.h"
 #include "modding.h"
 #include "recomputils.h"

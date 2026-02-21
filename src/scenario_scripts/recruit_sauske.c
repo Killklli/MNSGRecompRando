@@ -1155,9 +1155,9 @@ s32 scenario_code_message_1f1_7a70[] = {
     SFG,
     0x0E,
 
-    // // 7e38: Print Text
-    // TXT,
-    // (s32)&scenario_text_0C77,
+    // 7e38: Print Text
+    TXT,
+    (s32)&scenario_text_0C77,
 
     // 7e40: End Event
     END,
@@ -1169,5 +1169,5 @@ s32 scenario_code_message_1f1_7a70[] = {
 // Function to update the recruit Sasuke text with AP location data
 void update_recruit_sasuke_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_0B3A, 6474086, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_0B3A, 0x00E, NULL, NULL);
 }

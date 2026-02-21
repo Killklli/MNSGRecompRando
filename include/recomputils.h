@@ -11,6 +11,9 @@ RECOMP_IMPORT("*", int recomp_printf(const char *fmt, ...));
 // Utility functions
 int simple_atoi(const char *str);
 
+// Debug display toggle
+static bool debug_display_enabled = false;
+
 // Debug logging functionality
 static bool debug_logging_enabled = false;
 

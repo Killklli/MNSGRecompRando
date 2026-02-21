@@ -2997,49 +2997,49 @@ s32 scenario_code_message_160_ca5c[] = {
     TXT,
     (s32)&scenario_text_0171,
 
-    // cb70: Write to RAM 801c77d8 (Text Speed)
-    STW,
-    0x801c77d8,
+    // // cb70: Write to RAM 801c77d8 (Text Speed)
+    // STW,
+    // 0x801c77d8,
 
-    // cb78: Store Value: 1
-    WTS,
-    0x1,
+    // // cb78: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // cb80: Write to RAM 801c7798 (Unknown)
-    STW,
-    0x801c7798,
+    // // cb80: Write to RAM 801c7798 (Unknown)
+    // STW,
+    // 0x801c7798,
 
-    // cb88: Store Value: 1
-    WTS,
-    0x1,
+    // // cb88: Store Value: 1
+    // WTS,
+    // 0x1,
 
-    // cb90: Print Text
-    TXT,
-    (s32)&scenario_text_1C42,
+    // // cb90: Print Text
+    // TXT,
+    // (s32)&scenario_text_1C42,
 
-    // cb98: Print Text
-    TXT,
-    (s32)&scenario_text_1C74,
+    // // cb98: Print Text
+    // TXT,
+    // (s32)&scenario_text_1C74,
 
-    // cba0: Print Text
-    TXT,
-    (s32)&scenario_text_1CB0,
+    // // cba0: Print Text
+    // TXT,
+    // (s32)&scenario_text_1CB0,
 
-    // cba8: Print Text
-    TXT,
-    (s32)&scenario_text_0171,
+    // // cba8: Print Text
+    // TXT,
+    // (s32)&scenario_text_0171,
 
-    // cbb0: Print Text
-    TXT,
-    (s32)&scenario_text_1D1A,
+    // // cbb0: Print Text
+    // TXT,
+    // (s32)&scenario_text_1D1A,
 
-    // cbb8: Print Text
-    TXT,
-    (s32)&scenario_text_1D4C,
+    // // cbb8: Print Text
+    // TXT,
+    // (s32)&scenario_text_1D4C,
 
-    // cbc0: Print Text
-    TXT,
-    (s32)&scenario_text_1D8E,
+    // // cbc0: Print Text
+    // TXT,
+    // (s32)&scenario_text_1D8E,
 
     // DISABLED ITEM
     // // cbc8: Write to RAM 8015c6f0 (Obtained Mini-Ebisu Magic)
@@ -3293,11 +3293,11 @@ s32 scenario_code_message_160_cd04[] = {
 // Function to update the Achilles' heel text with AP location data
 void update_achilles_heel_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_1061, 6474019, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_1061, 0x029, NULL, NULL);
 }
 
 // Function to update the Mini-Ebisu text with AP location data
 void update_mini_ebisu_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_1BCF, 6474006, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_1BCF, 0x031, NULL, NULL);
 }

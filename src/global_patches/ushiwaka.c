@@ -1,3 +1,4 @@
+// Adjusts ushiwaka so he dosen't flee in the fishing room and is always spawned in the shrine if you've completed fishing.
 #include "libc/stdbool.h"
 #include "libc/stdint.h"
 #include "modding.h"

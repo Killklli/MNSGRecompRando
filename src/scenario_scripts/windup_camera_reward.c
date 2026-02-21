@@ -410,9 +410,9 @@ s32 scenario_code_message_083_3834[] = {
     TXT,
     (s32)scenario_text_button,
 
-    // Print Text: "{newwindow}{endline}"
-    TXT,
-    (s32)scenario_text_newwindow,
+    // // Print Text: "{newwindow}{endline}"
+    // TXT,
+    // (s32)scenario_text_newwindow,
 
     // Write to RAM 801c77d8 (Text Speed): 1
     STW,
@@ -470,9 +470,9 @@ s32 scenario_code_message_083_3834[] = {
     // WTS,
     // 0x1,
 
-    // // Print Text: "{waitinput}{end}{endline}"
-    // TXT,
-    // (s32)scenario_text_waitinput_end,
+    // Print Text: "{waitinput}{end}{endline}"
+    TXT,
+    (s32)scenario_text_waitinput_end,
 
     // End Event
     END,
@@ -481,5 +481,5 @@ s32 scenario_code_message_083_3834[] = {
 // Function to update the Wind-Up Camera text with AP location data
 void update_windup_camera_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_windup_camera, 6474109, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_windup_camera, 0x01A3, NULL, NULL);
 }
