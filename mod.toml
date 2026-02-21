@@ -19,7 +19,7 @@ authors = ["Killklli"]
 # ID of the target recomp game.
 game_id = "mnsg"
 # Minimum version of the target recomp (e.g. Zelda 64: Recompiled) that this mod can run on.
-minimum_recomp_version = "0.1.0"
+minimum_recomp_version = "0.2.0"
 native_libraries = [
   # APCpp Glue:
   { name = "APCpp-Glue", funcs = [
