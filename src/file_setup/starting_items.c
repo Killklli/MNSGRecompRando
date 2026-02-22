@@ -172,7 +172,12 @@ void on_file_started() {
         recomp_printf("RESTORE SAVE: Retrieved saved_total_health=%u from datastore\n", saved_total_health);
         // If save_total_health is not 0, restore all 4 values
         if (saved_total_health != 0 && saved_current_health != 0) {
-
+            // Write the values back to player data
+            WRITE_SAVE_DATA(SAVE_CURRENT_LIFE_TOTAL, (s32)saved_current_lives);
+            WRITE_SAVE_DATA(SAVE_RYO, (s32)saved_current_ryo);
+            WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, (s32)saved_current_health);
+            WRITE_SAVE_DATA(SAVE_TOTAL_HEALTH, (s32)saved_total_health);
+            
             // Restore inventory data
             WRITE_SAVE_DATA(SAVE_SLOT_1_ITEM, (s32)saved_slot1_item);
             WRITE_SAVE_DATA(SAVE_SLOT_2_ITEM, (s32)saved_slot2_item);

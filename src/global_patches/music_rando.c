@@ -129,7 +129,7 @@ RECOMP_PATCH void func_80038C30_39830(s32 soundId, s32 param2, s32 param3) {
         if (music_mode > 0 && is_bgm_in_list(id)) {
             recomp_printf("Original BGM ID: 0x%04X\n", id);
             // music_mode == 2 means area rando (per room), otherwise per song
-            id = get_randomized_bgm(id, music_mode == 2);
+            id = get_randomized_bgm(id, music_mode == 1);
             recomp_printf("Randomized BGM ID: 0x%04X\n", id);
         }
     }
