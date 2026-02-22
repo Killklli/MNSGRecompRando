@@ -26,6 +26,24 @@ extern int func_800142BC_14EBC(unsigned short, int);
 // Function declarations
 void func_80013AC4_146C4(short *file_list);
 
+// Helper function to get pointer to current level's BGM value
+u8 *get_current_bgm_address(void) {
+    u32 level_index = D_8015C5C8_15D1C8;
+    u32 base_offset = 0x38000;
+    u32 bgm_offset = 0x2E07;
+    return (u8 *)level_index + base_offset + bgm_offset;
+}
+
+// Helper function to read current level's BGM value
+u8 get_current_bgm(void) {
+    return *get_current_bgm_address();
+}
+
+// Helper function to set current level's BGM value
+void set_current_bgm(u8 bgm_value) {
+    *get_current_bgm_address() = bgm_value;
+}
+
 RECOMP_PATCH void func_8020D6BC_5C8B8C(void) {
     u32 level_index;
     u32 base_offset;
@@ -38,23 +56,25 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void) {
 
     // Calculate base offset (0x38000)
     base_offset = 0x38000;
-    // print D_800C7AB2
-    DEBUG_PRINTF("D_800C7AB2 (current room): 0x%03X\n", D_800C7AB2);
-    // Print the level index and base offset
-    DEBUG_PRINTF("Level Index: 0x%X, Base Offset: 0x%X\n", level_index, base_offset);
+    
+    recomp_printf("=== Level Load: Room 0x%03X ===\n", D_800C7AB2);
+    recomp_printf("Level Index: 0x%X, Base Offset: 0x%X\n", level_index, base_offset);
+    
+    // Read BGM value for this level
+    u8 bgm_value = get_current_bgm();
+    recomp_printf("BGM value at offset 0x2E07: 0x%02X (%d)\n", bgm_value, bgm_value);
+    
     // Get the level data structure from the array
     level_struct = D_80231300_5EC7D0[*(u16 *)((u8 *)level_index + base_offset + 0x2DF2)];
 
     // Extract function pointer from offset 0x18 in the structure
     func_ptr = *(void **)((char *)level_struct + 0x18);
-    DEBUG_PRINTF("Function pointer at offset 0x18: %p\n", func_ptr);
 
     // Store the function pointer at computed address (0x3B03C + level_index)
     *(void **)(0x3B03C + level_index) = func_ptr;
 
     // Get and call the function at offset 0x303C
     func_at_303C = *(void **)((u8 *)level_index + base_offset + 0x303C);
-    DEBUG_PRINTF("Function at offset 0x303C: %p\n", func_at_303C);
 
     // Check if we should use Archipelago data instead of calling the original
     // function

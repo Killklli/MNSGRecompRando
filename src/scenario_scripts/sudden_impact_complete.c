@@ -737,9 +737,9 @@ s32 scenario_code_28bc[] = {
     ESR,
     0x8003f608,
 
-    // 29bc: Print Text
-    TXT,
-    (s32)&scenario_text_098D,
+    // // 29bc: Print Text
+    // TXT,
+    // (s32)&scenario_text_098D,
 
     // // 29c4: Print Text
     // TXT,

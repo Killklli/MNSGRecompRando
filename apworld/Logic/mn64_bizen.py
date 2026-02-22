@@ -70,7 +70,7 @@ LogicRegions = {
         spawn={"x": 593.0, "y": 78.0, "z": 0.0},
     ),
     "JumpChallegeTraining": MN64Region(
-        name="Jump Challege Training",
+        name="Kurashiki Jump Challege Training",
         hint_name=MN64HintRegion.BIZEN,
         level=MN64Levels.BIZEN,
         locations=[

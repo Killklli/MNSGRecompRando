@@ -109,6 +109,7 @@ void handle_item_by_id(u32 item_id) {
     case 6464026:
         // Super Pass
         WRITE_SAVE_DATA(SAVE_SUPER_PASS, 1);
+        ENABLE_FLAG(FLAG_OPENED_SUPER_PASS_GATE);
         break;
     case 6464027:
         // Triton Horn

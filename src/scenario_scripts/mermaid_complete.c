@@ -1016,9 +1016,9 @@ s32 scenario_code_message_176_301c[] = {
     TXT,
     (s32)&scenario_text_07D2,
 
-    // 3188: Print Text
-    TXT,
-    (s32)&scenario_text_00DC,
+    // // 3188: Print Text
+    // TXT,
+    // (s32)&scenario_text_00DC,
 
     // 3190: Write to RAM 801c77d8 (Text Speed)
     STW,

@@ -1,19 +1,19 @@
-"""Logic file for Yamamoto."""
+"""Logic file for Yamato."""
 
 from .mn64_logic_classes import MN64DoorType, MN64HintRegion, MN64Items, MN64Levels, MN64LocationLogic, MN64Region, MN64TransitionFront
 
 LogicRegions = {
-    "YamamotoShrineExterior": MN64Region(
-        name="Yamamoto Shrine Exterior",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+    "YamatoShrineExterior": MN64Region(
+        name="Yamato Shrine Exterior",
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[],
         exits=[
             MN64TransitionFront("BenkeiBridge", lambda l: l.achilles_heel, type=MN64DoorType.DOOR),
-            MN64TransitionFront("YamamotoShrineInterior", lambda l: l.moving_boulder_in_forest),
-            MN64TransitionFront("YamamotoBambooForest", lambda l: True),
+            MN64TransitionFront("YamatoShrineInterior", lambda l: l.moving_boulder_in_forest),
+            MN64TransitionFront("YamatoBambooForest", lambda l: True),
             MN64TransitionFront("TurtleStone", lambda l: True),
-            MN64TransitionFront("YamamotoUnderwaterCave", lambda l: l.mermaid and l.yae),
+            MN64TransitionFront("YamatoUnderwaterCave", lambda l: l.mermaid and l.yae),
         ],
         room_id=0x133,
         room_default_definitions=[
@@ -37,10 +37,10 @@ LogicRegions = {
         ],
         spawn={"x": -167.0, "y": 351.0, "z": -1226.0},
     ),
-    "YamamotoUnderwaterCave": MN64Region(
-        name="Yamamoto Underwater Cave",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+    "YamatoUnderwaterCave": MN64Region(
+        name="Yamato Underwater Cave",
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[
             MN64LocationLogic(
                 "Silver Fortune Doll",
@@ -51,7 +51,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("YamamotoShrineExterior", lambda l: l.mermaid and l.yae),
+            MN64TransitionFront("YamatoShrineExterior", lambda l: l.mermaid and l.yae),
         ],
         room_id=0x135,
         room_default_definitions=[
@@ -66,13 +66,13 @@ LogicRegions = {
             0x038,
         ],
     ),
-    "YamamotoBambooForest": MN64Region(
-        name="Yamamoto Bamboo Forest",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+    "YamatoBambooForest": MN64Region(
+        name="Yamato Bamboo Forest",
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[],
         exits=[
-            MN64TransitionFront("YamamotoShrineExterior", lambda l: True),
+            MN64TransitionFront("YamatoShrineExterior", lambda l: True),
             MN64TransitionFront("KiiAwajiIsland", lambda l: True),
         ],
         room_id=0x136,
@@ -106,8 +106,8 @@ LogicRegions = {
     ),
     "TurtleStone": MN64Region(
         name="Turtle Stone",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[
             MN64LocationLogic(
                 "Silver Fortune Doll",
@@ -124,7 +124,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("YamamotoShrineExterior", lambda l: True),
+            MN64TransitionFront("YamatoShrineExterior", lambda l: True),
             MN64TransitionFront("KiiAwajiIsland", lambda l: True),
         ],
         room_id=0x137,
@@ -143,10 +143,10 @@ LogicRegions = {
         ],
         spawn={"x": -595.0, "y": -96.0, "z": 108.0},
     ),
-    "YamamotoShrineInterior": MN64Region(
-        name="Yamamoto Shrine Interior",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+    "YamatoShrineInterior": MN64Region(
+        name="Yamato Shrine Interior",
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[
             MN64LocationLogic(
                 "Normal Health Pickup",
@@ -178,7 +178,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("YamamotoShrineExterior", lambda l: True),
+            MN64TransitionFront("YamatoShrineExterior", lambda l: True),
         ],
         room_id=0x134,
         room_default_definitions=[
@@ -201,8 +201,8 @@ LogicRegions = {
     ),
     "KiisCoffeeShop": MN64Region(
         name="Kii's Coffee Shop",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[],
         exits=[
             MN64TransitionFront("KiiAwajiIsland", lambda l: True),
@@ -227,8 +227,8 @@ LogicRegions = {
     ),
     "KiiAwajiIsland": MN64Region(
         name="Kii Awaji Island",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[
             MN64LocationLogic(
                 "Surprise Pack",
@@ -246,7 +246,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("YamamotoBambooForest", lambda l: True),
+            MN64TransitionFront("YamatoBambooForest", lambda l: True),
             MN64TransitionFront("HusbandandWifeRocks", lambda l: l.moving_boulder_in_forest),
             MN64TransitionFront("OedoTouristCenterAwajiIslandBranch", lambda l: True),
             MN64TransitionFront("KiisCoffeeShop", lambda l: True),
@@ -294,15 +294,15 @@ LogicRegions = {
     ),
     "OedoTouristCenterAwajiIslandBranch": MN64Region(
         name="Oedo Tourist Center - Awaji Island Branch",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[
             # TODO: Probably need to make this its own region
             MN64LocationLogic("Dragon Defeated", lambda l: True, MN64Items.FLUTE, flag_id=0x014),
         ],
         exits=[
             MN64TransitionFront("KiiAwajiIsland", lambda l: True),
-            MN64TransitionFront("FolypokeVillageEntrance", lambda l: True),
+            MN64TransitionFront("FolkypokeVillageEntrance", lambda l: True),
             MN64TransitionFront("OedoTouristCenterAwaBranch", lambda l: True),
         ],
         room_id=0x1B9,
@@ -322,8 +322,8 @@ LogicRegions = {
     ),
     "HusbandandWifeRocks": MN64Region(
         name="Husband and Wife Rocks",
-        hint_name=MN64HintRegion.YAMAMOTO,
-        level=MN64Levels.YAMAMOTO,
+        hint_name=MN64HintRegion.YAMATO,
+        level=MN64Levels.YAMATO,
         locations=[
             MN64LocationLogic(
                 "Silver Fortune Doll",

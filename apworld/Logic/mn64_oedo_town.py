@@ -36,7 +36,7 @@ LogicRegions = {
         spawn={"x": 56.0, "y": -40.0, "z": 51.0},
     ),
     "SpawnHousing": MN64Region(
-        name="Spawn Housing",
+        name="Oedo Town Housing",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -87,7 +87,7 @@ LogicRegions = {
         spawn={"x": -97.0, "y": 0.0, "z": -190.0},
     ),
     "PipeMakersHouse": MN64Region(
-        name="Pipe Makers House",
+        name="Oedo Town Pipe Makers House",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -105,7 +105,7 @@ LogicRegions = {
         room_default_definitions=[0x062, 0x47F, 0x191, 0x152, 0x32A, 0x030, 0x1EE],
     ),
     "ShoppingDistrict": MN64Region(
-        name="Shopping District",
+        name="Oedo Town Shopping District",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[],
@@ -149,7 +149,7 @@ LogicRegions = {
         spawn={"x": -103.0, "y": 0.0, "z": 5.0},
     ),
     "SuperPassBridge": MN64Region(
-        name="Super Pass Bridge",
+        name="Oedo Town Super Pass Bridge",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -194,7 +194,7 @@ LogicRegions = {
         spawn={"x": -440.0, "y": 0.0, "z": -47.0},
     ),
     "ShrineArea": MN64Region(
-        name="Shrine Area",
+        name="Oedo Town Shrine Area",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[],
@@ -237,7 +237,7 @@ LogicRegions = {
         spawn={"x": 62.0, "y": 7.0, "z": 45.0},
     ),
     "NihonBashiBridge": MN64Region(
-        name="Nihon Bashi Bridge",
+        name="Oedo Town Nihon Bashi Bridge",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[],
@@ -354,7 +354,7 @@ LogicRegions = {
         spawn={"x": -143.0, "y": 147.0, "z": 264.0},
     ),
     "RoadtoMtFuji": MN64Region(
-        name="Road to Mt Fuji",
+        name="Oedo Town Road to Mt Fuji",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[],

@@ -1,16 +1,16 @@
-"""Logic file for Folypoke Village."""
+"""Logic file for Folkypoke Village."""
 
 from .mn64_logic_classes import MN64DoorType, MN64HintRegion, MN64Items, MN64Levels, MN64LocationLogic, MN64Region, MN64TransitionFront
 
 LogicRegions = {
-    "FolypokeVillageEntrance": MN64Region(
-        name="Folypoke Village Entrance",
-        hint_name=MN64HintRegion.FOLYPOKE_VILLAGE,
-        level=MN64Levels.FOLYPOKE_VILLAGE,
+    "FolkypokeVillageEntrance": MN64Region(
+        name="Folkypoke Village Entrance",
+        hint_name=MN64HintRegion.FOLKYPOKE_VILLAGE,
+        level=MN64Levels.FOLKYPOKE_VILLAGE,
         locations=[],
         exits=[
-            MN64TransitionFront("KompuraMountainFirstBlock", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("FolypokeVillageHayFarm", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("KompiraMountainFirstBlock", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FolkypokeVillageHayFarm", lambda l: True, type=MN64DoorType.DOOR),
         ],
         npcs=[
             "PURASMA",
@@ -35,10 +35,10 @@ LogicRegions = {
         ],
         spawn={"x": 74.0, "y": 98.0, "z": 179.0},
     ),
-    "FolypokeVillageHayFarm": MN64Region(
-        name="Folypoke Village Hay Farm",
-        hint_name=MN64HintRegion.FOLYPOKE_VILLAGE,
-        level=MN64Levels.FOLYPOKE_VILLAGE,
+    "FolkypokeVillageHayFarm": MN64Region(
+        name="Folkypoke Village Hay Farm",
+        hint_name=MN64HintRegion.FOLKYPOKE_VILLAGE,
+        level=MN64Levels.FOLKYPOKE_VILLAGE,
         locations=[
             MN64LocationLogic(
                 "Silver Fortune Doll",
@@ -49,10 +49,10 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("FolypokeVillageEntrance", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("FolypokeVillageHousing", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FolkypokeVillageEntrance", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FolkypokeVillageHousing", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
-                "FolypokeVillageShoppingDistrict",
+                "FolkypokeVillageShoppingDistrict",
                 lambda l: True,
                 type=MN64DoorType.DOOR,
             ),
@@ -78,15 +78,15 @@ LogicRegions = {
         ],
         spawn={"x": -62.0, "y": 0.0, "z": 214.0},
     ),
-    "FolypokeVillageHousing": MN64Region(
-        name="Folypoke Village Housing",
-        hint_name=MN64HintRegion.FOLYPOKE_VILLAGE,
-        level=MN64Levels.FOLYPOKE_VILLAGE,
+    "FolkypokeVillageHousing": MN64Region(
+        name="Folkypoke Village Housing",
+        hint_name=MN64HintRegion.FOLKYPOKE_VILLAGE,
+        level=MN64Levels.FOLKYPOKE_VILLAGE,
         locations=[],
         exits=[
-            MN64TransitionFront("FolypokeVillageHayFarm", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FolkypokeVillageHayFarm", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
-                "FolypokeVillageShoppingDistrict",
+                "FolkypokeVillageShoppingDistrict",
                 lambda l: True,
                 type=MN64DoorType.DOOR,
             ),
@@ -119,15 +119,15 @@ LogicRegions = {
         ],
         spawn={"x": -125.0, "y": -14.0, "z": 90.0},
     ),
-    "FolypokeVillageShoppingDistrict": MN64Region(
-        name="Folypoke Village Shopping District",
-        hint_name=MN64HintRegion.FOLYPOKE_VILLAGE,
-        level=MN64Levels.FOLYPOKE_VILLAGE,
+    "FolkypokeVillageShoppingDistrict": MN64Region(
+        name="Folkypoke Village Shopping District",
+        hint_name=MN64HintRegion.FOLKYPOKE_VILLAGE,
+        level=MN64Levels.FOLKYPOKE_VILLAGE,
         locations=[],
         exits=[
-            MN64TransitionFront("FolypokeVillageHayFarm", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("FolkypokeVillageHayFarm", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
-                "FolypokeVillageShoppingDistrict",
+                "FolkypokeVillageShoppingDistrict",
                 lambda l: True,
                 type=MN64DoorType.DOOR,
             ),
@@ -161,11 +161,11 @@ LogicRegions = {
     ),
     "OedoTouristCenterAwaBranch": MN64Region(
         name="Oedo Tourist Center - Awa Branch",
-        hint_name=MN64HintRegion.FOLYPOKE_VILLAGE,
-        level=MN64Levels.FOLYPOKE_VILLAGE,
+        hint_name=MN64HintRegion.FOLKYPOKE_VILLAGE,
+        level=MN64Levels.FOLKYPOKE_VILLAGE,
         locations=[],
         exits=[
-            MN64TransitionFront("FolypokeVillageShoppingDistrict", lambda l: True),
+            MN64TransitionFront("FolkypokeVillageShoppingDistrict", lambda l: True),
             MN64TransitionFront("OedoTouristCenterAwajiIslandBranch", lambda l: True),
         ],
         room_id=0x1B8,

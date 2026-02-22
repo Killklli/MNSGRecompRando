@@ -480,7 +480,20 @@ LogicRegions = {
                 flag_id=0x1822,
                 instance_id=0x0F,
             ),
-            # TODO: I might be missing some healths here
+            MN64LocationLogic(
+                "Normal Health 9",
+                lambda l: (l.chain_pipe and l.goemon),
+                MN64Items.NORMAL_HEALTH,
+                flag_id=0x1966,
+                instance_id=0x10,
+            ),
+            MN64LocationLogic(
+                "Normal Health 10",
+                lambda l: (l.chain_pipe and l.goemon),
+                MN64Items.NORMAL_HEALTH,
+                flag_id=0x1967,
+                instance_id=0x11,
+            ),
         ],
         exits=[
             MN64TransitionFront("GourmetSubmarineEvilFishRoom", lambda l: l.mermaid and l.yae),

@@ -12,7 +12,7 @@ LogicRegions = {
         ],
         exits=[
             MN64TransitionFront(
-                "FolypokeVillageShoppingDistrict",
+                "FolkypokeVillageShoppingDistrict",
                 lambda l: True,
                 type=MN64DoorType.DOOR,
             ),

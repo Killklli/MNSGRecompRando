@@ -197,7 +197,7 @@ LogicRegions = {
         spawn={"x": 60.0, "y": 7.0, "z": 221.0},
     ),
     "GoldenTemple": MN64Region(
-        name="Golden Temple",
+        name="Zazen Town Golden Temple",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -248,7 +248,7 @@ LogicRegions = {
         spawn={"x": -106.0, "y": 7.0, "z": 2.0},
     ),
     "MtNyoigatakeSidewalk": MN64Region(
-        name="Mt Nyoigatake Sidewalk",
+        name="Zazen Town Mt Nyoigatake Sidewalk",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[],
@@ -274,7 +274,7 @@ LogicRegions = {
         spawn={"x": -226.0, "y": 7.0, "z": 0.0},
     ),
     "MtNyoigatakeFireShrine": MN64Region(
-        name="Mt Nyoigatake Fire Shrine",
+        name="Zazen Town Mt Nyoigatake Fire Shrine",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -304,7 +304,7 @@ LogicRegions = {
         spawn={"x": -224.0, "y": 140.0, "z": -1.0},
     ),
     "DuckCreekUpstream": MN64Region(
-        name="Duck Creek Upstream",
+        name="Zazen Town Duck Creek Upstream",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -343,7 +343,7 @@ LogicRegions = {
         spawn={"x": -62.0, "y": 6.0, "z": -91.0},
     ),
     "DuckCreekUnderTownBridge": MN64Region(
-        name="Duck Creek Under Town Bridge",
+        name="Zazen Town Duck Creek Under Town Bridge",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -379,7 +379,7 @@ LogicRegions = {
         spawn={"x": 0.0, "y": 27.0, "z": 90.0},
     ),
     "DuckCreekUshiwaka": MN64Region(
-        name="Duck Creek Ushiwaka",
+        name="Zazen Town Duck Creek Ushiwaka",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -425,7 +425,7 @@ LogicRegions = {
         spawn={"x": -143.0, "y": -48.0, "z": -136.0},
     ),
     "BenkeiBridge": MN64Region(
-        name="Benkei Bridge",
+        name="Zazen Town Benkei Bridge",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -451,7 +451,7 @@ LogicRegions = {
             MN64TransitionFront("DuckCreekUshiwaka", lambda l: True),
             MN64TransitionFront("ZazenTownMainTown", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
-                "YamamotoShrineExterior",
+                "YamatoShrineExterior",
                 lambda l: l.achilles_heel,
                 type=MN64DoorType.DOOR,
             ),
@@ -485,7 +485,7 @@ LogicRegions = {
         spawn={"x": 102.0, "y": 7.0, "z": 0.0},
     ),
     "DuckCreekJumpArea": MN64Region(
-        name="Duck Creek Jump Area",
+        name="Zazen Town Duck Creek Jump Area",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[
@@ -528,7 +528,7 @@ LogicRegions = {
         spawn={"x": -269.0, "y": -49.0, "z": -118.0},
     ),
     "BizenBridge": MN64Region(
-        name="Bizen Bridge",
+        name="Zazen Town Bizen Bridge",
         hint_name=MN64HintRegion.OEDO_TOWN,
         level=MN64Levels.OEDO_TOWN,
         locations=[

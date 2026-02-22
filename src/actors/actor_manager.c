@@ -48,6 +48,7 @@ typedef WAVE_W OverlayEntry;
 static const RoomInstanceConfig room_configs[] = {
     // This is specifically here so we can add an extra exit door to room 0x0A8
     {0x0A8, 2, 0xFFFFFFFF}, // Room 0x0A8: 2 instances with marker 0xFFFFFFFF
+    // {0x091, 2, 0xFFFFFFFF}, // Room 0x091: 2 instances with marker 0xFFFFFFFF
 };
 static const int num_room_configs = sizeof(room_configs) / sizeof(room_configs[0]);
 

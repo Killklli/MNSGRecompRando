@@ -3,14 +3,14 @@
 from .mn64_logic_classes import MN64DoorType, MN64HintRegion, MN64Items, MN64Levels, MN64LocationLogic, MN64Region, MN64TransitionFront
 
 LogicRegions = {
-    "KompuraMountainFirstBlock": MN64Region(
-        name="Kompura Mountain First Block",
+    "KompiraMountainFirstBlock": MN64Region(
+        name="Kompira Mountain First Block",
         hint_name=MN64HintRegion.SANUKI,
         level=MN64Levels.SANUKI,
         locations=[],
         exits=[
-            MN64TransitionFront("FolypokeVillageEntrance", lambda l: True, type=MN64DoorType.DOOR),
-            MN64TransitionFront("KompuraMountainSecondBlock", lambda l: True),
+            MN64TransitionFront("FolkypokeVillageEntrance", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("KompiraMountainSecondBlock", lambda l: True),
         ],
         room_id=0x13C,
         room_default_definitions=[
@@ -39,14 +39,14 @@ LogicRegions = {
         ],
         spawn={"x": 9.0, "y": -86.0, "z": 282.0},
     ),
-    "KompuraMountainSecondBlock": MN64Region(
-        name="Kompura Mountain Second Block",
+    "KompiraMountainSecondBlock": MN64Region(
+        name="Kompira Mountain Second Block",
         hint_name=MN64HintRegion.SANUKI,
         level=MN64Levels.SANUKI,
         locations=[],
         exits=[
-            MN64TransitionFront("KompuraMountainFirstBlock", lambda l: True),
-            MN64TransitionFront("KompuraMountainThirdBlock", lambda l: True),
+            MN64TransitionFront("KompiraMountainFirstBlock", lambda l: True),
+            MN64TransitionFront("KompiraMountainThirdBlock", lambda l: True),
         ],
         room_id=0x13D,
         room_default_definitions=[
@@ -79,13 +79,13 @@ LogicRegions = {
         },
         spawn={"x": 9.0, "y": -86.0, "z": 282.0},
     ),
-    "KompurasCoffeeShop": MN64Region(
-        name="Kompuras Coffee Shop",
+    "KompirasCoffeeShop": MN64Region(
+        name="Kompiras Coffee Shop",
         hint_name=MN64HintRegion.SANUKI,
         level=MN64Levels.SANUKI,
         locations=[],
         exits=[
-            MN64TransitionFront("KompuraMountainThirdBlock", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("KompiraMountainThirdBlock", lambda l: True, type=MN64DoorType.DOOR),
         ],
         room_id=0x1B4,
         room_default_definitions=[
@@ -105,15 +105,15 @@ LogicRegions = {
         ],
         spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
-    "KompuraMountainThirdBlock": MN64Region(
-        name="Kompura Mountain Third block",
+    "KompiraMountainThirdBlock": MN64Region(
+        name="Kompira Mountain Third block",
         hint_name=MN64HintRegion.SANUKI,
         level=MN64Levels.SANUKI,
         locations=[],
         exits=[
-            MN64TransitionFront("KompuraMountainSecondBlock", lambda l: True),
-            MN64TransitionFront("KompuraMountainFourthBlock", lambda l: True),
-            MN64TransitionFront("KompurasCoffeeShop", lambda l: True, type=MN64DoorType.DOOR),
+            MN64TransitionFront("KompiraMountainSecondBlock", lambda l: True),
+            MN64TransitionFront("KompiraMountainFourthBlock", lambda l: True),
+            MN64TransitionFront("KompirasCoffeeShop", lambda l: True, type=MN64DoorType.DOOR),
         ],
         room_id=0x13E,
         room_default_definitions=[
@@ -142,14 +142,14 @@ LogicRegions = {
         },
         spawn={"x": 48.0, "y": -50.0, "z": 35.0},
     ),
-    "KompuraMountainFourthBlock": MN64Region(
-        name="Kompura Mountain Fourth Block",
+    "KompiraMountainFourthBlock": MN64Region(
+        name="Kompira Mountain Fourth Block",
         hint_name=MN64HintRegion.SANUKI,
         level=MN64Levels.SANUKI,
         locations=[],
         exits=[
-            MN64TransitionFront("KompuraMountainThirdBlock", lambda l: True),
-            MN64TransitionFront("KompuraMountainGrounds", lambda l: True),
+            MN64TransitionFront("KompiraMountainThirdBlock", lambda l: True),
+            MN64TransitionFront("KompiraMountainGrounds", lambda l: True),
         ],
         room_id=0x13F,
         room_default_definitions=[
@@ -192,8 +192,8 @@ LogicRegions = {
         },
         spawn={"x": 0.0, "y": -313.0, "z": 763.0},
     ),
-    "KompuraMountainGrounds": MN64Region(
-        name="Kompura Mountain Grounds",
+    "KompiraMountainGrounds": MN64Region(
+        name="Kompira Mountain Grounds",
         hint_name=MN64HintRegion.SANUKI,
         level=MN64Levels.SANUKI,
         locations=[
@@ -205,7 +205,7 @@ LogicRegions = {
             ),
         ],
         exits=[
-            MN64TransitionFront("KompuraMountainFourthBlock", lambda l: True),
+            MN64TransitionFront("KompiraMountainFourthBlock", lambda l: True),
         ],
         npcs=[
             "NPC House Shrine Caretaker",

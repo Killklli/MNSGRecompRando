@@ -12,7 +12,7 @@ def import_region_logic() -> Dict:
     from .Logic import (
         mn64_bizen,
         mn64_festival_temple_castle,
-        mn64_folypoke_village,
+        mn64_folkypoke_village,
         mn64_ghost_toys_castle,
         mn64_gorgeous_music_castle,
         mn64_gourmet_submarine,
@@ -24,7 +24,7 @@ def import_region_logic() -> Dict:
         mn64_oedo_town,
         mn64_sanuki,
         mn64_tosa,
-        mn64_yamamoto,
+        mn64_yamato,
         mn64_zazen_town,
     )
 
@@ -34,9 +34,9 @@ def import_region_logic() -> Dict:
     all_regions.update(mn64_zazen_town.LogicRegions)
     all_regions.update(mn64_musashi.LogicRegions)
     all_regions.update(mn64_mutsu.LogicRegions)
-    all_regions.update(mn64_yamamoto.LogicRegions)
+    all_regions.update(mn64_yamato.LogicRegions)
     all_regions.update(mn64_sanuki.LogicRegions)
-    all_regions.update(mn64_folypoke_village.LogicRegions)
+    all_regions.update(mn64_folkypoke_village.LogicRegions)
     all_regions.update(mn64_tosa.LogicRegions)
     all_regions.update(mn64_iyo.LogicRegions)
     all_regions.update(mn64_kai.LogicRegions)

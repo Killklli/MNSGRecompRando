@@ -203,7 +203,7 @@ static s16 scenario_text_0450[] = {CTR_WAITINPUT, CTR_END, CTR_ENDLINE};
 // {newwindow}{endline}
 static s16 scenario_text_046D[] = {CTR_NEWWINDOW, CTR_ENDLINE};
 
-// {/em}Ok, I'll sell it to you for {em-yellow}300{/em}ryo!{newline}{endline}
+// {/em}Ok, I'll sell it to you for {em-yellow}400{/em}ryo!{newline}{endline}
 static s16 scenario_text_0485[] = {
     CTR_CLOSE_EM, CHR_O, CHR_k, PCT_COMMA, PCT_SPACE,
     CHR_I, PCT_APOSTROPHE, CHR_l, CHR_l, PCT_SPACE,
@@ -211,7 +211,7 @@ static s16 scenario_text_0485[] = {
     CHR_i, CHR_t, PCT_SPACE, CHR_t, CHR_o,
     PCT_SPACE, CHR_y, CHR_o, CHR_u, PCT_SPACE,
     CHR_f, CHR_o, CHR_r, PCT_SPACE, CTR_EM_YELLOW,
-    NUM_8, NUM_0, NUM_0, CTR_CLOSE_EM, CHR_r,
+    NUM_4, NUM_0, NUM_0, CTR_CLOSE_EM, CHR_r,
     CHR_y, CHR_o, PCT_EXCLAMATION, CTR_NEWLINE, CTR_ENDLINE};
 
 // Do you want it even at that price?{newline}{endline}

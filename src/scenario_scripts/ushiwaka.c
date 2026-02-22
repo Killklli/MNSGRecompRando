@@ -2989,13 +2989,13 @@ s32 scenario_code_message_160_ca5c[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // cb60: Print Text
-    TXT,
-    (s32)&scenario_text_1C15,
+    // // cb60: Print Text
+    // TXT,
+    // (s32)&scenario_text_1C15,
 
-    // cb68: Print Text
-    TXT,
-    (s32)&scenario_text_0171,
+    // // cb68: Print Text
+    // TXT,
+    // (s32)&scenario_text_0171,
 
     // // cb70: Write to RAM 801c77d8 (Text Speed)
     // STW,

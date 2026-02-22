@@ -558,7 +558,6 @@ LogicRegions = {
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
         locations=[
-            MN64LocationLogic("Pot", lambda l: True, MN64Items.POT, flag_id=0x1942, instance_id=12),
         ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleLavaRoom", lambda l: True, type=MN64DoorType.DOOR),
@@ -1209,8 +1208,6 @@ LogicRegions = {
                 flag_id=0x018B,
                 instance_id=0x08,
             ),
-            MN64LocationLogic("Pot 1", lambda l: True, MN64Items.POT, flag_id=0x193B, instance_id=9),
-            MN64LocationLogic("Pot 2", lambda l: True, MN64Items.POT, flag_id=0x193C, instance_id=10),
         ],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleFlameHallwayLower", lambda l: True),
