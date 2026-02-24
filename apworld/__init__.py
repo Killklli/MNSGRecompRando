@@ -181,10 +181,6 @@ class MN64World(World):
         self.multiworld.push_precollected(self.create_item(starting_character))
         self.multiworld.push_precollected(self.create_item(MN64Items.TRITON_HORN.value))
 
-        # Add Beat Dharumanyo to precollected item if chugoku_door_unlocked option is enabled
-        if self.options.chugoku_door_unlocked.value:
-            self.multiworld.push_precollected(self.create_item(MN64Items.BEAT_DHARUMANYO.value))
-
     def create_item(self, name: str) -> Item:
         """Create an item by name."""
         item_data = all_item_table.get(name)

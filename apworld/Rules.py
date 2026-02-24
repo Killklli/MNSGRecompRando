@@ -1,11 +1,14 @@
 """Rules for Mystical Ninja Starring Goemon (MN64)."""
 
+import logging
 from typing import TYPE_CHECKING
 
-from BaseClasses import CollectionState
+from BaseClasses import CollectionState, Entrance
 from worlds.generic.Rules import add_rule, set_rule
 
 from .Logic.mn64_logic_classes import MN64Items
+
+logger = logging.getLogger("Mystical Ninja 64")
 
 if TYPE_CHECKING:
     from . import MN64World
@@ -204,6 +207,63 @@ def set_rules(world: "MN64World") -> None:
 
                         set_rule(entrance, make_entrance_rule(exit_logic.logic, entrance_name, player))
                     break
+
+    # Option: Chugoku Door Unlocked
+    # Override the ghost_toys_defeated requirement on both sides of the BizenBridge <-> Kurashiki door.
+    if world.options.chugoku_door_unlocked.value:
+        for src_name, dst_name in [("BizenBridge", "Kurashiki"), ("Kurashiki", "BizenBridge")]:
+            try:
+                region = multiworld.get_region(src_name, player)
+                for entrance in region.exits:
+                    if entrance.connected_region and entrance.connected_region.name == dst_name:
+                        set_rule(entrance, lambda state: True)
+                        break
+            except KeyError:
+                logger.warning(f"MN64: Chugoku door region '{src_name}' not found")
+
+    # Option: Pre-Unlocked Warps
+    # Add direct Menu -> destination entrances gated only by Flute + Yae, bypassing the
+    # normal in-world travel required to unlock each warp destination.
+    if world.options.pre_unlocked_warps.value:
+        warp_destinations = [
+            "KaisCoffeeShop",
+            "GoemonsHouse",
+            "OedoCastleEntrance",
+            "ZazenTownMainTown",
+            "KiisCoffeeShop",
+            "IyoCoffeeShop",
+            "FolkypokeVillageEntrance",
+            "KompirasCoffeeShop",
+            "DogoHotsprings",
+            "IzumoCoffeeShop",
+            "Shuhodo",
+            "FestivalVillageEntrance",
+        ]
+        try:
+            menu_region = multiworld.get_region("Menu", player)
+        except KeyError:
+            menu_region = None
+            logger.warning("MN64: Menu region not found; pre-unlocked warps will not be created")
+
+        if menu_region is not None:
+            flute_item = MN64Items.FLUTE.value
+            yae_item = MN64Items.YAE.value
+
+            def make_warp_rule(flute: str, yae: str, pid: int):
+                def warp_rule(state: CollectionState) -> bool:
+                    return state.has(flute, pid) and state.has(yae, pid)
+                return warp_rule
+
+            for dest_name in warp_destinations:
+                try:
+                    dest_region = multiworld.get_region(dest_name, player)
+                except KeyError:
+                    logger.warning(f"MN64: Pre-unlocked warp destination '{dest_name}' not found")
+                    continue
+                warp_entrance = Entrance(player, f"Flute Warp -> {dest_name}", menu_region)
+                menu_region.exits.append(warp_entrance)
+                warp_entrance.connect(dest_region)
+                set_rule(warp_entrance, make_warp_rule(flute_item, yae_item, player))
 
 
 def has_item(state: CollectionState, player: int, item: str) -> bool:
