@@ -272,7 +272,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
-        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
+        # spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiPeak": MN64Region(
         name="Mt Fuji (Peak)",
@@ -394,7 +394,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
-        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
+        # spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiPotLedge": MN64Region(
         name="Mt Fuji (Pot Ledge)",
@@ -453,7 +453,7 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
-        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
+        # spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
     "MtFujiGoldenHealthLedge": MN64Region(
         name="Mt Fuji (Golden Health Ledge)",
@@ -518,6 +518,6 @@ LogicRegions = {
             0x28: 0x103,
             0x2A: 0x19A,
         },
-        spawn={"x": 264.0, "y": 352.0, "z": 87.0},
+        # spawn={"x": 264.0, "y": 352.0, "z": 87.0},
     ),
 }

@@ -146,15 +146,40 @@ void on_save_start_hook() {
     }
 }
 
+// External function declarations
+extern void func_8000607C_6C7C(u16, s16, s16, s16, u16, u16, u16, u32);
+extern void func_80004240_4E40(void);
+extern void func_8000B364_BF64(void);
+extern void func_8000383C_443C(void);
+extern void func_80003728_4328(u32);
+
+// External data declarations
+extern u8 D_800BCCC0_BD8C0[];
+extern u8 D_8015CC30_15D830[];
+extern u32 D_801689F8_1695F8;
+
+typedef struct {
+    s16 posX;
+    s16 posY;
+    s16 posZ;
+    s16 camRot;
+    s16 playerRot;
+} DebugStartingData;
+
+extern DebugStartingData D_8005B1E0_5BDE0[];
+extern u16 D_8008CCC0_BD8C0;
+extern s16 D_8006B780_6C380[]; // Base address for scene data
+// External data declarations
+extern u8 D_8015C608_15D208[]; // Saved game data array (0x304 bytes)
 // Declares that a file has started for AP to know to work with file data
 RECOMP_HOOK_RETURN("func_8000B5D0_C1D0")
 void on_file_started() {
     // Check if we should restore saved game state values
     if (rando_is_connected()) {
+        u32 starting_room = get_starting_room();
         // Set starting room if keep_intro_cutscene is enabled (after intro plays)
         u32 keep_intro = rando_get_slotdata_u32("keep_intro_cutscene");
         if (!keep_intro) {
-            u32 starting_room = get_starting_room();
             WRITE_SPAWN_ROOM(starting_room);
         }
 
@@ -177,7 +202,7 @@ void on_file_started() {
             WRITE_SAVE_DATA(SAVE_RYO, (s32)saved_current_ryo);
             WRITE_SAVE_DATA(SAVE_CURRENT_HEALTH, (s32)saved_current_health);
             WRITE_SAVE_DATA(SAVE_TOTAL_HEALTH, (s32)saved_total_health);
-            
+
             // Restore inventory data
             WRITE_SAVE_DATA(SAVE_SLOT_1_ITEM, (s32)saved_slot1_item);
             WRITE_SAVE_DATA(SAVE_SLOT_2_ITEM, (s32)saved_slot2_item);
@@ -189,23 +214,25 @@ void on_file_started() {
             recomp_printf("RESTORE SAVE: Restored inventory - slot1_item=%u, slot2_item=%u, slot2_count=%u, slot3_item=%u, slot3_count=%u\n", saved_slot1_item, saved_slot2_item, saved_slot2_count,
                           saved_slot3_item, saved_slot3_count);
         }
+        u8 *savedData = D_8015C608_15D208;
+
+        DebugStartingData *level_data = (DebugStartingData *)&D_8006B780_6C380[starting_room * 5];
+        recomp_printf("Starting Room: %u, Spawn Coordinates from AP - X: %d, Y: %d, Z: %d\n", starting_room, level_data->posX, level_data->posY, level_data->posZ);
+
+        // Write spawn coordinates with Y and Z flipped in the save data structure
+        *(s16 *)&savedData[0x20A] = level_data->posX;
+        *(s16 *)&savedData[0x20C] = level_data->posY;
+        *(s16 *)&savedData[0x20E] = level_data->posZ;
+        *(s16 *)&savedData[0x210] = level_data->camRot;
+        *(s16 *)&savedData[0x208] = level_data->playerRot;
     }
 
-    // Set the file started flag so AP logic knows we're in a file
     set_file_started();
-
-    // Sync all save data from datastore to memory when file is loaded
-    // sync_all_save_data_from_datastore();
 }
-
-// External data declarations
-extern u8 D_8015C608_15D208[]; // Saved game data array (0x304 bytes)
 
 // Pre-hook to adjust spawn coordinates in save data before func_8000B2A0_BEA0 reads them
 RECOMP_HOOK("func_8000B2A0_BEA0")
 void adjust_spawn_location_pre_hook(void) {
-    u8 *savedData = D_8015C608_15D208;
-
     // Get spawn coordinates from Archipelago slot data and write to saved data
     if (rando_is_connected()) {
         // Set starting room from AP slotdata only if keep_intro_cutscene is disabled
@@ -214,30 +241,6 @@ void adjust_spawn_location_pre_hook(void) {
             u32 starting_room = get_starting_room();
             WRITE_SPAWN_ROOM(starting_room);
         }
-
-        u32 spawn_data_handle[2];
-        rando_get_slotdata_raw_o32("starting_spawn_data", spawn_data_handle);
-
-        u32 x_handle[2], y_handle[2], z_handle[2];
-        rando_access_slotdata_raw_dict_o32(spawn_data_handle, "x", x_handle);
-        rando_access_slotdata_raw_dict_o32(spawn_data_handle, "y", y_handle);
-        rando_access_slotdata_raw_dict_o32(spawn_data_handle, "z", z_handle);
-
-        char x_str[32], y_str[32], z_str[32];
-        rando_access_slotdata_raw_string_o32(x_handle, x_str);
-        rando_access_slotdata_raw_string_o32(y_handle, y_str);
-        rando_access_slotdata_raw_string_o32(z_handle, z_str);
-
-        s16 spawnX = (s16)simple_atoi(x_str);
-        s16 spawnZ = (s16)simple_atoi(z_str);
-        s16 spawnY = (s16)simple_atoi(y_str);
-
-        // Write coordinates to saved data so they can be read by func_8000B2A0_BEA0
-        *(s16 *)&savedData[0x20A] = spawnX;
-        *(s16 *)&savedData[0x20C] = spawnY;
-        *(s16 *)&savedData[0x20E] = spawnZ - 28;
-
-        recomp_printf("Set spawn coordinates from AP to savedData: X=%d, Y=%d, Z=%d\n", spawnX, spawnY, spawnZ);
     }
 }
 

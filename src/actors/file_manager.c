@@ -56,14 +56,7 @@ RECOMP_PATCH void func_8020D6BC_5C8B8C(void) {
 
     // Calculate base offset (0x38000)
     base_offset = 0x38000;
-    
-    recomp_printf("=== Level Load: Room 0x%03X ===\n", D_800C7AB2);
-    recomp_printf("Level Index: 0x%X, Base Offset: 0x%X\n", level_index, base_offset);
-    
-    // Read BGM value for this level
-    u8 bgm_value = get_current_bgm();
-    recomp_printf("BGM value at offset 0x2E07: 0x%02X (%d)\n", bgm_value, bgm_value);
-    
+
     // Get the level data structure from the array
     level_struct = D_80231300_5EC7D0[*(u16 *)((u8 *)level_index + base_offset + 0x2DF2)];
 

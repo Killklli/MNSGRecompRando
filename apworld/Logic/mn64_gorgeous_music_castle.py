@@ -557,8 +557,7 @@ LogicRegions = {
         name="Gorgeous Music Castle Window Hallway",
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
-        locations=[
-        ],
+        locations=[],
         exits=[
             MN64TransitionFront("GorgeousMusicCastleLavaRoom", lambda l: True, type=MN64DoorType.DOOR),
             MN64TransitionFront(
@@ -698,8 +697,7 @@ LogicRegions = {
         name="Gorgeous Music Castle Slide Room (Lower)",
         hint_name=MN64HintRegion.GORGEOUS_MUSIC_CASTLE,
         level=MN64Levels.GORGEOUS_MUSIC_CASTLE,
-        locations=[
-        ],
+        locations=[],
         exits=[
             MN64TransitionFront(
                 "GorgeousMusicCastleRotatingBlocks",

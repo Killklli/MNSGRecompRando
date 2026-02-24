@@ -70,10 +70,10 @@ void flute_fix() {
 
         // Only replace text if starting room is NOT 0x1D1 (Oedo Town)
         if (starting_room != 0x1D1) {
-            // Replace "         Oedo Town" with "       Starting Spawn"
+            // Replace "         Oedo Town" with "    Starting Spawn"
             // Original: "         Oedo Town" (9 spaces + "Oedo Town")
-            // New: "       Starting Spawn" (7 spaces + "Starting Spawn")
-            strcpy(D_8021750C_6764BC, "       Starting Spawn");
+            // New: "    Starting Spawn" (4 spaces + "Starting Spawn")
+            strcpy(D_8021750C_6764BC, "    Starting Spawn");
             WRITE_SAVE_DATA(SAVE_WARP_GOEMON_HOUSE, 1);
         }
     }

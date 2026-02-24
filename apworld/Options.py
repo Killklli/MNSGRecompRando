@@ -67,9 +67,9 @@ class PreUnlockedWarps(Toggle):
 
 class MusicRando(Choice):
     """Determines if and how music tracks are randomized.
-    
+
     - Off: No music randomization
-    - On: Full music randomization 
+    - On: Full music randomization
     - On with Area Music: Music randomization with area-specific handling
     """
 
