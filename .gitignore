@@ -18,3 +18,4 @@ __pycache__
 *.v64
 *.apworld
 scenario.txt
+logic_diagram*

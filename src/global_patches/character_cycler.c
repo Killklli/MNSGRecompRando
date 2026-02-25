@@ -16,6 +16,14 @@ RECOMP_PATCH int func_801DD50C_59941C(void *arg0) {
     int max_count = 4;                 // $a2 = 4
     int index = -1;                    // $t0 = -1 (default)
 
+    // TODO: I have no idea why the game is setting some characters to greator than 1 so this just clamps them down to 1
+    for (int char_idx = 0; char_idx < 4; char_idx++) {
+        u32 char_value = data_ptr[0x94 / 4 + char_idx];
+        if (char_value > 1) {
+            data_ptr[0x94 / 4 + char_idx] = 1;
+        }
+    }
+
     // Main loop starting at 801DD538
     do {
         // This here patches the character cycler to skip if we're missing Goemon

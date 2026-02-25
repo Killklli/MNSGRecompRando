@@ -55,7 +55,7 @@ extern s32 scenario_code_message_0ca_4b70[];
 // Function to update the Oedo Castle text with AP location data
 void update_oedo_castle_text(void)
 {
-  update_text_buffer_with_ap_location(scenario_text_005F, 6474106, NULL, NULL);
+  update_text_buffer_with_ap_location(scenario_text_005F, 0x0, NULL, NULL);
 }
 
 s32 scenario_code_message_0ca_4b70[] = {
