@@ -22,7 +22,7 @@ static s16 scenario_text_002B[] = {
     CHR_v, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //      the {em-yellow}Medal of Flames{/em}!{endline}
-static s16 scenario_text_0060[] = {
+static s16 scenario_text_0060[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
     CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW,
     PCT_LBRACKET, CHR_M, CHR_e, CHR_d, CHR_a,

@@ -177,7 +177,7 @@ static s16 scenario_text_0654[] = {
     CHR_a, CHR_i, CHR_n, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //    the [{em-yellow}Flying{/em}] magic powers!{newline}{endline}
-static s16 scenario_text_0688[] = {
+static s16 scenario_text_0688[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_F, CHR_l, 
     CHR_y, CHR_i, CHR_n, CHR_g, CTR_CLOSE_EM, PCT_SPACE, CHR_m, CHR_a, CHR_g, CHR_i, 
     CHR_c, PCT_SPACE, CHR_p, CHR_o, CHR_w, CHR_e, CHR_r, CHR_s, PCT_EXCLAMATION, CTR_NEWLINE, 

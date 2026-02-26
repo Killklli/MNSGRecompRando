@@ -576,7 +576,7 @@ static s16 scenario_text_0E22[] = {
     CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //  receive the [{em-yellow}Key to Training{/em}]!{endline}
-static s16 scenario_text_0E49[] = {
+static s16 scenario_text_0E49[256] = {
     PCT_SPACE, CHR_r, CHR_e, CHR_c, CHR_e, CHR_i,
     CHR_v, CHR_e, PCT_SPACE, CHR_t, CHR_h, CHR_e,
     PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_K, CHR_e, CHR_y,

@@ -591,7 +591,7 @@ static s16 scenario_text_17AA[] = {
     CHR_l, CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //      has increased to {em-yellow}[Level 3]{/em}!{newline}{endline}
-static s16 scenario_text_17F2[] = {
+static s16 scenario_text_17F2[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_h, CHR_a, CHR_s, PCT_SPACE, CHR_i, 
     CHR_n, CHR_c, CHR_r, CHR_e, CHR_a, CHR_s, CHR_e, CHR_d, PCT_SPACE, CHR_t, 
     CHR_o, PCT_SPACE, CTR_EM_YELLOW, CHR_L, CHR_e, CHR_v, CHR_e, CHR_l, PCT_SPACE, CTR_CLOSE_EM, 

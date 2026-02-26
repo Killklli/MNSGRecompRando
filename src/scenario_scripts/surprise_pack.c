@@ -242,7 +242,7 @@ void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code,
 {
   // Use the original scenario as base, but modify the text reference
   // dynamically
-  static s32 dynamic_scenario[64];
+  static s32 dynamic_scenario[256];
   DEBUG_PRINTF("Replacing Surprise Pack scenario (ID: %d) with item: %s\n",
                scenario_id, item_name);
 
@@ -266,7 +266,7 @@ void replace_surprise_pack_scenario(s32 scenario_id, s32 *scenario_code,
   }
 
   // Find the END and copy it
-  for (int i = 0; i < 64; i++)
+  for (int i = 0; i < 256; i++)
   {
     if (scenario_code[i] == END)
     {

@@ -72,7 +72,7 @@ static s16 scenario_text_ebisumaru_receives[] = {
 };
 
 //       the {em-yellow}[Windup Camera]{/em}!{newline}{endline}
-static s16 scenario_text_windup_camera[] = {
+static s16 scenario_text_windup_camera[256] = {
     PCT_SPACE,
     PCT_SPACE,
     PCT_SPACE,

@@ -462,7 +462,7 @@ static s16 scenario_text_0AF5[] = {
     CHR_e, CTR_CLOSE_EM, PCT_RBRACKET, CTR_NEWLINE, CTR_ENDLINE};
 
 //      joins forces with Goemon!{newline}{endline}
-static s16 scenario_text_0B3A[] = {
+static s16 scenario_text_0B3A[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_j,
     CHR_o, CHR_i, CHR_n, CHR_s, PCT_SPACE, CHR_f,
     CHR_o, CHR_r, CHR_c, CHR_e, CHR_s, PCT_SPACE,

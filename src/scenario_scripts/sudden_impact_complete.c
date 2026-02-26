@@ -234,7 +234,7 @@ static s16 scenario_text_0902[] = {
     CHR_a, CHR_i, CHR_n, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 // the [{em-yellow}Sudden Impact{/em}] magic powers!{newline}{endline}
-static s16 scenario_text_0936[] = {
+static s16 scenario_text_0936[256] = {
     CHR_t, CHR_h, CHR_e, PCT_SPACE, CTR_EM_YELLOW, CHR_S, CHR_u, CHR_d, CHR_d, CHR_e, 
     CHR_n, PCT_SPACE, CHR_I, CHR_m, CHR_p, CHR_a, CHR_c, CHR_t, CTR_CLOSE_EM, PCT_SPACE, 
     CHR_m, CHR_a, CHR_g, CHR_i, CHR_c, PCT_SPACE, CHR_p, CHR_o, CHR_w, CHR_e, 

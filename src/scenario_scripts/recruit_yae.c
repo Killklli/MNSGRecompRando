@@ -256,7 +256,7 @@ static s16 scenario_text_0607[] = {
     CHR_e, CHR_n, CHR_t, CTR_NEWLINE, CTR_ENDLINE};
 
 //       {em-yellow}[Yae]{/em} becomes an ally!{endline}
-static s16 scenario_text_0632[] = {
+static s16 scenario_text_0632[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
     PCT_SPACE, CTR_EM_YELLOW, PCT_LBRACKET, CHR_Y, CHR_a,
     CHR_e, PCT_RBRACKET, CTR_CLOSE_EM, PCT_SPACE, CHR_b,

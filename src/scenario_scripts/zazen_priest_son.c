@@ -308,7 +308,7 @@ static s16 scenario_text_0706[] = {
     CHR_l, CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //    receive [{em-yellow}Quality Cucumber{/em}]!{endline}
-static s16 scenario_text_072E[] = {
+static s16 scenario_text_072E[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_r, CHR_e, CHR_c,
     CHR_e, CHR_i, CHR_v, CHR_e, PCT_SPACE, PCT_LBRACKET,
     CTR_EM_YELLOW, CHR_Q, CHR_u, CHR_a, CHR_l, CHR_i,

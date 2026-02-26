@@ -147,21 +147,18 @@ void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const ch
         formatted_message[dst_idx] = '\0';
     }
 
-    // Use existing function to create the text
+    // Use existing function to create the text in dynamic buffer
     s16 *new_text = create_persistent_text_with_newlines(formatted_message);
     if (new_text != NULL) {
-        // Replace the content of the text buffer
+        // Copy directly into the text_buffer
         int i = 0;
-        while (i < 255 && (u16)new_text[i] != 0xFFFF) // Cast to unsigned to handle CTR_ENDLINE properly
-        {
+        while (i < 255 && (u16)new_text[i] != 0xFFFF) {
             text_buffer[i] = new_text[i];
             i++;
         }
-        // Add the endline terminator
-        if (i < 255) {
+        if (i < 256) {
             text_buffer[i] = (s16)0xFFFF; // CTR_ENDLINE
         }
-
         recomp_printf("Successfully updated text buffer with dynamic AP text\n");
     }
 }
@@ -301,6 +298,10 @@ s16 *create_persistent_text_with_newlines(const char *message) {
             dynamic_hint_buffer[idx++] = PCT_PERIOD;
         } else if (message[i] == ':') {
             dynamic_hint_buffer[idx++] = PCT_COLON;
+        } else if (message[i] == '(') {
+            dynamic_hint_buffer[idx++] = PCT_LPAREN;
+        } else if (message[i] == ')') {
+            dynamic_hint_buffer[idx++] = PCT_RPAREN;
         } else if (message[i] == '\n') {
             dynamic_hint_buffer[idx++] = CTR_NEWLINE;
         } else {

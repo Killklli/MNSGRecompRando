@@ -316,7 +316,7 @@ static s16 scenario_text_07B1[] = {
     CHR_a, CHR_i, CHR_n, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //    the [{em-yellow}Mermaid{/em}] magic powers!{button}{endline}
-static s16 scenario_text_07D2[] = {
+static s16 scenario_text_07D2[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_t, CHR_h,
     CHR_e, PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_M,
     CHR_e, CHR_r, CHR_m, CHR_a, CHR_i,

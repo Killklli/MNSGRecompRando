@@ -11,7 +11,7 @@
 // - ap_location_id: Archipelago location ID to get item name from (0 to skip text replacement)
 void replace_scenario_with_flag(s32 scenario_id, s32 *scenario_code, s16 scenario_file_id);
 
-// Generic function to update any text buffer with AP location data
+// Generic function to update any text buffer with AP location data (buffer must be at least 256 elements)
 void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const char *prefix, const char *suffix);
 
 // Hint system functions

@@ -25,7 +25,7 @@ static s16 scenario_text_002C[] = {
     CHR_e, CTR_NEWLINE, CTR_ENDLINE};
 
 //    a [{em-yellow}Super Pass{/em}] from the Lord!{endline}
-s16 scenario_text_005F[] = {
+s16 scenario_text_005F[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_a, PCT_SPACE,
     PCT_LBRACKET, CTR_EM_YELLOW, CHR_S, CHR_u, CHR_p,
     CHR_e, CHR_r, PCT_SPACE, CHR_P, CHR_a,
@@ -126,17 +126,17 @@ s32 scenario_code_message_0ca_4b70[] = {
     ESR,
     (s32)&func_8003F608_40208,
 
-    // Update scenario_text_005F with AP location text before displaying it
-    ESR,
-    (s32)&update_oedo_castle_text,
-
-    // 4bf0: Print Text
-    TXT,
-    (s32)&scenario_text_0014,
+    // // 4bf0: Print Text
+    // TXT,
+    // (s32)&scenario_text_0014,
 
     // // 4bf8: Print Text
     // TXT,
     // (s32)&scenario_text_002C,
+
+    // Update scenario_text_005F with AP location text before displaying it
+    ESR,
+    (s32)&update_oedo_castle_text,
 
     // 4c00: Print Text
     TXT,
@@ -186,9 +186,9 @@ s32 scenario_code_message_0ca_4b70[] = {
     SFG,
     0x5E,
 
-    // 4c60: Print Text
-    TXT,
-    (s32)&scenario_text_0000,
+    // // 4c60: Print Text
+    // TXT,
+    // (s32)&scenario_text_0000,
 
     // 4c68: Write to RAM 801c7770 (Unknown)
     STW,
@@ -214,9 +214,9 @@ s32 scenario_code_message_0ca_4b70[] = {
     WTS,
     0x1,
 
-    // 4c98: Print Text
-    TXT,
-    (s32)&scenario_text_00C2,
+    // // 4c98: Print Text
+    // TXT,
+    // (s32)&scenario_text_00C2,
 
     // 4ca0: Set Flag 000 (Received Super Pass)
     SFG,
@@ -245,9 +245,9 @@ s32 scenario_code_message_0ca_4b70[] = {
     WTS,
     0x1,
 
-    // 4cd8: Print Text
-    TXT,
-    (s32)&scenario_text_00E8,
+    // // 4cd8: Print Text
+    // TXT,
+    // (s32)&scenario_text_00E8,
 
     // // 4ce0: Jump To @6548 SAVE FUNCTION
     // JMP, 0x6548,

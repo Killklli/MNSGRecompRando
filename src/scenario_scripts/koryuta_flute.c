@@ -219,7 +219,7 @@ static s16 scenario_text_056C[] = {
     CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //        [{em-yellow}Koryuta's flute{/em}]!{newline}{endline}
-static s16 scenario_text_0590[] = {
+static s16 scenario_text_0590[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
     PCT_SPACE, PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_K,
     CHR_o, CHR_r, CHR_y, CHR_u, CHR_t,

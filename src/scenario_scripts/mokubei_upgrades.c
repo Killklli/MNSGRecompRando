@@ -218,7 +218,7 @@ static s16 scenario_text_0520[] = {PCT_SPACE, CHR_G, CHR_o,
                                    CHR_n, CTR_NEWLINE, CTR_ENDLINE};
 
 //     receives the [{em-yellow}Chain Pipe{/em}]!{newline}{endline}
-static s16 scenario_text_053D[] = {
+static s16 scenario_text_053D[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_r,
     CHR_e, CHR_c, CHR_e, CHR_i, CHR_v,
     CHR_e, CHR_s, PCT_SPACE, CHR_t, CHR_h,
@@ -1186,7 +1186,7 @@ static s16 scenario_text_1eb_0100[] = {
     CHR_l, CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //         improve to [{em-yellow}Level 2{/em}]!{newline}{endline}
-static s16 scenario_text_1eb_0128[] = {
+static s16 scenario_text_1eb_0128[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
     PCT_SPACE, PCT_SPACE, PCT_SPACE, CHR_i, CHR_m,
     CHR_p, CHR_r, CHR_o, CHR_v, CHR_e,

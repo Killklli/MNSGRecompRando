@@ -671,7 +671,7 @@ static s16 scenario_text_1039[] = {
     CHR_l, CHR_i, CHR_e, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //      receive an [{em-yellow}Achilles' heel{/em}]!{endline}
-static s16 scenario_text_1061[] = {
+static s16 scenario_text_1061[256] = {
     PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE, PCT_SPACE,
     CHR_r, CHR_e, CHR_c, CHR_e, CHR_i,
     CHR_v, CHR_e, PCT_SPACE, CHR_a, CHR_n,
@@ -1110,7 +1110,7 @@ static s16 scenario_text_1BA8[] = {
     CHR_i, CHR_n, CHR_s, CTR_NEWLINE, CTR_ENDLINE};
 
 //   the [{em-yellow}Mini-Ebisu{/em}] magic powers!{newline}{endline}
-static s16 scenario_text_1BCF[] = {
+static s16 scenario_text_1BCF[256] = {
     PCT_SPACE, PCT_SPACE, CHR_t, CHR_h, CHR_e,
     PCT_SPACE, PCT_LBRACKET, CTR_EM_YELLOW, CHR_M, CHR_i,
     CHR_n, CHR_i, PCT_DASH, CHR_E, CHR_b,
@@ -1373,6 +1373,42 @@ void check_Ebisumaru_and_flag_28(void) {
         DISABLE_FLAG(0x501); // Clear temporary flag 0x501
     }
 }
+
+void check_if_fishing_completed(void) {
+    // Check if flag 0x25 is SET and flag 0x29 is NOT set
+    if (IS_FLAG_SET(0x25) && !IS_FLAG_SET(0x29)) {
+        ENABLE_FLAG(0x501); // Set temporary flag 0x501
+    } else {
+        DISABLE_FLAG(0x501); // Clear temporary flag 0x501
+    }
+}
+
+void check_flag_2A_and_not_29(void) {
+    // Check if flag 0x2A is SET and flag 0x29 is NOT set
+    if (IS_FLAG_SET(0x2A) && !IS_FLAG_SET(0x29)) {
+        ENABLE_FLAG(0x501); // Set temporary flag 0x501
+    } else {
+        DISABLE_FLAG(0x501); // Clear temporary flag 0x501
+    }
+}
+
+void check_flag_2B_and_not_29(void) {
+    // Check if flag 0x2B is SET and flag 0x29 is NOT set
+    if (IS_FLAG_SET(0x2B) && !IS_FLAG_SET(0x29)) {
+        ENABLE_FLAG(0x501); // Set temporary flag 0x501
+    } else {
+        DISABLE_FLAG(0x501); // Clear temporary flag 0x501
+    }
+}
+
+void check_flag_2C_and_not_29(void) {
+    // Check if flag 0x2C is SET and flag 0x29 is NOT set
+    if (IS_FLAG_SET(0x2C) && !IS_FLAG_SET(0x29)) {
+        ENABLE_FLAG(0x501); // Set temporary flag 0x501
+    } else {
+        DISABLE_FLAG(0x501); // Clear temporary flag 0x501
+    }
+}
 s32 scenario_code_message_160_c028[] = {
 
     // Address: @c028
@@ -1383,27 +1419,43 @@ s32 scenario_code_message_160_c028[] = {
     (s32)&scenario_text_0000,
 
     // c054: If Flag 02a (Looking for Red Fish), Jump To @c490
-    // Jump if flag 0x2A is SET to @c490
+    // Execute subroutine to check if flag 0x2A is SET and flag 0x29 is NOT set
+    ESR,
+    (s32)check_flag_2A_and_not_29,
+
+    // Jump if temporary flag 0x501 is set (flag 0x2A SET and 0x29 NOT set)
     JFS,
-    0x2A,
+    0x501,
     (s32)&scenario_code_message_160_c490,
 
     // c060: If Flag 02b (Looking for Yellow Fish), Jump To @c3f0
-    // Jump if flag 0x2B is SET to @c3f0
+    // Execute subroutine to check if flag 0x2B is SET and flag 0x29 is NOT set
+    ESR,
+    (s32)check_flag_2B_and_not_29,
+
+    // Jump if temporary flag 0x501 is set (flag 0x2B SET and 0x29 NOT set)
     JFS,
-    0x2B,
+    0x501,
     (s32)&scenario_code_message_160_c3f0,
 
     // c06c: If Flag 02c (Looking for Blue Fish), Jump To @c350
-    // Jump if flag 0x2C is SET to @c350
+    // Execute subroutine to check if flag 0x2C is SET and flag 0x29 is NOT set
+    ESR,
+    (s32)check_flag_2C_and_not_29,
+
+    // Jump if temporary flag 0x501 is set (flag 0x2C SET and 0x29 NOT set)
     JFS,
-    0x2C,
+    0x501,
     (s32)&scenario_code_message_160_c350,
 
     // c078: If Flag 025 (Can Talk to Ushiwaka about Benkei), Jump To @c0a8
-    // Jump if flag 0x25 is SET to @c0a8
+    // Execute subroutine to check if flag 0x25 is SET and flag 0x29 is NOT set
+    ESR,
+    (s32)check_if_fishing_completed,
+
+    // Jump if temporary flag 0x501 is set (flag 0x25 SET and 0x29 NOT set)
     JFS,
-    0x25,
+    0x501,
     (s32)&scenario_code_message_160_c0a8,
 
     // Heard about Zazen Dwarf
@@ -1421,9 +1473,6 @@ s32 scenario_code_message_160_c028[] = {
     (s32)&scenario_code_message_160_c838,
 
     // Jump to @cd041
-    JMP,
-    (s32)&scenario_code_message_160_cd04,
-    // Jump To @cd041
     JMP,
     (s32)&scenario_code_message_160_cd04,
 
