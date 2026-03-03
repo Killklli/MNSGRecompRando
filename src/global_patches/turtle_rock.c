@@ -92,7 +92,7 @@ RECOMP_PATCH void func_08000060_725C90(GINNEKO_TASK_W *ginneko, CLS_BG_W *obj) {
 
                             // Get the item name
                             char item_name[33];
-                            rando_get_item_name_from_id(item_id, item_name);
+                            rando_get_location_item_name(location_id, item_name);
 
                             DEBUG_PRINTF("Item at location %d: 0x%08X (%s)\n", location_id, item_id, item_name);
 
