@@ -74,7 +74,7 @@ RECOMP_PATCH void func_080009F4_6AF1D4(Entity *entity, ParameterStruct *param) {
 
                 // Get the item name
                 char item_name[33];
-                rando_get_item_name_from_id(item_id, item_name);
+                rando_get_location_item_name(location_id, item_name);
 
                 recomp_printf("Item at location %d: 0x%08X (%s)\n", location_id, item_id, item_name);
                 // If item_name is empty, use "BROKEN ITEM (DEV)"

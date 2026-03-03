@@ -83,7 +83,7 @@ void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const ch
 
     // Get the item name
     char item_name[33];
-    rando_get_item_name_from_id(item_id, item_name);
+    rando_get_location_item_name(ap_location_id, item_name);
 
     recomp_printf("Item at location %d: 0x%08X (%s)\n", ap_location_id, item_id, item_name);
 
