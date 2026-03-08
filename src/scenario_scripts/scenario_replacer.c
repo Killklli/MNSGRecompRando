@@ -53,7 +53,7 @@ void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const ch
 
     // Convert flag_id to string key
     char flag_str[16];
-    sprintf(flag_str, "%d", flag_id);
+    sprintf(flag_str, "%ld", (long)flag_id);
 
     // Get the flag_id_to_ap_location_id dictionary from slot data
     u32 flag_to_location_handle[2];
@@ -83,7 +83,7 @@ void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const ch
 
     // Get the item name
     char item_name[33];
-    rando_get_item_name_from_id(item_id, item_name);
+    rando_get_location_item_name(ap_location_id, item_name);
 
     recomp_printf("Item at location %d: 0x%08X (%s)\n", ap_location_id, item_id, item_name);
 
@@ -97,13 +97,93 @@ void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const ch
     int dst_idx = 0;
     int line_length = 0;
 
+    // Calculate lengths
+    int message_length = strlen(surprise_message);
+    int item_name_length = strlen(item_name);
+    int prefix_length = (prefix == NULL || prefix[0] == '\0') ? 4 : 0; // "Got " = 4 chars
+    
+    // Special case: if item name is less than 8 characters, use BIG text formatting
+    if (item_name_length < 8) {
+        // First line: "Got Player's" centered
+        char first_line[64];
+        sprintf(first_line, "Got %s's", player);
+        int first_line_length = strlen(first_line);
+        int spaces_for_first = (32 - first_line_length) / 2;
+        
+        formatted_message[dst_idx++] = '\n';
+        for (int i = 0; i < spaces_for_first; i++) {
+            formatted_message[dst_idx++] = ' ';
+        }
+        sprintf(&formatted_message[dst_idx], "%s\n", first_line);
+        dst_idx += strlen(first_line) + 1;
+        
+        // Calculate spaced item name length for centering
+        int spaced_length = item_name_length;
+        for (int i = 0; item_name[i] != '\0'; i++) {
+            if (item_name[i + 1] != '\0') {
+                spaced_length++;
+                if (item_name[i] == ' ') {
+                    spaced_length++;
+                }
+            }
+        }
+        
+        // Big text is approximately 1.5x wider
+        int visual_width = (spaced_length * 3) / 2;
+        int spaces_for_second = (32 - visual_width) / 2;
+        if (spaces_for_second < 0) spaces_for_second = 0;
+        
+        for (int i = 0; i < spaces_for_second; i++) {
+            formatted_message[dst_idx++] = ' ';
+        }
+        
+        sprintf(&formatted_message[dst_idx], "{BIG}{YELLOW}");
+        dst_idx += strlen("{BIG}{YELLOW}");
+        
+        // Add item name with spaces between characters
+        for (int i = 0; item_name[i] != '\0'; i++) {
+            formatted_message[dst_idx++] = item_name[i];
+            if (item_name[i + 1] != '\0') {
+                formatted_message[dst_idx++] = ' ';
+                if (item_name[i] == ' ') {
+                    formatted_message[dst_idx++] = ' ';
+                }
+            }
+        }
+        
+        sprintf(&formatted_message[dst_idx], "{/YELLOW}{/BIG}\n");
+        goto format_complete;
+    }
+    
+    // For longer item names (>= 8 chars), use yellow brackets format: "Got Player's [Item Name]"
+    // Reconstruct the message with brackets around the item name
+    sprintf(surprise_message, "%s's {YELLOW}[%s]{/YELLOW}", player, item_name);
+    message_length = strlen(surprise_message);
+    
+    int total_length = message_length + prefix_length;
+
+    // If the message is shorter than 64 characters, start on the second line
+    if (message_length < 64) {
+        formatted_message[dst_idx++] = '\n';
+        line_length = 0;
+    }
+
+    // If total text is shorter than 32 characters, center it
+    if (total_length < 32) {
+        int spaces_to_add = (32 - total_length) / 2;
+        for (int i = 0; i < spaces_to_add; i++) {
+            formatted_message[dst_idx++] = ' ';
+            line_length++;
+        }
+    }
+
     // Add "Got " prefix if no prefix is provided
     if (prefix == NULL || prefix[0] == '\0') {
         formatted_message[dst_idx++] = 'G';
         formatted_message[dst_idx++] = 'o';
         formatted_message[dst_idx++] = 't';
         formatted_message[dst_idx++] = ' ';
-        line_length = 4;
+        line_length += 4;
     }
 
     while (surprise_message[src_idx] != '\0' && dst_idx < 120) {
@@ -147,6 +227,7 @@ void update_text_buffer_with_ap_location(s16 *text_buffer, s32 flag_id, const ch
         formatted_message[dst_idx] = '\0';
     }
 
+format_complete:
     // Use existing function to create the text in dynamic buffer
     s16 *new_text = create_persistent_text_with_newlines(formatted_message);
     if (new_text != NULL) {
@@ -271,6 +352,36 @@ s16 *create_persistent_text_with_newlines(const char *message) {
 
     // Parse the message character by character
     for (int i = 0; message[i] != '\0' && idx < 250; i++) {
+        // Handle special tags like {BIG}, {YELLOW}, {/YELLOW}, {/BIG}
+        if (message[i] == '{') {
+            // Check for {BIG}
+            if (message[i+1] == 'B' && message[i+2] == 'I' && message[i+3] == 'G' && message[i+4] == '}') {
+                dynamic_hint_buffer[idx++] = CTR_BIG;
+                i += 4; // Skip past the tag
+                continue;
+            }
+            // Check for {/BIG}
+            if (message[i+1] == '/' && message[i+2] == 'B' && message[i+3] == 'I' && message[i+4] == 'G' && message[i+5] == '}') {
+                dynamic_hint_buffer[idx++] = CTR_CLOSE_BIG;
+                i += 5; // Skip past the tag
+                continue;
+            }
+            // Check for {YELLOW}
+            if (message[i+1] == 'Y' && message[i+2] == 'E' && message[i+3] == 'L' && message[i+4] == 'L' && 
+                message[i+5] == 'O' && message[i+6] == 'W' && message[i+7] == '}') {
+                dynamic_hint_buffer[idx++] = CTR_EM_YELLOW;
+                i += 7; // Skip past the tag
+                continue;
+            }
+            // Check for {/YELLOW}
+            if (message[i+1] == '/' && message[i+2] == 'Y' && message[i+3] == 'E' && message[i+4] == 'L' && 
+                message[i+5] == 'L' && message[i+6] == 'O' && message[i+7] == 'W' && message[i+8] == '}') {
+                dynamic_hint_buffer[idx++] = CTR_CLOSE_EM;
+                i += 8; // Skip past the tag
+                continue;
+            }
+        }
+        
         // Handle \n as newline
         if (message[i] == '\\' && message[i + 1] == 'n') {
             dynamic_hint_buffer[idx++] = CTR_NEWLINE;

@@ -101,8 +101,18 @@ void invalidate_key_cache_entry(u32 item_id) {
     key_cache_entry_t *entry = find_key_cache_entry(item_id);
     if (entry != NULL) {
         entry->is_valid = 0;
-        recomp_printf("KEY CACHE: Invalidated cache for item_id=%lu\n", item_id);
+        DEBUG_PRINTF("KEY CACHE: Invalidated cache for item_id=%lu\n", item_id);
     }
+}
+
+// Get key cache counts for display (returns -1 if not valid/cached)
+void get_key_cache_counts(int *silver, int *gold, int *diamond, int *special) {
+    init_key_cache();
+    
+    *silver = (key_cache[0].is_valid) ? (int)key_cache[0].cached_count : -1;
+    *gold = (key_cache[1].is_valid) ? (int)key_cache[1].cached_count : -1;
+    *diamond = (key_cache[2].is_valid) ? (int)key_cache[2].cached_count : -1;
+    *special = (key_cache[3].is_valid) ? (int)key_cache[3].cached_count : -1;
 }
 
 // Cache key count for an item ID
@@ -111,7 +121,7 @@ static void cache_key_count(u32 item_id, u32 count) {
     if (entry != NULL) {
         entry->cached_count = count;
         entry->is_valid = 1;
-        recomp_printf("KEY CACHE: Cached count=%lu for item_id=%lu\n", count, item_id);
+        DEBUG_PRINTF("KEY CACHE: Cached count=%lu for item_id=%lu\n", count, item_id);
     }
 }
 
@@ -142,7 +152,7 @@ u8 count_collected_keys(u8 lock_type) {
     // Check cache first
     key_cache_entry_t *cached_entry = find_key_cache_entry(item_id);
     if (cached_entry != NULL && cached_entry->is_valid) {
-        recomp_printf("KEY CACHE: Found cached count=%lu for type %d (item_id=%lu)\n", cached_entry->cached_count, lock_type, item_id);
+        DEBUG_PRINTF("KEY CACHE: Found cached count=%lu for type %d (item_id=%lu)\n", cached_entry->cached_count, lock_type, item_id);
         return (u8)cached_entry->cached_count;
     }
 
@@ -152,7 +162,7 @@ u8 count_collected_keys(u8 lock_type) {
     // Cache the result
     cache_key_count(item_id, has_keys);
 
-    recomp_printf("KEY CACHE: Queried server for type %d (item_id=%lu): count=%lu\n", lock_type, item_id, has_keys);
+    DEBUG_PRINTF("KEY CACHE: Queried server for type %d (item_id=%lu): count=%lu\n", lock_type, item_id, has_keys);
     return (u8)has_keys;
 }
 
@@ -364,7 +374,7 @@ RECOMP_PATCH void func_08001020_6F4500(void *entity_ptr, void *arg1) {
 
     // Load state from offset 0xD1
     state = entity[0xD1];
-    recomp_printf("Entity state: %d\n", state);
+    DEBUG_PRINTF("Entity state: %d\n", state);
     // Handle different states - only call func_8003D310_3DF10 if
     // func_8003F1D8_3FDD8 returns 0
     if (state == 0) {

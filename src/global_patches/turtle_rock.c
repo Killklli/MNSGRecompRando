@@ -61,7 +61,7 @@ RECOMP_PATCH void func_08000060_725C90(GINNEKO_TASK_W *ginneko, CLS_BG_W *obj) {
                 if (should_run_ap_logic()) {
                     // Convert flag to string key
                     char flag_str[16];
-                    sprintf(flag_str, "%lu", flag_id);
+                    sprintf(flag_str, "%ld", (long)flag_id);
                     DEBUG_PRINTF("Surprise Pack flag ID: %d\n", flag_id);
                     // Get the flag_id_to_ap_location_id dictionary from slot data
                     u32 flag_to_location_handle[2];
@@ -92,7 +92,7 @@ RECOMP_PATCH void func_08000060_725C90(GINNEKO_TASK_W *ginneko, CLS_BG_W *obj) {
 
                             // Get the item name
                             char item_name[33];
-                            rando_get_item_name_from_id(item_id, item_name);
+                            rando_get_location_item_name(location_id, item_name);
 
                             DEBUG_PRINTF("Item at location %d: 0x%08X (%s)\n", location_id, item_id, item_name);
 

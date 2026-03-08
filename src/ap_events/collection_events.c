@@ -30,6 +30,9 @@ u32 old_items_size;
 u32 item_display_timer = 0;
 const u32 ITEM_DISPLAY_DURATION = 180; // 3 seconds at 60 FPS
 bool displaying_item = false;
+bool file_just_started = false;
+u32 startup_wait_timer = 0;
+const u32 STARTUP_WAIT_DURATION = 60; // 1 second at 60 FPS to wait after file start
 // Common function to handle item processing based on item ID
 void handle_item_by_id(u32 item_id) {
     switch (item_id) {
@@ -231,7 +234,7 @@ void handle_item_by_id(u32 item_id) {
     case 6464058: {
         // Ryo
         s32 current_ryo = READ_SAVE_DATA(SAVE_RYO);
-        current_ryo += 5;
+        current_ryo += 30;
         WRITE_SAVE_DATA(SAVE_RYO, current_ryo);
         break;
     }
@@ -239,7 +242,7 @@ void handle_item_by_id(u32 item_id) {
         // Pot
         // For this we just give the player 30 ryo since pots don't have an "item" per say currently
         s32 pot_ryo = READ_SAVE_DATA(SAVE_RYO);
-        pot_ryo += 50;
+        pot_ryo += 80;
         WRITE_SAVE_DATA(SAVE_RYO, pot_ryo);
         break;
     }
@@ -257,7 +260,7 @@ void func_80024038_24C38_hook(s32 flag) {
     if (should_run_ap_logic()) {
         // Convert flag to string key
         char flag_str[16];
-        sprintf(flag_str, "%ld", flag);
+        sprintf(flag_str, "%ld", (long)flag);
 
         // Get the flag_id_to_ap_location_id dictionary from slot data
         u32 flag_to_location_handle[2];
@@ -339,6 +342,10 @@ void check_for_new_items() {
     u32 new_items_size = rando_get_items_size();
 
     if (!initItems) {
+        // Mark that the file just started and initialize startup wait timer FIRST
+        file_just_started = true;
+        startup_wait_timer = STARTUP_WAIT_DURATION;
+        
         // Load items_received from datastore, default to 0 if not found
         old_items_size = rando_get_datastorage_u32_sync("items_received");
         if (old_items_size == 0) {
@@ -347,6 +354,7 @@ void check_for_new_items() {
             rando_set_datastorage_u32_async("items_received", old_items_size);
         }
         initItems = 1;
+        return; // Return immediately to start the wait timer
     }
 
     if (new_items_size > old_items_size) {
@@ -390,6 +398,23 @@ void check_for_new_items() {
 // Hooks the game's mode handler function to display a string on the screen.
 RECOMP_HOOK_RETURN("func_80002040_2C40")
 void main_handler() {
+
+    // Only proceed if we're in a file and connected
+    if (!should_run_ap_logic()) {
+        return;
+    }
+
+    // Handle startup wait timer if file just started - check this FIRST
+    if (file_just_started) {
+        if (startup_wait_timer > 0) {
+            startup_wait_timer--;
+            if (startup_wait_timer == 0) {
+                file_just_started = false;
+                recomp_printf("Startup wait complete, enabling item display\n");
+            }
+        }
+        return; // Don't process items during startup wait
+    }
 
     if (displaying_item && item_display_timer > 0) {
         item_display_timer--;

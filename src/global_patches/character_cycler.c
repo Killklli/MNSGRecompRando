@@ -1,12 +1,13 @@
 // This file handles a patch to the character cycler to skip Goemon if you don't have him unlocked.
 #include "recomputils.h"
 #include "types.h"
+#include "save_data_tool.h"
+#include "Archipelago.h"
 
 // External function declaration
 extern void func_801DD5C0_5994D0(void *arg0, u8 value);
 
 // Data structure pointers
-extern u32 D_8015C608_15D208[];
 extern u32 D_8015C5D8_15D1D8[];
 
 RECOMP_PATCH int func_801DD50C_59941C(void *arg0) {
@@ -20,7 +21,15 @@ RECOMP_PATCH int func_801DD50C_59941C(void *arg0) {
     for (int char_idx = 0; char_idx < 4; char_idx++) {
         u32 char_value = data_ptr[0x94 / 4 + char_idx];
         if (char_value > 1) {
-            data_ptr[0x94 / 4 + char_idx] = 1;
+            // Check directly with AP if we have the character item
+            // AP Item IDs: Goemon=6464015, Ebisumaru=6464017, Sasuke=6464018, Yae=6464016
+            u32 character_item_ids[] = {6464015, 6464017, 6464018, 6464016};
+            
+            if (rando_has_item(character_item_ids[char_idx])) {
+                data_ptr[0x94 / 4 + char_idx] = 1;
+            } else {
+                data_ptr[0x94 / 4 + char_idx] = 0;
+            }
         }
     }
 

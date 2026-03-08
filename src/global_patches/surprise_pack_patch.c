@@ -36,15 +36,12 @@ RECOMP_PATCH void func_080009F4_6AF1D4(Entity *entity, ParameterStruct *param) {
 
         // Read the flag ID from the entity (original location)
         u16 flag_id = entity->field_0xD0;
-
-        DEBUG_PRINTF("Surprise Pack flag ID from field_0xD0: %d (0x%04X)\n", flag_id, flag_id);
-
         // Check AP logic for this surprise pack
         if (should_run_ap_logic()) {
             // Convert flag to string key
             char flag_str[16];
-            sprintf(flag_str, "%d", flag_id);
-            DEBUG_PRINTF("Surprise Pack flag ID: %d\n", flag_id);
+            sprintf(flag_str, "%ld", (long)flag_id);
+            recomp_printf("Surprise Pack flag ID: %d\n", flag_id);
             // Get the flag_id_to_ap_location_id dictionary from slot data
             u32 flag_to_location_handle[2];
             rando_get_slotdata_raw_o32("flag_id_to_ap_location_id", flag_to_location_handle);
@@ -74,7 +71,7 @@ RECOMP_PATCH void func_080009F4_6AF1D4(Entity *entity, ParameterStruct *param) {
 
                 // Get the item name
                 char item_name[33];
-                rando_get_item_name_from_id(item_id, item_name);
+                rando_get_location_item_name(location_id, item_name);
 
                 recomp_printf("Item at location %d: 0x%08X (%s)\n", location_id, item_id, item_name);
                 // If item_name is empty, use "BROKEN ITEM (DEV)"

@@ -28,6 +28,7 @@ extern void func_8003D310_3DF10(int param);
 
 // Function from other actor modules
 extern void adjust_logical_doors(ActorInstance *actor_instance, ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
+extern void adjust_shops(ActorInstance *actor_instance, ActorDefinition *resolved_actor_def, unsigned short actor_id, unsigned short actor_data_file_id, int overall_index);
 
 // ==============================================================================
 // Constants and Macros
@@ -396,6 +397,9 @@ void func_8020D724_5C8BF4_hook() {
 
             // Adjust pot spawn contents
             adjust_pot_contents(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
+            
+            // Adjust shop wares
+            adjust_shops(actor_instance, resolved_actor_def, actor_id, actor_data_file_id, overall_index);
         }
     }
 }
